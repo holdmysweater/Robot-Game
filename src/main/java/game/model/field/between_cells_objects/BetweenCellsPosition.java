@@ -1,0 +1,76 @@
+package game.model.field.between_cells_objects;
+
+import org.jetbrains.annotations.NotNull;
+import game.model.Direction;
+import game.model.field.Cell;
+
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+
+/**
+ * Класс позиции между ячейками {@link Cell}
+ */
+public class BetweenCellsPosition {
+
+    /**
+     * Соседние ячейки.
+     */
+    private final Map<Direction, Cell> neighborCells = new EnumMap<>(Direction.class);
+
+    /**
+     * Конструктор класса позиции между ячейками.
+     * @param cell ячейка.
+     * @param neighborCell соседняя ячейка.
+     * @throws IllegalArgumentException если ячейки не являются соседними.
+     */
+    public BetweenCellsPosition(@NotNull Cell cell, @NotNull Cell neighborCell) {
+        Direction neighborDirection = cell.getNeighborDirection(neighborCell);
+
+        if(neighborDirection == null) throw new IllegalArgumentException();
+
+        neighborCells.put(neighborDirection, neighborCell);
+        neighborCells.put(neighborDirection.getOppositeDirection(), cell);
+    }
+
+    /**
+     * Конструктор класса позиции между ячейками.
+     * @param cell ячейка.
+     * @param direction направление.
+     */
+    public BetweenCellsPosition(@NotNull Cell cell, @NotNull Direction direction) {
+        neighborCells.put(direction.getOppositeDirection(), cell);
+
+        Cell neighborCell = cell.getNeighborCell(direction);
+        if(neighborCell != null) {
+            neighborCells.put(direction, neighborCell);
+        }
+    }
+
+    /**
+     * Получить соседние ячейки {@link BetweenCellsPosition#neighborCells}.
+     * @return соседние ячейки.
+     */
+    public Map<Direction, Cell> getNeighborCells () {
+        return Collections.unmodifiableMap(neighborCells);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BetweenCellsPosition that = (BetweenCellsPosition) o;
+        return Objects.equals(neighborCells, that.neighborCells);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(neighborCells);
+    }
+
+    @Override
+    public String toString() {
+        return "WallPosition{" + "neighborCells=" + neighborCells + '}';
+    }
+}
