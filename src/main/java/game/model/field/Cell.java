@@ -39,6 +39,12 @@ public abstract class Cell {
     }
 
     /**
+     * Получить крупный объект.
+     * @return Крупный объект.
+     */
+    public CellObject getBigObject() { return bigObject; }
+
+    /**
      * Может принять большой объект.
      * @return может принять большой объект.
      */
