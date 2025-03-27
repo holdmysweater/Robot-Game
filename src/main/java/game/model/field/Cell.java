@@ -102,6 +102,15 @@ public abstract class Cell {
         return null;
     }
 
+    /**
+     * Является ли ячейка соседом.
+     * @param other соседняя ячейка.
+     * @return Является ли ячейка соседом.
+     */
+    public boolean isNeighbor(@NotNull Cell other) {
+        return neighborCells.containsValue(other);
+    }
+
     /*---------- ОБЪЕКТЫ МЕЖДУ ЯЧЕЙКАМИ ----------*/
     /**
      * Соседние объекты, располагающиеся между ячейками.
@@ -123,6 +132,15 @@ public abstract class Cell {
      */
     public BetweenCellObject getNeighborBetweenCellObject(@NotNull Direction direction) {
         return neighborBetweenCellObjects.get(direction);
+    }
+
+    /**
+     * Является ли ячейка соседом.
+     * @param other соседняя ячейка.
+     * @return Является ли ячейка соседом.
+     */
+    public boolean isNeighbor(@NotNull BetweenCellObject other) {
+        return neighborBetweenCellObjects.containsValue(other);
     }
 
     /**
