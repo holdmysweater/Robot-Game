@@ -25,7 +25,7 @@ public abstract class CellObject {
      * @param position позиция.
      * @return установлена ли позиция.
      */
-    boolean setPosition(Cell position) {
+    public boolean setPosition(Cell position) {
         if (position != null && !canLocateAtPosition(position)) return false;
         this.position = position;
         return true;

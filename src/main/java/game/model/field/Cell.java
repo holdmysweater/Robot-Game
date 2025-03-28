@@ -1,5 +1,6 @@
 package game.model.field;
 
+import game.model.field.cell_objects.Robot;
 import org.jetbrains.annotations.NotNull;
 import game.model.*;
 import game.model.field.between_cells_objects.BetweenCellsPosition;
@@ -14,17 +15,17 @@ public abstract class Cell {
     /**
      * Большой объект, расположенный в ячейке.
      */
-    protected CellObject bigObject = null;
+    protected Robot bigObject = null;
 
     /**
      * Добавить большой объект в ячейку {@link Cell#bigObject}.
-     * @param cellObject объект, добавляемый в ячейку.
+     * @param bigObject объект, добавляемый в ячейку.
      */
-    public boolean setBigObject(@NotNull CellObject cellObject) {
-        if (bigObject != null) throw new RuntimeException("Cell already has a big object.");
-        boolean isPositionSetSuccess = cellObject.setPosition(this);
+    public boolean setBigObject(@NotNull Robot bigObject) {
+        if (this.bigObject != null) throw new RuntimeException("Cell already has a big object.");
+        boolean isPositionSetSuccess = bigObject.setPosition(this);
         if(!isPositionSetSuccess) return false;
-        bigObject = cellObject;
+        this.bigObject = bigObject;
         return true;
     }
 
@@ -32,8 +33,8 @@ public abstract class Cell {
      * Изъять большой объект из ячейки.
      * @return запрашиваемый объект. null - если объект не содержится в ячейке {@link Cell#bigObject}.
      */
-    public CellObject takeBigObject() {
-        CellObject result = bigObject;
+    public Robot takeBigObject() {
+        Robot result = bigObject;
         bigObject = null;
         return result;
     }

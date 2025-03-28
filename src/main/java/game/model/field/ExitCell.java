@@ -35,19 +35,9 @@ public class ExitCell extends Cell {
     }
 
     @Override
-    public boolean setBigObject(@NotNull CellObject cellObject)  {
-        // Может принять в себя только робота
-        if(!(cellObject instanceof Robot)) return false;
-        // Задать робота как в родительском классе
+    public boolean setBigObject(@NotNull Robot cellObject)  {
         if (super.setBigObject(cellObject)) {
-            // TODO: использовался раньше BuildConfig, нужно наладить работу с ним.
-            //if (BuildConfig.buildType == BuildConfig.BuildType.RELEASE) {
-            //    Timer timer = new Timer(SLEEP_TIME, e -> teleportRobot());
-            //    timer.setRepeats(false);
-            //    timer.start();
-            //} else {
-                teleportRobot();
-            //}
+            teleportRobot();
             return true;
         }
         else {
