@@ -101,8 +101,8 @@ public class Field {
      * @return робот на поле.
      */
     public Robot getRobotOnField() {
-        for(var i : cells.entrySet()) { // !!! Не лучше ли организовать итератор ячеек
-            Robot robot = (Robot) i.getValue().getBigObject();
+        for(var i : cells.entrySet()) { // TODO Не лучше ли организовать итератор ячеек
+            Robot robot = i.getValue().getBigObject();
             if (robot != null) {
                 return robot;
             }
@@ -148,7 +148,7 @@ public class Field {
     private final ArrayList<FieldActionListener> fieldListListener = new ArrayList<>();
 
     /**
-     * Добавить нвоого слушателя за событиями поля.
+     * Добавить нового слушателя за событиями поля.
      * @param listener слушатель.
      */
     public void addFieldActionListener(FieldActionListener listener) {
@@ -168,9 +168,11 @@ public class Field {
      * @param teleport телепорт.
      */
     private void fireRobotIsTeleported(@NotNull Cell teleport) {
+        FieldActionEvent event = new FieldActionEvent(this);
+        event.setRobot(((ExitCell) teleport).getTeleportedRobot());
+        event.setTeleport(teleport);
+
         for(FieldActionListener listener: fieldListListener) {
-            FieldActionEvent event = new FieldActionEvent(listener);
-            event.setTeleport(teleport);
             listener.robotIsTeleported(event);
         }
     }
