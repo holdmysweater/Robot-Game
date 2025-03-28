@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Точка-координата на игровом поле {@link robots.model.field.Field}
+ * Точка-координата на игровом поле {@link game.model.field.Field}
  */
 public class Point {
 
