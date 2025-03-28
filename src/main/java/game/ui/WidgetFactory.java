@@ -5,7 +5,6 @@ import game.ui.obstacle.WallWidget;
 import org.jetbrains.annotations.NotNull;
 import game.model.*;
 import game.model.field.cell_objects.Robot;
-import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.cell_objects.Battery;
 import game.ui.obstacle.ObstacleWidget;
 import game.ui.cell.*;
