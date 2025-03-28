@@ -94,11 +94,6 @@ public class Main {
             }
 
             @Override
-            public void robotIsSkipStep(@NotNull GameActionEvent event) {
-
-            }
-
-            @Override
             public void robotIsTeleported(@NotNull GameActionEvent event) {
 
             }

@@ -16,12 +16,6 @@ public interface GameActionListener extends EventListener {
     void robotIsMoved(@NotNull GameActionEvent event);
 
     /**
-     * Робот пропустил ход.
-     * @param event объект события класса игры.
-     */
-    void robotIsSkipStep(@NotNull GameActionEvent event);
-
-    /**
      * Робот телепортировался.
      * @param event объект события класса игры.
      */
