@@ -1,10 +1,10 @@
 package game.model.field;
 
-
+import game.model.Direction;
 import game.model.field.between_cells_objects.BetweenCellsPosition;
 import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.power_supplies.Battery;
+import game.model.field.cell_objects.Battery;
 import org.jetbrains.annotations.NotNull;
 import game.model.Point;
 
@@ -64,7 +64,10 @@ public abstract class Labyrinth {
         Map<WallSegment, BetweenCellsPosition> walls = createWalls(field);
 
         for (WallSegment wall : walls.keySet()) {
-            if (!field.settleBetweenCellObject(wall, walls.get(wall))) {
+            Direction direction = walls.get(wall).getNeighborCells().keySet().iterator().next();
+            Cell cell = walls.get(wall).getNeighborCells().get(direction);
+
+            if (!cell.setBetweenCellObject(wall, direction)) {
                 throw new RuntimeException("Wall segment " + wall + " not set");
             }
         }
@@ -75,14 +78,14 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     protected void populateRobot(@NotNull Field field) {
-        Map<Robot, Point> robot = createRobot(field);
+        Map<Robot, Cell> robot = createRobot(field);
 
         if (robot.keySet().size() != 1) {
             throw new RuntimeException("Only one robot can exist");
         }
 
         for (Robot r : robot.keySet()) {
-            if (!field.settleBigCellObject(r, robot.get(r))) {
+            if (!robot.get(r).setBigObject(r)) {
                 throw new RuntimeException("Robot " + r + " not set");
             }
         }
@@ -93,10 +96,10 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     protected void populateBatteries(@NotNull Field field) {
-        Map<Battery, Point> batteries = createBatteries(field);
+        Map<Battery, Cell> batteries = createBatteries(field);
 
         for (Battery b : batteries.keySet()) {
-            if (!field.settleSmallCellObject(b, batteries.get(b))) {
+            if (!((NormalCell) batteries.get(b)).setSmallObject(b)) {
                 throw new RuntimeException("Battery " + b + " not set");
             }
         }
@@ -112,11 +115,11 @@ public abstract class Labyrinth {
      * Добавить роботов на поле.
      * @param field поле.
      */
-    protected abstract Map<Robot, Point> createRobot(@NotNull Field field);
+    protected abstract Map<Robot, Cell> createRobot(@NotNull Field field);
 
     /**
      * Добавить источники питания на поле.
      * @param field поле.
      */
-    protected abstract Map<Battery, Point> createBatteries(@NotNull Field field);
+    protected abstract Map<Battery, Cell> createBatteries(@NotNull Field field);
 }
