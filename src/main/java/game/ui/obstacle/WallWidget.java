@@ -1,4 +1,4 @@
-package game.ui.block;
+package game.ui.obstacle;
 
 import game.model.Orientation;
 import game.ui.utils.ImageUtils;
@@ -9,7 +9,7 @@ import java.io.File;
  * Виджет стены.
  * @see game.model.field.between_cells_objects.WallSegment
  */
-public class WallWidget extends BlockWidget {
+public class WallWidget extends ObstacleWidget {
 
     /**
      * Конструктор.

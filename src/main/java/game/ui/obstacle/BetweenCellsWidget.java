@@ -1,4 +1,4 @@
-package game.ui.block;
+package game.ui.obstacle;
 
 import org.jetbrains.annotations.NotNull;
 import game.model.Orientation;
@@ -28,10 +28,10 @@ public class BetweenCellsWidget extends JPanel {
 
     /**
      * Установить элемент.
-     * @param blockWidget элемень.
+     * @param blockWidget элемент.
      * @throws IllegalArgumentException если ориентация объекта не совпадает с ориентацией контейнера.
      */
-    public void setItem(@NotNull BlockWidget blockWidget) {
+    public void setItem(@NotNull ObstacleWidget blockWidget) {
         if(blockWidget.getOrientation() != orientation) throw new IllegalArgumentException();
     }
 

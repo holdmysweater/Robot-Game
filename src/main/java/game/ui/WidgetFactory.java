@@ -1,26 +1,24 @@
 package game.ui;
 
 import game.model.field.*;
+import game.ui.obstacle.WallWidget;
 import org.jetbrains.annotations.NotNull;
 import game.model.*;
 import game.model.field.cell_objects.Robot;
 import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.cell_objects.Battery;
-import game.ui.block.BlockWidget;
-import game.ui.block.WallWidget;
+import game.ui.obstacle.ObstacleWidget;
 import game.ui.cell.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class WidgetFactory {
 
     private final Map<Cell, CellWidget> cells = new HashMap<>();
     private final Map<CellObject, CellItemWidget> cellObjects = new HashMap<>();
-    private final Map<BetweenCellObject, BlockWidget> betweenCellObjects = new HashMap<>();
+    private final Map<BetweenCellObject, ObstacleWidget> betweenCellObjects = new HashMap<>();
 
     public CellWidget create(@NotNull Cell cell) {
         if(cells.containsKey(cell)) return cells.get(cell);
@@ -77,10 +75,10 @@ public class WidgetFactory {
         cellObjects.remove(cellObject);
     }
 
-    public BlockWidget create(@NotNull BetweenCellObject betweenCellObject, Orientation orientation) {
+    public ObstacleWidget create(@NotNull BetweenCellObject betweenCellObject, Orientation orientation) {
         if (betweenCellObjects.containsKey(betweenCellObject)) return betweenCellObjects.get(betweenCellObject);
 
-        BlockWidget createdBlockWidget = null;
+        ObstacleWidget createdBlockWidget = null;
 
         if (betweenCellObject instanceof WallSegment) {
             createdBlockWidget = new WallWidget(orientation);
@@ -92,7 +90,7 @@ public class WidgetFactory {
         return createdBlockWidget;
     }
 
-    public BlockWidget getWidget(@NotNull BetweenCellObject betweenCellObject) {
+    public ObstacleWidget getWidget(@NotNull BetweenCellObject betweenCellObject) {
         return betweenCellObjects.get(betweenCellObject);
     }
 

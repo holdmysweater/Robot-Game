@@ -1,4 +1,4 @@
-package game.ui.block;
+package game.ui.obstacle;
 
 import game.model.Orientation;
 import game.ui.utils.ImageUtils;
@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Виджет препятствия, расположенного между ячейками.
  */
-public abstract class BlockWidget extends JPanel {
+public abstract class ObstacleWidget extends JPanel {
 
     /**
      * Ориентация.
@@ -21,7 +21,7 @@ public abstract class BlockWidget extends JPanel {
     protected final Orientation orientation;
 
     /**
-     * Получить ориентацию {@link BlockWidget#orientation}.
+     * Получить ориентацию {@link ObstacleWidget#orientation}.
      * @return ориентация.
      */
     public Orientation getOrientation() {
@@ -32,7 +32,7 @@ public abstract class BlockWidget extends JPanel {
      * Конструктор.
      * @param orientation ориентация.
      */
-    public BlockWidget(Orientation orientation) {
+    public ObstacleWidget(Orientation orientation) {
         this.orientation = orientation;
         setPreferredSize(getDimensionByOrientation());
     }

@@ -10,8 +10,8 @@ import game.model.field.BetweenCellObject;
 import game.model.field.Cell;
 import game.model.field.Field;
 import game.model.field.cell_objects.Robot;
-import game.ui.block.BetweenCellsWidget;
-import game.ui.block.BlockWidget;
+import game.ui.obstacle.BetweenCellsWidget;
+import game.ui.obstacle.ObstacleWidget;
 import game.ui.cell.*;
 
 import javax.swing.*;
@@ -57,7 +57,7 @@ public class FieldWidget extends JPanel {
                 BetweenCellsWidget westCellWidget = new BetweenCellsWidget(Orientation.VERTICAL);
                 BetweenCellObject wallSegment = cell.getNeighborObstacle(Direction.WEST);
                 if( wallSegment != null) {
-                    BlockWidget wallWidget = widgetFactory.create(wallSegment, Orientation.VERTICAL);
+                    ObstacleWidget wallWidget = widgetFactory.create(wallSegment, Orientation.VERTICAL);
                     westCellWidget.setItem(wallWidget);
                 }
                 row.add(westCellWidget);
@@ -68,7 +68,7 @@ public class FieldWidget extends JPanel {
             BetweenCellsWidget eastCellWidget = new BetweenCellsWidget(Orientation.VERTICAL);
             BetweenCellObject eastWallSegment = cell.getNeighborObstacle(Direction.EAST);
             if(eastWallSegment != null) {
-                BlockWidget wallWidget = widgetFactory.create(eastWallSegment, Orientation.VERTICAL);
+                ObstacleWidget wallWidget = widgetFactory.create(eastWallSegment, Orientation.VERTICAL);
                 eastCellWidget.setItem(wallWidget);
             }
 
@@ -90,7 +90,7 @@ public class FieldWidget extends JPanel {
             BetweenCellObject southWallSegment =  cell.getNeighborObstacle(direction);
 
             if(southWallSegment != null) {
-                BlockWidget wallWidget = widgetFactory.create(southWallSegment, Orientation.HORIZONTAL);
+                ObstacleWidget wallWidget = widgetFactory.create(southWallSegment, Orientation.HORIZONTAL);
                 southCellWidget.setItem(wallWidget);
             }
 
