@@ -125,6 +125,13 @@ public class Battery extends CellObject {
         return true;
     }
 
+    /**
+     * Уничтожение батарейки.
+     */
+    void destroy() {
+        isFunctional = false;
+    }
+
     @Override
     public boolean canLocateAtPosition(@NotNull Cell cell) {
         if (!isFunctional) throw new RuntimeException("Battery is destroyed");
