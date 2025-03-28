@@ -202,7 +202,7 @@ public class Robot extends CellObject {
      *
      * @return заряд.
      */
-    public Integer getCharge() {
+    public int getCharge() {
         return battery.getCharge();
     }
 
@@ -211,7 +211,7 @@ public class Robot extends CellObject {
      *
      * @return максимальный заряд.
      */
-    public Integer getMaxCharge() {
+    public int getMaxCharge() {
         return battery.getMaxCharge();
     }
 
