@@ -110,7 +110,7 @@ public class Main {
                     String message = "";
                     switch (status) {
                         case WIN:
-                            message = "Выbграл робот: " + GameWidgetsUtils.colorName(
+                            message = "Выиграл робот: " + GameWidgetsUtils.colorName(
                                     ((RobotWidget) widgetFactory.getWidget(game.getRobot())).getColor()
                             );
                             break;
