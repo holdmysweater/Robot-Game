@@ -85,7 +85,7 @@ public class Robot extends CellObject {
 
     @Override
     public boolean canLocateAtPosition(@NotNull Cell newPosition) {
-        if ((newPosition instanceof ExitCell) && (((ExitCell) newPosition).getTeleportedRobots().contains(this))) {
+        if ((newPosition instanceof ExitCell) && (((ExitCell) newPosition).getTeleportedRobot() == this)) {
             return false;
         }
 
@@ -155,6 +155,11 @@ public class Robot extends CellObject {
         return !isTeleported() && getCharge() > 0;
     }
 
+    /**
+     * Телепортирован ли робот
+     *
+     * @return телепортирован ли робот
+     */
     public boolean isTeleported() {
         return position != null && position instanceof ExitCell;
     }
