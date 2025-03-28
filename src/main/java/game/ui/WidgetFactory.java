@@ -78,13 +78,7 @@ public class WidgetFactory {
     public ObstacleWidget create(@NotNull BetweenCellObject betweenCellObject, Orientation orientation) {
         if (betweenCellObjects.containsKey(betweenCellObject)) return betweenCellObjects.get(betweenCellObject);
 
-        ObstacleWidget createdBlockWidget = null;
-
-        if (betweenCellObject instanceof WallSegment) {
-            createdBlockWidget = new WallWidget(orientation);
-        } else {
-            throw new IllegalArgumentException();
-        }
+        ObstacleWidget createdBlockWidget = new WallWidget(orientation);
 
         betweenCellObjects.put(betweenCellObject, createdBlockWidget);
         return createdBlockWidget;
