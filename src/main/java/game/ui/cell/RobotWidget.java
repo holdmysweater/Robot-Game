@@ -166,7 +166,7 @@ public class RobotWidget extends CellItemWidget {
         private void moveAction(int keyCode){
             Direction direction = directionByKeyCode(keyCode);
             if(direction != null) {
-                System.out.println(color + " go to " + direction);
+                System.out.println("Go to " + direction);
                 boolean success = robot.move(direction);
                 if (!success) System.out.println("Can't move " + direction);
             }
