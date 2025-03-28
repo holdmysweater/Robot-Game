@@ -21,9 +21,7 @@ public class GameWidgetsUtils {
     }
 
     public static String colorName(Color color) {
-        if (Color.RED.equals(color)) {
-            return "Красный";
-        } else if(Color.BLUE.equals(color)) {
+        if(Color.BLUE.equals(color)) {
             return "Синий";
         }
         return "";
