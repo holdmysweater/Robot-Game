@@ -18,7 +18,7 @@ public class NormalCell extends Cell {
      * @param smallObject объект, добавляемый в ячейку.
      */
     public boolean setSmallObject(@NotNull Battery smallObject) {
-        if (this.smallObject != null) throw new RuntimeException("Cell already has a small object.");
+        if (this.smallObject != null) throw new IllegalArgumentException("Cell already has a small object.");
         boolean isPositionSetSuccess = smallObject.setPosition(this);
         if (!isPositionSetSuccess) return false;
         this.smallObject = smallObject;
@@ -31,7 +31,12 @@ public class NormalCell extends Cell {
      */
     public Battery takeSmallObject() {
         Battery result = smallObject;
-        smallObject = null;
+
+        if (result != null)  {
+            result.setPosition(null);
+            smallObject = null;
+        }
+
         return result;
     }
 

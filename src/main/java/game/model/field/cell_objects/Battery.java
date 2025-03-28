@@ -20,6 +20,13 @@ public class Battery extends CellObject {
     }
 
     /**
+     * Конструктор.
+     */
+    public Battery(int charge) {
+        this.charge = charge;
+    }
+
+    /**
      * Заряд.
      */
     private int charge = 0;

@@ -22,7 +22,7 @@ public abstract class Cell {
      * @param bigObject объект, добавляемый в ячейку.
      */
     public boolean setBigObject(@NotNull Robot bigObject) {
-        if (this.bigObject != null) throw new RuntimeException("Cell already has a big object.");
+        if (this.bigObject != null) throw new IllegalArgumentException("Cell already has a big object.");
         boolean isPositionSetSuccess = bigObject.setPosition(this);
         if(!isPositionSetSuccess) return false;
         this.bigObject = bigObject;
@@ -35,7 +35,12 @@ public abstract class Cell {
      */
     public Robot takeBigObject() {
         Robot result = bigObject;
-        bigObject = null;
+
+        if (result != null) {
+            result.setPosition(null);
+            bigObject = null;
+        }
+
         return result;
     }
 
