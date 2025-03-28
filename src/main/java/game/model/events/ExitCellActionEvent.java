@@ -1,11 +1,12 @@
 package game.model.events;
 
 import game.model.field.Cell;
+import game.model.field.ExitCell;
 
 import java.util.EventObject;
 
 /**
- * Объект собтыия класса ячейки выхода {@link game.model.field.cells.ExitCell}.
+ * Объект события класса ячейки выхода {@link ExitCell}.
  */
 public class ExitCellActionEvent extends EventObject {
 
