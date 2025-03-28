@@ -1,6 +1,7 @@
 package game.model.field.cell_objects;
 
 import game.model.field.CellObject;
+import game.model.field.NormalCell;
 import org.jetbrains.annotations.NotNull;
 import game.model.field.Cell;
 
@@ -136,7 +137,11 @@ public class Battery extends CellObject {
     public boolean canLocateAtPosition(@NotNull Cell cell) {
         if (!isFunctional) throw new RuntimeException("Battery is destroyed");
 
-        return false;  // TODO Battery canLocateAtPosition()
+        if (!(cell instanceof NormalCell)) {
+            return false;
+        }
+
+        return ((NormalCell) cell).getSmallObject() == null;
     }
 
     @Override
