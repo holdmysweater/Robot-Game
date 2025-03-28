@@ -39,7 +39,7 @@ public class Robot extends CellObject {
      * @param battery внутренний источник питания.
      */
     public Robot(@NotNull Battery battery) {
-        this.battery = battery;
+        setBattery(battery);
     }
 
     /**
@@ -58,7 +58,7 @@ public class Robot extends CellObject {
 
         Cell newPosition = position.getNeighborCell(direction);
 
-        if (!newPosition.canTakeBigObject()) {
+        if (newPosition == null || !newPosition.canTakeBigObject()) {
             return false;
         }
 
