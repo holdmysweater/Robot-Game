@@ -111,21 +111,20 @@ public class Robot extends CellObject {
         }
 
         Battery oldBattery = this.battery;
-        this.battery = null;
+        unsetBattery();
 
-        boolean success = battery.connect(this);
+        boolean success = setBattery(battery);
 
         if (!success) {
-            this.battery = oldBattery;
+            setBattery(oldBattery);
             return false;
         }
 
-        oldBattery.disconnect();
         oldBattery.destroy();
 
         fireRobotChangeBattery(battery);
 
-        return success;
+        return true;
     }
 
     /**
