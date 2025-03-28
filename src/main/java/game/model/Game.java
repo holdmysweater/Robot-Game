@@ -188,7 +188,7 @@ public class Game {
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
             updateGameState();
-            fireRobotIsTeleported(event.getRobot());
+            fireRobotIsTeleported();
         }
     }
 
@@ -198,7 +198,7 @@ public class Game {
     private final ArrayList<GameActionListener> gameActionListeners = new ArrayList<>();
 
     /**
-     * Добавить нвоого слушателя за событиями игры.
+     * Добавить нового слушателя за событиями игры.
      * @param listener слушатель.
      */
     public void addGameActionListener(@NotNull GameActionListener listener) {
@@ -214,7 +214,7 @@ public class Game {
     }
 
     /**
-     * Оповестить сулшателей {@link Game#gameActionListeners}, что робот переместился.
+     * Оповестить слушателей {@link Game#gameActionListeners}, что робот переместился.
      * @param robot робот, который переместился.
      */
     private void fireRobotIsMoved(@NotNull Robot robot) {
@@ -226,37 +226,39 @@ public class Game {
     }
 
     /**
-     * Оповестить сулшателей {@link Game#gameActionListeners}, что робот пропустил ход.
+     * Оповестить слушателей {@link Game#gameActionListeners}, что робот пропустил ход.
      * @param robot робот, который пропустил ход.
      */
     private void fireRobotIsSkipStep(@NotNull Robot robot) {
+        GameActionEvent event = new GameActionEvent(this);
+        event.setRobot(robot);
+
         for(GameActionListener listener: gameActionListeners) {
-            GameActionEvent event = new GameActionEvent(listener);
-            event.setRobot(robot);
             listener.robotIsSkipStep(event);
         }
     }
 
     /**
-     * Оповестить сулшателей {@link Game#gameActionListeners}, что робот телепортировался.
-     * @param robot робот, который телепортировался.
+     * Оповестить слушателей {@link Game#gameActionListeners}, что робот телепортировался.
      */
-    private void fireRobotIsTeleported(@NotNull Robot robot) {
+    private void fireRobotIsTeleported() {
+        GameActionEvent event = new GameActionEvent(this);
+        event.setRobot(robot);
+
         for(GameActionListener listener: gameActionListeners) {
-            GameActionEvent event = new GameActionEvent(listener);
-            event.setRobot(robot);
             listener.robotIsTeleported(event);
         }
     }
 
     /**
-     * Оповестить сулшателей {@link Game#gameActionListeners}, что статус игры изменился.
+     * Оповестить слушателей {@link Game#gameActionListeners}, что статус игры изменился.
      * @param status статус игры.
      */
     private void fireGameStatusIsChanged(@NotNull GameStatus status) {
+        GameActionEvent event = new GameActionEvent(this);
+        event.setStatus(status);
+
         for(GameActionListener listener: gameActionListeners) {
-            GameActionEvent event = new GameActionEvent(listener);
-            event.setStatus(status);
             listener.gameStatusChanged(event);
         }
     }
