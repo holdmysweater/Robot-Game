@@ -73,14 +73,9 @@ public class Robot extends CellObject {
 
         oldPosition.takeBigObject();
 
-        success = newPosition.setBigObject(this);
-
-        if (!success) {
-            return false;
-        }
-
         fireRobotIsMoved(oldPosition, newPosition);
-        return true;
+
+        return newPosition.setBigObject(this);
     }
 
     @Override
@@ -134,7 +129,7 @@ public class Robot extends CellObject {
      */
     public void setUnfrozen(boolean value) {
         isUnfrozen = value;
-        fireRobotChangeActive();
+        fireRobotChangeUnfrozen();
     }
 
     /**
@@ -270,11 +265,11 @@ public class Robot extends CellObject {
     /**
      * Оповестить слушателей {@link Robot#robotListListener}, что состояние активности робота изменилось.
      */
-    private void fireRobotChangeActive() {
+    private void fireRobotChangeUnfrozen() {
         for (RobotActionListener listener : robotListListener) {
             RobotActionEvent event = new RobotActionEvent(listener);
             event.setRobot(this);
-            listener.robotActivityChanged(event);
+            listener.robotUnfrozenChanged(event);
         }
     }
 
@@ -288,7 +283,7 @@ public class Robot extends CellObject {
             RobotActionEvent event = new RobotActionEvent(listener);
             event.setRobot(this);
             event.setBattery(battery);
-            listener.robotChangedPowerSupply(event);
+            listener.robotChangedBattery(event);
         }
     }
 }

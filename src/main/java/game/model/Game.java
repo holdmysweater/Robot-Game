@@ -159,23 +159,12 @@ public class Game {
         }
 
         @Override
-        public void robotSkippedStep(@NotNull RobotActionEvent event) {
-            fireRobotIsSkipStep(event.getRobot());
-            updateGameState();
-        }
-
-        @Override
-        public void robotActivityChanged(@NotNull RobotActionEvent event) {
+        public void robotUnfrozenChanged(@NotNull RobotActionEvent event) {
             // Not implemented yet
         }
 
         @Override
-        public void robotChangedPowerSupply(@NotNull RobotActionEvent event) {
-            // Not implemented yet
-        }
-
-        @Override
-        public void robotChargedPowerSupply(@NotNull RobotActionEvent event) {
+        public void robotChangedBattery(@NotNull RobotActionEvent event) {
             // Not implemented yet
         }
     }
@@ -222,19 +211,6 @@ public class Game {
             GameActionEvent event = new GameActionEvent(listener);
             event.setRobot(robot);
             listener.robotIsMoved(event);
-        }
-    }
-
-    /**
-     * Оповестить слушателей {@link Game#gameActionListeners}, что робот пропустил ход.
-     * @param robot робот, который пропустил ход.
-     */
-    private void fireRobotIsSkipStep(@NotNull Robot robot) {
-        GameActionEvent event = new GameActionEvent(this);
-        event.setRobot(robot);
-
-        for(GameActionListener listener: gameActionListeners) {
-            listener.robotIsSkipStep(event);
         }
     }
 

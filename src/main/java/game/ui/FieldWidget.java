@@ -15,7 +15,6 @@ import game.ui.block.BlockWidget;
 import game.ui.cell.*;
 
 import javax.swing.*;
-import java.util.List;
 
 public class FieldWidget extends JPanel {
 
@@ -118,34 +117,19 @@ public class FieldWidget extends JPanel {
         }
 
         @Override
-        public void robotSkippedStep(@NotNull RobotActionEvent event) {
-            Robot robot = event.getRobot();
-            CellItemWidget robotWidget = widgetFactory.getWidget(robot);
-            robotWidget.repaint();
-        }
-
-        @Override
-        public void robotActivityChanged(@NotNull RobotActionEvent event) {
+        public void robotUnfrozenChanged(@NotNull RobotActionEvent event) {
             Robot robot = event.getRobot();
             RobotWidget robotWidget = (RobotWidget) widgetFactory.getWidget(robot);
             robotWidget.setActive(robot.isUnfrozen());
         }
 
         @Override
-        public void robotChangedPowerSupply(@NotNull RobotActionEvent event) {
+        public void robotChangedBattery(@NotNull RobotActionEvent event) {
             Robot robot = event.getRobot();
             CellWidget cellWidget = widgetFactory.getWidget(robot.getPosition());
             CellItemWidget batteryWidget = widgetFactory.getWidget(event.getBattery());
             cellWidget.removeItem(batteryWidget);
             widgetFactory.remove(event.getBattery());
-        }
-
-        @Override
-        public void robotChargedPowerSupply(@NotNull RobotActionEvent event) {
-            CellItemWidget powerSupplyWidget = widgetFactory.getWidget(event.getBattery());
-            CellItemWidget robotWidget = widgetFactory.getWidget(event.getRobot());
-            powerSupplyWidget.repaint();
-            robotWidget.repaint();
         }
     }
 
