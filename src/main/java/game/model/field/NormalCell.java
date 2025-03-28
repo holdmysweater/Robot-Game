@@ -1,6 +1,7 @@
 package game.model.field;
 
 import game.model.field.cell_objects.Battery;
+import game.model.field.cell_objects.Robot;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -19,7 +20,7 @@ public class NormalCell extends Cell {
     public boolean setSmallObject(@NotNull Battery smallObject) {
         if (this.smallObject != null) throw new RuntimeException("Cell already has a small object.");
         boolean isPositionSetSuccess = smallObject.setPosition(this);
-        if(!isPositionSetSuccess) return false;
+        if (!isPositionSetSuccess) return false;
         this.smallObject = smallObject;
         return true;
     }
@@ -32,6 +33,14 @@ public class NormalCell extends Cell {
         Battery result = smallObject;
         smallObject = null;
         return result;
+    }
+
+    /**
+     * Получить маленький объект.
+     * @return маленький объект.
+     */
+    public Battery getSmallObject() {
+        return smallObject;
     }
 
     /**
