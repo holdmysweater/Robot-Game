@@ -6,8 +6,6 @@ import game.model.events.ExitCellActionListener;
 import game.model.field.cell_objects.Robot;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,14 +22,14 @@ public class ExitCell extends Cell {
     /**
      * Список телепортированных роботов.
      */
-    private final List<Robot> teleportedRobots = new ArrayList<>();
+    private Robot teleportedRobot;
 
     /**
-     * Получить телепортированных роботов {@link ExitCell#teleportedRobots}.
-     * @return список телепортированных роботов.
+     * Получить телепортированного робота {@link ExitCell#teleportedRobot}.
+     * @return список телепортированного робота.
      */
-    public List<Robot> getTeleportedRobots() {
-        return Collections.unmodifiableList(teleportedRobots);
+    public Robot getTeleportedRobot() {
+        return teleportedRobot;
     }
 
     @Override
@@ -49,8 +47,7 @@ public class ExitCell extends Cell {
      * Телепортировать робота.
      */
     private void teleportRobot() {
-        Robot robot = (Robot) takeBigObject();
-        teleportedRobots.add(robot);
+        teleportedRobot = takeBigObject();
         fireRobotIsTeleported();
     }
 
@@ -80,14 +77,9 @@ public class ExitCell extends Cell {
      * Оповестить сулшателей {@link ExitCell#exitCellListListener}, что робот телепортирован.
      */
     private void fireRobotIsTeleported() {
-        /* WARN{ Раньше было реализовано создание ивента для каждого слушателя и в контруктор передавался слушатель
-        Теперь ивент создаётся один раз и в конструктор передаётся сам объект.}
-        TODO: Перепроверить логику создания события и если необходимо доработать класс События.
-        */
         ExitCellActionEvent event = new ExitCellActionEvent(this);
         event.setTeleport(this);
         for (ExitCellActionListener listener : exitCellListListener) {
-
             listener.robotIsTeleported(event);
         }
     }
@@ -99,7 +91,7 @@ public class ExitCell extends Cell {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ExitCell exitCell = (ExitCell) o;
-        return Objects.equals(teleportedRobots, exitCell.teleportedRobots) &&
+        return Objects.equals(teleportedRobot, exitCell.teleportedRobot) &&
                 Objects.equals(exitCellListListener, exitCell.exitCellListListener);
     }
 
@@ -111,7 +103,7 @@ public class ExitCell extends Cell {
     @Override
     public String toString() {
         return "ExitCell{" +
-                "teleportedRobots=" + teleportedRobots +
+                "teleportedRobots=" + teleportedRobot +
                 ", exitCellListListener=" + exitCellListListener +
                 '}';
     }
