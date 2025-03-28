@@ -8,7 +8,6 @@ import game.model.field.cell_objects.Robot;
 import game.model.field.Labyrinth;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -57,7 +56,7 @@ public class Game {
             throw new RuntimeException("No robot found");
         }
 
-        robot.setUnfrozen(false);
+        robot.setUnfrozen(true);
     }
 
     /**
