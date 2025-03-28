@@ -92,9 +92,9 @@ public class BatteryWidget extends CellItemWidget {
     protected File getImageFile() {
         File file = null;
         if (cellItemState == State.SMALL) {
-            file = new File(ImageUtils.IMAGE_PATH + "BS.png");
+            file = new File(ImageUtils.IMAGE_PATH + "battery_vertical.png");
         } else if (cellItemState == State.DEFAULT) {
-            file = new File(ImageUtils.IMAGE_PATH + "BD.png");
+            file = new File(ImageUtils.IMAGE_PATH + "battery_horizontal.png");
         }
         return file;
     }
