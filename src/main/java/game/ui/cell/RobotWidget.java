@@ -127,7 +127,7 @@ public class RobotWidget extends CellItemWidget {
         File file = null;
 
         if (color == Color.BLUE) {
-            file = robot.isUnfrozen() ? new File(ImageUtils.IMAGE_PATH + "RBBA.png") : new File(ImageUtils.IMAGE_PATH + "RBB.png");
+            file = robot.isUnfrozen() ? new File(ImageUtils.IMAGE_PATH + "robot_unfrozen.png") : new File(ImageUtils.IMAGE_PATH + "robot_frozen.png");
         }
 
         return file;
