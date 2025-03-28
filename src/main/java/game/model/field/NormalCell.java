@@ -26,7 +26,7 @@ public class NormalCell extends Cell {
 
     /**
      * Изъять маленький объект из ячейки.
-     * @return запрашиваемый объект. null - если объект не содержится в ячейке {@link NormalCell#smallObject}.
+     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link NormalCell#smallObject}.
      */
     public Battery takeSmallObject() {
         Battery result = smallObject;
@@ -36,7 +36,7 @@ public class NormalCell extends Cell {
 
     /**
      * Может принять маленький объект.
-     * @return может приянть маленький объект.
+     * @return может принять маленький объект.
      */
     public boolean canTakeSmallObject() {
         return smallObject == null;
