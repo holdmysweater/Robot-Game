@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import game.model.Direction;
 import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.power_supplies.Battery;
+import game.model.field.cell_objects.Battery;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,47 +25,47 @@ class CellTest {
 
     @Test
     public void test_setRobot_InEmptyCell() {
-        Robot robot = new Robot(new Battery(10));
+        Robot robot = new Robot(new Battery());
 
-        cell.addObject(robot);
+        cell.setBigObject(robot);
 
-        assertEquals(robot, cell.getMobileCellObject());
+        assertEquals(robot, cell.getBigObject());
         assertEquals(cell, robot.getPosition());
     }
 
     @Test
     public void test_takeRobot_FromCellWithRobot() {
-        Robot robot = new Robot(new Battery(10));
+        Robot robot = new Robot(new Battery());
 
-        cell.addObject(robot);
+        cell.setBigObject(robot);
 
-        assertEquals(robot, cell.takeObject(cell.getMobileCellObject()));
+        assertEquals(robot, cell.takeBigObject());
         assertNull(robot.getPosition());
-        assertNull(cell.getMobileCellObject());
+        assertNull(cell.getBigObject());
     }
 
 
     @Test
     public void test_setRobot_ToCellWithRobot() {
-        Robot robot = new Robot(new Battery(10));
-        Robot newRobot = new Robot(new Battery(10));
+        Robot robot = new Robot(new Battery());
+        Robot newRobot = new Robot(new Battery());
 
-        cell.addObject(robot);
+        cell.setBigObject(robot);
 
-        assertThrows(IllegalArgumentException.class, () -> cell.addObject(newRobot));
-        assertEquals(robot, cell.getMobileCellObject());
+        assertThrows(IllegalArgumentException.class, () -> cell.setBigObject(newRobot));
+        assertEquals(robot, cell.getBigObject());
         assertEquals(cell, robot.getPosition());
         assertNull(newRobot.getPosition());
     }
 
     @Test
     public void test_setRobot_ToCellAgain() {
-        Robot robot = new Robot(new Battery(10));
+        Robot robot = new Robot(new Battery());
 
-        cell.addObject(robot);
+        cell.setBigObject(robot);
 
-        assertThrows(IllegalArgumentException.class, () -> cell.addObject(robot));
-        assertEquals(robot, cell.getMobileCellObject());
+        assertThrows(IllegalArgumentException.class, () -> cell.setBigObject(robot));
+        assertEquals(robot, cell.getBigObject());
         assertEquals(cell, robot.getPosition());
     }
 
@@ -146,7 +146,7 @@ class CellTest {
         WallSegment wallSegment = new WallSegment();
 
         cell.setBetweenCellObject(wallSegment, direction);
-        assertEquals(wallSegment, cell.getNeighborBetweenCellObject(direction));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
         assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
     }
 
@@ -156,8 +156,8 @@ class CellTest {
         WallSegment wallSegment = new WallSegment();
 
         cell.setBetweenCellObject(wallSegment, direction);
-        assertThrows(IllegalArgumentException.class, () -> cell.setBetweenCellObject(wallSegment, Direction.SOUTH));
-        assertEquals(wallSegment, cell.getNeighborBetweenCellObject(direction));
+        assertFalse(cell.setBetweenCellObject(wallSegment, Direction.SOUTH));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
         assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
     }
 
@@ -168,8 +168,8 @@ class CellTest {
         WallSegment anotherWallSegment = new WallSegment();
 
         cell.setBetweenCellObject(wallSegment, direction);
-        assertThrows(IllegalArgumentException.class, () -> cell.setBetweenCellObject(anotherWallSegment, direction));
-        assertEquals(wallSegment, cell.getNeighborBetweenCellObject(direction));
+        assertFalse(cell.setBetweenCellObject(anotherWallSegment, direction));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
         assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
     }
 
@@ -182,8 +182,8 @@ class CellTest {
 
         cell.setBetweenCellObject(wallSegment, direction);
 
-        assertEquals(wallSegment, cell.getNeighborBetweenCellObject(direction));
-        assertEquals(wallSegment, neighborCell.getNeighborBetweenCellObject(direction.getOppositeDirection()));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(wallSegment, neighborCell.getNeighborObstacle(direction.getOppositeDirection()));
         assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
         assertEquals(neighborCell,wallSegment.getPosition().getNeighborCells().get(direction));
     }
@@ -198,9 +198,9 @@ class CellTest {
 
         cell.setBetweenCellObject(wallSegment, direction);
 
-        assertThrows(IllegalArgumentException.class, () -> cell.setBetweenCellObject(anotherWallSegment, direction));
-        assertEquals(wallSegment, cell.getNeighborBetweenCellObject(direction));
-        assertEquals(wallSegment, neighborCell.getNeighborBetweenCellObject(direction.getOppositeDirection()));
+        assertFalse(cell.setBetweenCellObject(anotherWallSegment, direction));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(wallSegment, neighborCell.getNeighborObstacle(direction.getOppositeDirection()));
         assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
         assertEquals(neighborCell,wallSegment.getPosition().getNeighborCells().get(direction));
     }
@@ -215,9 +215,9 @@ class CellTest {
 
         cell.setBetweenCellObject(wallSegment, direction);
 
-        assertThrows(IllegalArgumentException.class, () -> cell.setBetweenCellObject(wallSegment, anotherDirection));
-        assertEquals(wallSegment, cell.getNeighborBetweenCellObject(direction));
-        assertEquals(wallSegment, neighborCell.getNeighborBetweenCellObject(direction.getOppositeDirection()));
+        assertFalse(cell.setBetweenCellObject(wallSegment, anotherDirection));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(wallSegment, neighborCell.getNeighborObstacle(direction.getOppositeDirection()));
         assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
         assertEquals(neighborCell,wallSegment.getPosition().getNeighborCells().get(direction));
     }
@@ -226,6 +226,6 @@ class CellTest {
     public void test_neighborWall_wallNotExists() {
         Direction direction = Direction.NORTH;
 
-        assertNull(cell.getNeighborBetweenCellObject(direction));
+        assertNull(cell.getNeighborObstacle(direction));
     }
 }

@@ -3,10 +3,10 @@ package game.model;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.event.GameActionEvent;
-import game.model.event.GameActionListener;
+import game.model.events.GameActionEvent;
+import game.model.events.GameActionListener;
 import game.model.field.cell_objects.Robot;
-import game.model.labyrinths.TestLabirint;
+import game.model.labyrinths.TestLabyrinth;
 import game.utils.Pair;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameTest {
     private Game game;
 
-    private enum Event {ROBOT_MOVED, ROBOT_SKIP_STEP, ROBOT_TELEPORTED}
+    private enum Event {ROBOT_MOVED, ROBOT_TELEPORTED}
 
     private List<Pair<Event, Robot>> events = new ArrayList<>();
     private List<Pair<Event, Robot>> expectedEvents = new ArrayList<>();
@@ -27,11 +27,6 @@ public class GameTest {
         @Override
         public void robotIsMoved(@NotNull GameActionEvent event) {
             events.add(new Pair<>(Event.ROBOT_MOVED, event.getRobot()));
-        }
-
-        @Override
-        public void robotIsSkipStep(@NotNull GameActionEvent event) {
-            events.add(new Pair<>(Event.ROBOT_SKIP_STEP, event.getRobot()));
         }
 
         @Override
@@ -50,7 +45,7 @@ public class GameTest {
         events.clear();
         expectedEvents.clear();
 
-        game = new Game(new TestLabirint());
+        game = new Game(new TestLabyrinth());
         game.addGameActionListener(new EventListener());
     }
 
@@ -63,150 +58,98 @@ public class GameTest {
 
     @Test
     public void test_robotMoved_success() {
-        Robot robot = game.getActiveRobot();
+        Robot robot = game.getRobot();
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
-        game.getActiveRobot().move(Direction.EAST);
+        game.getRobot().move(Direction.EAST);
 
-        assertNotEquals(robot, game.getActiveRobot());
-        assertFalse(robot.isActive());
+        assertNotEquals(robot, game.getRobot());
+        assertFalse(robot.isUnfrozen());
         assertEquals(expectedEvents, events);
         assertEquals(GameStatus.GAME_IS_ON, game.getStatus());
     }
 
     @Test
     public void test_robotMoved_incorrectDirection() {
-        Robot robot = game.getActiveRobot();
-        game.getActiveRobot().move(Direction.WEST);
+        Robot robot = game.getRobot();
+        game.getRobot().move(Direction.WEST);
 
-        assertEquals(robot, game.getActiveRobot());
-        assertTrue(robot.isActive());
-        assertEquals(expectedEvents, events);
-        assertEquals(GameStatus.GAME_IS_ON, game.getStatus());
-    }
-
-    @Test
-    public void test_robotSkipStep() {
-        Robot robot = game.getActiveRobot();
-        expectedEvents.add(new Pair<>(Event.ROBOT_SKIP_STEP, robot));
-
-        game.getActiveRobot().skipStep();
-
-        assertNotEquals(robot, game.getActiveRobot());
-        assertFalse(robot.isActive());
+        assertEquals(robot, game.getRobot());
+        assertTrue(robot.isUnfrozen());
         assertEquals(expectedEvents, events);
         assertEquals(GameStatus.GAME_IS_ON, game.getStatus());
     }
 
     @Test
     public void test_robotTeleported() {
-        Robot robot = game.getActiveRobot();
+        Robot robot = game.getRobot();
 
-        game.getActiveRobot().move(Direction.EAST);
+        game.getRobot().move(Direction.EAST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
-        Robot secondRobot = game.getActiveRobot();
-        game.getActiveRobot().move(Direction.WEST);
+        Robot secondRobot = game.getRobot();
+        game.getRobot().move(Direction.WEST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, secondRobot));
 
-        game.getActiveRobot().move(Direction.EAST);
+        game.getRobot().move(Direction.EAST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
 
-        assertNotEquals(robot, game.getActiveRobot());
+        assertNotEquals(robot, game.getRobot());
         assertEquals(expectedEvents, events);
-        assertFalse(robot.isActive());
+        assertFalse(robot.isUnfrozen());
         assertEquals(GameStatus.GAME_IS_ON, game.getStatus());
     }
 
     @Test
     public void test_allRobotTeleported() {
-        Robot robot = game.getActiveRobot();
+        Robot robot = game.getRobot();
 
-        game.getActiveRobot().move(Direction.EAST);
+        game.getRobot().move(Direction.EAST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
-        Robot secondRobot = game.getActiveRobot();
-        game.getActiveRobot().move(Direction.WEST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, secondRobot));
-
-        game.getActiveRobot().move(Direction.EAST);
+        game.getRobot().move(Direction.EAST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
 
-        game.getActiveRobot().move(Direction.SOUTH);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, secondRobot));
-
-        game.getActiveRobot().move(Direction.SOUTH);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, secondRobot));
-
-        game.getActiveRobot().move(Direction.EAST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, secondRobot));
-
-        expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, secondRobot));
-
-        assertNull(game.getActiveRobot());
+        assertNull(game.getRobot());
         assertEquals(expectedEvents, events);
-        assertFalse(robot.isActive());
-        assertFalse(secondRobot.isActive());
-        assertEquals(GameStatus.ALL_ROBOTS_OUT, game.getStatus());
+        assertFalse(robot.isUnfrozen());
+        assertEquals(GameStatus.WIN, game.getStatus());
     }
 
     @Test
     public void test_allRobotsHasLowBattery() {
-        Robot robot = game.getActiveRobot();
-
-        game.getActiveRobot().skipStep();
-        expectedEvents.add(new Pair<>(Event.ROBOT_SKIP_STEP, robot));
-
-        Robot secondRobot = game.getActiveRobot();
-        game.getActiveRobot().skipStep();
-        expectedEvents.add(new Pair<>(Event.ROBOT_SKIP_STEP, secondRobot));
+        Robot robot = game.getRobot();
 
         for(int i = 0; i < 4; i++) {
-            game.getActiveRobot().skipStep();
-            expectedEvents.add(new Pair<>(Event.ROBOT_SKIP_STEP, robot));
-
-            game.getActiveRobot().skipStep();
-            expectedEvents.add(new Pair<>(Event.ROBOT_SKIP_STEP, secondRobot));
+            game.getRobot().move(Direction.EAST);
+            expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
         }
 
-        assertNull(game.getActiveRobot());
+        assertNull(game.getRobot());
         assertEquals(expectedEvents, events);
-        assertFalse(robot.isActive());
-        assertFalse(secondRobot.isActive());
-        assertEquals(GameStatus.ALL_ROBOTS_HAVE_LOW_CHARGE, game.getStatus());
+        assertFalse(robot.isUnfrozen());
+        assertEquals(GameStatus.LOSS, game.getStatus());
     }
 
     @Test
     public void test_winnerFound() {
-        Robot robot = game.getActiveRobot();
+        Robot robot = game.getRobot();
 
-        game.getActiveRobot().move(Direction.EAST);
+        game.getRobot().move(Direction.EAST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
-        Robot secondRobot = game.getActiveRobot();
-        game.getActiveRobot().skipStep();
-        expectedEvents.add(new Pair<>(Event.ROBOT_SKIP_STEP, secondRobot));
-
-        game.getActiveRobot().move(Direction.EAST);
+        game.getRobot().move(Direction.EAST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
 
-        for(int i = 0; i < 4; i++) {
-            game.getActiveRobot().skipStep();
-            expectedEvents.add(new Pair<>(Event.ROBOT_SKIP_STEP, secondRobot));
-        }
-
-
-        assertNull(game.getActiveRobot());
+        assertNull(game.getRobot());
         assertEquals(expectedEvents, events);
-        assertFalse(robot.isActive());
-        assertFalse(secondRobot.isActive());
-        assertEquals(robot, game.getWinner());
-        assertEquals(GameStatus.WINNER_FOUND, game.getStatus());
+        assertFalse(robot.isUnfrozen());
+        assertEquals(GameStatus.WIN, game.getStatus());
     }
 }

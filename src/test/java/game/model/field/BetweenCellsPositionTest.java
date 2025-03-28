@@ -3,9 +3,7 @@ package game.model.field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.model.Direction;
-import game.model.field.Cell;
 import game.model.field.between_cells_objects.BetweenCellsPosition;
-import game.model.field.cells.CellWithPowerSupply;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +16,8 @@ class BetweenCellsPositionTest {
 
     @BeforeEach
     public void testSetup() {
-        cell = new CellWithPowerSupply();
-        neighborCell = new CellWithPowerSupply();
+        cell = new NormalCell();
+        neighborCell = new NormalCell();
     }
 
     @Test

@@ -1,12 +1,13 @@
 package game.model.field.cells;
 
+import game.model.field.ExitCell;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.event.ExitCellActionEvent;
-import game.model.event.ExitCellActionListener;
+import game.model.events.ExitCellActionEvent;
+import game.model.events.ExitCellActionListener;
 import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.power_supplies.Battery;
+import game.model.field.cell_objects.Battery;
 
 import java.util.Arrays;
 
@@ -33,7 +34,7 @@ public class ExitCellTest {
         countEvents = 0;
 
         // setting up robot
-        robot = new Robot(new Battery(10));
+        robot = new Robot(new Battery());
 
         exitCell = new ExitCell();
         exitCell.addExitCellActionListener(new EventListener());
@@ -41,46 +42,29 @@ public class ExitCellTest {
 
     @Test
     public void test_setRobot_oneRobot() {
-        exitCell.addObject(robot);
+        exitCell.setBigObject(robot);
 
         int expectedCountEvents = 1;
 
         assertEquals(expectedCountEvents, countEvents);
-        assertNull(robot.getPosition());
-        assertTrue(exitCell.getTeleportedRobots().contains(robot));
-        assertEquals(1, exitCell.getTeleportedRobots().size());
+        assertEquals(exitCell,robot.getPosition());
+        assertEquals(robot, exitCell.getTeleportedRobot());
     }
 
     @Test
     public void test_setRobot_setTeleportedRobot() {
-        exitCell.addObject(robot);
+        exitCell.setBigObject(robot);
 
         int expectedCountEvents = 1;
 
-        assertThrows(IllegalArgumentException.class, () -> exitCell.addObject(robot));
+        assertFalse(exitCell.setBigObject(robot));
         assertEquals(expectedCountEvents, countEvents);
-        assertNull(robot.getPosition());
-        assertTrue(exitCell.getTeleportedRobots().contains(robot));
-        assertEquals(1, exitCell.getTeleportedRobots().size());
-    }
-
-    @Test
-    public void test_setRobot_setSeveralRobots() {
-        Robot anotherRobot = new Robot(new Battery(10));
-
-        exitCell.addObject(robot);
-        exitCell.addObject(anotherRobot);
-
-        int expectedCountEvents = 2;
-
-        assertEquals(expectedCountEvents, countEvents);
-        assertNull(robot.getPosition());
-        assertTrue(exitCell.getTeleportedRobots().containsAll(Arrays.asList(robot, anotherRobot)));
-        assertEquals(2, exitCell.getTeleportedRobots().size());
+        assertEquals(exitCell, robot.getPosition());
+        assertEquals(robot, exitCell.getTeleportedRobot());
     }
 
     @Test
     public void test_getTeleportedRobots_empty() {
-        assertTrue(exitCell.getTeleportedRobots().isEmpty());
+        assertNull(exitCell.getTeleportedRobot());
     }
 }

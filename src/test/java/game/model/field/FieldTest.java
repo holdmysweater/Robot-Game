@@ -6,13 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.model.Direction;
 import game.model.Point;
-import game.model.event.FieldActionEvent;
-import game.model.event.FieldActionListener;
+import game.model.events.FieldActionEvent;
+import game.model.events.FieldActionListener;
 import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.power_supplies.Battery;
-import game.model.field.cell_objects.power_supplies.Windmill;
-import game.model.field.cells.CellWithPowerSupply;
-import game.model.field.cells.ExitCell;
+import game.model.field.cell_objects.Battery;
 
 import java.util.Arrays;
 
@@ -84,100 +81,34 @@ public class FieldTest {
 
     @Test
     public void test_getRobotsOnField_empty() {
-        assertTrue(field.getRobotsOnField().isEmpty());
+        assertNull(field.getRobotOnField());
     }
 
     @Test
     public void test_getRobotsOnField_oneRobot() {
-        Robot robot = new Robot(new Battery(10));
-        field.getCell(new Point(0, 0)).addObject(robot);
+        Robot robot = new Robot(new Battery());
+        field.getCell(new Point(0, 0)).setBigObject(robot);
 
-        assertTrue(field.getRobotsOnField().contains(robot));
-        assertEquals(1, field.getRobotsOnField().size());
-    }
-
-    @Test
-    public void test_getRobotsOnField_severalRobots() {
-        Robot robot = new Robot(new Battery(10));
-        Robot anotherRobot = new Robot(new Battery(10));
-        field.getCell(new Point(0, 0)).addObject(robot);
-        field.getCell(new Point(1, 0)).addObject(anotherRobot);
-
-        assertTrue(field.getRobotsOnField().containsAll(Arrays.asList(robot, anotherRobot)));
-        assertEquals(2, field.getRobotsOnField().size());
-    }
-
-    @Test
-    public void test_getTeleportedRobots_empty() {
-        assertTrue(field.getTeleportedRobots().isEmpty());
+        assertEquals(robot, field.getRobotOnField());
     }
 
     @Test
     public void test_TeleportedRobots_oneRobot() {
-        Robot robot = new Robot(new Battery(10));
-        field.getCell(new Point(1, 1)).addObject(robot);
+        Robot robot = new Robot(new Battery());
+        ExitCell cell = (ExitCell) field.getCell(new Point(1, 1));
+        cell.setBigObject(robot);
 
-        assertTrue(field.getTeleportedRobots().contains(robot));
-        assertEquals(1, field.getTeleportedRobots().size());
-    }
-
-    @Test
-    public void test_TeleportedRobots_severalRobots() {
-        Robot robot = new Robot(new Battery(10));
-        Robot anotherRobot = new Robot(new Battery(10));
-        Cell exitCell =  field.getCell(new Point(1, 1));
-
-        exitCell.addObject(robot);
-        exitCell.addObject(anotherRobot);
-
-        assertTrue(field.getTeleportedRobots().containsAll(Arrays.asList(robot, anotherRobot)));
-        assertEquals(2, field.getTeleportedRobots().size());
+        assertEquals(robot, cell.getTeleportedRobot());
+        assertTrue(robot.isTeleported());
     }
 
     @Test
     public void test_teleportEvent_oneRobot() {
         int expectedEventCount = 1;
-        Robot robot = new Robot(new Battery(10));
+        Robot robot = new Robot(new Battery());
 
-        field.getCell(new Point(1, 1)).addObject(robot);
-
-        assertEquals(expectedEventCount, eventCount);
-    }
-
-    @Test
-    public void test_teleportEvent_TwoRobots() {
-        int expectedEventCount = 2;
-        Robot robot = new Robot(new Battery(10));
-        Robot anotherRobot = new Robot(new Battery(10));
-
-        field.getCell(new Point(1, 1)).addObject(robot);
-        field.getCell(new Point(1, 1)).addObject(anotherRobot);
+        field.getCell(new Point(1, 1)).setBigObject(robot);
 
         assertEquals(expectedEventCount, eventCount);
-    }
-
-    @Test
-    public void test_updateRenewablePowerSupplies_singleWindMill() {
-        field.getCell(new Point(0,0)).addObject(new Windmill(0, 10));
-        field.updateRenewablePowerSupplies();
-
-        int charge = ((CellWithPowerSupply) field.getCell(new Point(0,0))).getPowerSupply().getCharge();
-
-        int expectedCharge = 2;
-        assertEquals(expectedCharge, charge);
-    }
-
-    @Test
-    public void test_updateRenewablePowerSupplies_severalWindMill() {
-        field.getCell(new Point(0,0)).addObject(new Windmill(0, 10));
-        field.getCell(new Point(1,0)).addObject(new Windmill(0, 10));
-        field.updateRenewablePowerSupplies();
-
-        int firstWindmillCharge = ((CellWithPowerSupply) field.getCell(new Point(0,0))).getPowerSupply().getCharge();
-        int secondWindmillCharge = ((CellWithPowerSupply) field.getCell(new Point(1,0))).getPowerSupply().getCharge();
-
-        int expectedCharge = 2;
-        assertEquals(expectedCharge, firstWindmillCharge);
-        assertEquals(expectedCharge, secondWindmillCharge);
     }
 }
