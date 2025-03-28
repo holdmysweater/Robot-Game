@@ -58,6 +58,16 @@ public class SmallLabyrinth extends Labyrinth {
                 new BetweenCellsPosition(field.getCell(new Point(2, 0)), Direction.SOUTH)
         );
 
+        map.put(
+                new WallSegment(),
+                new BetweenCellsPosition(field.getCell(new Point(2, 2)), Direction.SOUTH)
+        );
+
+        map.put(
+                new WallSegment(),
+                new BetweenCellsPosition(field.getCell(new Point(2, 2)), Direction.EAST)
+        );
+
         return map;
     }
 
