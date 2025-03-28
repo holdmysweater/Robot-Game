@@ -62,7 +62,7 @@ public class RobotWidget extends CellItemWidget {
     }
 
     /**
-     * Сделать вижет актиынм
+     * Сделать виджет активным
      * @param state состояние активности.
      */
     public void setActive(boolean state) {
@@ -158,15 +158,17 @@ public class RobotWidget extends CellItemWidget {
 
         private void changeBatteryAction(int keyCode) {
             if(keyCode == KeyEvent.VK_G) {
-                robot.changeBattery();
+                boolean success = robot.changeBattery();
+                if (!success) System.out.println("Can't take battery");
             }
         }
 
         private void moveAction(int keyCode){
             Direction direction = directionByKeyCode(keyCode);
-            System.out.println(color + " go to " + direction);
-            if(direction != null && robot.isUnfrozen()) {
-                robot.move(direction);
+            if(direction != null) {
+                System.out.println(color + " go to " + direction);
+                boolean success = robot.move(direction);
+                if (!success) System.out.println("Can't move " + direction);
             }
         }
 
