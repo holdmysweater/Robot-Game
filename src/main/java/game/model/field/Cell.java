@@ -31,7 +31,7 @@ public abstract class Cell {
 
     /**
      * Изъять большой объект из ячейки.
-     * @return запрашиваемый объект. null - если объект не содержится в ячейке {@link Cell#bigObject}.
+     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link Cell#bigObject}.
      */
     public Robot takeBigObject() {
         Robot result = bigObject;
@@ -40,10 +40,12 @@ public abstract class Cell {
     }
 
     /**
-     * Получить крупный объект.
-     * @return Крупный объект.
+     * Получить большой объект.
+     * @return большой объект.
      */
-    public CellObject getBigObject() { return bigObject; }
+    public Robot getBigObject() {
+        return bigObject;
+    }
 
     /**
      * Может принять большой объект.
@@ -70,7 +72,7 @@ public abstract class Cell {
     /**
      * Получить соседнюю ячейку в заданном направлении.
      * @param direction направление.
-     * @return соседняя ячейка. null, если в заданном направлении нет соседней ячейки.
+     * @return соседняя ячейка, null, если в заданном направлении нет соседней ячейки.
      */
     public Cell getNeighborCell(@NotNull Direction direction) {
         return neighborCells.get(direction);
@@ -116,23 +118,23 @@ public abstract class Cell {
     /**
      * Соседние объекты, располагающиеся между ячейками.
      */
-    private final Map<Direction, BetweenCellObject> neighborBetweenCellObjects = new EnumMap<>(Direction.class);
+    private final Map<Direction, BetweenCellObject> neighborObstacles = new EnumMap<>(Direction.class);
 
     /**
-     * Получить соседние объекты, располагающиеся между ячейками {@link Cell#neighborBetweenCellObjects}.
+     * Получить соседние объекты, располагающиеся между ячейками {@link Cell#neighborObstacles}.
      * @return соседние объекты, располагающиеся между ячейками.
      */
-    public Map<Direction, BetweenCellObject> getNeighborBetweenCellObjects() {
-        return Collections.unmodifiableMap(neighborBetweenCellObjects);
+    public Map<Direction, BetweenCellObject> getNeighborObstacles() {
+        return Collections.unmodifiableMap(neighborObstacles);
     }
 
     /**
-     * Получить соседний объект, располагающийся между ячейками {@link Cell#neighborBetweenCellObjects} в заданном направлении.
+     * Получить соседний объект, располагающийся между ячейками {@link Cell#neighborObstacles} в заданном направлении.
      * @param direction направление.
      * @return соседний объект, располагающийся между ячейками в заданном направлении.
      */
-    public BetweenCellObject getNeighborBetweenCellObject(@NotNull Direction direction) {
-        return neighborBetweenCellObjects.get(direction);
+    public BetweenCellObject getNeighborObstacle(@NotNull Direction direction) {
+        return neighborObstacles.get(direction);
     }
 
     /**
@@ -141,7 +143,7 @@ public abstract class Cell {
      * @return Является ли ячейка соседом.
      */
     public boolean isNeighbor(@NotNull BetweenCellObject other) {
-        return neighborBetweenCellObjects.containsValue(other);
+        return neighborObstacles.containsValue(other);
     }
 
     /**
@@ -151,20 +153,20 @@ public abstract class Cell {
      */
     public boolean setBetweenCellObject(@NotNull BetweenCellObject betweenCellObject, @NotNull Direction direction) {
         // Вернуть положительный результат, если уже установлена связь с этим объектом
-        if (getNeighborBetweenCellObject(direction) == betweenCellObject) return true;
+        if (getNeighborObstacle(direction) == betweenCellObject) return true;
 
         // Вернуть отрицательный результат, если
         BetweenCellsPosition position = new BetweenCellsPosition(this, direction);
-        if (getNeighborBetweenCellObject(direction) != null || // Уже установлена связь, но не с этим объектом
+        if (getNeighborObstacle(direction) != null || // Уже установлена связь, но не с этим объектом
             // TODO: Попробовать убрать, уже была такая проверка.
-            neighborBetweenCellObjects.containsKey(direction) || // Уже есть объект в этом направлении
+            neighborObstacles.containsKey(direction) || // Уже есть объект в этом направлении
             //TODO: попробовать убрать, т.к. эта проверка будет совершаться в объекте между ячейками.
-            neighborBetweenCellObjects.containsValue(betweenCellObject) || //Этот объект уже имеет связь с этим объектом между ячеек, но в другом направлении
+            neighborObstacles.containsValue(betweenCellObject) || //Этот объект уже имеет связь с этим объектом между ячеек, но в другом направлении
             !betweenCellObject.canSetAtPosition(position) // Проверяем, может ли объект между ячейками занимать позицию
         ) return false;
 
         // Запоминаем объект между ячейками
-        neighborBetweenCellObjects.put(direction, betweenCellObject);
+        neighborObstacles.put(direction, betweenCellObject);
 
         // Получаем соседа
         Cell neighbor = getNeighborCell(direction);
