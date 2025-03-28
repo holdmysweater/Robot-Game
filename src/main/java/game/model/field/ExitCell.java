@@ -26,6 +26,7 @@ public class ExitCell extends Cell {
 
     /**
      * Получить телепортированного робота {@link ExitCell#teleportedRobot}.
+     *
      * @return список телепортированного робота.
      */
     public Robot getTeleportedRobot() {
@@ -33,12 +34,11 @@ public class ExitCell extends Cell {
     }
 
     @Override
-    public boolean setBigObject(@NotNull Robot cellObject)  {
+    public boolean setBigObject(@NotNull Robot cellObject) {
         if (super.setBigObject(cellObject)) {
             teleportRobot();
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -59,6 +59,7 @@ public class ExitCell extends Cell {
 
     /**
      * Добавить нвоого слушателя за событиями ячейки выхода.
+     *
      * @param listener слушатель.
      */
     public void addExitCellActionListener(ExitCellActionListener listener) {
@@ -67,6 +68,7 @@ public class ExitCell extends Cell {
 
     /**
      * Удалить слушателя за событиями ячейки выхода.
+     *
      * @param listener слушатель.
      */
     public void removeExitCellActionListener(ExitCellActionListener listener) {
@@ -74,7 +76,7 @@ public class ExitCell extends Cell {
     }
 
     /**
-     * Оповестить сулшателей {@link ExitCell#exitCellListListener}, что робот телепортирован.
+     * Оповестить слушателей {@link ExitCell#exitCellListListener}, что робот телепортирован.
      */
     private void fireRobotIsTeleported() {
         ExitCellActionEvent event = new ExitCellActionEvent(this);
