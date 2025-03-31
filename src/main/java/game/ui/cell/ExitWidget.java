@@ -10,9 +10,10 @@ import java.io.IOException;
 
 /**
  * Виджет ячейки выхода.
+ *
  * @see game.model.field.ExitCell
  */
-public class ExitWidget extends CellWidget{
+public class ExitWidget extends CellWidget {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -21,14 +21,17 @@ public class BetweenCellsPosition {
 
     /**
      * Конструктор класса позиции между ячейками.
-     * @param cell ячейка.
+     *
+     * @param cell         ячейка.
      * @param neighborCell соседняя ячейка.
      * @throws IllegalArgumentException если ячейки не являются соседними.
      */
     public BetweenCellsPosition(@NotNull Cell cell, @NotNull Cell neighborCell) {
         Direction neighborDirection = cell.getNeighborDirection(neighborCell);
 
-        if(neighborDirection == null) throw new IllegalArgumentException();
+        if (neighborDirection == null) {
+            throw new IllegalArgumentException();
+        }
 
         neighborCells.put(neighborDirection, neighborCell);
         neighborCells.put(neighborDirection.getOppositeDirection(), cell);
@@ -36,31 +39,41 @@ public class BetweenCellsPosition {
 
     /**
      * Конструктор класса позиции между ячейками.
-     * @param cell ячейка.
+     *
+     * @param cell      ячейка.
      * @param direction направление.
      */
     public BetweenCellsPosition(@NotNull Cell cell, @NotNull Direction direction) {
         neighborCells.put(direction.getOppositeDirection(), cell);
 
         Cell neighborCell = cell.getNeighborCell(direction);
-        if(neighborCell != null) {
+
+        if (neighborCell != null) {
             neighborCells.put(direction, neighborCell);
         }
     }
 
     /**
      * Получить соседние ячейки {@link BetweenCellsPosition#neighborCells}.
+     *
      * @return соседние ячейки.
      */
-    public Map<Direction, Cell> getNeighborCells () {
+    public Map<Direction, Cell> getNeighborCells() {
         return Collections.unmodifiableMap(neighborCells);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         BetweenCellsPosition that = (BetweenCellsPosition) o;
+
         return Objects.equals(neighborCells, that.neighborCells);
     }
 

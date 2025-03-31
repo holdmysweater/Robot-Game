@@ -22,6 +22,7 @@ public abstract class ObstacleWidget extends JPanel {
 
     /**
      * Получить ориентацию {@link ObstacleWidget#orientation}.
+     *
      * @return ориентация.
      */
     public Orientation getOrientation() {
@@ -30,6 +31,7 @@ public abstract class ObstacleWidget extends JPanel {
 
     /**
      * Конструктор.
+     *
      * @param orientation ориентация.
      */
     public ObstacleWidget(Orientation orientation) {
@@ -39,7 +41,8 @@ public abstract class ObstacleWidget extends JPanel {
 
     /**
      * Получить изображение виджета.
-     * @return изображене виджета.
+     *
+     * @return изображение виджета.
      */
     private BufferedImage getImage() {
         BufferedImage image = null;
@@ -55,6 +58,7 @@ public abstract class ObstacleWidget extends JPanel {
 
     /**
      * Получить файл изображения.
+     *
      * @return файл изображения.
      */
     protected abstract File getImageFile();
@@ -67,6 +71,7 @@ public abstract class ObstacleWidget extends JPanel {
 
     /**
      * Получить размеры виджеты по ориентации.
+     *
      * @return размеры виджета.
      */
     protected Dimension getDimensionByOrientation() {

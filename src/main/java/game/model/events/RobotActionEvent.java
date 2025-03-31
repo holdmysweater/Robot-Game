@@ -34,6 +34,7 @@ public class RobotActionEvent extends EventObject {
 
     /**
      * Установить ячейку {@link RobotActionEvent#fromCell} откуда переместился робот {@link RobotActionEvent#robot}.
+     *
      * @param fromCell ячейка откуда переместился робот.
      */
     public void setFromCell(Cell fromCell) {
@@ -42,6 +43,7 @@ public class RobotActionEvent extends EventObject {
 
     /**
      * Получить ячейку {@link RobotActionEvent#fromCell} откуда переместился робот {@link RobotActionEvent#robot}.
+     *
      * @return ячейка откуда переместился робот.
      */
     public Cell getFromCell() {
@@ -50,6 +52,7 @@ public class RobotActionEvent extends EventObject {
 
     /**
      * Установить ячейку {@link RobotActionEvent#toCell} куда переместился робот {@link RobotActionEvent#robot}.
+     *
      * @param toCell ячейка куда переместился робот.
      */
     public void setToCell(Cell toCell) {
@@ -58,6 +61,7 @@ public class RobotActionEvent extends EventObject {
 
     /**
      * Получить ячейку {@link RobotActionEvent#toCell} куда переместился робот {@link RobotActionEvent#robot}.
+     *
      * @return ячейка куда переместился робот.
      */
     public Cell getToCell() {
@@ -66,6 +70,7 @@ public class RobotActionEvent extends EventObject {
 
     /**
      * Установить источник питания {@link RobotActionEvent#battery}.
+     *
      * @param battery источник питания.
      */
     public void setBattery(@NotNull Battery battery) {
@@ -74,6 +79,7 @@ public class RobotActionEvent extends EventObject {
 
     /**
      * Получить источник питания {@link RobotActionEvent#battery}.
+     *
      * @return источник питания.
      */
     public Battery getBattery() {
@@ -82,6 +88,7 @@ public class RobotActionEvent extends EventObject {
 
     /**
      * Установить робота {@link RobotActionEvent#robot}.
+     *
      * @param robot робот.
      */
     public void setRobot(@NotNull Robot robot) {
@@ -90,6 +97,7 @@ public class RobotActionEvent extends EventObject {
 
     /**
      * Получить робота {@link RobotActionEvent#robot}.
+     *
      * @return робот.
      */
     public Robot getRobot() {

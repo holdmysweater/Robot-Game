@@ -11,9 +11,16 @@ public class WallSegment extends BetweenCellObject {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         WallSegment wallSegment = (WallSegment) o;
+
         return Objects.equals(position, wallSegment.position);
     }
 

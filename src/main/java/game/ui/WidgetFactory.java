@@ -20,12 +20,12 @@ public class WidgetFactory {
     private final Map<BetweenCellObject, ObstacleWidget> betweenCellObjects = new HashMap<>();
 
     public CellWidget create(@NotNull Cell cell) {
-        if(cells.containsKey(cell)) return cells.get(cell);
+        if (cells.containsKey(cell)) return cells.get(cell);
 
         CellWidget item = (cell instanceof ExitCell) ? new ExitWidget() : new CellWidget();
 
         Robot robot = cell.getBigObject();
-        if(robot != null) {
+        if (robot != null) {
             CellItemWidget robotWidget = create(robot);
             item.addItem(robotWidget);
         }
@@ -48,15 +48,17 @@ public class WidgetFactory {
         return cells.get(cell);
     }
 
-    public void remove(@NotNull Cell cell) { cells.remove(cell); }
+    public void remove(@NotNull Cell cell) {
+        cells.remove(cell);
+    }
 
     public CellItemWidget create(@NotNull CellObject cellObject) {
-        if(cellObjects.containsKey(cellObject)) return cellObjects.get(cellObject);
+        if (cellObjects.containsKey(cellObject)) return cellObjects.get(cellObject);
 
         CellItemWidget createdWidget = null;
-        if(cellObject instanceof Robot) {
+        if (cellObject instanceof Robot) {
             createdWidget = new RobotWidget((Robot) cellObject, Color.BLUE);
-        } else if(cellObject instanceof Battery) {
+        } else if (cellObject instanceof Battery) {
             createdWidget = new BatteryWidget((Battery) cellObject);
         } else {
             throw new IllegalArgumentException();
@@ -87,5 +89,7 @@ public class WidgetFactory {
         return betweenCellObjects.get(betweenCellObject);
     }
 
-    public void remove(@NotNull BetweenCellObject betweenCellObject) { betweenCellObjects.remove(betweenCellObject); }
+    public void remove(@NotNull BetweenCellObject betweenCellObject) {
+        betweenCellObjects.remove(betweenCellObject);
+    }
 }

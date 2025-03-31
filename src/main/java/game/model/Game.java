@@ -8,7 +8,6 @@ import game.model.field.cell_objects.Robot;
 import game.model.field.Labyrinth;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Игра.
@@ -36,6 +35,7 @@ public class Game {
 
     /**
      * Старт новой игры
+     *
      * @param labyrinth лабиринт, содержащий расстановку элементов на поле
      */
     public void startGame(@NotNull Labyrinth labyrinth) {
@@ -69,6 +69,7 @@ public class Game {
 
     /**
      * Получить текущий статус игры {@link Game#gameStatus}
+     *
      * @return текующий статус игры
      */
     public GameStatus getStatus() {
@@ -76,7 +77,7 @@ public class Game {
     }
 
     private void setStatus(GameStatus status) {
-        if(gameStatus != status) {
+        if (gameStatus != status) {
             gameStatus = status;
             fireGameStatusIsChanged(gameStatus);
         }
@@ -84,6 +85,7 @@ public class Game {
 
     /**
      * Получить робота {@link Game#robot}.
+     *
      * @return робот.
      */
     public Robot getRobot() {
@@ -92,6 +94,7 @@ public class Game {
 
     /**
      * Получить игровое поле {@link Game#gameField}.
+     *
      * @return игровое поле.
      */
     public Field getGameField() {
@@ -109,6 +112,7 @@ public class Game {
 
     /**
      * Определить исход игры.
+     *
      * @return статус игры.
      */
     private GameStatus determineOutcomeGame() {
@@ -117,8 +121,7 @@ public class Game {
         if (!robot.isCapable()) {
             if (robot.isTeleported()) {
                 result = GameStatus.WIN;
-            }
-            else {
+            } else {
                 result = GameStatus.LOSS;
             }
         }
@@ -134,7 +137,7 @@ public class Game {
         @Override
         public void robotIsMoved(@NotNull RobotActionEvent event) {
             fireRobotIsMoved(event.getRobot());
-            if(!(event.getToCell() instanceof ExitCell)){
+            if (!(event.getToCell() instanceof ExitCell)) {
                 updateGameState();
             }
         }
@@ -170,6 +173,7 @@ public class Game {
 
     /**
      * Добавить нового слушателя за событиями игры.
+     *
      * @param listener слушатель.
      */
     public void addGameActionListener(@NotNull GameActionListener listener) {
@@ -178,6 +182,7 @@ public class Game {
 
     /**
      * Удалить слушателя за событиями игры.
+     *
      * @param listener слушатель.
      */
     public void removeGameActionListener(@NotNull GameActionListener listener) {
@@ -186,12 +191,14 @@ public class Game {
 
     /**
      * Оповестить слушателей {@link Game#gameActionListeners}, что робот переместился.
+     *
      * @param robot робот, который переместился.
      */
     private void fireRobotIsMoved(@NotNull Robot robot) {
-        for(GameActionListener listener: gameActionListeners) {
-            GameActionEvent event = new GameActionEvent(listener);
-            event.setRobot(robot);
+        GameActionEvent event = new GameActionEvent(this);
+        event.setRobot(robot);
+
+        for (GameActionListener listener : gameActionListeners) {
             listener.robotIsMoved(event);
         }
     }
@@ -203,20 +210,21 @@ public class Game {
         GameActionEvent event = new GameActionEvent(this);
         event.setRobot(robot);
 
-        for(GameActionListener listener: gameActionListeners) {
+        for (GameActionListener listener : gameActionListeners) {
             listener.robotIsTeleported(event);
         }
     }
 
     /**
      * Оповестить слушателей {@link Game#gameActionListeners}, что статус игры изменился.
+     *
      * @param status статус игры.
      */
     private void fireGameStatusIsChanged(@NotNull GameStatus status) {
         GameActionEvent event = new GameActionEvent(this);
         event.setStatus(status);
 
-        for(GameActionListener listener: gameActionListeners) {
+        for (GameActionListener listener : gameActionListeners) {
             listener.gameStatusChanged(event);
         }
     }

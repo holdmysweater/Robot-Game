@@ -15,11 +15,6 @@ public class ExitCell extends Cell {
 
     /*---------- ТЕЛЕПОРТАЦИЯ----------*/
     /**
-     * Время ожидания перед телепортацией.
-     */
-    private static final int SLEEP_TIME = 1000;
-
-    /**
      * Список телепортированных роботов.
      */
     private Robot teleportedRobot;
@@ -59,7 +54,7 @@ public class ExitCell extends Cell {
     private final ArrayList<ExitCellActionListener> exitCellListListener = new ArrayList<>();
 
     /**
-     * Добавить нвоого слушателя за событиями ячейки выхода.
+     * Добавить нового слушателя за событиями ячейки выхода.
      *
      * @param listener слушатель.
      */
@@ -82,6 +77,7 @@ public class ExitCell extends Cell {
     private void fireRobotIsTeleported() {
         ExitCellActionEvent event = new ExitCellActionEvent(this);
         event.setTeleport(this);
+
         for (ExitCellActionListener listener : exitCellListListener) {
             listener.robotIsTeleported(event);
         }
@@ -90,10 +86,20 @@ public class ExitCell extends Cell {
     /*---------- МЕТОДЫ ОБЪЕКТОВ ----------*/
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        if (!super.equals(o)) {
+            return false;
+        }
+
         ExitCell exitCell = (ExitCell) o;
+
         return Objects.equals(teleportedRobot, exitCell.teleportedRobot) &&
                 Objects.equals(exitCellListListener, exitCell.exitCellListListener);
     }
@@ -105,9 +111,6 @@ public class ExitCell extends Cell {
 
     @Override
     public String toString() {
-        return "ExitCell{" +
-                "teleportedRobots=" + teleportedRobot +
-                ", exitCellListListener=" + exitCellListListener +
-                '}';
+        return "ExitCell{" + "teleportedRobots=" + teleportedRobot + ", exitCellListListener=" + exitCellListListener + '}';
     }
 }

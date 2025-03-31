@@ -35,16 +35,24 @@ public class Field {
 
     /**
      * Конструктор.
-     * @param width ширина. Должна быть > 0.
-     * @param height высота. Должна быть > 0.
+     *
+     * @param width     ширина. Должна быть > 0.
+     * @param height    высота. Должна быть > 0.
      * @param exitPoint координата ячейки выхода.
      * @throws IllegalArgumentException если ширина, высота или координата ячейки переданы некорректные.
      */
     public Field(int width, int height, @NotNull Point exitPoint) {
-        if(width <= 0) throw new IllegalArgumentException("Field width must be more than 0");
-        if(height <= 0) throw new IllegalArgumentException("Field height must be more than 0");
-        if(exitPoint.getX() >= width || exitPoint.getY() >= height)
+        if (width <= 0) {
+            throw new IllegalArgumentException("Field width must be more than 0");
+        }
+
+        if (height <= 0) {
+            throw new IllegalArgumentException("Field height must be more than 0");
+        }
+
+        if (exitPoint.getX() >= width || exitPoint.getY() >= height) {
             throw new IllegalArgumentException("exit point coordinates must be in range from 0 to weight or height");
+        }
 
         this.width = width;
         this.height = height;
@@ -56,16 +64,23 @@ public class Field {
 
     /**
      * Построить игровое поле.
+     *
      * @param exitPoint координата ячейки выхода.
      */
-    private void buildField(Point exitPoint) { // !!! Непонятное название метода
-                                // DONE: Переименовал метод setupField -> buildField
-        for(int y = 0; y < height; ++y) {
-            for(int x = 0; x < width; ++x) {
+    private void buildField(Point exitPoint) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
                 Point p = new Point(x, y);
-                Cell cell = p.equals(exitPoint)? new ExitCell() : new NormalCell();
-                if(x > 0) cell.setNeighbor(getCell(p.to(Direction.WEST, 1)), Direction.WEST);
-                if(y > 0) cell.setNeighbor(getCell(p.to(Direction.NORTH, 1)), Direction.NORTH);
+                Cell cell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
+
+                if (x > 0) {
+                    cell.setNeighbor(getCell(p.to(Direction.WEST, 1)), Direction.WEST);
+                }
+
+                if (y > 0) {
+                    cell.setNeighbor(getCell(p.to(Direction.NORTH, 1)), Direction.NORTH);
+                }
+
                 cells.put(p, cell);
             }
         }
@@ -73,6 +88,7 @@ public class Field {
 
     /**
      * Получить ширину поля {@link Field#width}.
+     *
      * @return ширина поля.
      */
     public int getWidth() {
@@ -81,6 +97,7 @@ public class Field {
 
     /**
      * Получить высоту поля {@link Field#height}.
+     *
      * @return высота поля.
      */
     public int getHeight() {
@@ -89,6 +106,7 @@ public class Field {
 
     /**
      * Получить ячейку по заданной координате.
+     *
      * @param point координата.
      * @return ячейка.
      */
@@ -98,10 +116,11 @@ public class Field {
 
     /**
      * Получить робота на поле.
+     *
      * @return робот на поле.
      */
     public Robot getRobotOnField() {
-        for(var i : cells.entrySet()) { // TODO Не лучше ли организовать итератор ячеек
+        for (var i : cells.entrySet()) {
             Robot robot = i.getValue().getBigObject();
             if (robot != null) {
                 return robot;
@@ -112,23 +131,24 @@ public class Field {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Field field = (Field) o;
-        return width == field.width &&
-                height == field.height &&
+
+        return width == field.width && height == field.height &&
                 Objects.equals(cells, field.cells) &&
                 Objects.equals(exitCell, field.exitCell);
     }
 
     @Override
     public String toString() {
-        return "Field{" +
-                "cells=" + cells +
-                ", width=" + width +
-                ", height=" + height +
-                ", exitPoint=" + exitCell +
-                '}';
+        return "Field{" + "cells=" + cells + ", width=" + width + ", height=" + height + ", exitPoint=" + exitCell + '}';
     }
 
     /**
@@ -149,6 +169,7 @@ public class Field {
 
     /**
      * Добавить нового слушателя за событиями поля.
+     *
      * @param listener слушатель.
      */
     public void addFieldActionListener(FieldActionListener listener) {
@@ -157,6 +178,7 @@ public class Field {
 
     /**
      * Удалить слушателя за событиями поля.
+     *
      * @param listener слушатель.
      */
     public void removeFieldCellActionListener(FieldActionListener listener) {
@@ -165,6 +187,7 @@ public class Field {
 
     /**
      * Оповестить слушателей {@link Field#fieldListListener}, что робот телепортировался.
+     *
      * @param teleport телепорт.
      */
     private void fireRobotIsTeleported(@NotNull Cell teleport) {
@@ -172,7 +195,7 @@ public class Field {
         event.setRobot(((ExitCell) teleport).getTeleportedRobot());
         event.setTeleport(teleport);
 
-        for(FieldActionListener listener: fieldListListener) {
+        for (FieldActionListener listener : fieldListListener) {
             listener.robotIsTeleported(event);
         }
     }

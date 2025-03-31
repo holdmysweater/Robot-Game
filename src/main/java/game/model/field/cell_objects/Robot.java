@@ -19,17 +19,12 @@ public class Robot extends CellObject {
     private static final int AMOUNT_OF_CHARGE_FOR_MOVE = 1;
 
     /**
-     * Количество заряда для пропуска хода.
-     */
-    private static final int AMOUNT_OF_CHARGE_FOR_SKIP_STEP = 2;
-
-    /**
      * Внутренний источник питания робота.
      */
     private Battery battery;
 
     /**
-     * Состояние замороженности робота.
+     * Состояние заморозки робота.
      */
     private boolean isUnfrozen;
 
@@ -39,7 +34,7 @@ public class Robot extends CellObject {
     private boolean isTeleported = false;
 
     /**
-     * Констрктор.
+     * Конструктор.
      *
      * @param battery внутренний источник питания.
      */
@@ -58,6 +53,7 @@ public class Robot extends CellObject {
         }
 
         if (position.getNeighborObstacle(direction) != null) {
+            System.out.println("Wall");
             return false;
         }
 
@@ -89,7 +85,9 @@ public class Robot extends CellObject {
             return false;
         }
 
-        return newPosition.getBigObject() == null;
+        Robot bigObjectInCell = newPosition.getBigObject();
+
+        return bigObjectInCell == null;
     }
 
     /**
@@ -138,9 +136,9 @@ public class Robot extends CellObject {
     }
 
     /**
-     * Получить состояние активности робота {@link Robot#isUnfrozen}.
+     * Получить состояние заморозки робота {@link Robot#isUnfrozen}.
      *
-     * @return состояние размороженности робота.
+     * @return состояние заморозки робота.
      */
     public boolean isUnfrozen() {
         return isUnfrozen;
@@ -166,6 +164,7 @@ public class Robot extends CellObject {
 
     /**
      * Установить состояние телепортации робота.
+     *
      * @param value телепортирован ли робот
      */
     public void setTeleported(boolean value) {
@@ -266,22 +265,24 @@ public class Robot extends CellObject {
      * @param newPosition ячейка куда переместился робот.
      */
     private void fireRobotIsMoved(@NotNull Cell oldPosition, @NotNull Cell newPosition) {
+        RobotActionEvent event = new RobotActionEvent(this);
+        event.setRobot(this);
+        event.setFromCell(oldPosition);
+        event.setToCell(newPosition);
+
         for (RobotActionListener listener : robotListListener) {
-            RobotActionEvent event = new RobotActionEvent(listener);
-            event.setRobot(this);
-            event.setFromCell(oldPosition);
-            event.setToCell(newPosition);
             listener.robotIsMoved(event);
         }
     }
 
     /**
-     * Оповестить слушателей {@link Robot#robotListListener}, что состояние активности робота изменилось.
+     * Оповестить слушателей {@link Robot#robotListListener}, что состояние заморозки робота изменилось.
      */
     private void fireRobotChangeUnfrozen() {
+        RobotActionEvent event = new RobotActionEvent(this);
+        event.setRobot(this);
+
         for (RobotActionListener listener : robotListListener) {
-            RobotActionEvent event = new RobotActionEvent(listener);
-            event.setRobot(this);
             listener.robotUnfrozenChanged(event);
         }
     }
@@ -292,10 +293,11 @@ public class Robot extends CellObject {
      * @param battery новый источник питания.
      */
     private void fireRobotChangeBattery(Battery battery) {
+        RobotActionEvent event = new RobotActionEvent(this);
+        event.setRobot(this);
+        event.setBattery(battery);
+
         for (RobotActionListener listener : robotListListener) {
-            RobotActionEvent event = new RobotActionEvent(listener);
-            event.setRobot(this);
-            event.setBattery(battery);
             listener.robotChangedBattery(event);
         }
     }

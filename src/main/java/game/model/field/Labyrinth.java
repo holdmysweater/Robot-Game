@@ -17,6 +17,7 @@ public abstract class Labyrinth {
 
     /**
      * Построить поле.
+     *
      * @return поле.
      */
     public Field createField() {
@@ -30,24 +31,28 @@ public abstract class Labyrinth {
 
     /**
      * Высота поля.
+     *
      * @return высота поля.
      */
     protected abstract int fieldHeight();
 
     /**
      * Ширина поля.
+     *
      * @return ширина поля.
      */
     protected abstract int fieldWidth();
 
     /**
      * Координаты ячейки выхода.
+     *
      * @return координаты ячейки выхода.
      */
     protected abstract Point exitPoint();
 
     /**
      * Добавить роботов на поле.
+     *
      * @param field поле.
      */
     protected void populateField(@NotNull Field field) {
@@ -58,6 +63,7 @@ public abstract class Labyrinth {
 
     /**
      * Добавить объекты между ячейками на поле.
+     *
      * @param field поле.
      */
     protected void populateWalls(@NotNull Field field) {
@@ -75,6 +81,7 @@ public abstract class Labyrinth {
 
     /**
      * Добавить роботов на поле.
+     *
      * @param field поле.
      */
     protected void populateRobot(@NotNull Field field) {
@@ -93,6 +100,7 @@ public abstract class Labyrinth {
 
     /**
      * Добавить источники питания на поле.
+     *
      * @param field поле.
      */
     protected void populateBatteries(@NotNull Field field) {
@@ -107,18 +115,21 @@ public abstract class Labyrinth {
 
     /**
      * Добавить объекты между ячейками на поле.
+     *
      * @param field поле.
      */
     protected abstract Map<WallSegment, BetweenCellsPosition> createWalls(@NotNull Field field);
 
     /**
      * Добавить роботов на поле.
+     *
      * @param field поле.
      */
     protected abstract Map<Robot, Cell> createRobot(@NotNull Field field);
 
     /**
      * Добавить источники питания на поле.
+     *
      * @param field поле.
      */
     protected abstract Map<Battery, Cell> createBatteries(@NotNull Field field);

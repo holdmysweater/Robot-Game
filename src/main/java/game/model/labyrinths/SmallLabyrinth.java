@@ -21,12 +21,12 @@ public class SmallLabyrinth extends Labyrinth {
     /**
      * Высота поля.
      */
-    private static final int FIELD_HEIGHT = 3;
+    private static final int FIELD_HEIGHT = 4;
 
     /**
      * Ширина поля.
      */
-    private static final int FIELD_WIDTH = 3;
+    private static final int FIELD_WIDTH = 4;
 
     /**
      * Стандартный заряд батарейки.
@@ -46,14 +46,14 @@ public class SmallLabyrinth extends Labyrinth {
 
     @Override
     protected Point exitPoint() {
-        return new Point(2,2);
+        return new Point(2, 0);
     }
 
     @Override
     protected Map<WallSegment, BetweenCellsPosition> createWalls(@NotNull Field field) {
         Map<WallSegment, BetweenCellsPosition> map = new HashMap<>();
 
-        map.put(
+        map.put( // TODO walls aren't being placed properly
                 new WallSegment(),
                 new BetweenCellsPosition(field.getCell(new Point(2, 0)), Direction.SOUTH)
         );

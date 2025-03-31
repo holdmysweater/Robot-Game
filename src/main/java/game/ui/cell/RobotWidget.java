@@ -16,6 +16,7 @@ import java.io.IOException;
 
 /**
  * Виджет робота.
+ *
  * @see Robot
  */
 public class RobotWidget extends CellItemWidget {
@@ -32,6 +33,7 @@ public class RobotWidget extends CellItemWidget {
 
     /**
      * Конструтор.
+     *
      * @param robot робот.
      * @param color цвет.
      */
@@ -63,6 +65,7 @@ public class RobotWidget extends CellItemWidget {
 
     /**
      * Сделать виджет активным
+     *
      * @param state состояние активности.
      */
     public void setActive(boolean state) {
@@ -78,6 +81,7 @@ public class RobotWidget extends CellItemWidget {
 
     /**
      * Получить цвет робота {@link RobotWidget#color}.
+     *
      * @return цвет робота.
      */
     public Color getColor() {
@@ -85,16 +89,17 @@ public class RobotWidget extends CellItemWidget {
     }
 
     /**
-     * Получить изобаржение с текстом заряда.
+     * Получить изображение с текстом заряда.
+     *
      * @param robotImage изображение робота.
-     * @return изобаржение с текстом заряда.
+     * @return изображение с текстом заряда.
      */
     private BufferedImage robotImageWithChargeText(BufferedImage robotImage) {
         BufferedImage img = new BufferedImage(robotImage.getWidth(), 120, BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
         g.drawImage(robotImage, 0, 0, null);
 
-        if(cellItemState == State.DEFAULT) {
+        if (cellItemState == State.DEFAULT) {
             g.setFont(new Font("Arial", Font.PLAIN, 20));
             g.setColor(robotChargeTextColor());
             g.drawString(robotChargeText(), 5, 112);
@@ -105,6 +110,7 @@ public class RobotWidget extends CellItemWidget {
 
     /**
      * Получить текст заряда робота.
+     *
      * @return текст заряда робота.
      */
     private String robotChargeText() {
@@ -113,6 +119,7 @@ public class RobotWidget extends CellItemWidget {
 
     /**
      * Получить цвет текста заряда.
+     *
      * @return цвет текста заряда.
      */
     private Color robotChargeTextColor() {
@@ -121,6 +128,7 @@ public class RobotWidget extends CellItemWidget {
 
     /**
      * Получить файл изображения робота.
+     *
      * @return файл изображения робота.
      */
     private File getImageFile() {
@@ -157,15 +165,15 @@ public class RobotWidget extends CellItemWidget {
         }
 
         private void changeBatteryAction(int keyCode) {
-            if(keyCode == KeyEvent.VK_G) {
+            if (keyCode == KeyEvent.VK_G) {
                 boolean success = robot.changeBattery();
                 if (!success) System.out.println("Can't take battery");
             }
         }
 
-        private void moveAction(int keyCode){
+        private void moveAction(int keyCode) {
             Direction direction = directionByKeyCode(keyCode);
-            if(direction != null) {
+            if (direction != null) {
                 System.out.println("Go to " + direction);
                 boolean success = robot.move(direction);
                 if (!success) System.out.println("Can't move " + direction);
@@ -173,22 +181,13 @@ public class RobotWidget extends CellItemWidget {
         }
 
         private Direction directionByKeyCode(int keyCode) {
-            Direction direction = null;
-            switch (keyCode) {
-                case KeyEvent.VK_W:
-                    direction = Direction.NORTH;
-                    break;
-                case KeyEvent.VK_S:
-                    direction = Direction.SOUTH;
-                    break;
-                case KeyEvent.VK_A:
-                    direction = Direction.WEST;
-                    break;
-                case KeyEvent.VK_D:
-                    direction = Direction.EAST;
-                    break;
-            }
-            return direction;
+            return switch (keyCode) {
+                case KeyEvent.VK_W -> Direction.NORTH;
+                case KeyEvent.VK_S -> Direction.SOUTH;
+                case KeyEvent.VK_A -> Direction.WEST;
+                case KeyEvent.VK_D -> Direction.EAST;
+                default -> null;
+            };
         }
     }
 }

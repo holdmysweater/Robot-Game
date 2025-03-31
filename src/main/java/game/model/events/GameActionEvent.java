@@ -18,6 +18,7 @@ public class GameActionEvent extends EventObject {
 
     /**
      * Установить робота {@link GameActionEvent#robot}.
+     *
      * @param robot робот.
      */
     public void setRobot(@NotNull Robot robot) {
@@ -26,6 +27,7 @@ public class GameActionEvent extends EventObject {
 
     /**
      * Получить робота {@link GameActionEvent#robot}.
+     *
      * @return робот.
      */
     public Robot getRobot() {
@@ -39,6 +41,7 @@ public class GameActionEvent extends EventObject {
 
     /**
      * Получить статус игры {@link GameActionEvent#status}.
+     *
      * @return статус игры.
      */
     public GameStatus getStatus() {
@@ -47,6 +50,7 @@ public class GameActionEvent extends EventObject {
 
     /**
      * Установить статус игры {@link GameActionEvent#status}.
+     *
      * @param status статус игры.
      */
     public void setStatus(GameStatus status) {

@@ -17,6 +17,7 @@ public class ExitCellActionEvent extends EventObject {
 
     /**
      * Получить ячейку выхода {@link ExitCellActionEvent#teleport}.
+     *
      * @return ячейка выхода.
      */
     public Cell getTeleport() {
@@ -25,6 +26,7 @@ public class ExitCellActionEvent extends EventObject {
 
     /**
      * Установить ячейку выхода {@link ExitCellActionEvent#teleport}.
+     *
      * @param teleport ячейка выхода.
      */
     public void setTeleport(Cell teleport) {

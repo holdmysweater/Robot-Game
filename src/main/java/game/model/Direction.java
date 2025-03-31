@@ -38,6 +38,7 @@ public enum Direction {
 
     /**
      * Получить противоположное направление {@link Direction#opposite}.
+     *
      * @return противоположное направление.
      */
     public Direction getOppositeDirection() {

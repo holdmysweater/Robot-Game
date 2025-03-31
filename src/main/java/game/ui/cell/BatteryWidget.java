@@ -12,6 +12,7 @@ import java.io.IOException;
 
 /**
  * Виджет батареи.
+ *
  * @see Battery
  */
 public class BatteryWidget extends CellItemWidget {
@@ -23,6 +24,7 @@ public class BatteryWidget extends CellItemWidget {
 
     /**
      * Конструктор.
+     *
      * @param battery источник питания.
      */
     public BatteryWidget(Battery battery) {
@@ -49,6 +51,7 @@ public class BatteryWidget extends CellItemWidget {
 
     /**
      * Получить изображение источника питания с наложенным текстом заряда.
+     *
      * @param powerSupplyImage изображение источник питания.
      * @return изображение источника питания с наложенным текстом заряда.
      */
@@ -103,7 +106,7 @@ public class BatteryWidget extends CellItemWidget {
     protected Dimension getDimension() {
         Dimension dimension = null;
 
-        if(cellItemState == State.SMALL) {
+        if (cellItemState == State.SMALL) {
             dimension = new Dimension(36, 66);
         } else if (cellItemState == State.DEFAULT) {
             dimension = new Dimension(120, 120);

@@ -19,6 +19,7 @@ public abstract class BetweenCellObject {
 
     /**
      * Получить позицию {@link BetweenCellObject#position}.
+     *
      * @return позиция.
      */
     public BetweenCellsPosition getPosition() {
@@ -27,30 +28,35 @@ public abstract class BetweenCellObject {
 
     /**
      * Установить позицию {@link BetweenCellObject#position}.
+     *
      * @param position позиция.
      * @return Удалось ли установить позицию.
      */
     boolean setPosition(@NotNull BetweenCellsPosition position) {
-        if (this.position == null || this.position.equals(position)) {
-            this.position = position;
+        if (this.position != null && this.position.equals(position)) {
             return true;
         }
-        else {
+
+        if (this.position != null) {
             return false;
         }
+
+        this.position = position;
+        return true;
     }
 
     /**
      * Может ли находиться объект в позиции.
+     *
      * @param newPosition проверяемая позиция.
      * @return может ли находиться объект в позиции.
      */
     public boolean canSetAtPosition(@NotNull BetweenCellsPosition newPosition) {
-        boolean result = true;
         Map<Direction, Cell> neighborCells = newPosition.getNeighborCells();
 
         var iterator = neighborCells.entrySet().iterator();
 
+        boolean result = true;
         while (iterator.hasNext() && result) {
             var i = iterator.next();
             BetweenCellObject neighborWall = i.getValue().getNeighborObstacle(i.getKey().getOppositeDirection());
@@ -62,9 +68,16 @@ public abstract class BetweenCellObject {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         BetweenCellObject that = (BetweenCellObject) o;
+
         return Objects.equals(position, that.position);
     }
 

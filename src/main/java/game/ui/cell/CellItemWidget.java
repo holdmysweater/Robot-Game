@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 public abstract class CellItemWidget extends JPanel {
 
     /**
-     * Конструтор.
+     * Конструктор.
      */
     public CellItemWidget() {
         setState(State.DEFAULT);
@@ -41,6 +41,7 @@ public abstract class CellItemWidget extends JPanel {
 
     /**
      * Установить состояние виджета {@link CellItemWidget#cellItemState}
+     *
      * @param state состояние виджета.
      */
     void setState(State state) {
@@ -52,6 +53,7 @@ public abstract class CellItemWidget extends JPanel {
 
     /**
      * Получить состояние виджета {@link CellItemWidget#cellItemState}.
+     *
      * @return состояние виджета.
      */
     public State getState() {
@@ -60,18 +62,21 @@ public abstract class CellItemWidget extends JPanel {
 
     /**
      * Получить изображение виджета.
+     *
      * @return изображение виджета.
      */
     protected abstract BufferedImage getImage();
 
     /**
-     * Получить слой на которм располагается виджет.
+     * Получить слой на котором располагается виджет.
+     *
      * @return слой на котором располагается виджет.
      */
     public abstract Layer getLayer();
 
     /**
      * Получить размеры виджета.
+     *
      * @return размеры виджета.
      */
     protected abstract Dimension getDimension();

@@ -21,6 +21,7 @@ public class Point {
 
     /**
      * Создать координаты.
+     *
      * @param x координата по оси Х.
      * @param y координата по оси Y.
      */
@@ -31,6 +32,7 @@ public class Point {
 
     /**
      * Получить координату X ({@link Point#x}).
+     *
      * @return координата X.
      */
     public int getX() {
@@ -39,6 +41,7 @@ public class Point {
 
     /**
      * Получить координату Y ({@link Point#y}).
+     *
      * @return координата Y.
      */
     public int getY() {
@@ -46,10 +49,11 @@ public class Point {
     }
 
     /**
-     * Получить новую точку с заданным смещением в заданном направлении
-     * @param direction направление
-     * @param delta смещение
-     * @return новая точка с заданным смещением в заданном направлении
+     * Получить новую точку с заданным смещением в заданном направлении.
+     *
+     * @param direction направление.
+     * @param delta     смещение.
+     * @return новая точка с заданным смещением в заданном направлении.
      */
     public Point to(@NotNull Direction direction, int delta) {
         int newX = x;
@@ -75,9 +79,13 @@ public class Point {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Point p = (Point) o;
 

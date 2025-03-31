@@ -42,66 +42,91 @@ public class Battery extends CellObject {
     private Robot user = null;
 
     /**
-     * Батарейка функциональна (не уничтожена) // TODO подумать над формулировкой
+     * Батарейка функциональна (не уничтожена)
      */
     private boolean isFunctional = true;
 
     /**
      * Получить заряд {@link Battery#charge}.
+     *
      * @return заряд.
      */
     public int getCharge() {
-        if (!isFunctional) throw new RuntimeException("Battery is destroyed");
+        if (!isFunctional) {
+            throw new RuntimeException("Battery is destroyed");
+        }
 
         return charge;
     }
 
     /**
      * Получить максимальный заряд {@link Battery#maxCharge}.
+     *
      * @return максимальный заряд.
      */
     public int getMaxCharge() {
-        if (!isFunctional) throw new RuntimeException("Battery is destroyed");
+        if (!isFunctional) {
+            throw new RuntimeException("Battery is destroyed");
+        }
 
         return maxCharge;
     }
 
     /**
      * Отдать заряд.
+     *
      * @param chargeAmount запрашиваемое кол-во заряда.
      * @return отданное кол-во заряда.
      */
     public boolean releaseCharge(int chargeAmount) {
-        if (!isFunctional) throw new RuntimeException("Battery is destroyed");
+        if (!isFunctional) {
+            throw new RuntimeException("Battery is destroyed");
+        }
 
-        if (!isConnectedToUser()) throw new RuntimeException("Not connected to user");
+        if (!isConnectedToUser()) {
+            throw new RuntimeException("Not connected to user");
+        }
 
-        if(chargeAmount > charge) return false;
+        if (chargeAmount > charge) {
+            return false;
+        }
+
         charge -= chargeAmount;
+
         return true;
     }
 
     /**
      * Подключение к потребителю.
+     *
      * @return подключена ли батарейка к потребителю.
      */
     public boolean isConnectedToUser() {
-        if (!isFunctional) throw new RuntimeException("Battery is destroyed");
+        if (!isFunctional) {
+            throw new RuntimeException("Battery is destroyed");
+        }
 
         return user != null;
     }
 
     /**
      * Подключить к пользователю.
+     *
      * @param user пользователь.
      * @return успешность подключения.
      */
     public boolean connect(Robot user) {
-        if (!isFunctional) throw new RuntimeException("Battery is destroyed");
+        if (!isFunctional) {
+            throw new RuntimeException("Battery is destroyed");
+        }
 
-        if (user == this.user) return true;
+        if (user == this.user) {
+            return true;
+        }
 
-        if (isConnectedToUser()) return false;
+        if (isConnectedToUser()) {
+            return false;
+        }
 
         this.user = user;
 
@@ -114,17 +139,22 @@ public class Battery extends CellObject {
 
     /**
      * Отключить от пользователя.
+     *
      * @return успешность отключения
      */
     public boolean disconnect() {
-        if (!isFunctional) throw new RuntimeException("Battery is destroyed");
+        if (!isFunctional) {
+            throw new RuntimeException("Battery is destroyed");
+        }
 
-        if (!isConnectedToUser()) return true;
+        if (!isConnectedToUser()) {
+            return true;
+        }
 
-        Robot user = this.user;
-        this.user = null;
+        Robot oldUser = user;
+        user = null;
 
-        if (!user.unsetBattery()) {
+        if (!oldUser.unsetBattery()) {
             throw new RuntimeException("Can't disconnect from user");
         }
 
@@ -142,20 +172,31 @@ public class Battery extends CellObject {
 
     @Override
     public boolean canLocateAtPosition(@NotNull Cell cell) {
-        if (!isFunctional) throw new RuntimeException("Battery is destroyed");
+        if (!isFunctional) {
+            throw new RuntimeException("Battery is destroyed");
+        }
 
         if (!(cell instanceof NormalCell)) {
             return false;
         }
 
-        return ((NormalCell) cell).getSmallObject() == null;
+        Battery smallObjectInCell = ((NormalCell) cell).getSmallObject();
+
+        return smallObjectInCell == null;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Battery battery = (Battery) o;
+
         return Objects.equals(charge, battery.charge);
     }
 

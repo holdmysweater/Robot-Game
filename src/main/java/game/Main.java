@@ -69,8 +69,8 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int result = JOptionPane.showConfirmDialog(GamePanel.this,
-                        "Начать новую игру?", "Новая игра",JOptionPane.YES_NO_OPTION);
-                if(result == JOptionPane.YES_OPTION) startGame();
+                        "Начать новую игру?", "Новая игра", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) startGame();
             }
         }
 
@@ -101,7 +101,7 @@ public class Main {
             @Override
             public void gameStatusChanged(@NotNull GameActionEvent event) {
                 GameStatus status = event.getStatus();
-                if(status != GameStatus.GAME_IS_ON) {
+                if (status != GameStatus.GAME_IS_ON) {
                     String message = "";
                     switch (status) {
                         case WIN:
@@ -110,7 +110,7 @@ public class Main {
                             );
                             break;
                         case GAME_ABORTED:
-                            message= "Игра завершена досрочно";
+                            message = "Игра завершена досрочно";
                             break;
                         case LOSS:
                             message = "Робот имеет нулевой заряд";
@@ -118,7 +118,7 @@ public class Main {
                     }
                     String[] options = {"ok"};
                     int value = JOptionPane.showOptionDialog(GamePanel.this, message, "Игра окончена", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-                    if(value == 0 || value == 1) {
+                    if (value == 0 || value == 1) {
                         startGame();
                         GamePanel.this.repaint();
                     }

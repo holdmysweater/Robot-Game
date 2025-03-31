@@ -12,6 +12,7 @@ public interface ExitCellActionListener extends EventListener {
 
     /**
      * Робот телепортировался.
+     *
      * @param event объект события класса ячейки выхода.
      */
     void robotIsTeleported(@NotNull ExitCellActionEvent event);

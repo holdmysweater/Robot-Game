@@ -12,18 +12,21 @@ public interface RobotActionListener extends EventListener {
 
     /**
      * Робот переместился.
+     *
      * @param event объект события класса робот.
      */
     void robotIsMoved(@NotNull RobotActionEvent event);
 
     /**
-     * Состояние активности робота {@link Robot#isUnfrozen()} изменилось.
+     * Состояние заморозки робота {@link Robot#isUnfrozen()} изменилось.
+     *
      * @param event объект события класса робот.
      */
     void robotUnfrozenChanged(@NotNull RobotActionEvent event);
 
     /**
      * Робот заменил источник питания.
+     *
      * @param event объект события класса робот.
      */
     void robotChangedBattery(@NotNull RobotActionEvent event);

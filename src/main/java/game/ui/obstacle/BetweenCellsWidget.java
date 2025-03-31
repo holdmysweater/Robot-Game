@@ -17,6 +17,7 @@ public class BetweenCellsWidget extends JPanel {
 
     /**
      * Конструктор.
+     *
      * @param orientation ориентация.
      */
     public BetweenCellsWidget(@NotNull Orientation orientation) {
@@ -28,15 +29,17 @@ public class BetweenCellsWidget extends JPanel {
 
     /**
      * Установить элемент.
+     *
      * @param blockWidget элемент.
      * @throws IllegalArgumentException если ориентация объекта не совпадает с ориентацией контейнера.
      */
     public void setItem(@NotNull ObstacleWidget blockWidget) {
-        if(blockWidget.getOrientation() != orientation) throw new IllegalArgumentException();
+        if (blockWidget.getOrientation() != orientation) throw new IllegalArgumentException();
     }
 
     /**
      * Получить размеры виджета по ориентации {@link BetweenCellsWidget#orientation}
+     *
      * @return размеры.
      */
     private Dimension getDimensionByOrientation() {

@@ -18,6 +18,7 @@ public class FieldActionEvent extends EventObject {
 
     /**
      * Установить робота {@link FieldActionEvent#robot}.
+     *
      * @param robot робот.
      */
     public void setRobot(@NotNull Robot robot) {
@@ -26,6 +27,7 @@ public class FieldActionEvent extends EventObject {
 
     /**
      * Получить робота {@link FieldActionEvent#robot}.
+     *
      * @return робот
      */
     public Robot getRobot() {
@@ -39,6 +41,7 @@ public class FieldActionEvent extends EventObject {
 
     /**
      * Получить ячейку выхода {@link FieldActionEvent#teleport}.
+     *
      * @return ячейка выхода.
      */
     public Cell getTeleport() {
@@ -47,6 +50,7 @@ public class FieldActionEvent extends EventObject {
 
     /**
      * Установить ячейку выхода {@link FieldActionEvent#teleport}.
+     *
      * @param teleport ячейка выхода.
      */
     public void setTeleport(Cell teleport) {

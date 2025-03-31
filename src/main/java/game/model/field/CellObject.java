@@ -14,6 +14,7 @@ public abstract class CellObject {
 
     /**
      * Получить позицию объекта {@link CellObject#position}.
+     *
      * @return позиция объекта.
      */
     public Cell getPosition() {
@@ -22,18 +23,26 @@ public abstract class CellObject {
 
     /**
      * Установить позицию объекта {@link CellObject#position}.
+     *
      * @param position позиция.
      * @return установлена ли позиция.
      */
     public boolean setPosition(Cell position) {
-        if (position != null && getPosition() != null && getPosition() != position) return false;
-        if (position != null && !canLocateAtPosition(position)) return false;
+        if (position != null && getPosition() != null && getPosition() != position) {
+            return false;
+        }
+
+        if (position != null && !canLocateAtPosition(position)) {
+            return false;
+        }
+
         this.position = position;
         return true;
     }
 
     /**
      * Может ли объект располагаться в указанной позиции.
+     *
      * @param cell позиция.
      * @return может ли объект располагаться в указанной позиции.
      */
