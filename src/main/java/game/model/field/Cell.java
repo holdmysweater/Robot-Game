@@ -90,9 +90,12 @@ public abstract class Cell {
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      */
     void setNeighbor(@NotNull Cell neighborCell, @NotNull Direction direction) {
-        if (neighborCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborCell))
+        if (neighborCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborCell)) {
             throw new IllegalArgumentException();
+        }
+
         neighborCells.put(direction, neighborCell);
+
         if (neighborCell.getNeighborCell(direction.getOppositeDirection()) == null) {
             neighborCell.setNeighbor(this, direction.getOppositeDirection());
         }

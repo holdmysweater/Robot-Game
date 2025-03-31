@@ -63,8 +63,8 @@ public class Game {
      * Прервать игру
      */
     public void abort() {
-        setStatus(GameStatus.GAME_ABORTED);
         robot.setUnfrozen(false);
+        setStatus(GameStatus.GAME_ABORTED);
     }
 
     /**
@@ -104,11 +104,7 @@ public class Game {
     private void updateGameState() {
         GameStatus status = determineOutcomeGame();
         setStatus(status);
-        if(status == GameStatus.GAME_IS_ON) {
-            robot.setUnfrozen(true);
-        } else {
-            robot.setUnfrozen(false);
-        }
+        robot.setUnfrozen(status == GameStatus.GAME_IS_ON);
     }
 
     /**
@@ -125,21 +121,6 @@ public class Game {
             else {
                 result = GameStatus.LOSS;
             }
-        }
-
-        return result;
-    }
-
-    /**
-     * Имеют ли все роботы нулевой заряд.
-     * @param robots список роботов.
-     * @return true - если все роботы имеют нулевой заряд.
-     */
-    private boolean robotsHasLowCharge(@NotNull List<Robot> robots) {
-        boolean result = true;
-
-        for(int i = 0; i < robots.size() && result; ++i) {
-            result = robots.get(i).getCharge() == 0;
         }
 
         return result;
@@ -177,6 +158,7 @@ public class Game {
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
             updateGameState();
+            robot.setUnfrozen(false);
             fireRobotIsTeleported();
         }
     }

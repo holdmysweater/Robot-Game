@@ -34,6 +34,11 @@ public class Robot extends CellObject {
     private boolean isUnfrozen;
 
     /**
+     * Робот телепортирован.
+     */
+    private boolean isTeleported = false;
+
+    /**
      * Констрктор.
      *
      * @param battery внутренний источник питания.
@@ -156,7 +161,15 @@ public class Robot extends CellObject {
      * @return телепортирован ли робот
      */
     public boolean isTeleported() {
-        return position != null && position instanceof ExitCell;
+        return isTeleported;
+    }
+
+    /**
+     * Установить состояние телепортации робота.
+     * @param value телепортирован ли робот
+     */
+    public void setTeleported(boolean value) {
+        isTeleported = value;
     }
 
     /**

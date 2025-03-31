@@ -63,8 +63,6 @@ public class GameTest {
 
         game.getRobot().move(Direction.EAST);
 
-        assertNotEquals(robot, game.getRobot());
-        assertFalse(robot.isUnfrozen());
         assertEquals(expectedEvents, events);
         assertEquals(GameStatus.GAME_IS_ON, game.getStatus());
     }
@@ -87,50 +85,28 @@ public class GameTest {
         game.getRobot().move(Direction.EAST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
-        Robot secondRobot = game.getRobot();
-        game.getRobot().move(Direction.WEST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, secondRobot));
-
         game.getRobot().move(Direction.EAST);
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
 
-        assertNotEquals(robot, game.getRobot());
-        assertEquals(expectedEvents, events);
-        assertFalse(robot.isUnfrozen());
-        assertEquals(GameStatus.GAME_IS_ON, game.getStatus());
-    }
-
-    @Test
-    public void test_allRobotTeleported() {
-        Robot robot = game.getRobot();
-
-        game.getRobot().move(Direction.EAST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
-
-        game.getRobot().move(Direction.EAST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
-
-        expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
-
-        assertNull(game.getRobot());
         assertEquals(expectedEvents, events);
         assertFalse(robot.isUnfrozen());
         assertEquals(GameStatus.WIN, game.getStatus());
     }
 
     @Test
-    public void test_allRobotsHasLowBattery() {
+    public void test_robotHasNoCharge() {
         Robot robot = game.getRobot();
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 5; i++) {
             game.getRobot().move(Direction.EAST);
+            expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
+            game.getRobot().move(Direction.WEST);
             expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
         }
 
-        assertNull(game.getRobot());
-        assertEquals(expectedEvents, events);
+        assertEquals(0,  robot.getCharge());
         assertFalse(robot.isUnfrozen());
         assertEquals(GameStatus.LOSS, game.getStatus());
     }
@@ -147,7 +123,6 @@ public class GameTest {
 
         expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
 
-        assertNull(game.getRobot());
         assertEquals(expectedEvents, events);
         assertFalse(robot.isUnfrozen());
         assertEquals(GameStatus.WIN, game.getStatus());

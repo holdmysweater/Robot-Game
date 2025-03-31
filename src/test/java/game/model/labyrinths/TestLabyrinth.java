@@ -44,11 +44,6 @@ public class TestLabyrinth extends Labyrinth {
                 field.getCell(new Point(0, 2))
         );
 
-//        robotMap.put(
-//                new Robot(new Battery()),
-//                field.getCell(new Point(2, 0))
-//        );
-
         return robotMap;
     }
 

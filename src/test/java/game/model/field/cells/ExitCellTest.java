@@ -47,8 +47,8 @@ public class ExitCellTest {
         int expectedCountEvents = 1;
 
         assertEquals(expectedCountEvents, countEvents);
-        assertEquals(exitCell,robot.getPosition());
         assertEquals(robot, exitCell.getTeleportedRobot());
+        assertTrue(robot.isTeleported());
     }
 
     @Test
@@ -59,8 +59,8 @@ public class ExitCellTest {
 
         assertFalse(exitCell.setBigObject(robot));
         assertEquals(expectedCountEvents, countEvents);
-        assertEquals(exitCell, robot.getPosition());
         assertEquals(robot, exitCell.getTeleportedRobot());
+        assertTrue(robot.isTeleported());
     }
 
     @Test

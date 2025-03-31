@@ -48,6 +48,7 @@ public class ExitCell extends Cell {
      */
     private void teleportRobot() {
         teleportedRobot = takeBigObject();
+        teleportedRobot.setTeleported(true);
         fireRobotIsTeleported();
     }
 
