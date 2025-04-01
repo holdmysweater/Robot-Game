@@ -197,12 +197,9 @@ public class Battery extends CellObject {
 
         Battery battery = (Battery) o;
 
-        return Objects.equals(charge, battery.charge);
-    }
+        if (position == null || battery.position == null) return false;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(charge);
+        return Objects.equals(charge, battery.charge);
     }
 
     @Override
