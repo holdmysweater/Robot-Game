@@ -44,12 +44,12 @@ public class BetweenCellsPosition {
      * @param direction направление.
      */
     public BetweenCellsPosition(@NotNull Cell cell, @NotNull Direction direction) {
-        neighborCells.put(direction.getOppositeDirection(), cell);
+        neighborCells.put(direction, cell);
 
         Cell neighborCell = cell.getNeighborCell(direction);
 
         if (neighborCell != null) {
-            neighborCells.put(direction, neighborCell);
+            neighborCells.put(direction.getOppositeDirection(), neighborCell);
         }
     }
 

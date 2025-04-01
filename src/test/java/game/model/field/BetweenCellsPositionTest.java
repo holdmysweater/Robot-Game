@@ -24,7 +24,7 @@ class BetweenCellsPositionTest {
     public void test_createAndGetNeighborCells_withCellAndDirectionOnSingleCell() {
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, direction);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(direction.getOppositeDirection()));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(direction));
     }
 
     @Test
@@ -32,8 +32,8 @@ class BetweenCellsPositionTest {
         cell.setNeighbor(neighborCell, direction);
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, direction);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(direction.getOppositeDirection()));
-        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(direction));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(direction));
+        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(direction.getOppositeDirection()));
     }
 
     @Test
@@ -50,7 +50,7 @@ class BetweenCellsPositionTest {
         Direction north = Direction.NORTH;
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, north);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(north.getOppositeDirection()));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(north));
     }
 
     @Test
@@ -58,7 +58,7 @@ class BetweenCellsPositionTest {
         Direction south = Direction.SOUTH;
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, south);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(south.getOppositeDirection()));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(south));
     }
 
     @Test
@@ -66,7 +66,7 @@ class BetweenCellsPositionTest {
         Direction east = Direction.EAST;
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, east);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(east.getOppositeDirection()));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(east));
     }
 
     @Test
@@ -74,7 +74,7 @@ class BetweenCellsPositionTest {
         Direction west = Direction.WEST;
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, west);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(west.getOppositeDirection()));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(west));
     }
 
     @Test
@@ -123,8 +123,8 @@ class BetweenCellsPositionTest {
         cell.setNeighbor(neighborCell, north);
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, north);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(north.getOppositeDirection()));
-        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(north));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(north));
+        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(north.getOppositeDirection()));
     }
 
     @Test
@@ -133,8 +133,8 @@ class BetweenCellsPositionTest {
         cell.setNeighbor(neighborCell, south);
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, south);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(south.getOppositeDirection()));
-        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(south));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(south));
+        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(south.getOppositeDirection()));
     }
 
     @Test
@@ -143,8 +143,8 @@ class BetweenCellsPositionTest {
         cell.setNeighbor(neighborCell, east);
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, east);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(east.getOppositeDirection()));
-        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(east));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(east));
+        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(east.getOppositeDirection()));
     }
 
     @Test
@@ -153,7 +153,7 @@ class BetweenCellsPositionTest {
         cell.setNeighbor(neighborCell, west);
         BetweenCellsPosition betweenCellsPosition = new BetweenCellsPosition(cell, west);
 
-        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(west.getOppositeDirection()));
-        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(west));
+        assertEquals(cell, betweenCellsPosition.getNeighborCells().get(west));
+        assertEquals(neighborCell, betweenCellsPosition.getNeighborCells().get(west.getOppositeDirection()));
     }
 }
