@@ -21,6 +21,8 @@ public class WallSegment extends BetweenCellObject {
 
         WallSegment wallSegment = (WallSegment) o;
 
+        if (position == null || wallSegment.position == null) return false;
+
         return Objects.equals(position, wallSegment.position);
     }
 

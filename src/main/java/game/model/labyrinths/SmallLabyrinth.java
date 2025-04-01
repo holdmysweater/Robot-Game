@@ -53,7 +53,7 @@ public class SmallLabyrinth extends Labyrinth {
     protected Map<WallSegment, BetweenCellsPosition> createWalls(@NotNull Field field) {
         Map<WallSegment, BetweenCellsPosition> map = new HashMap<>();
 
-        map.put( // TODO walls aren't being placed properly
+        map.put(
                 new WallSegment(),
                 new BetweenCellsPosition(field.getCell(new Point(2, 0)), Direction.SOUTH)
         );
