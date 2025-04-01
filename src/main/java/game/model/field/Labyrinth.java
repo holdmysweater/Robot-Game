@@ -51,7 +51,7 @@ public abstract class Labyrinth {
     protected abstract Point exitPoint();
 
     /**
-     * Добавить роботов на поле.
+     * Заселить поле.
      *
      * @param field поле.
      */
