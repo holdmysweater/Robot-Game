@@ -30,11 +30,12 @@ public class BetweenCellsWidget extends JPanel {
     /**
      * Установить элемент.
      *
-     * @param blockWidget элемент.
+     * @param obstacleWidget элемент.
      * @throws IllegalArgumentException если ориентация объекта не совпадает с ориентацией контейнера.
      */
-    public void setItem(@NotNull ObstacleWidget blockWidget) {
-        if (blockWidget.getOrientation() != orientation) throw new IllegalArgumentException();
+    public void setItem(@NotNull ObstacleWidget obstacleWidget) {
+        if (obstacleWidget.getOrientation() != orientation) throw new IllegalArgumentException();
+        add(obstacleWidget);
     }
 
     /**
