@@ -21,6 +21,6 @@ public class WallWidget extends ObstacleWidget {
 
     @Override
     protected File getImageFile() {
-        return (orientation == Orientation.VERTICAL) ? new File(ImageUtils.IMAGE_PATH + "WV.png") : new File(ImageUtils.IMAGE_PATH + "WH.png");
+        return (orientation == Orientation.VERTICAL) ? new File(ImageUtils.IMAGE_PATH + "wall_vertical.png") : new File(ImageUtils.IMAGE_PATH + "wall_horizontal.png");
     }
 }

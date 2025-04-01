@@ -24,7 +24,7 @@ public class BetweenCellsWidget extends JPanel {
         super(new BorderLayout());
         this.orientation = orientation;
         setPreferredSize(getDimensionByOrientation());
-        setBackground(Color.BLACK);
+        setBackground(Color.darkGray);
     }
 
     /**
