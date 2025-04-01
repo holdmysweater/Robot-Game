@@ -86,9 +86,9 @@ public class GameTest {
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         game.getRobot().move(Direction.EAST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
-
         expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
+
+        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         assertEquals(expectedEvents, events);
         assertFalse(robot.isUnfrozen());
@@ -119,9 +119,9 @@ public class GameTest {
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         game.getRobot().move(Direction.EAST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
-
         expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
+
+        expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         assertEquals(expectedEvents, events);
         assertFalse(robot.isUnfrozen());

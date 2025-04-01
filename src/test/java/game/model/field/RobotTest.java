@@ -210,5 +210,20 @@ class RobotTest {
         assertEquals(robotBattery.getCharge(), robot.getCharge());
         assertTrue(events.isEmpty());
     }
+
+    @Test
+    public void test_robotIsCapable_zeroChargeAndCellWithBattery() {
+        NormalCell cell = new NormalCell();
+        cell.setBigObject(robot);
+
+        Battery robotBattery = new Battery(0);
+        robot.unsetBattery();
+        robot.setBattery(robotBattery);
+
+        Battery cellBattery = new Battery();
+        cell.setSmallObject(cellBattery);
+
+        assertTrue(robot.isCapable());
+    }
 }
 

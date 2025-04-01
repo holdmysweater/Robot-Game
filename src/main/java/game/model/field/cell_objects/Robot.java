@@ -73,10 +73,13 @@ public class Robot extends CellObject {
         position = null;
 
         oldPosition.takeBigObject();
+        if (!newPosition.setBigObject(this)) {
+            throw new RuntimeException("Robot can't move to the " + newPosition);
+        }
 
         fireRobotIsMoved(oldPosition, newPosition);
 
-        return newPosition.setBigObject(this);
+        return true;
     }
 
     @Override
@@ -150,6 +153,12 @@ public class Robot extends CellObject {
      * @return дееспособен ли робот
      */
     public boolean isCapable() {
+        if (getPosition() instanceof NormalCell) {
+            NormalCell cell = (NormalCell) getPosition();
+            if (cell.getSmallObject() != null) {
+                return true;
+            }
+        }
         return !isTeleported() && getCharge() > 0;
     }
 
