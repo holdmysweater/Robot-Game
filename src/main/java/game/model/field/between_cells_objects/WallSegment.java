@@ -21,13 +21,13 @@ public class WallSegment extends BetweenCellObject {
 
         WallSegment wallSegment = (WallSegment) o;
 
-        if (position == null || wallSegment.position == null) return false;
+        if (getPosition() == null || wallSegment.getPosition() == null) return false;
 
-        return Objects.equals(position, wallSegment.position);
+        return Objects.equals(getPosition(), wallSegment.getPosition());
     }
 
     @Override
     public String toString() {
-        return "Wall{" + "position=" + position + '}';
+        return "Wall{" + "position=" + getPosition() + '}';
     }
 }

@@ -52,12 +52,12 @@ public class Robot extends CellObject {
             return false;
         }
 
-        if (position.getNeighborObstacle(direction) != null) {
+        if (getPosition().getNeighborObstacle(direction) != null) {
             System.out.println("Wall");
             return false;
         }
 
-        AbstractCell newPosition = position.getNeighborCell(direction);
+        AbstractCell newPosition = getPosition().getNeighborCell(direction);
 
         if (newPosition == null || !newPosition.canTakeBigObject()) {
             return false;
@@ -69,8 +69,8 @@ public class Robot extends CellObject {
             return false;
         }
 
-        AbstractCell oldPosition = position;
-        position = null;
+        AbstractCell oldPosition = getPosition();
+        setPosition(null);
 
         oldPosition.takeBigObject();
         if (!newPosition.setBigObject(this)) {
@@ -101,11 +101,11 @@ public class Robot extends CellObject {
             return false;
         }
 
-        if (position instanceof ExitCell) {
+        if (getPosition() instanceof ExitCell) {
             return false;
         }
 
-        Battery battery = ((NormalCell) position).takeSmallObject();
+        Battery battery = ((NormalCell) getPosition()).takeSmallObject();
 
         if (battery == null) {
             return false;

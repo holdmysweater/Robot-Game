@@ -202,7 +202,7 @@ public class Battery extends CellObject {
 
         Battery battery = (Battery) o;
 
-        if (position == null || battery.position == null) return false;
+        if (getPosition() == null || battery.getPosition() == null) return false;
 
         return Objects.equals(charge, battery.charge);
     }
