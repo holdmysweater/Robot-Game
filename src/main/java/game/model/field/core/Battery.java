@@ -48,7 +48,7 @@ public class Battery extends CellObject {
      * @return подключена ли батарейка к потребителю.
      */
     public boolean isUsed() {
-        if (!isDestroy) {
+        if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
@@ -63,7 +63,7 @@ public class Battery extends CellObject {
      */
     public boolean connectTo(Robot user) {
         //TODO Проверки
-        if (!isDestroy) {
+        if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
@@ -91,7 +91,7 @@ public class Battery extends CellObject {
      */
     public boolean disconnect() {
         //TODO Проверки
-        if (!isDestroy) {
+        if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
@@ -128,7 +128,7 @@ public class Battery extends CellObject {
      * @return заряд.
      */
     public int getCharge() {
-        if (!isDestroy) {
+        if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
@@ -141,7 +141,7 @@ public class Battery extends CellObject {
      * @return емкость.
      */
     public int getCapacity() {
-        if (!isDestroy) {
+        if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
@@ -156,7 +156,7 @@ public class Battery extends CellObject {
      */
     public boolean releaseCharge(int chargeAmount) {
         //TODO Название операции
-        if (!isDestroy) {
+        if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
@@ -177,7 +177,7 @@ public class Battery extends CellObject {
     @Override
     public boolean canLocateAtPosition(@NotNull AbstractCell cell) {
         //TODO Уровень доступа
-        if (!isDestroy) {
+        if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
