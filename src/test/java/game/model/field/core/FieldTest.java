@@ -1,17 +1,11 @@
-package game.model.field;
+package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.Direction;
-import game.model.Point;
 import game.model.events.FieldActionEvent;
 import game.model.events.FieldActionListener;
-import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.Battery;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,20 +32,20 @@ public class FieldTest {
 
     @Test
     public void test_create_withCorrectParams() {
-        Cell cell_0_0 = field.getCell(new Point(0, 0));
-        Cell cell_0_1 = field.getCell(new Point(1, 0));
-        Cell cell_1_0 = field.getCell(new Point(0, 1));
-        Cell cell_1_1 = field.getCell(new Point(1, 1));
+        AbstractCell abstractCell_0_0 = field.getCell(new Point(0, 0));
+        AbstractCell abstractCell_0_1 = field.getCell(new Point(1, 0));
+        AbstractCell abstractCell_1_0 = field.getCell(new Point(0, 1));
+        AbstractCell abstractCell_1_1 = field.getCell(new Point(1, 1));
 
-        Assertions.assertEquals(Direction.SOUTH, cell_0_0.getNeighborDirection(cell_1_0));
-        assertEquals(Direction.SOUTH, cell_0_1.getNeighborDirection(cell_1_1));
-        assertEquals(Direction.NORTH, cell_1_1.getNeighborDirection(cell_0_1));
-        assertEquals(Direction.NORTH, cell_1_0.getNeighborDirection(cell_0_0));
-        assertEquals(Direction.EAST, cell_0_0.getNeighborDirection(cell_0_1));
-        assertEquals(Direction.EAST, cell_1_0.getNeighborDirection(cell_1_1));
-        assertEquals(Direction.WEST, cell_0_1.getNeighborDirection(cell_0_0));
-        assertEquals(Direction.WEST, cell_1_1.getNeighborDirection(cell_1_0));
-        assertTrue(cell_1_1 instanceof ExitCell);
+        Assertions.assertEquals(Direction.SOUTH, abstractCell_0_0.getNeighborDirection(abstractCell_1_0));
+        assertEquals(Direction.SOUTH, abstractCell_0_1.getNeighborDirection(abstractCell_1_1));
+        assertEquals(Direction.NORTH, abstractCell_1_1.getNeighborDirection(abstractCell_0_1));
+        assertEquals(Direction.NORTH, abstractCell_1_0.getNeighborDirection(abstractCell_0_0));
+        assertEquals(Direction.EAST, abstractCell_0_0.getNeighborDirection(abstractCell_0_1));
+        assertEquals(Direction.EAST, abstractCell_1_0.getNeighborDirection(abstractCell_1_1));
+        assertEquals(Direction.WEST, abstractCell_0_1.getNeighborDirection(abstractCell_0_0));
+        assertEquals(Direction.WEST, abstractCell_1_1.getNeighborDirection(abstractCell_1_0));
+        assertTrue(abstractCell_1_1 instanceof ExitCell);
     }
 
     @Test

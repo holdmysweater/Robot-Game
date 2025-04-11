@@ -1,8 +1,6 @@
-package game.model.field.between_cells_objects;
+package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
-import game.model.Direction;
-import game.model.field.Cell;
 
 import java.util.Collections;
 import java.util.EnumMap;
@@ -10,46 +8,46 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Класс позиции между ячейками {@link Cell}
+ * Класс позиции между ячейками {@link AbstractCell}
  */
 public class BetweenCellsPosition {
 
     /**
      * Соседние ячейки.
      */
-    private final Map<Direction, Cell> neighborCells = new EnumMap<>(Direction.class);
+    private final Map<Direction, AbstractCell> neighborCells = new EnumMap<>(Direction.class);
 
     /**
      * Конструктор класса позиции между ячейками.
      *
-     * @param cell         ячейка.
-     * @param neighborCell соседняя ячейка.
+     * @param abstractCell         ячейка.
+     * @param neighborAbstractCell соседняя ячейка.
      * @throws IllegalArgumentException если ячейки не являются соседними.
      */
-    public BetweenCellsPosition(@NotNull Cell cell, @NotNull Cell neighborCell) {
-        Direction neighborDirection = cell.getNeighborDirection(neighborCell);
+    public BetweenCellsPosition(@NotNull AbstractCell abstractCell, @NotNull AbstractCell neighborAbstractCell) {
+        Direction neighborDirection = abstractCell.getNeighborDirection(neighborAbstractCell);
 
         if (neighborDirection == null) {
             throw new IllegalArgumentException();
         }
 
-        neighborCells.put(neighborDirection, neighborCell);
-        neighborCells.put(neighborDirection.getOppositeDirection(), cell);
+        neighborCells.put(neighborDirection, neighborAbstractCell);
+        neighborCells.put(neighborDirection.getOppositeDirection(), abstractCell);
     }
 
     /**
      * Конструктор класса позиции между ячейками.
      *
-     * @param cell      ячейка.
+     * @param abstractCell      ячейка.
      * @param direction направление.
      */
-    public BetweenCellsPosition(@NotNull Cell cell, @NotNull Direction direction) {
-        neighborCells.put(direction, cell);
+    public BetweenCellsPosition(@NotNull AbstractCell abstractCell, @NotNull Direction direction) {
+        neighborCells.put(direction, abstractCell);
 
-        Cell neighborCell = cell.getNeighborCell(direction);
+        AbstractCell neighborAbstractCell = abstractCell.getNeighborCell(direction);
 
-        if (neighborCell != null) {
-            neighborCells.put(direction.getOppositeDirection(), neighborCell);
+        if (neighborAbstractCell != null) {
+            neighborCells.put(direction.getOppositeDirection(), neighborAbstractCell);
         }
     }
 
@@ -58,7 +56,7 @@ public class BetweenCellsPosition {
      *
      * @return соседние ячейки.
      */
-    public Map<Direction, Cell> getNeighborCells() {
+    public Map<Direction, AbstractCell> getNeighborCells() {
         return Collections.unmodifiableMap(neighborCells);
     }
 

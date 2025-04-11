@@ -1,12 +1,9 @@
-package game.model.field;
+package game.model.labyrinths;
 
-import game.model.Direction;
-import game.model.field.between_cells_objects.BetweenCellsPosition;
+import game.model.field.core.*;
+import game.model.field.core.NormalCell;
 import game.model.field.between_cells_objects.WallSegment;
-import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.Battery;
 import org.jetbrains.annotations.NotNull;
-import game.model.Point;
 
 import java.util.Map;
 
@@ -71,9 +68,9 @@ public abstract class Labyrinth {
 
         for (WallSegment wall : walls.keySet()) {
             Direction direction = walls.get(wall).getNeighborCells().keySet().iterator().next();
-            Cell cell = walls.get(wall).getNeighborCells().get(direction);
+            AbstractCell abstractCell = walls.get(wall).getNeighborCells().get(direction);
 
-            if (!cell.setBetweenCellObject(wall, direction)) {
+            if (!abstractCell.setBetweenCellObject(wall, direction)) {
                 throw new RuntimeException("Wall segment " + wall + " not set");
             }
         }
@@ -85,7 +82,7 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     protected void populateRobot(@NotNull Field field) {
-        Map<Robot, Cell> robot = createRobot(field);
+        Map<Robot, AbstractCell> robot = createRobot(field);
 
         if (robot.keySet().size() != 1) {
             throw new RuntimeException("Only one robot can exist");
@@ -104,7 +101,7 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     protected void populateBatteries(@NotNull Field field) {
-        Map<Battery, Cell> batteries = createBatteries(field);
+        Map<Battery, AbstractCell> batteries = createBatteries(field);
 
         for (Battery b : batteries.keySet()) {
             if (!((NormalCell) batteries.get(b)).setSmallObject(b)) {
@@ -125,12 +122,12 @@ public abstract class Labyrinth {
      *
      * @param field поле.
      */
-    protected abstract Map<Robot, Cell> createRobot(@NotNull Field field);
+    protected abstract Map<Robot, AbstractCell> createRobot(@NotNull Field field);
 
     /**
      * Добавить источники питания на поле.
      *
      * @param field поле.
      */
-    protected abstract Map<Battery, Cell> createBatteries(@NotNull Field field);
+    protected abstract Map<Battery, AbstractCell> createBatteries(@NotNull Field field);
 }

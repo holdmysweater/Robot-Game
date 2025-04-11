@@ -1,6 +1,6 @@
 package game.model.events;
 
-import game.model.field.ExitCell;
+import game.model.field.core.ExitCell;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EventListener;

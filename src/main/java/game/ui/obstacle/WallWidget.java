@@ -1,6 +1,6 @@
 package game.ui.obstacle;
 
-import game.model.Orientation;
+import game.model.field.core.Orientation;
 import game.ui.utils.ImageUtils;
 
 import java.io.File;

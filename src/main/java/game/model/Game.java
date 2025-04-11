@@ -1,11 +1,11 @@
 package game.model;
 
+import game.model.field.core.ExitCell;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.*;
-import game.model.field.ExitCell;
-import game.model.field.Field;
-import game.model.field.cell_objects.Robot;
-import game.model.field.Labyrinth;
+import game.model.field.core.Field;
+import game.model.field.core.Robot;
+import game.model.labyrinths.Labyrinth;
 
 import java.util.ArrayList;
 

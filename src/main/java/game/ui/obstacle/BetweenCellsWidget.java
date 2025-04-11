@@ -1,7 +1,7 @@
 package game.ui.obstacle;
 
 import org.jetbrains.annotations.NotNull;
-import game.model.Orientation;
+import game.model.field.core.Orientation;
 
 import javax.swing.*;
 import java.awt.*;

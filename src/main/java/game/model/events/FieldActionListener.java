@@ -1,11 +1,12 @@
 package game.model.events;
 
+import game.model.field.core.Field;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EventListener;
 
 /**
- * Интерфейс слушателя события класса поля {@link game.model.field.Field}.
+ * Интерфейс слушателя события класса поля {@link Field}.
  */
 public interface FieldActionListener extends EventListener {
 

@@ -1,13 +1,14 @@
 package game.model.events;
 
+import game.model.field.core.AbstractCell;
+import game.model.field.core.Field;
 import org.jetbrains.annotations.NotNull;
-import game.model.field.Cell;
-import game.model.field.cell_objects.Robot;
+import game.model.field.core.Robot;
 
 import java.util.EventObject;
 
 /**
- * Объект события класса поля {@link game.model.field.Field}.
+ * Объект события класса поля {@link Field}.
  */
 public class FieldActionEvent extends EventObject {
 
@@ -37,14 +38,14 @@ public class FieldActionEvent extends EventObject {
     /**
      * Ячейка выхода.
      */
-    private Cell teleport;
+    private AbstractCell teleport;
 
     /**
      * Получить ячейку выхода {@link FieldActionEvent#teleport}.
      *
      * @return ячейка выхода.
      */
-    public Cell getTeleport() {
+    public AbstractCell getTeleport() {
         return teleport;
     }
 
@@ -53,7 +54,7 @@ public class FieldActionEvent extends EventObject {
      *
      * @param teleport ячейка выхода.
      */
-    public void setTeleport(Cell teleport) {
+    public void setTeleport(AbstractCell teleport) {
         this.teleport = teleport;
     }
 

@@ -1,9 +1,6 @@
-package game.model.field.cell_objects;
+package game.model.field.core;
 
-import game.model.field.CellObject;
-import game.model.field.NormalCell;
 import org.jetbrains.annotations.NotNull;
-import game.model.field.Cell;
 
 import java.util.Objects;
 
@@ -171,16 +168,16 @@ public class Battery extends CellObject {
     }
 
     @Override
-    public boolean canLocateAtPosition(@NotNull Cell cell) {
+    public boolean canLocateAtPosition(@NotNull AbstractCell abstractCell) {
         if (!isFunctional) {
             throw new RuntimeException("Battery is destroyed");
         }
 
-        if (!(cell instanceof NormalCell)) {
+        if (!(abstractCell instanceof NormalCell)) {
             return false;
         }
 
-        Battery smallObjectInCell = ((NormalCell) cell).getSmallObject();
+        Battery smallObjectInCell = ((NormalCell) abstractCell).getSmallObject();
 
         return smallObjectInCell == null;
     }

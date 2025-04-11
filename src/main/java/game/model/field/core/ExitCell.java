@@ -1,9 +1,8 @@
-package game.model.field;
+package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
 import game.model.events.ExitCellActionEvent;
 import game.model.events.ExitCellActionListener;
-import game.model.field.cell_objects.Robot;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -11,7 +10,7 @@ import java.util.Objects;
 /**
  * Ячейка точки выхода.
  */
-public class ExitCell extends Cell {
+public class ExitCell extends AbstractCell {
 
     /*---------- ТЕЛЕПОРТАЦИЯ----------*/
     /**

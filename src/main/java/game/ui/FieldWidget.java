@@ -1,15 +1,12 @@
 package game.ui;
 
+import game.model.field.core.*;
 import org.jetbrains.annotations.NotNull;
-import game.model.*;
 import game.model.events.FieldActionEvent;
 import game.model.events.FieldActionListener;
 import game.model.events.RobotActionEvent;
 import game.model.events.RobotActionListener;
-import game.model.field.BetweenCellObject;
-import game.model.field.Cell;
-import game.model.field.Field;
-import game.model.field.cell_objects.Robot;
+import game.model.field.core.Field;
 import game.ui.obstacle.BetweenCellsWidget;
 import game.ui.obstacle.ObstacleWidget;
 import game.ui.cell.*;
@@ -50,12 +47,12 @@ public class FieldWidget extends JPanel {
 
         for(int i = 0; i < field.getWidth(); ++i) {
             Point point = new Point(i, rowIndex);
-            Cell cell = field.getCell(point);
-            CellWidget cellWidget = widgetFactory.create(cell);
+            AbstractCell abstractCell = field.getCell(point);
+            CellWidget cellWidget = widgetFactory.create(abstractCell);
 
             if(i == 0)  {
                 BetweenCellsWidget westCellWidget = new BetweenCellsWidget(Orientation.VERTICAL);
-                BetweenCellObject wallSegment = cell.getNeighborObstacle(Direction.WEST);
+                BetweenCellObject wallSegment = abstractCell.getNeighborObstacle(Direction.WEST);
                 if( wallSegment != null) {
                     ObstacleWidget wallWidget = widgetFactory.create(wallSegment, Orientation.VERTICAL);
                     westCellWidget.setItem(wallWidget);
@@ -66,7 +63,7 @@ public class FieldWidget extends JPanel {
             row.add(cellWidget);
 
             BetweenCellsWidget eastCellWidget = new BetweenCellsWidget(Orientation.VERTICAL);
-            BetweenCellObject eastWallSegment = cell.getNeighborObstacle(Direction.EAST);
+            BetweenCellObject eastWallSegment = abstractCell.getNeighborObstacle(Direction.EAST);
             if(eastWallSegment != null) {
                 ObstacleWidget wallWidget = widgetFactory.create(eastWallSegment, Orientation.VERTICAL);
                 eastCellWidget.setItem(wallWidget);
@@ -84,10 +81,10 @@ public class FieldWidget extends JPanel {
 
         for(int i = 0; i < field.getWidth(); ++i) {
             Point point = new Point(i, rowIndex);
-            Cell cell = field.getCell(point);
+            AbstractCell abstractCell = field.getCell(point);
 
             BetweenCellsWidget southCellWidget = new BetweenCellsWidget(Orientation.HORIZONTAL);
-            BetweenCellObject southWallSegment =  cell.getNeighborObstacle(direction);
+            BetweenCellObject southWallSegment =  abstractCell.getNeighborObstacle(direction);
 
             if(southWallSegment != null) {
                 ObstacleWidget wallWidget = widgetFactory.create(southWallSegment, Orientation.HORIZONTAL);
@@ -138,7 +135,7 @@ public class FieldWidget extends JPanel {
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
             Robot robot = event.getRobot();
-            Cell teleport = event.getTeleport();
+            AbstractCell teleport = event.getTeleport();
             CellWidget teleportWidget = widgetFactory.getWidget(teleport);
             CellItemWidget robotWidget = widgetFactory.getWidget(robot);
             teleportWidget.removeItem(robotWidget);

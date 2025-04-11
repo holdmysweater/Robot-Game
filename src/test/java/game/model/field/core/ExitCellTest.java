@@ -1,15 +1,10 @@
-package game.model.field.cells;
+package game.model.field.core;
 
-import game.model.field.ExitCell;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.model.events.ExitCellActionEvent;
 import game.model.events.ExitCellActionListener;
-import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.Battery;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 

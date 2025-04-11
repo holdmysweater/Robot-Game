@@ -1,4 +1,4 @@
-package game.model.field;
+package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -10,14 +10,14 @@ public abstract class CellObject {
     /**
      * Позиция объекта.
      */
-    protected Cell position;
+    protected AbstractCell position;
 
     /**
      * Получить позицию объекта {@link CellObject#position}.
      *
      * @return позиция объекта.
      */
-    public Cell getPosition() {
+    public AbstractCell getPosition() {
         return position;
     }
 
@@ -27,7 +27,7 @@ public abstract class CellObject {
      * @param position позиция.
      * @return установлена ли позиция.
      */
-    public boolean setPosition(Cell position) {
+    public boolean setPosition(AbstractCell position) {
         if (position != null && getPosition() != null && getPosition() != position) {
             return false;
         }
@@ -43,8 +43,8 @@ public abstract class CellObject {
     /**
      * Может ли объект располагаться в указанной позиции.
      *
-     * @param cell позиция.
+     * @param abstractCell позиция.
      * @return может ли объект располагаться в указанной позиции.
      */
-    public abstract boolean canLocateAtPosition(@NotNull Cell cell);
+    public abstract boolean canLocateAtPosition(@NotNull AbstractCell abstractCell);
 }

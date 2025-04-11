@@ -1,7 +1,7 @@
 package game.ui.cell;
 
-import game.model.Direction;
-import game.model.field.cell_objects.Robot;
+import game.model.field.core.Direction;
+import game.model.field.core.Robot;
 import game.ui.cell.CellWidget.Layer;
 import game.ui.utils.GameWidgetsUtils;
 import game.ui.utils.ImageUtils;

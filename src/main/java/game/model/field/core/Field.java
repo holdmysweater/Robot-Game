@@ -1,10 +1,7 @@
-package game.model.field;
+package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
-import game.model.Direction;
-import game.model.Point;
 import game.model.events.*;
-import game.model.field.cell_objects.Robot;
 
 import java.util.*;
 
@@ -16,7 +13,7 @@ public class Field {
     /**
      * Ячейки поля.
      */
-    private final Map<Point, Cell> cells = new HashMap<>();
+    private final Map<Point, AbstractCell> cells = new HashMap<>();
 
     /**
      * Ширина поля.
@@ -71,17 +68,17 @@ public class Field {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 Point p = new Point(x, y);
-                Cell cell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
+                AbstractCell abstractCell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
 
                 if (x > 0) {
-                    cell.setNeighbor(getCell(p.to(Direction.WEST, 1)), Direction.WEST);
+                    abstractCell.setNeighbor(getCell(p.to(Direction.WEST, 1)), Direction.WEST);
                 }
 
                 if (y > 0) {
-                    cell.setNeighbor(getCell(p.to(Direction.NORTH, 1)), Direction.NORTH);
+                    abstractCell.setNeighbor(getCell(p.to(Direction.NORTH, 1)), Direction.NORTH);
                 }
 
-                cells.put(p, cell);
+                cells.put(p, abstractCell);
             }
         }
     }
@@ -110,7 +107,7 @@ public class Field {
      * @param point координата.
      * @return ячейка.
      */
-    public Cell getCell(@NotNull Point point) {
+    public AbstractCell getCell(@NotNull Point point) {
         return cells.get(point);
     }
 
@@ -190,7 +187,7 @@ public class Field {
      *
      * @param teleport телепорт.
      */
-    private void fireRobotIsTeleported(@NotNull Cell teleport) {
+    private void fireRobotIsTeleported(@NotNull AbstractCell teleport) {
         FieldActionEvent event = new FieldActionEvent(this);
         event.setRobot(((ExitCell) teleport).getTeleportedRobot());
         event.setTeleport(teleport);

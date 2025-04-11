@@ -1,15 +1,9 @@
 package game.model.labyrinths;
 
-import game.model.Direction;
-import game.model.field.Cell;
-import game.model.field.Labyrinth;
-import game.model.field.between_cells_objects.BetweenCellsPosition;
+import game.model.field.core.*;
+import game.model.field.core.AbstractCell;
 import org.jetbrains.annotations.NotNull;
-import game.model.Point;
-import game.model.field.Field;
 import game.model.field.between_cells_objects.WallSegment;
-import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.Battery;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,8 +30,8 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<Robot, Cell> createRobot(@NotNull Field field) {
-        Map<Robot, Cell> robotMap = new HashMap<>();
+    protected Map<Robot, AbstractCell> createRobot(@NotNull Field field) {
+        Map<Robot, AbstractCell> robotMap = new HashMap<>();
 
         robotMap.put(
                 new Robot(new Battery()),
@@ -48,8 +42,8 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<Battery, Cell> createBatteries(@NotNull Field field) {
-        Map<Battery, Cell> batteryMap = new HashMap<>();
+    protected Map<Battery, AbstractCell> createBatteries(@NotNull Field field) {
+        Map<Battery, AbstractCell> batteryMap = new HashMap<>();
 
         batteryMap.put(
                 new Battery(),

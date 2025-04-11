@@ -1,13 +1,11 @@
-package game.model.field;
+package game.model.field.core;
 
-import game.model.field.cell_objects.Battery;
-import game.model.field.cell_objects.Robot;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Ячейка выхода.
  */
-public class NormalCell extends Cell {
+public class NormalCell extends AbstractCell {
     /**
      * Маленький объект, расположенный в ячейке.
      */

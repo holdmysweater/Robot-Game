@@ -1,14 +1,12 @@
-package game.model.field;
+package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
-import game.model.Direction;
-import game.model.field.between_cells_objects.BetweenCellsPosition;
 
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * Объект, располагающийся между ячейками {@link Cell}
+ * Объект, располагающийся между ячейками {@link AbstractCell}
  */
 public abstract class BetweenCellObject {
 
@@ -52,7 +50,7 @@ public abstract class BetweenCellObject {
      * @return может ли находиться объект в позиции.
      */
     public boolean canSetAtPosition(@NotNull BetweenCellsPosition newPosition) {
-        Map<Direction, Cell> neighborCells = newPosition.getNeighborCells();
+        Map<Direction, AbstractCell> neighborCells = newPosition.getNeighborCells();
 
         var iterator = neighborCells.entrySet().iterator();
 

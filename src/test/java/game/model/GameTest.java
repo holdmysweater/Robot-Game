@@ -1,11 +1,12 @@
 package game.model;
 
+import game.model.field.core.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.model.events.GameActionEvent;
 import game.model.events.GameActionListener;
-import game.model.field.cell_objects.Robot;
+import game.model.field.core.Robot;
 import game.model.labyrinths.TestLabyrinth;
 import game.utils.Pair;
 

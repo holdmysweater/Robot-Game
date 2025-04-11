@@ -1,12 +1,12 @@
 package game.model.events;
 
 import org.jetbrains.annotations.NotNull;
-import game.model.field.cell_objects.Robot;
+import game.model.field.core.Robot;
 
 import java.util.EventListener;
 
 /**
- * Интерфейс слушателя события класса робот {@link game.model.field.cell_objects.Robot}.
+ * Интерфейс слушателя события класса робот {@link Robot}.
  */
 public interface RobotActionListener extends EventListener {
 

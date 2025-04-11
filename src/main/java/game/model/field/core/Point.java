@@ -1,11 +1,11 @@
-package game.model;
+package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 /**
- * Точка-координата на игровом поле {@link game.model.field.Field}
+ * Точка-координата на игровом поле {@link Field}
  */
 public class Point {
 

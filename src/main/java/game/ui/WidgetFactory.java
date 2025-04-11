@@ -1,11 +1,9 @@
 package game.ui;
 
-import game.model.field.*;
+import game.model.field.core.*;
+import game.model.field.core.Robot;
 import game.ui.obstacle.WallWidget;
 import org.jetbrains.annotations.NotNull;
-import game.model.*;
-import game.model.field.cell_objects.Robot;
-import game.model.field.cell_objects.Battery;
 import game.ui.obstacle.ObstacleWidget;
 import game.ui.cell.*;
 
@@ -15,23 +13,23 @@ import java.util.Map;
 
 public class WidgetFactory {
 
-    private final Map<Cell, CellWidget> cells = new HashMap<>();
+    private final Map<AbstractCell, CellWidget> cells = new HashMap<>();
     private final Map<CellObject, CellItemWidget> cellObjects = new HashMap<>();
     private final Map<BetweenCellObject, ObstacleWidget> betweenCellObjects = new HashMap<>();
 
-    public CellWidget create(@NotNull Cell cell) {
-        if (cells.containsKey(cell)) return cells.get(cell);
+    public CellWidget create(@NotNull AbstractCell abstractCell) {
+        if (cells.containsKey(abstractCell)) return cells.get(abstractCell);
 
-        CellWidget item = (cell instanceof ExitCell) ? new ExitWidget() : new CellWidget();
+        CellWidget item = (abstractCell instanceof ExitCell) ? new ExitWidget() : new CellWidget();
 
-        Robot robot = cell.getBigObject();
+        Robot robot = abstractCell.getBigObject();
         if (robot != null) {
             CellItemWidget robotWidget = create(robot);
             item.addItem(robotWidget);
         }
 
-        if (cell instanceof NormalCell) {
-            Battery battery = ((NormalCell) cell).getSmallObject();
+        if (abstractCell instanceof NormalCell) {
+            Battery battery = ((NormalCell) abstractCell).getSmallObject();
 
             if (battery != null) {
                 CellItemWidget batteryWidget = create(battery);
@@ -40,16 +38,16 @@ public class WidgetFactory {
         }
 
 
-        cells.put(cell, item);
+        cells.put(abstractCell, item);
         return item;
     }
 
-    public CellWidget getWidget(@NotNull Cell cell) {
-        return cells.get(cell);
+    public CellWidget getWidget(@NotNull AbstractCell abstractCell) {
+        return cells.get(abstractCell);
     }
 
-    public void remove(@NotNull Cell cell) {
-        cells.remove(cell);
+    public void remove(@NotNull AbstractCell abstractCell) {
+        cells.remove(abstractCell);
     }
 
     public CellItemWidget create(@NotNull CellObject cellObject) {

@@ -1,6 +1,6 @@
 package game.ui.cell;
 
-import game.model.field.cell_objects.Battery;
+import game.model.field.core.Battery;
 import game.ui.utils.GameWidgetsUtils;
 import game.ui.utils.ImageUtils;
 

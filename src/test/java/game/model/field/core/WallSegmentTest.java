@@ -1,35 +1,32 @@
-package game.model.field;
+package game.model.field.core;
 
-import game.model.Direction;
 import game.model.field.between_cells_objects.WallSegment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Objects;
-
 public class WallSegmentTest {
 
-    private Cell cell1;
-    private Cell neighbourCell1;
+    private AbstractCell abstractCell1;
+    private AbstractCell neighbourAbstractCell1;
     private WallSegment wallSegment1;
 
-    private Cell cell2;
-    private Cell neighbourCell2;
+    private AbstractCell abstractCell2;
+    private AbstractCell neighbourAbstractCell2;
     private WallSegment wallSegment2;
 
     @BeforeEach
     public void testSetup() {
-        cell1 = new CellTestModel();
-        neighbourCell1 = new CellTestModel();
+        abstractCell1 = new AbstractCellTestModel();
+        neighbourAbstractCell1 = new AbstractCellTestModel();
         wallSegment1 = new WallSegment();
-        cell1.setNeighbor(neighbourCell1, Direction.WEST);
+        abstractCell1.setNeighbor(neighbourAbstractCell1, Direction.WEST);
 
 
-        cell2 = new CellTestModel();
-        neighbourCell2 = new CellTestModel();
+        abstractCell2 = new AbstractCellTestModel();
+        neighbourAbstractCell2 = new AbstractCellTestModel();
         wallSegment2 = new WallSegment();
-        cell2.setNeighbor(neighbourCell2, Direction.WEST);
+        abstractCell2.setNeighbor(neighbourAbstractCell2, Direction.WEST);
     }
 
     @Test
@@ -39,8 +36,8 @@ public class WallSegmentTest {
 
     @Test
     public void test_equalsForWallWithDifferentPosition() {
-        cell1.setBetweenCellObject(wallSegment1, Direction.WEST);
-        cell2.setBetweenCellObject(wallSegment2, Direction.WEST);
+        abstractCell1.setBetweenCellObject(wallSegment1, Direction.WEST);
+        abstractCell2.setBetweenCellObject(wallSegment2, Direction.WEST);
         Assertions.assertNotEquals(wallSegment1, wallSegment2);
     }
 
@@ -55,7 +52,7 @@ public class WallSegmentTest {
 
     @Test
     public void test_equalsForWallWithPositionAndWallWithoutPosition() {
-        cell1.setBetweenCellObject(wallSegment1, Direction.WEST);
+        abstractCell1.setBetweenCellObject(wallSegment1, Direction.WEST);
         Assertions.assertNotEquals(wallSegment1, wallSegment2);
     }
 

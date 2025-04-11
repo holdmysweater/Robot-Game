@@ -1,8 +1,6 @@
-package game.model.field.cell_objects;
+package game.model.field.core;
 
-import game.model.field.*;
 import org.jetbrains.annotations.NotNull;
-import game.model.Direction;
 import game.model.events.RobotActionEvent;
 import game.model.events.RobotActionListener;
 
@@ -57,7 +55,7 @@ public class Robot extends CellObject {
             return false;
         }
 
-        Cell newPosition = position.getNeighborCell(direction);
+        AbstractCell newPosition = position.getNeighborCell(direction);
 
         if (newPosition == null || !newPosition.canTakeBigObject()) {
             return false;
@@ -69,7 +67,7 @@ public class Robot extends CellObject {
             return false;
         }
 
-        Cell oldPosition = position;
+        AbstractCell oldPosition = position;
         position = null;
 
         oldPosition.takeBigObject();
@@ -83,7 +81,7 @@ public class Robot extends CellObject {
     }
 
     @Override
-    public boolean canLocateAtPosition(@NotNull Cell newPosition) {
+    public boolean canLocateAtPosition(@NotNull AbstractCell newPosition) {
         if ((newPosition instanceof ExitCell) && (((ExitCell) newPosition).getTeleportedRobot() == this)) {
             return false;
         }
@@ -273,7 +271,7 @@ public class Robot extends CellObject {
      * @param oldPosition ячейка откуда переместился робот.
      * @param newPosition ячейка куда переместился робот.
      */
-    private void fireRobotIsMoved(@NotNull Cell oldPosition, @NotNull Cell newPosition) {
+    private void fireRobotIsMoved(@NotNull AbstractCell oldPosition, @NotNull AbstractCell newPosition) {
         RobotActionEvent event = new RobotActionEvent(this);
         event.setRobot(this);
         event.setFromCell(oldPosition);

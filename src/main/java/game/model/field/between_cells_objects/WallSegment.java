@@ -1,6 +1,6 @@
 package game.model.field.between_cells_objects;
 
-import game.model.field.BetweenCellObject;
+import game.model.field.core.BetweenCellObject;
 
 import java.util.Objects;
 

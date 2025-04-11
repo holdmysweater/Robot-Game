@@ -1,10 +1,7 @@
-package game.model.field.cell_objects;
+package game.model.field.core;
 
-import game.model.field.NormalCell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.field.Cell;
-import game.model.field.CellTestModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,9 +68,9 @@ class BatteryTest {
 
     @Test
     public void test_canLocateAtPosition_inNotCellWithPowerSupply() {
-        Cell cell = new CellTestModel();
+        AbstractCell abstractCell = new AbstractCellTestModel();
 
-        boolean result = battery.canLocateAtPosition(cell);
+        boolean result = battery.canLocateAtPosition(abstractCell);
 
         assertFalse(result);
     }

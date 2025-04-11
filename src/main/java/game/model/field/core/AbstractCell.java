@@ -1,16 +1,13 @@
-package game.model.field;
+package game.model.field.core;
 
-import game.model.field.cell_objects.Robot;
 import org.jetbrains.annotations.NotNull;
-import game.model.*;
-import game.model.field.between_cells_objects.BetweenCellsPosition;
 
 import java.util.*;
 
 /**
  * Ячейка.
  */
-public abstract class Cell {
+public abstract class AbstractCell {
     /*---------- ОБЪЕКТ В ЯЧЕЙКЕ ----------*/
     /**
      * Большой объект, расположенный в ячейке.
@@ -18,7 +15,7 @@ public abstract class Cell {
     protected Robot bigObject = null;
 
     /**
-     * Добавить большой объект в ячейку {@link Cell#bigObject}.
+     * Добавить большой объект в ячейку {@link AbstractCell#bigObject}.
      *
      * @param bigObject объект, добавляемый в ячейку.
      */
@@ -40,7 +37,7 @@ public abstract class Cell {
     /**
      * Изъять большой объект из ячейки.
      *
-     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link Cell#bigObject}.
+     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link AbstractCell#bigObject}.
      */
     public Robot takeBigObject() {
         Robot result = bigObject;
@@ -75,14 +72,14 @@ public abstract class Cell {
     /**
      * Соседние ячейки.
      */
-    private final Map<Direction, Cell> neighborCells = new EnumMap<>(Direction.class);
+    private final Map<Direction, AbstractCell> neighborCells = new EnumMap<>(Direction.class);
 
     /**
-     * Получить соседние ячейки {@link Cell#neighborCells}.
+     * Получить соседние ячейки {@link AbstractCell#neighborCells}.
      *
      * @return соседние ячейки.
      */
-    public final Map<Direction, Cell> getNeighborCells() {
+    public final Map<Direction, AbstractCell> getNeighborCells() {
         return Collections.unmodifiableMap(neighborCells);
     }
 
@@ -92,26 +89,26 @@ public abstract class Cell {
      * @param direction направление.
      * @return соседняя ячейка, null, если в заданном направлении нет соседней ячейки.
      */
-    public Cell getNeighborCell(@NotNull Direction direction) {
+    public AbstractCell getNeighborCell(@NotNull Direction direction) {
         return neighborCells.get(direction);
     }
 
     /**
-     * Установить ячейку соседней {@link Cell#neighborCells}.
+     * Установить ячейку соседней {@link AbstractCell#neighborCells}.
      *
-     * @param neighborCell соседняя ячейка.
+     * @param neighborAbstractCell соседняя ячейка.
      * @param direction    направление.
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      */
-    void setNeighbor(@NotNull Cell neighborCell, @NotNull Direction direction) {
-        if (neighborCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborCell)) {
+    void setNeighbor(@NotNull AbstractCell neighborAbstractCell, @NotNull Direction direction) {
+        if (neighborAbstractCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborAbstractCell)) {
             throw new IllegalArgumentException();
         }
 
-        neighborCells.put(direction, neighborCell);
+        neighborCells.put(direction, neighborAbstractCell);
 
-        if (!neighborCell.isNeighbor(this)) {
-            neighborCell.setNeighbor(this, direction.getOppositeDirection());
+        if (!neighborAbstractCell.isNeighbor(this)) {
+            neighborAbstractCell.setNeighbor(this, direction.getOppositeDirection());
         }
     }
 
@@ -121,7 +118,7 @@ public abstract class Cell {
      * @param other соседняя ячейка.
      * @return направление.
      */
-    public Direction getNeighborDirection(@NotNull Cell other) {
+    public Direction getNeighborDirection(@NotNull AbstractCell other) {
         for (var i : neighborCells.entrySet()) {
             if (i.getValue().equals(other)) return i.getKey();
         }
@@ -134,7 +131,7 @@ public abstract class Cell {
      * @param other соседняя ячейка.
      * @return Является ли ячейка соседом.
      */
-    public boolean isNeighbor(@NotNull Cell other) {
+    public boolean isNeighbor(@NotNull AbstractCell other) {
         return neighborCells.containsValue(other);
     }
 
@@ -145,7 +142,7 @@ public abstract class Cell {
     private final Map<Direction, BetweenCellObject> neighborObstacles = new EnumMap<>(Direction.class);
 
     /**
-     * Получить соседние объекты, располагающиеся между ячейками {@link Cell#neighborObstacles}.
+     * Получить соседние объекты, располагающиеся между ячейками {@link AbstractCell#neighborObstacles}.
      *
      * @return соседние объекты, располагающиеся между ячейками.
      */
@@ -154,7 +151,7 @@ public abstract class Cell {
     }
 
     /**
-     * Получить соседний объект, располагающийся между ячейками {@link Cell#neighborObstacles} в заданном направлении.
+     * Получить соседний объект, располагающийся между ячейками {@link AbstractCell#neighborObstacles} в заданном направлении.
      *
      * @param direction направление.
      * @return соседний объект, располагающийся между ячейками в заданном направлении.
@@ -191,7 +188,7 @@ public abstract class Cell {
             return false;
         }
 
-        Cell neighbor = getNeighborCell(direction);
+        AbstractCell neighbor = getNeighborCell(direction);
         if (neighbor != null) {
             neighbor.setBetweenCellObject(betweenCellObject, direction.getOppositeDirection());
         }

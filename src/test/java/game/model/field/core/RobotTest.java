@@ -1,14 +1,11 @@
-package game.model.field;
+package game.model.field.core;
 
-import game.model.field.cell_objects.Battery;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.Direction;
 import game.model.events.RobotActionEvent;
 import game.model.events.RobotActionListener;
 import game.model.field.between_cells_objects.WallSegment;
-import game.model.field.cell_objects.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +37,8 @@ class RobotTest {
         }
     }
 
-    private Cell cell;
-    private Cell neighborCell;
+    private AbstractCell abstractCell;
+    private AbstractCell neighborAbstractCell;
     private final Direction direction = Direction.NORTH;
 
     private final static int DEFAULT_TEST_BATTERY_CHARGE = 10;
@@ -62,9 +59,9 @@ class RobotTest {
         robot.addRobotActionListener(new EventsListener());
 
         // create field
-        cell = new NormalCell();
-        neighborCell = new NormalCell();
-        cell.setNeighbor(neighborCell, direction);
+        abstractCell = new NormalCell();
+        neighborAbstractCell = new NormalCell();
+        abstractCell.setNeighbor(neighborAbstractCell, direction);
     }
 
     @Test
@@ -77,115 +74,115 @@ class RobotTest {
 
     @Test
     public void test_canStayAtPosition_emptyCell() {
-        assertTrue(robot.canLocateAtPosition(cell));
+        assertTrue(robot.canLocateAtPosition(abstractCell));
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_canStayAtPosition_cellWithRobot() {
-        cell.setBigObject(robot);
+        abstractCell.setBigObject(robot);
 
-        assertFalse(robot.canLocateAtPosition(cell));
+        assertFalse(robot.canLocateAtPosition(abstractCell));
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_canStayAtPosition_cellWithBattery() {
-        ((NormalCell) cell).setSmallObject(new Battery());
+        ((NormalCell) abstractCell).setSmallObject(new Battery());
 
-        assertTrue(robot.canLocateAtPosition(cell));
+        assertTrue(robot.canLocateAtPosition(abstractCell));
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_move_emptyCellInDirectionAndRobotActiveAndEnoughCharge() {
-        cell.setBigObject(robot);
+        abstractCell.setBigObject(robot);
 
         robot.move(direction);
 
         expectedEvents.add(EVENT.ROBOT_MOVED);
 
-        assertEquals(robot, neighborCell.getBigObject());
-        assertEquals(neighborCell, robot.getPosition());
-        assertNull(cell.getBigObject());
+        assertEquals(robot, neighborAbstractCell.getBigObject());
+        assertEquals(neighborAbstractCell, robot.getPosition());
+        assertNull(abstractCell.getBigObject());
         assertEquals(DEFAULT_TEST_BATTERY_CHARGE - AMOUNT_OF_CHARGE_FOR_MOVE, robot.getCharge());
         assertEquals(expectedEvents, events);
     }
 
     @Test
     public void test_move_noCellInDirectionAndRobotActiveAndEnoughCharge() {
-        neighborCell.setBigObject(robot);
+        neighborAbstractCell.setBigObject(robot);
 
         robot.move(Direction.NORTH);
 
         assertEquals(DEFAULT_TEST_BATTERY_CHARGE, robot.getCharge());
-        assertEquals(neighborCell, robot.getPosition());
-        assertEquals(robot, neighborCell.getBigObject());
+        assertEquals(neighborAbstractCell, robot.getPosition());
+        assertEquals(robot, neighborAbstractCell.getBigObject());
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_move_emptyCellInDirectionWithWallAndRobotActiveAndEnoughCharge() {
-        cell.setBigObject(robot);
-        cell.setBetweenCellObject(new WallSegment(), cell.getNeighborDirection(neighborCell));
+        abstractCell.setBigObject(robot);
+        abstractCell.setBetweenCellObject(new WallSegment(), abstractCell.getNeighborDirection(neighborAbstractCell));
 
         robot.setBattery(new Battery());
         robot.move(direction);
 
-        assertEquals(robot, cell.getBigObject());
-        assertEquals(cell, robot.getPosition());
-        assertNull(neighborCell.getBigObject());
+        assertEquals(robot, abstractCell.getBigObject());
+        assertEquals(abstractCell, robot.getPosition());
+        assertNull(neighborAbstractCell.getBigObject());
         assertEquals(DEFAULT_TEST_BATTERY_CHARGE, robot.getCharge());
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_move_emptyCellInDirectionAndRobotNotActiveAndEnoughCharge() {
-        cell.setBigObject(robot);
+        abstractCell.setBigObject(robot);
 
         robot.setUnfrozen(false);
         robot.move(direction);
 
-        assertEquals(robot, cell.getBigObject());
-        assertEquals(cell, robot.getPosition());
-        assertNull(neighborCell.getBigObject());
+        assertEquals(robot, abstractCell.getBigObject());
+        assertEquals(abstractCell, robot.getPosition());
+        assertNull(neighborAbstractCell.getBigObject());
         assertEquals(DEFAULT_TEST_BATTERY_CHARGE, robot.getCharge());
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_move_emptyCellInDirectionAndRobotActiveAndNotEnoughCharge() {
-        cell.setBigObject(robot);
+        abstractCell.setBigObject(robot);
 
         robot.unsetBattery();
         robot.setBattery(new Battery(0));
         robot.move(direction);
 
-        assertEquals(robot, cell.getBigObject());
-        assertEquals(cell, robot.getPosition());
-        assertNull(neighborCell.getBigObject());
+        assertEquals(robot, abstractCell.getBigObject());
+        assertEquals(abstractCell, robot.getPosition());
+        assertNull(neighborAbstractCell.getBigObject());
         assertEquals(0, robot.getCharge());
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_changeBattery_robotIsActiveCellContainsBattery() {
-        cell.setBigObject(robot);
+        abstractCell.setBigObject(robot);
         Battery newBattery = new Battery();
-        ((NormalCell) cell).setSmallObject(newBattery);
+        ((NormalCell) abstractCell).setSmallObject(newBattery);
 
         robot.changeBattery();
 
-        assertNull(((NormalCell) cell).getSmallObject());
+        assertNull(((NormalCell) abstractCell).getSmallObject());
         assertEquals(newBattery.getCharge(), robot.getCharge());
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_changeBattery_robotIsNotActiveCellContainsBattery() {
-        cell.setBigObject(robot);
+        abstractCell.setBigObject(robot);
         Battery newBattery = new Battery();
-        ((NormalCell) cell).setSmallObject(newBattery);
+        ((NormalCell) abstractCell).setSmallObject(newBattery);
 
         Battery robotBattery = new Battery();
         robot.setBattery(robotBattery);
@@ -193,14 +190,14 @@ class RobotTest {
 
         robot.changeBattery();
 
-        assertEquals(newBattery, ((NormalCell) cell).getSmallObject());
+        assertEquals(newBattery, ((NormalCell) abstractCell).getSmallObject());
         assertEquals(robotBattery.getCharge(), robot.getCharge());
         assertTrue(events.isEmpty());
     }
 
     @Test
     public void test_changeBattery_robotIsActiveCellNotContainsBattery() {
-        cell.setBigObject(robot);
+        abstractCell.setBigObject(robot);
 
         Battery robotBattery = new Battery();
         robot.setBattery(robotBattery);
