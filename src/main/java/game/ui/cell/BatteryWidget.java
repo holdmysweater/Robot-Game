@@ -29,7 +29,7 @@ public class BatteryWidget extends CellItemWidget {
      */
     public BatteryWidget(Battery battery) {
         this.battery = battery;
-        setToolTipText("Заряд: " + battery.getCharge() + "/" + battery.getMaxCharge());
+        setToolTipText("Заряд: " + battery.getCharge() + "/" + battery.getCapacity());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class BatteryWidget extends CellItemWidget {
      * @return текст заряда источника питания.
      */
     private String powerSupplyChargeText() {
-        return battery.getCharge() + "/" + battery.getMaxCharge();
+        return battery.getCharge() + "/" + battery.getCapacity();
     }
 
     /**
@@ -84,7 +84,7 @@ public class BatteryWidget extends CellItemWidget {
      * @return цвет текста заряда источника питания.
      */
     private Color powerSupplyChargeTextColor() {
-        return GameWidgetsUtils.chargeTextColor(battery.getCharge(), battery.getMaxCharge());
+        return GameWidgetsUtils.chargeTextColor(battery.getCharge(), battery.getCapacity());
     }
 
     /**

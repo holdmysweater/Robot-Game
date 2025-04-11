@@ -12,7 +12,7 @@ public abstract class AbstractCell {
     /**
      * Большой объект, расположенный в ячейке.
      */
-    protected Robot bigObject = null;
+    private Robot bigObject = null;
 
     /**
      * Добавить большой объект в ячейку {@link AbstractCell#bigObject}.
@@ -20,12 +20,12 @@ public abstract class AbstractCell {
      * @param bigObject объект, добавляемый в ячейку.
      */
     public boolean setBigObject(@NotNull Robot bigObject) {
+        //TODO Проверки
         if (this.bigObject != null) {
             throw new IllegalArgumentException("Cell already has a big object.");
         }
 
         boolean isPositionSetSuccess = bigObject.setPosition(this);
-
         if (!isPositionSetSuccess) {
             return false;
         }
@@ -67,6 +67,9 @@ public abstract class AbstractCell {
     public boolean canTakeBigObject() {
         return bigObject == null;
     }
+    //TODO Общий доступ???
+
+
 
     /*---------- СОСЕДНИЕ ЯЧЕЙКИ ----------*/
     /**
@@ -96,19 +99,20 @@ public abstract class AbstractCell {
     /**
      * Установить ячейку соседней {@link AbstractCell#neighborCells}.
      *
-     * @param neighborAbstractCell соседняя ячейка.
+     * @param neighborCell соседняя ячейка.
      * @param direction    направление.
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      */
-    void setNeighbor(@NotNull AbstractCell neighborAbstractCell, @NotNull Direction direction) {
-        if (neighborAbstractCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborAbstractCell)) {
+    void setNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
+        //TODO Проверки
+        if (neighborCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborCell)) {
             throw new IllegalArgumentException();
         }
 
-        neighborCells.put(direction, neighborAbstractCell);
+        neighborCells.put(direction, neighborCell);
 
-        if (!neighborAbstractCell.isNeighbor(this)) {
-            neighborAbstractCell.setNeighbor(this, direction.getOppositeDirection());
+        if (!neighborCell.isNeighbor(this)) {
+            neighborCell.setNeighbor(this, direction.getOppositeDirection());
         }
     }
 
@@ -119,8 +123,8 @@ public abstract class AbstractCell {
      * @return направление.
      */
     public Direction getNeighborDirection(@NotNull AbstractCell other) {
-        for (var i : neighborCells.entrySet()) {
-            if (i.getValue().equals(other)) return i.getKey();
+        for (var cell : neighborCells.entrySet()) {
+            if (cell.getValue().equals(other)) return cell.getKey();
         }
         return null;
     }
@@ -134,6 +138,8 @@ public abstract class AbstractCell {
     public boolean isNeighbor(@NotNull AbstractCell other) {
         return neighborCells.containsValue(other);
     }
+
+
 
     /*---------- ОБЪЕКТЫ МЕЖДУ ЯЧЕЙКАМИ ----------*/
     /**
@@ -151,32 +157,13 @@ public abstract class AbstractCell {
     }
 
     /**
-     * Получить соседний объект, располагающийся между ячейками {@link AbstractCell#neighborObstacles} в заданном направлении.
-     *
-     * @param direction направление.
-     * @return соседний объект, располагающийся между ячейками в заданном направлении.
-     */
-    public BetweenCellObject getNeighborObstacle(@NotNull Direction direction) {
-        return neighborObstacles.get(direction);
-    }
-
-    /**
-     * Является ли ячейка соседом.
-     *
-     * @param other соседняя ячейка.
-     * @return Является ли ячейка соседом.
-     */
-    public boolean isNeighbor(@NotNull BetweenCellObject other) {
-        return neighborObstacles.containsValue(other);
-    }
-
-    /**
      * Установить объект, располагающийся между ячейками в заданном направлении.
      *
      * @param betweenCellObject объект, располагающийся между ячейками.
      * @param direction         направление.
      */
-    public boolean setBetweenCellObject(@NotNull BetweenCellObject betweenCellObject, @NotNull Direction direction) {
+    public boolean setNeighborObstacle(@NotNull BetweenCellObject betweenCellObject, @NotNull Direction direction) {
+        //TODO Проверки
         if (getNeighborObstacle(direction) == betweenCellObject) return true;
 
         if (getNeighborObstacle(direction) != null) return false;
@@ -190,9 +177,29 @@ public abstract class AbstractCell {
 
         AbstractCell neighbor = getNeighborCell(direction);
         if (neighbor != null) {
-            neighbor.setBetweenCellObject(betweenCellObject, direction.getOppositeDirection());
+            neighbor.setNeighborObstacle(betweenCellObject, direction.getOppositeDirection());
         }
 
         return betweenCellObject.setPosition(position);
+    }
+
+    /**
+     * Получить соседний объект, располагающийся между ячейками {@link AbstractCell#neighborObstacles} в заданном направлении.
+     *
+     * @param direction направление.
+     * @return соседний объект, располагающийся между ячейками в заданном направлении.
+     */
+    public BetweenCellObject getNeighborObstacle(@NotNull Direction direction) {
+        return neighborObstacles.get(direction);
+    }
+
+    /**
+     * Является ли ячейка соседом.
+     *
+     * @param obstacle соседняя ячейка.
+     * @return Является ли ячейка соседом.
+     */
+    public boolean isNeighbor(@NotNull BetweenCellObject obstacle) {
+        return neighborObstacles.containsValue(obstacle);
     }
 }

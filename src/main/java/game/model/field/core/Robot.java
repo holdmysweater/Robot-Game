@@ -6,6 +6,8 @@ import game.model.events.RobotActionListener;
 
 import java.util.ArrayList;
 
+//TODO Полная валидация робота
+
 /**
  * Робот.
  */
@@ -174,7 +176,7 @@ public class Robot extends CellObject {
      *
      * @param value телепортирован ли робот
      */
-    public void setTeleported(boolean value) {
+    void setTeleported(boolean value) { //TODO Плохо - может быть детелепортирован??
         isTeleported = value;
     }
 
@@ -184,13 +186,14 @@ public class Robot extends CellObject {
      * @param battery источник питания.
      */
     public boolean setBattery(@NotNull Battery battery) {
+        //TODO Проверки
         if (battery == this.battery) return true;
 
         if (getBattery() != null) return false;
 
         this.battery = battery;
 
-        if (!battery.connect(this)) {
+        if (!battery.connectTo(this)) {
             throw new RuntimeException("Can't connect to battery");
         }
 
@@ -225,12 +228,12 @@ public class Robot extends CellObject {
     }
 
     /**
-     * Получить максимальный заряд {@link Battery#getMaxCharge()}.
+     * Получить емкость заряда {@link Battery#getCapacity()}.
      *
-     * @return максимальный заряд.
+     * @return емкость заряда.
      */
-    public int getMaxCharge() {
-        return battery.getMaxCharge();
+    public int getChargeCapacity() {
+        return battery.getCapacity();
     }
 
     /**
@@ -241,6 +244,7 @@ public class Robot extends CellObject {
     public Battery getBattery() {
         return this.battery;
     }
+    //TODO Зачем???
 
     /**
      * Список слушателей, подписанных на события игры.

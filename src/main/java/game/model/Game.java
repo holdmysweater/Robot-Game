@@ -1,8 +1,8 @@
 package game.model;
 
-import game.model.field.core.ExitCell;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.*;
+import game.model.field.core.ExitCell;
 import game.model.field.core.Field;
 import game.model.field.core.Robot;
 import game.model.labyrinths.Labyrinth;
@@ -49,7 +49,7 @@ public class Game {
             throw new RuntimeException("No field created");
         }
 
-        robot = gameField.getRobotOnField();
+        robot = gameField.getRobot();
         robot.addRobotActionListener(new RobotObserver());
 
         if (robot == null) {

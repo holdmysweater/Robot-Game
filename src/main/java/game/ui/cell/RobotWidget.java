@@ -114,7 +114,7 @@ public class RobotWidget extends CellItemWidget {
      * @return текст заряда робота.
      */
     private String robotChargeText() {
-        return robot.getCharge() + "/" + robot.getMaxCharge();
+        return robot.getCharge() + "/" + robot.getChargeCapacity();
     }
 
     /**
@@ -123,7 +123,7 @@ public class RobotWidget extends CellItemWidget {
      * @return цвет текста заряда.
      */
     private Color robotChargeTextColor() {
-        return GameWidgetsUtils.chargeTextColor(robot.getCharge(), robot.getMaxCharge());
+        return GameWidgetsUtils.chargeTextColor(robot.getCharge(), robot.getChargeCapacity());
     }
 
     /**

@@ -51,7 +51,7 @@ public abstract class ObstacleWidget extends JPanel {
             Dimension dimension = getDimensionByOrientation();
             image = ImageUtils.resizeImage(image, dimension.width, dimension.height);
         } catch (IOException e) {
-            e.printStackTrace();    // !!! Для конечного пользователя это не лучшее решение (более дружественное сообщение для пользователя) TODO
+            e.printStackTrace();    // TODO Для конечного пользователя это не лучшее решение (более дружественное сообщение для пользователя) TODO
         }
         return image;
     }

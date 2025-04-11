@@ -1,9 +1,14 @@
 package game.model.labyrinths;
 
-import game.model.field.core.*;
+import game.model.field.core.Direction;
 import game.model.field.core.AbstractCell;
+import game.model.field.core.BetweenCellsPosition;
 import org.jetbrains.annotations.NotNull;
+import game.model.field.core.Point;
+import game.model.field.core.Field;
 import game.model.field.between_cells_objects.WallSegment;
+import game.model.field.core.Robot;
+import game.model.field.core.Battery;
 
 import java.util.HashMap;
 import java.util.Map;

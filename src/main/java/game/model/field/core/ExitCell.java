@@ -14,14 +14,14 @@ public class ExitCell extends AbstractCell {
 
     /*---------- ТЕЛЕПОРТАЦИЯ----------*/
     /**
-     * Список телепортированных роботов.
+     * Список телепортированных роботов. TODO
      */
     private Robot teleportedRobot;
 
     /**
      * Получить телепортированного робота {@link ExitCell#teleportedRobot}.
      *
-     * @return список телепортированного робота.
+     * @return список телепортированного робота. TODO
      */
     public Robot getTeleportedRobot() {
         return teleportedRobot;
@@ -29,7 +29,7 @@ public class ExitCell extends AbstractCell {
 
     @Override
     public boolean setBigObject(@NotNull Robot cellObject) {
-        if (super.setBigObject(cellObject)) {
+        if (super.setBigObject(cellObject)) { //TODO Плохо + что с событиями????
             teleportRobot();
             return true;
         } else {

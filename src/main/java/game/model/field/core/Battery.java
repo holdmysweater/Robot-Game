@@ -24,14 +24,18 @@ public class Battery extends CellObject {
     }
 
     /**
-     * Заряд.
+     * Батарейка уничтожена
      */
-    private int charge = 0;
+    private boolean isDestroy = false;
+    //TODO Как узнать, что уничтожена
 
     /**
-     * Максимальный заряд.
+     * Уничтожение батарейки.
      */
-    private static final int maxCharge = 10;
+    public void destroy() {
+        isDestroy = true;
+    }
+    //TODO Связь с потребителем
 
     /**
      * Потребитель.
@@ -39,67 +43,12 @@ public class Battery extends CellObject {
     private Robot user = null;
 
     /**
-     * Батарейка функциональна (не уничтожена)
-     */
-    private boolean isFunctional = true;
-
-    /**
-     * Получить заряд {@link Battery#charge}.
-     *
-     * @return заряд.
-     */
-    public int getCharge() {
-        if (!isFunctional) {
-            throw new RuntimeException("Battery is destroyed");
-        }
-
-        return charge;
-    }
-
-    /**
-     * Получить максимальный заряд {@link Battery#maxCharge}.
-     *
-     * @return максимальный заряд.
-     */
-    public int getMaxCharge() {
-        if (!isFunctional) {
-            throw new RuntimeException("Battery is destroyed");
-        }
-
-        return maxCharge;
-    }
-
-    /**
-     * Отдать заряд.
-     *
-     * @param chargeAmount запрашиваемое кол-во заряда.
-     * @return отданное кол-во заряда.
-     */
-    public boolean releaseCharge(int chargeAmount) {
-        if (!isFunctional) {
-            throw new RuntimeException("Battery is destroyed");
-        }
-
-        if (!isConnectedToUser()) {
-            throw new RuntimeException("Not connected to user");
-        }
-
-        if (chargeAmount > charge) {
-            return false;
-        }
-
-        charge -= chargeAmount;
-
-        return true;
-    }
-
-    /**
      * Подключение к потребителю.
      *
      * @return подключена ли батарейка к потребителю.
      */
-    public boolean isConnectedToUser() {
-        if (!isFunctional) {
+    public boolean isUsed() {
+        if (!isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
@@ -112,8 +61,9 @@ public class Battery extends CellObject {
      * @param user пользователь.
      * @return успешность подключения.
      */
-    public boolean connect(Robot user) {
-        if (!isFunctional) {
+    public boolean connectTo(Robot user) {
+        //TODO Проверки
+        if (!isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
@@ -121,7 +71,7 @@ public class Battery extends CellObject {
             return true;
         }
 
-        if (isConnectedToUser()) {
+        if (isUsed()) {
             return false;
         }
 
@@ -140,11 +90,12 @@ public class Battery extends CellObject {
      * @return успешность отключения
      */
     public boolean disconnect() {
-        if (!isFunctional) {
+        //TODO Проверки
+        if (!isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
-        if (!isConnectedToUser()) {
+        if (!isUsed()) {
             return true;
         }
 
@@ -155,29 +106,86 @@ public class Battery extends CellObject {
             throw new RuntimeException("Can't disconnect from user");
         }
 
-        isFunctional = false;
+        isDestroy = false;
 
         return true;
     }
 
-    /**
-     * Уничтожение батарейки.
-     */
-    void destroy() {
-        isFunctional = false;
-    }
 
-    @Override
-    public boolean canLocateAtPosition(@NotNull AbstractCell abstractCell) {
-        if (!isFunctional) {
+    /**
+     * Заряд.
+     */
+    private int charge = 0;
+
+    /**
+     * Максимальный заряд.
+     */
+    private static final int maxCharge = 10;
+
+    /**
+     * Получить заряд {@link Battery#charge}.
+     *
+     * @return заряд.
+     */
+    public int getCharge() {
+        if (!isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
-        if (!(abstractCell instanceof NormalCell)) {
+        return charge;
+    }
+
+    /**
+     * Получить емкость {@link Battery#maxCharge}.
+     *
+     * @return емкость.
+     */
+    public int getCapacity() {
+        if (!isDestroy) {
+            throw new RuntimeException("Battery is destroyed");
+        }
+
+        return maxCharge;
+    }
+
+    /**
+     * Отдать заряд.
+     *
+     * @param chargeAmount запрашиваемое кол-во заряда.
+     * @return отданное кол-во заряда.
+     */
+    public boolean releaseCharge(int chargeAmount) {
+        //TODO Название операции
+        if (!isDestroy) {
+            throw new RuntimeException("Battery is destroyed");
+        }
+
+        if (!isUsed()) {
+            throw new RuntimeException("Not connected to user");
+        }
+
+        if (chargeAmount > charge) {
             return false;
         }
 
-        Battery smallObjectInCell = ((NormalCell) abstractCell).getSmallObject();
+        charge -= chargeAmount;
+
+        return true;
+    }
+
+
+    @Override
+    public boolean canLocateAtPosition(@NotNull AbstractCell cell) {
+        //TODO Уровень доступа
+        if (!isDestroy) {
+            throw new RuntimeException("Battery is destroyed");
+        }
+
+        if (!(cell instanceof NormalCell)) {
+            return false;
+        }
+
+        Battery smallObjectInCell = ((NormalCell) cell).getSmallObject();
 
         return smallObjectInCell == null;
     }

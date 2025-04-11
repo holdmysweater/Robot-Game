@@ -9,7 +9,7 @@ public class NormalCell extends AbstractCell {
     /**
      * Маленький объект, расположенный в ячейке.
      */
-    protected Battery smallObject = null;
+    private Battery smallObject = null;
 
     /**
      * Добавить маленький объект в ячейку {@link NormalCell#smallObject}.
@@ -17,6 +17,7 @@ public class NormalCell extends AbstractCell {
      * @param smallObject объект, добавляемый в ячейку.
      */
     public boolean setSmallObject(@NotNull Battery smallObject) {
+        //TODO Проверка
         if (this.smallObject != null) {
             throw new IllegalArgumentException("Cell already has a small object.");
         }
@@ -64,4 +65,5 @@ public class NormalCell extends AbstractCell {
     public boolean canTakeSmallObject() {
         return smallObject == null;
     }
+    //TODO Общий доступ???
 }

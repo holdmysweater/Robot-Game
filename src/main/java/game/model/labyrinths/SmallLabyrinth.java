@@ -2,7 +2,6 @@ package game.model.labyrinths;
 
 import game.model.field.core.*;
 import org.jetbrains.annotations.NotNull;
-import game.model.field.core.Field;
 import game.model.field.between_cells_objects.WallSegment;
 
 import java.util.HashMap;
@@ -14,16 +13,6 @@ import java.util.Map;
 public class SmallLabyrinth extends Labyrinth {
 
     /**
-     * Высота поля.
-     */
-    private static final int FIELD_HEIGHT = 4;
-
-    /**
-     * Ширина поля.
-     */
-    private static final int FIELD_WIDTH = 4;
-
-    /**
      * Стандартный заряд батарейки.
      */
     private static final int DEFAULT_BATTERY_CHARGE = 10;
@@ -31,12 +20,12 @@ public class SmallLabyrinth extends Labyrinth {
 
     @Override
     protected int fieldHeight() {
-        return FIELD_HEIGHT;
+        return 4;
     }
 
     @Override
     protected int fieldWidth() {
-        return FIELD_WIDTH;
+        return 4;
     }
 
     @Override

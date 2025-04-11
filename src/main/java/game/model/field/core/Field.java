@@ -26,6 +26,25 @@ public class Field {
     private final int height;
 
     /**
+     * Получить ширину поля {@link Field#width}.
+     *
+     * @return ширина поля.
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Получить высоту поля {@link Field#height}.
+     *
+     * @return высота поля.
+     */
+    public int getHeight() {
+        return height;
+    }
+
+
+    /**
      * Ячейка выхода.
      */
     private final ExitCell exitCell;
@@ -53,10 +72,11 @@ public class Field {
 
         this.width = width;
         this.height = height;
-        buildField(exitPoint);
-        this.exitCell = (ExitCell) getCell(exitPoint);
 
-        ((ExitCell) getCell(exitPoint)).addExitCellActionListener(new ExitCellObserver());
+        buildField(exitPoint);
+
+        this.exitCell = (ExitCell) getCell(exitPoint);
+        this.exitCell.addExitCellActionListener(new ExitCellObserver());
     }
 
     /**
@@ -68,38 +88,21 @@ public class Field {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 Point p = new Point(x, y);
-                AbstractCell abstractCell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
+                AbstractCell cell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
 
                 if (x > 0) {
-                    abstractCell.setNeighbor(getCell(p.to(Direction.WEST, 1)), Direction.WEST);
+                    cell.setNeighbor(getCell(p.to(Direction.WEST, 1)), Direction.WEST);
                 }
 
                 if (y > 0) {
-                    abstractCell.setNeighbor(getCell(p.to(Direction.NORTH, 1)), Direction.NORTH);
+                    cell.setNeighbor(getCell(p.to(Direction.NORTH, 1)), Direction.NORTH);
                 }
 
-                cells.put(p, abstractCell);
+                cells.put(p, cell);
             }
         }
     }
 
-    /**
-     * Получить ширину поля {@link Field#width}.
-     *
-     * @return ширина поля.
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Получить высоту поля {@link Field#height}.
-     *
-     * @return высота поля.
-     */
-    public int getHeight() {
-        return height;
-    }
 
     /**
      * Получить ячейку по заданной координате.
@@ -116,9 +119,9 @@ public class Field {
      *
      * @return робот на поле.
      */
-    public Robot getRobotOnField() {
-        for (var i : cells.entrySet()) {
-            Robot robot = i.getValue().getBigObject();
+    public Robot getRobot() {
+        for (var cell : cells.entrySet()) {
+            Robot robot = cell.getValue().getBigObject();
             if (robot != null) {
                 return robot;
             }
@@ -188,6 +191,7 @@ public class Field {
      * @param teleport телепорт.
      */
     private void fireRobotIsTeleported(@NotNull AbstractCell teleport) {
+        // TODO teleport???
         FieldActionEvent event = new FieldActionEvent(this);
         event.setRobot(((ExitCell) teleport).getTeleportedRobot());
         event.setTeleport(teleport);

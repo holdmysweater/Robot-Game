@@ -1,8 +1,8 @@
 package game.model.events;
 
-import game.model.field.core.AbstractCell;
 import game.model.field.core.Battery;
 import org.jetbrains.annotations.NotNull;
+import game.model.field.core.AbstractCell;
 import game.model.field.core.Robot;
 
 import java.util.EventObject;
@@ -20,12 +20,12 @@ public class RobotActionEvent extends EventObject {
     /**
      * Ячейка откуда переместился робот {@link RobotActionEvent#robot}.
      */
-    private AbstractCell fromAbstractCell;
+    private AbstractCell fromCell;
 
     /**
      * Ячейка куда переместился робот {@link RobotActionEvent#robot}.
      */
-    private AbstractCell toAbstractCell;
+    private AbstractCell toCell;
 
     /**
      * Источник питания.
@@ -33,39 +33,39 @@ public class RobotActionEvent extends EventObject {
     private Battery battery;
 
     /**
-     * Установить ячейку {@link RobotActionEvent#fromAbstractCell} откуда переместился робот {@link RobotActionEvent#robot}.
+     * Установить ячейку {@link RobotActionEvent#fromCell} откуда переместился робот {@link RobotActionEvent#robot}.
      *
-     * @param fromAbstractCell ячейка откуда переместился робот.
+     * @param fromCell ячейка откуда переместился робот.
      */
-    public void setFromCell(AbstractCell fromAbstractCell) {
-        this.fromAbstractCell = fromAbstractCell;
+    public void setFromCell(AbstractCell fromCell) {
+        this.fromCell = fromCell;
     }
 
     /**
-     * Получить ячейку {@link RobotActionEvent#fromAbstractCell} откуда переместился робот {@link RobotActionEvent#robot}.
+     * Получить ячейку {@link RobotActionEvent#fromCell} откуда переместился робот {@link RobotActionEvent#robot}.
      *
      * @return ячейка откуда переместился робот.
      */
     public AbstractCell getFromCell() {
-        return fromAbstractCell;
+        return fromCell;
     }
 
     /**
-     * Установить ячейку {@link RobotActionEvent#toAbstractCell} куда переместился робот {@link RobotActionEvent#robot}.
+     * Установить ячейку {@link RobotActionEvent#toCell} куда переместился робот {@link RobotActionEvent#robot}.
      *
-     * @param toAbstractCell ячейка куда переместился робот.
+     * @param toCell ячейка куда переместился робот.
      */
-    public void setToCell(AbstractCell toAbstractCell) {
-        this.toAbstractCell = toAbstractCell;
+    public void setToCell(AbstractCell toCell) {
+        this.toCell = toCell;
     }
 
     /**
-     * Получить ячейку {@link RobotActionEvent#toAbstractCell} куда переместился робот {@link RobotActionEvent#robot}.
+     * Получить ячейку {@link RobotActionEvent#toCell} куда переместился робот {@link RobotActionEvent#robot}.
      *
      * @return ячейка куда переместился робот.
      */
     public AbstractCell getToCell() {
-        return toAbstractCell;
+        return toCell;
     }
 
     /**

@@ -1,9 +1,15 @@
 package game.model.labyrinths;
 
-import game.model.field.core.*;
+import game.model.field.core.Direction;
 import game.model.field.core.NormalCell;
+import game.model.field.core.BetweenCellsPosition;
 import game.model.field.between_cells_objects.WallSegment;
+import game.model.field.core.Field;
+import game.model.field.core.Robot;
+import game.model.field.core.Battery;
+import game.model.field.core.AbstractCell;
 import org.jetbrains.annotations.NotNull;
+import game.model.field.core.Point;
 
 import java.util.Map;
 
@@ -68,9 +74,9 @@ public abstract class Labyrinth {
 
         for (WallSegment wall : walls.keySet()) {
             Direction direction = walls.get(wall).getNeighborCells().keySet().iterator().next();
-            AbstractCell abstractCell = walls.get(wall).getNeighborCells().get(direction);
+            AbstractCell cell = walls.get(wall).getNeighborCells().get(direction);
 
-            if (!abstractCell.setBetweenCellObject(wall, direction)) {
+            if (!cell.setNeighborObstacle(wall, direction)) {
                 throw new RuntimeException("Wall segment " + wall + " not set");
             }
         }

@@ -10,7 +10,7 @@ public abstract class CellObject {
     /**
      * Позиция объекта.
      */
-    protected AbstractCell position;
+    private AbstractCell position;
 
     /**
      * Получить позицию объекта {@link CellObject#position}.
@@ -27,7 +27,8 @@ public abstract class CellObject {
      * @param position позиция.
      * @return установлена ли позиция.
      */
-    public boolean setPosition(AbstractCell position) {
+    boolean setPosition(AbstractCell position) {
+        //TODO Проверки
         if (position != null && getPosition() != null && getPosition() != position) {
             return false;
         }
@@ -43,8 +44,9 @@ public abstract class CellObject {
     /**
      * Может ли объект располагаться в указанной позиции.
      *
-     * @param abstractCell позиция.
+     * @param cell позиция.
      * @return может ли объект располагаться в указанной позиции.
      */
-    public abstract boolean canLocateAtPosition(@NotNull AbstractCell abstractCell);
+    public abstract boolean canLocateAtPosition(@NotNull AbstractCell cell);
+    //TODO должен быть общедоступным?
 }

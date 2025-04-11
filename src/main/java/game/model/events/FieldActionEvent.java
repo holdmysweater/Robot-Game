@@ -1,8 +1,8 @@
 package game.model.events;
 
-import game.model.field.core.AbstractCell;
 import game.model.field.core.Field;
 import org.jetbrains.annotations.NotNull;
+import game.model.field.core.AbstractCell;
 import game.model.field.core.Robot;
 
 import java.util.EventObject;
