@@ -27,7 +27,10 @@ public class Battery extends CellObject {
      * Батарейка уничтожена
      */
     private boolean isDestroy = false;
-    //TODO Как узнать, что уничтожена
+
+    public boolean isDestroy() {
+        return isDestroy;
+    }
 
     /**
      * Уничтожение батарейки.
