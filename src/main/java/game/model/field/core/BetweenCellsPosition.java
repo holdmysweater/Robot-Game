@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Класс позиции между ячейками {@link AbstractCell}
  */
-public class BetweenCellsPosition {
+public class BetweenCellsPosition { // TODO TODO сделать как область поля
 
     /**
      * Соседние ячейки.
@@ -25,7 +25,7 @@ public class BetweenCellsPosition {
      * @throws IllegalArgumentException если ячейки не являются соседними.
      */
     public BetweenCellsPosition(@NotNull AbstractCell cell, @NotNull AbstractCell neighborCell) {
-        //TODO Проверки
+        //TODO Проверки DONE
         Direction neighborDirection = cell.getNeighborDirection(neighborCell);
 
         if (neighborDirection == null) {
@@ -43,7 +43,7 @@ public class BetweenCellsPosition {
      * @param direction направление.
      */
     public BetweenCellsPosition(@NotNull AbstractCell cell, @NotNull Direction direction) {
-        //TODO Проверки
+        //TODO Проверки DONE
         neighborCells.put(direction, cell);
 
         AbstractCell neighborCell = cell.getNeighborCell(direction);

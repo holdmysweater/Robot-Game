@@ -21,7 +21,7 @@ public class Battery extends CellObject {
      */
     public Battery(int charge) {
         this.charge = charge;
-    }
+    } // TODO проверка
 
     /**
      * Батарейка уничтожена
@@ -36,9 +36,12 @@ public class Battery extends CellObject {
      * Уничтожение батарейки.
      */
     public void destroy() {
+        if(isDestroy()) return; // TODO - ничего не делать, если уже разрушена
+
+        disconnect();
         isDestroy = true;
     }
-    //TODO Связь с потребителем
+    //TODO Связь с потребителем DONE
 
     /**
      * Потребитель.
@@ -65,9 +68,10 @@ public class Battery extends CellObject {
      * @return успешность подключения.
      */
     public boolean connectTo(Robot user) {
-        //TODO Проверки
+        //TODO TODO Проверки DONE - не должна находиться в ячейке
+        assert !isDestroy;
         if (isDestroy) {
-            throw new RuntimeException("Battery is destroyed");
+            return false;
         }
 
         if (user == this.user) {
@@ -78,10 +82,13 @@ public class Battery extends CellObject {
             return false;
         }
 
-        this.user = user;
+        this.user = user; // TODO TODO - позже может что-то пойти не так
 
-        if (!user.setBattery(this)) {
-            throw new RuntimeException("Can't connect to user");
+        boolean success = user.setBattery(this);
+
+        assert success;
+        if (!success) {
+            return false;
         }
 
         return true;
@@ -93,20 +100,24 @@ public class Battery extends CellObject {
      * @return успешность отключения
      */
     public boolean disconnect() {
-        //TODO Проверки
+        //TODO Проверки DONE
+        assert !isDestroy;
         if (isDestroy) {
-            throw new RuntimeException("Battery is destroyed");
+            return false;
         }
 
         if (!isUsed()) {
             return true;
         }
 
-        Robot oldUser = user;
+        Robot oldUser = user; // TODO TODO - что-то может пойти не так
         user = null;
 
-        if (!oldUser.unsetBattery()) {
-            throw new RuntimeException("Can't disconnect from user");
+        boolean success = oldUser.unsetBattery();
+
+        assert success;
+        if (!success) {
+            return false;
         }
 
         isDestroy = false;
@@ -123,7 +134,7 @@ public class Battery extends CellObject {
     /**
      * Максимальный заряд.
      */
-    private static final int maxCharge = 10;
+    private static final int maxCharge = 10; // TODO - capacity
 
     /**
      * Получить заряд {@link Battery#charge}.
@@ -157,8 +168,8 @@ public class Battery extends CellObject {
      * @param chargeAmount запрашиваемое кол-во заряда.
      * @return отданное кол-во заряда.
      */
-    public boolean releaseCharge(int chargeAmount) {
-        //TODO Название операции
+    public boolean drainCharge(int chargeAmount) {
+        //TODO TODO Название  операции DONE?
         if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
@@ -178,16 +189,13 @@ public class Battery extends CellObject {
 
 
     @Override
-    public boolean canLocateAtPosition(@NotNull AbstractCell cell) {
-        //TODO Уровень доступа
-        if (isDestroy) {
-            throw new RuntimeException("Battery is destroyed");
-        }
-
-        if (!(cell instanceof NormalCell)) {
+    protected boolean canLocateAtPosition(@NotNull AbstractCell cell) {
+        //TODO TODO - переделать,  что чисто  позиция
+        if (isDestroy || !(cell instanceof NormalCell)) {
             return false;
         }
 
+        assert cell instanceof NormalCell; // TODO TODO
         Battery smallObjectInCell = ((NormalCell) cell).getSmallObject();
 
         return smallObjectInCell == null;

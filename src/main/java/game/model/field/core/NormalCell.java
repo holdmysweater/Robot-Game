@@ -17,14 +17,16 @@ public class NormalCell extends AbstractCell {
      * @param smallObject объект, добавляемый в ячейку.
      */
     public boolean setSmallObject(@NotNull Battery smallObject) {
-        //TODO Проверка
+        //TODO Проверка DONE
+        assert this.smallObject == null;
         if (this.smallObject != null) {
-            throw new IllegalArgumentException("Cell already has a small object.");
+            return false;
         }
 
-        boolean isPositionSetSuccess = smallObject.setPosition(this);
+        boolean success = smallObject.setPosition(this);
 
-        if (!isPositionSetSuccess) {
+        assert success;
+        if (!success) {
             return false;
         }
 
@@ -62,8 +64,10 @@ public class NormalCell extends AbstractCell {
      *
      * @return может принять маленький объект.
      */
-    public boolean canTakeSmallObject() {
+    boolean canTakeSmallObject() {
         return smallObject == null;
     }
-    //TODO Общий доступ???
+    //TODO Общий доступ??? DONE
+    // TODO TODO - симметрично с большим объектом
+    // TODO TODO - принять, а не изъять
 }

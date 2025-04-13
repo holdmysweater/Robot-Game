@@ -20,12 +20,17 @@ public abstract class AbstractCell {
      * @param bigObject объект, добавляемый в ячейку.
      */
     public boolean setBigObject(@NotNull Robot bigObject) {
-        //TODO Проверки
-        if (this.bigObject != null) {
-            throw new IllegalArgumentException("Cell already has a big object.");
+        //TODO Проверки DONE
+        if (this.bigObject == bigObject) return true;
+
+        boolean hasBigObject = this.bigObject != null;
+        assert !hasBigObject;
+        if (hasBigObject) {
+            return false;
         }
 
         boolean isPositionSetSuccess = bigObject.setPosition(this);
+        assert isPositionSetSuccess;
         if (!isPositionSetSuccess) {
             return false;
         }
@@ -67,9 +72,7 @@ public abstract class AbstractCell {
     public boolean canTakeBigObject() {
         return bigObject == null;
     }
-    //TODO Общий доступ???
-
-
+    // TODO TODO - принять, а не изъять (canPutObject)
 
     /*---------- СОСЕДНИЕ ЯЧЕЙКИ ----------*/
     /**
@@ -102,18 +105,23 @@ public abstract class AbstractCell {
      * @param neighborCell соседняя ячейка.
      * @param direction    направление.
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
+     * @return успешность.
      */
-    void setNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
-        //TODO Проверки
+    boolean setNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
+        //TODO TODO - если повторно, то true
+        assert !(neighborCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborCell));
         if (neighborCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborCell)) {
-            throw new IllegalArgumentException();
+            return false;
         }
 
         neighborCells.put(direction, neighborCell);
 
-        if (!neighborCell.isNeighbor(this)) {
-            neighborCell.setNeighbor(this, direction.getOppositeDirection());
+        if (!neighborCell.isNeighbor(this)) { //TODO TODO Нужно ли проверять - если только для assert
+            boolean success = neighborCell.setNeighbor(this, direction.getOppositeDirection());
+            assert success;
         }
+
+        return true;
     }
 
     /**
@@ -159,28 +167,28 @@ public abstract class AbstractCell {
     /**
      * Установить объект, располагающийся между ячейками в заданном направлении.
      *
-     * @param betweenCellObject объект, располагающийся между ячейками.
+     * @param obstacle объект, располагающийся между ячейками.
      * @param direction         направление.
      */
-    public boolean setNeighborObstacle(@NotNull BetweenCellObject betweenCellObject, @NotNull Direction direction) {
-        //TODO Проверки
-        if (getNeighborObstacle(direction) == betweenCellObject) return true;
+    public boolean setNeighborObstacle(@NotNull BetweenCellObject obstacle, @NotNull Direction direction) {//TODO obstacle - поменять везде параметры на obstacle как тyт
+        //TODO Проверки DONE
+        if (getNeighborObstacle(direction) == obstacle) return true;
 
         if (getNeighborObstacle(direction) != null) return false;
 
-        neighborObstacles.put(direction, betweenCellObject);
+        neighborObstacles.put(direction, obstacle);
 
         BetweenCellsPosition position = new BetweenCellsPosition(this, direction);
-        if (!betweenCellObject.canSetAtPosition(position)) {
+        if (!obstacle.canLocateAtPosition(position)) {// TODO TODO  - область между ячейками решает, может ли находиться препятствие + препятсвие решает, может ли оно находиться в этой области
             return false;
         }
 
         AbstractCell neighbor = getNeighborCell(direction);
         if (neighbor != null) {
-            neighbor.setNeighborObstacle(betweenCellObject, direction.getOppositeDirection());
+            neighbor.setNeighborObstacle(obstacle, direction.getOppositeDirection());
         }
 
-        return betweenCellObject.setPosition(position);
+        return obstacle.setPosition(position);
     }
 
     /**

@@ -191,7 +191,7 @@ public class Field {
      * @param teleport телепорт.
      */
     private void fireRobotIsTeleported(@NotNull AbstractCell teleport) {
-        // TODO teleport???
+        // TODO teleport - название??? (?: а что тут?)
         FieldActionEvent event = new FieldActionEvent(this);
         event.setRobot(((ExitCell) teleport).getTeleportedRobot());
         event.setTeleport(teleport);

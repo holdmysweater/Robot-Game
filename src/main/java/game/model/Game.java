@@ -38,7 +38,7 @@ public class Game {
      *
      * @param labyrinth лабиринт, содержащий расстановку элементов на поле
      */
-    public void startGame(@NotNull Labyrinth labyrinth) {
+    public void startGame(@NotNull Labyrinth labyrinth) { // TODO переименовать в start()
         setStatus(GameStatus.GAME_IS_ON);
 
         gameField = labyrinth.createField();
@@ -104,7 +104,7 @@ public class Game {
     /**
      * Обновить состояние игры.
      */
-    private void updateGameState() {
+    private void updateGameState() { // TODO переименовать в updateGameStatus()
         GameStatus status = determineOutcomeGame();
         setStatus(status);
         robot.setUnfrozen(status == GameStatus.GAME_IS_ON);
@@ -163,6 +163,7 @@ public class Game {
             updateGameState();
             robot.setUnfrozen(false);
             fireRobotIsTeleported();
+            // TODO TODO сначала событие, что робот телепортирован, потом событие, что изменилось состояние игры
         }
     }
 

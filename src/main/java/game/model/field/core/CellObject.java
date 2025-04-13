@@ -28,11 +28,13 @@ public abstract class CellObject {
      * @return установлена ли позиция.
      */
     boolean setPosition(AbstractCell position) {
-        //TODO Проверки
+        //TODO Проверки DONE
+        assert !(position != null && getPosition() != null && getPosition() != position);
         if (position != null && getPosition() != null && getPosition() != position) {
             return false;
         }
 
+        assert !(position != null && !canLocateAtPosition(position));
         if (position != null && !canLocateAtPosition(position)) {
             return false;
         }
@@ -47,6 +49,6 @@ public abstract class CellObject {
      * @param cell позиция.
      * @return может ли объект располагаться в указанной позиции.
      */
-    public abstract boolean canLocateAtPosition(@NotNull AbstractCell cell);
-    //TODO должен быть общедоступным?
+    protected abstract boolean canLocateAtPosition(@NotNull AbstractCell cell);
+    // TODO TODO - написать, что ячейка уже дала разрешение на помещение объекта в себя
 }

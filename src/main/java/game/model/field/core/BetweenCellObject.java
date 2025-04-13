@@ -31,7 +31,7 @@ public abstract class BetweenCellObject {
      * @return Удалось ли установить позицию.
      */
     boolean setPosition(@NotNull BetweenCellsPosition position) {
-        //TODO Проверки
+        //TODO Проверки DONE
         if (this.position != null && this.position.equals(position)) {
             return true;
         }
@@ -50,16 +50,16 @@ public abstract class BetweenCellObject {
      * @param newPosition проверяемая позиция.
      * @return может ли находиться объект в позиции.
      */
-    public boolean canSetAtPosition(@NotNull BetweenCellsPosition newPosition) {
-        //TODO Отличие от canLocateAtPosition
+    boolean canLocateAtPosition(@NotNull BetweenCellsPosition newPosition) {
+        // TODO TODO будет вызываться только самим собой, следовательно protected
         Map<Direction, AbstractCell> neighborCells = newPosition.getNeighborCells();
 
         var iterator = neighborCells.entrySet().iterator();
 
         boolean result = true;
         while (iterator.hasNext() && result) {
-            var i = iterator.next();
-            BetweenCellObject neighborWall = i.getValue().getNeighborObstacle(i.getKey().getOppositeDirection());
+            var cell = iterator.next();
+            BetweenCellObject neighborWall = cell.getValue().getNeighborObstacle(cell.getKey().getOppositeDirection());
             result = (neighborWall == null) || (neighborWall == this);
         }
 

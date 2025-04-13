@@ -6,7 +6,7 @@ import game.model.events.RobotActionListener;
 
 import java.util.ArrayList;
 
-//TODO Полная валидация робота
+//TODO Полная валидация робота (перепроверить проверки и тд, я глянула, но глянь еще раз?)
 
 /**
  * Робот.
@@ -63,7 +63,7 @@ public class Robot extends CellObject {
             return false;
         }
 
-        boolean success = battery.releaseCharge(AMOUNT_OF_CHARGE_FOR_MOVE);
+        boolean success = battery.drainCharge(AMOUNT_OF_CHARGE_FOR_MOVE);
 
         if (!success) {
             return false;
@@ -83,7 +83,7 @@ public class Robot extends CellObject {
     }
 
     @Override
-    public boolean canLocateAtPosition(@NotNull AbstractCell newPosition) {
+    protected boolean canLocateAtPosition(@NotNull AbstractCell newPosition) {
         if ((newPosition instanceof ExitCell) && (((ExitCell) newPosition).getTeleportedRobot() == this)) {
             return false;
         }
@@ -172,12 +172,10 @@ public class Robot extends CellObject {
     }
 
     /**
-     * Установить состояние телепортации робота.
-     *
-     * @param value телепортирован ли робот
+     * Считать, что робот телепортирован.
      */
-    void setTeleported(boolean value) { //TODO Плохо - может быть детелепортирован??
-        isTeleported = value;
+    void setTeleported() { //TODO Плохо - может быть детелепортирован?? DONE
+        isTeleported = true;
     }
 
     /**
@@ -186,15 +184,19 @@ public class Robot extends CellObject {
      * @param battery источник питания.
      */
     public boolean setBattery(@NotNull Battery battery) {
-        //TODO Проверки
+        // TODO TODO - можно сделать private, что будет при создании робота?
         if (battery == this.battery) return true;
 
         if (getBattery() != null) return false;
 
-        this.battery = battery;
+        this.battery = battery; // TODO TODO дальше что-то может пойти не так DONE
 
-        if (!battery.connectTo(this)) {
-            throw new RuntimeException("Can't connect to battery");
+        boolean success = battery.connectTo(this);
+
+        assert success;
+        if (!success) {
+            this.battery = null;
+            return false;
         }
 
         return true;
@@ -206,13 +208,14 @@ public class Robot extends CellObject {
      * @return успешность изъятия
      */
     public boolean unsetBattery() {
+        // TODO TODO - можно сделать private
         if (getBattery() == null) return true;
 
-        Battery battery = this.battery;
+        Battery battery = this.battery; // TODO TODO что-то может пойти не так
         this.battery = null;
 
         if (!battery.disconnect()) {
-            throw new RuntimeException("Can't disconnect from user");
+            throw new RuntimeException("Can't disconnect from user"); // TODO  TODO  почему исключение
         }
 
         return true;
@@ -244,7 +247,8 @@ public class Robot extends CellObject {
     public Battery getBattery() {
         return this.battery;
     }
-    //TODO Зачем???
+    //TODO Зачем??? (Ответ: тесты. Сделать пакетным?)
+    //TODO TODO - переписать тесты так, чтобы рассматривать робота как черный ящик, использовать только getCharge()
 
     /**
      * Список слушателей, подписанных на события игры.
