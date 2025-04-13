@@ -2,7 +2,6 @@ package game.model.field.core;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.field.CellTestModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,14 +25,14 @@ class BatteryTest {
     @Test
     public void test_releaseCharge_whenChargeAmountLessCharge() {
         int chargeAmount = 5;
-        assertTrue(battery.releaseCharge(chargeAmount));
+        assertTrue(battery.drainCharge(chargeAmount));
         assertEquals(DEFAULT_TEST_BATTERY_CHARGE - chargeAmount, battery.getCharge());
     }
 
     @Test
     public void test_releaseCharge_whenChargeEqualsCharge() {
         int chargeAmount = DEFAULT_TEST_BATTERY_CHARGE;
-        assertTrue(battery.releaseCharge(chargeAmount));
+        assertTrue(battery.drainCharge(chargeAmount));
         assertEquals(0, battery.getCharge());
     }
 
@@ -69,7 +68,7 @@ class BatteryTest {
 
     @Test
     public void test_canLocateAtPosition_inNotCellWithPowerSupply() {
-        AbstractCell cell = new CellTestModel();
+        AbstractCell cell = new NormalCell();
 
         boolean result = battery.canLocateAtPosition(cell);
 
@@ -79,7 +78,7 @@ class BatteryTest {
     @Test
     public void test_releaseCharge_whenChargeAmountMoreThanCharge() {
         int chargeAmount = 11;
-        assertFalse(battery.releaseCharge(chargeAmount));
+        assertFalse(battery.drainCharge(chargeAmount));
         assertEquals(DEFAULT_TEST_BATTERY_CHARGE, battery.getCharge());
     }
 }

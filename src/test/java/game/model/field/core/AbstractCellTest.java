@@ -1,6 +1,5 @@
 package game.model.field.core;
 
-import game.model.field.CellTestModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.model.field.between_cells_objects.WallSegment;
@@ -18,7 +17,7 @@ class AbstractCellTest {
     @BeforeEach
     public void testSetup() {
 
-        cell = new CellTestModel();
+        cell = new NormalCell();
     }
 
     @Test
@@ -69,7 +68,7 @@ class AbstractCellTest {
 
     @Test
     public void test_setNeighborCell() {
-        AbstractCell neighborCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
         cell.setNeighbor(neighborCell, direction);
@@ -81,7 +80,7 @@ class AbstractCellTest {
 
     @Test
     public void test_setNeighborCell_doubleSided() {
-        AbstractCell neighborCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
         cell.setNeighbor(neighborCell, direction);
@@ -92,8 +91,8 @@ class AbstractCellTest {
 
     @Test
     public void test_setNeighborCell_twoTimesInOneDirection() {
-        AbstractCell neighborCell = new CellTestModel();
-        AbstractCell anotherCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
+        AbstractCell anotherCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
         cell.setNeighbor(neighborCell, direction);
@@ -104,7 +103,7 @@ class AbstractCellTest {
 
     @Test
     public void test_setNeighborCell_alreadyNeighborWithAnotherDirection() {
-        AbstractCell neighborCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
         Direction anotherDirection = Direction.SOUTH;
 
@@ -124,7 +123,7 @@ class AbstractCellTest {
 
     @Test
     public void test_isNeighbor_WhenNeighborCellExists() {
-        AbstractCell neighborCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
         cell.setNeighbor(neighborCell, direction);
@@ -133,7 +132,7 @@ class AbstractCellTest {
 
     @Test
     public void test_isNeighbor_WhenNeighborCellNotExists() {
-        AbstractCell neighborCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
 
         assertNull(cell.getNeighborDirection(neighborCell));
     }
@@ -174,7 +173,7 @@ class AbstractCellTest {
     @Test
     public void test_setWall_inNeighborCells() {
         Direction direction = Direction.NORTH;
-        AbstractCell neighborCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
         WallSegment wallSegment = new WallSegment();
         cell.setNeighbor(neighborCell, direction);
 
@@ -189,7 +188,7 @@ class AbstractCellTest {
     @Test
     public void test_setWall_InNeighborCellsWithSameDirectionAndAnotherWallSegment() {
         Direction direction = Direction.NORTH;
-        AbstractCell neighborCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
         cell.setNeighbor(neighborCell, direction);
         WallSegment wallSegment = new WallSegment();
         WallSegment anotherWallSegment = new WallSegment();
@@ -206,7 +205,7 @@ class AbstractCellTest {
     @Test
     public void test_setWall_InNeighborCellsWithSameWallSegmentAndAnotherDirection() {
         Direction direction = Direction.NORTH;
-        AbstractCell neighborCell = new CellTestModel();
+        AbstractCell neighborCell = new NormalCell();
         cell.setNeighbor(neighborCell, direction);
         WallSegment wallSegment = new WallSegment();
         Direction anotherDirection = direction.getOppositeDirection();

@@ -17,14 +17,14 @@ public class WallSegmentTest {
 
     @BeforeEach
     public void testSetup() {
-        abstractCell1 = new AbstractCellTestModel();
-        neighbourAbstractCell1 = new AbstractCellTestModel();
+        abstractCell1 = new NormalCell();
+        neighbourAbstractCell1 = new NormalCell();
         wallSegment1 = new WallSegment();
         abstractCell1.setNeighbor(neighbourAbstractCell1, Direction.WEST);
 
 
-        abstractCell2 = new AbstractCellTestModel();
-        neighbourAbstractCell2 = new AbstractCellTestModel();
+        abstractCell2 = new NormalCell();
+        neighbourAbstractCell2 = new NormalCell();
         wallSegment2 = new WallSegment();
         abstractCell2.setNeighbor(neighbourAbstractCell2, Direction.WEST);
     }
@@ -36,8 +36,8 @@ public class WallSegmentTest {
 
     @Test
     public void test_equalsForWallWithDifferentPosition() {
-        abstractCell1.setBetweenCellObject(wallSegment1, Direction.WEST);
-        abstractCell2.setBetweenCellObject(wallSegment2, Direction.WEST);
+        abstractCell1.setNeighborObstacle(wallSegment1, Direction.WEST);
+        abstractCell2.setNeighborObstacle(wallSegment2, Direction.WEST);
         Assertions.assertNotEquals(wallSegment1, wallSegment2);
     }
 
@@ -52,7 +52,7 @@ public class WallSegmentTest {
 
     @Test
     public void test_equalsForWallWithPositionAndWallWithoutPosition() {
-        abstractCell1.setBetweenCellObject(wallSegment1, Direction.WEST);
+        abstractCell1.setNeighborObstacle(wallSegment1, Direction.WEST);
         Assertions.assertNotEquals(wallSegment1, wallSegment2);
     }
 

@@ -75,7 +75,7 @@ public class FieldTest {
 
     @Test
     public void test_getRobotsOnField_empty() {
-        assertNull(field.getRobotOnField());
+        assertNull(field.getRobot());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class FieldTest {
         Robot robot = new Robot(new Battery());
         field.getCell(new Point(0, 0)).setBigObject(robot);
 
-        assertEquals(robot, field.getRobotOnField());
+        assertEquals(robot, field.getRobot());
     }
 
     @Test
