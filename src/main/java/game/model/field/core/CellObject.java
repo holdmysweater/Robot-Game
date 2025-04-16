@@ -29,16 +29,13 @@ public abstract class CellObject {
      */
     boolean setPosition(@NotNull AbstractCell position) {
         //TODO Проверки DONE
-        assert !(position != null && getPosition() != null && getPosition() != position);
-        if (position != null && getPosition() != null && getPosition() != position) {
+
+        // Return FALSE if can't locate at this position
+        if (!canLocateAtPosition(position)) {
             return false;
         }
 
-        assert !(position != null && !canLocateAtPosition(position));
-        if (position != null && !canLocateAtPosition(position)) {
-            return false;
-        }
-
+        // Remember position
         this.position = position;
         return true;
     }

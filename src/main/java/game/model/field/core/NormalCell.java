@@ -17,20 +17,24 @@ public class NormalCell extends AbstractCell {
      * @param smallObject объект, добавляемый в ячейку.
      */
     public boolean setSmallObject(@NotNull Battery smallObject) {
-        //TODO Проверка DONE
-        assert this.smallObject == null;
-        if (this.smallObject != null) {
+        // Perform all my checks before initiate connection
+
+        // Return FALSE if cell can't take small object
+        if (!this.canTakeSmallObject()) {
             return false;
         }
 
+        // Established connection
         boolean success = smallObject.setPosition(this);
 
-        assert success;
+        // Return FALSE if connection was failed
         if (!success) {
             return false;
         }
 
+        // Remember small object
         this.smallObject = smallObject;
+        // Connection is established correctly
         return true;
     }
 
