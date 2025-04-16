@@ -83,6 +83,11 @@ public class Robot extends CellObject {
 
     @Override
     protected boolean canLocateAtPosition(@NotNull AbstractCell newPosition) {
+        /* TODO { определить нужно ли добавлять условие getPosition() == position, которое было вырезано из CellObject.setPosition().
+        Это условие определяет, будет ли при установке такой же позиции в объект возвращаться положительный результат
+        или нужно вернуть ложь, т.е. объект имеет уже имеет связь и не важно что с этим же объектом.
+        По диаграмме классов только этот метод определяет, можно ли установить связь с этим объектом. }
+        */
         return getPosition() == null;
     }
 

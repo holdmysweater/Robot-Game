@@ -37,6 +37,7 @@ public abstract class CellObject {
         }
 
         // Remember position
+        // Remember position
         this.position = position;
         return true;
     }
@@ -55,5 +56,5 @@ public abstract class CellObject {
      * @return может ли объект располагаться в указанной позиции.
      */
     protected abstract boolean canLocateAtPosition(@NotNull AbstractCell cell);
-    // TODO TODO - написать, что ячейка уже дала разрешение на помещение объекта в себя
+    // TODO TODO - написать, что ячейка уже дала разрешение на помещение объекта в себя DONE
 }

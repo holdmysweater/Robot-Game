@@ -20,22 +20,27 @@ public abstract class AbstractCell {
      * @param bigObject объект, добавляемый в ячейку.
      */
     public boolean setBigObject(@NotNull Robot bigObject) {
-        //TODO Проверки DONE
+        // Perform all my checks before initiate connection
+
+        // Return TRUE because connection already exist with THIS big object
         if (this.bigObject == bigObject) return true;
 
-        boolean hasBigObject = this.bigObject != null;
-        assert !hasBigObject;
-        if (hasBigObject) {
+        // Return FALSE if cell can't take big object
+        if (!this.canTakeBigObject()) {
             return false;
         }
 
-        boolean isPositionSetSuccess = bigObject.setPosition(this);
-        assert isPositionSetSuccess;
-        if (!isPositionSetSuccess) {
+        // Established connection
+        boolean success = bigObject.setPosition(this);
+
+        // Return FALSE if connection was failed
+        if (!success) {
             return false;
         }
 
+        // Remember big object
         this.bigObject = bigObject;
+        // Connection is established correctly
         return true;
     }
 
@@ -70,7 +75,7 @@ public abstract class AbstractCell {
      * @return может принять большой объект.
      */
     public boolean canTakeBigObject() {
-        return bigObject == null;
+        return getBigObject() == null;
     }
     // TODO TODO - принять, а не изъять (canPutObject)
 
