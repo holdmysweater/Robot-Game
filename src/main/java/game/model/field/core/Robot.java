@@ -83,13 +83,7 @@ public class Robot extends CellObject {
 
     @Override
     protected boolean canLocateAtPosition(@NotNull AbstractCell newPosition) {
-        if ((newPosition instanceof ExitCell) && (((ExitCell) newPosition).getTeleportedRobot() == this)) {
-            return false;
-        }
-
-        Robot bigObjectInCell = newPosition.getBigObject();
-
-        return bigObjectInCell == null;
+        return getPosition() == null;
     }
 
     /**
