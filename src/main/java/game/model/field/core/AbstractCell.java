@@ -48,7 +48,7 @@ public abstract class AbstractCell {
         Robot result = bigObject;
 
         if (result != null) {
-            result.setPosition(null);
+            result.unsetPosition();
             bigObject = null;
         }
 

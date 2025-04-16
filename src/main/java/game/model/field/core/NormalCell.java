@@ -43,7 +43,7 @@ public class NormalCell extends AbstractCell {
         Battery result = smallObject;
 
         if (result != null) {
-            result.setPosition(null);
+            result.unsetPosition();
             smallObject = null;
         }
 

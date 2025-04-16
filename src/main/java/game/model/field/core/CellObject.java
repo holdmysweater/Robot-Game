@@ -27,7 +27,7 @@ public abstract class CellObject {
      * @param position позиция.
      * @return установлена ли позиция.
      */
-    boolean setPosition(AbstractCell position) {
+    boolean setPosition(@NotNull AbstractCell position) {
         //TODO Проверки DONE
         assert !(position != null && getPosition() != null && getPosition() != position);
         if (position != null && getPosition() != null && getPosition() != position) {
@@ -41,6 +41,13 @@ public abstract class CellObject {
 
         this.position = position;
         return true;
+    }
+
+    /**
+     * Удалить позицию у объекта {@link CellObject#position}.
+     */
+    void unsetPosition() {
+        this.position = null;
     }
 
     /**

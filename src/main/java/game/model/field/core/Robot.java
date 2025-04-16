@@ -70,7 +70,6 @@ public class Robot extends CellObject {
         }
 
         AbstractCell oldPosition = getPosition();
-        setPosition(null);
 
         oldPosition.takeBigObject();
         if (!newPosition.setBigObject(this)) {
