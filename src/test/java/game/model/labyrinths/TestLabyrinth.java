@@ -10,6 +10,7 @@ import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.core.Robot;
 import game.model.field.core.Battery;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,15 +36,11 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<Robot, AbstractCell> createRobot(@NotNull Field field) {
-        Map<Robot, AbstractCell> robotMap = new HashMap<>();
-
-        robotMap.put(
+    protected AbstractMap.SimpleEntry<Robot, AbstractCell> createRobot(@NotNull Field field) {
+        return new AbstractMap.SimpleEntry<>(
                 new Robot(new Battery()),
                 field.getCell(new Point(0, 2))
         );
-
-        return robotMap;
     }
 
     @Override

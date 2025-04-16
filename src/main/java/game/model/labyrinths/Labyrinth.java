@@ -11,6 +11,7 @@ import game.model.field.core.AbstractCell;
 import org.jetbrains.annotations.NotNull;
 import game.model.field.core.Point;
 
+import java.util.AbstractMap;
 import java.util.Map;
 
 /**
@@ -88,17 +89,14 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     protected void populateRobot(@NotNull Field field) {
-        Map<Robot, AbstractCell> robot = createRobot(field);
+        // Get information about single robot on field
+        AbstractMap.SimpleEntry<Robot, AbstractCell> robotInfo = createRobot(field);
+        Robot robot = robotInfo.getKey();
+        AbstractCell robotCell = robotInfo.getValue();
 
-        if (robot.keySet().size() != 1) {
-            throw new RuntimeException("Only one robot can exist");
-        }
-
-        for (Robot r : robot.keySet()) {
-            if (!robot.get(r).setBigObject(r)) {
-                throw new RuntimeException("Robot " + r + " not set");
-            }
-        }
+        // Establish connection between the cell and the robot
+        boolean correct = robotCell.setBigObject(robot);
+        assert correct; // Check connection status
     }
 
     /**
@@ -128,7 +126,7 @@ public abstract class Labyrinth {
      *
      * @param field поле.
      */
-    protected abstract Map<Robot, AbstractCell> createRobot(@NotNull Field field);
+    protected abstract AbstractMap.SimpleEntry<Robot, AbstractCell> createRobot(@NotNull Field field);
 
     /**
      * Добавить источники питания на поле.

@@ -4,6 +4,7 @@ import game.model.field.core.*;
 import org.jetbrains.annotations.NotNull;
 import game.model.field.between_cells_objects.WallSegment;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,15 +57,11 @@ public class SmallLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<Robot, AbstractCell> createRobot(@NotNull Field field) {
-        Map<Robot, AbstractCell> map = new HashMap<>();
-
-        map.put(
+    protected AbstractMap.SimpleEntry<Robot, AbstractCell> createRobot(@NotNull Field field) {
+        return new AbstractMap.SimpleEntry<>(
                 new Robot(new Battery()),
                 field.getCell(new Point(0, 2))
         );
-
-        return map;
     }
 
     @Override
