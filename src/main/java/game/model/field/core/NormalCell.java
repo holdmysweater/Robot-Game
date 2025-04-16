@@ -72,7 +72,7 @@ public class NormalCell extends AbstractCell {
      * @return может принять маленький объект.
      */
     boolean canTakeSmallObject() {
-        return smallObject == null;
+        return getSmallObject() == null;
     }
     //TODO Общий доступ??? DONE
     // TODO TODO - симметрично с большим объектом
