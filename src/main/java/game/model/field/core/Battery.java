@@ -191,14 +191,7 @@ public class Battery extends CellObject {
     @Override
     protected boolean canLocateAtPosition(@NotNull AbstractCell cell) {
         //TODO TODO - переделать,  что чисто  позиция
-        if (isDestroy || !(cell instanceof NormalCell)) {
-            return false;
-        }
-
-        assert cell instanceof NormalCell; // TODO TODO
-        Battery smallObjectInCell = ((NormalCell) cell).getSmallObject();
-
-        return smallObjectInCell == null;
+        return !this.isUsed() && getPosition() == null;
     }
 
     @Override
