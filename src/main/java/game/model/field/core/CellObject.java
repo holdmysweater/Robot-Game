@@ -28,7 +28,8 @@ public abstract class CellObject {
      * @return установлена ли позиция.
      */
     boolean setPosition(@NotNull AbstractCell position) {
-        //TODO Проверки DONE
+        // Return TRUE because connection already exist with THIS position
+        if (this.getPosition() == position) return true;
 
         // Return FALSE if can't locate at this position
         if (!canLocateAtPosition(position)) {

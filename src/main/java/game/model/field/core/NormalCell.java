@@ -19,6 +19,9 @@ public class NormalCell extends AbstractCell {
     public boolean setSmallObject(@NotNull Battery smallObject) {
         // Perform all my checks before initiate connection
 
+        // Return TRUE because connection already exist with THIS small object
+        if (this.getSmallObject() == smallObject) return true;
+
         // Return FALSE if cell can't take small object
         if (!this.canTakeSmallObject()) {
             return false;
