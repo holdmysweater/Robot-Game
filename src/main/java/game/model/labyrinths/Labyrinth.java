@@ -107,10 +107,18 @@ public abstract class Labyrinth {
     protected void populateBatteries(@NotNull Field field) {
         Map<Battery, AbstractCell> batteries = createBatteries(field);
 
-        for (Battery b : batteries.keySet()) {
-            if (!((NormalCell) batteries.get(b)).setSmallObject(b)) {
-                throw new RuntimeException("Battery " + b + " not set");
-            }
+        for (Battery battery : batteries.keySet()) {
+            AbstractCell cell = batteries.get(battery);
+
+            // Check cell class
+            boolean isNormalCell = cell instanceof NormalCell;
+            assert !isNormalCell : "Battery can't set at cell that is not NormalCell";
+            if (!isNormalCell) { continue; }
+
+            // Set battery
+            NormalCell normalCell = (NormalCell) cell;
+            boolean correct = normalCell.setSmallObject(battery);
+            assert correct : "Battery can't set at cell";
         }
     }
 
