@@ -12,6 +12,61 @@ import java.util.Objects;
  */
 public class BetweenCellsArea {
 
+    /*---------- ОБЪЕКТ МЕЖДУ ЯЧЕЙКАМИ ----------*/
+    /**
+     * Объект между ячейками, расположенный в ячейке.
+     */
+    private BetweenCellObject obstacle = null;
+
+    /**
+     * Добавить объект между ячейками в ячейку {@link BetweenCellsArea#obstacle}.
+     *
+     * @param obstacle объект, добавляемый в область между ячейками.
+     */
+    public boolean setObstacle(@NotNull BetweenCellObject obstacle) {
+        if (this.obstacle == obstacle) return true;
+
+        boolean hasObstacle = this.obstacle != null;
+        assert !hasObstacle;
+        if (hasObstacle) {
+            return false;
+        }
+
+        boolean isPositionSetSuccess = obstacle.setPosition(this);
+        assert isPositionSetSuccess;
+        if (!isPositionSetSuccess) {
+            return false;
+        }
+
+        this.obstacle = obstacle;
+        return true;
+    }
+
+    /**
+     * Изъять объект между ячейками из ячейки.
+     *
+     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link BetweenCellsArea#obstacle}.
+     */
+    public BetweenCellObject takeObstacle() {
+        BetweenCellObject result = obstacle;
+
+        if (result != null) {
+            result.setPosition(null);
+            obstacle = null;
+        }
+
+        return result;
+    }
+
+    /**
+     * Получить объект между ячейками.
+     *
+     * @return объект между ячейками.
+     */
+    public BetweenCellObject getObstacle() {
+        return obstacle;
+    }
+
     /**
      * Соседние ячейки.
      */
