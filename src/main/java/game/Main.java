@@ -24,6 +24,7 @@ public class Main {
 
         private Game game;
         private WidgetFactory widgetFactory;
+        private int SHOW_MESSAGE_DELAY = 10;
 
         public GamePanel() throws HeadlessException {
             setVisible(true);
@@ -116,13 +117,31 @@ public class Main {
                             message = "Робот имеет нулевой заряд";
                             break;
                     }
-                    String[] options = {"ok"};
-                    int value = JOptionPane.showOptionDialog(GamePanel.this, message, "Игра окончена", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-                    if (value == 0 || value == 1) {
-                        startGame();
-                        GamePanel.this.repaint();
-                    }
+
+                    String finalMessage = message;
+                    Timer timer = new Timer(SHOW_MESSAGE_DELAY, e -> showMessage(finalMessage));
+                    timer.setRepeats(false);
+                    timer.start();
                 }
+            }
+
+            /**
+             * Отображает диалогово окно.
+             *
+             * @param message - сообщение.
+             */
+            private void showMessage(String message) {
+                String[] options = {"ok"};
+                JOptionPane.showOptionDialog(
+                        GamePanel.this,
+                        message,
+                        "Игра окончена",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
             }
         }
     }

@@ -108,7 +108,9 @@ public class FieldWidget extends JPanel {
             CellWidget from = widgetFactory.getWidget(event.getFromCell());
             CellWidget to = widgetFactory.getWidget(event.getToCell());
             from.removeItem(robotWidget);
-            to.addItem(robotWidget);
+            if (!event.getRobot().isTeleported()) {
+                to.addItem(robotWidget);
+            }
             robotWidget.requestFocus();
         }
 

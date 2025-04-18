@@ -137,9 +137,7 @@ public class Game {
         @Override
         public void robotIsMoved(@NotNull RobotActionEvent event) {
             fireRobotIsMoved(event.getRobot());
-            if (!(event.getToCell() instanceof ExitCell)) {
-                updateGameState();
-            }
+            updateGameState();
         }
 
         @Override
@@ -160,10 +158,8 @@ public class Game {
 
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
-            updateGameState();
             robot.setUnfrozen(false);
             fireRobotIsTeleported();
-            // TODO TODO сначала событие, что робот телепортирован, потом событие, что изменилось состояние игры
         }
     }
 
