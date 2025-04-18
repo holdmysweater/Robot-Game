@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Класс позиции между ячейками {@link AbstractCell}
  */
-public class BetweenCellsPosition { // TODO TODO сделать как область поля
+public class BetweenCellsArea {
 
     /**
      * Соседние ячейки.
@@ -24,7 +24,7 @@ public class BetweenCellsPosition { // TODO TODO сделать как обла�
      * @param neighborCell соседняя ячейка.
      * @throws IllegalArgumentException если ячейки не являются соседними.
      */
-    public BetweenCellsPosition(@NotNull AbstractCell cell, @NotNull AbstractCell neighborCell) {
+    public BetweenCellsArea(@NotNull AbstractCell cell, @NotNull AbstractCell neighborCell) {
         //TODO Проверки DONE
         Direction neighborDirection = cell.getNeighborDirection(neighborCell);
 
@@ -42,7 +42,7 @@ public class BetweenCellsPosition { // TODO TODO сделать как обла�
      * @param cell      ячейка.
      * @param direction направление.
      */
-    public BetweenCellsPosition(@NotNull AbstractCell cell, @NotNull Direction direction) {
+    public BetweenCellsArea(@NotNull AbstractCell cell, @NotNull Direction direction) {
         //TODO Проверки DONE
         neighborCells.put(direction, cell);
 
@@ -54,7 +54,7 @@ public class BetweenCellsPosition { // TODO TODO сделать как обла�
     }
 
     /**
-     * Получить соседние ячейки {@link BetweenCellsPosition#neighborCells}.
+     * Получить соседние ячейки {@link BetweenCellsArea#neighborCells}.
      *
      * @return соседние ячейки.
      */
@@ -72,7 +72,7 @@ public class BetweenCellsPosition { // TODO TODO сделать как обла�
             return false;
         }
 
-        BetweenCellsPosition that = (BetweenCellsPosition) o;
+        BetweenCellsArea that = (BetweenCellsArea) o;
 
         return Objects.equals(neighborCells, that.neighborCells);
     }

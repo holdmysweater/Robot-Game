@@ -183,7 +183,7 @@ public abstract class AbstractCell {
 
         neighborObstacles.put(direction, obstacle);
 
-        BetweenCellsPosition position = new BetweenCellsPosition(this, direction);
+        BetweenCellsArea position = new BetweenCellsArea(this, direction);
         if (!obstacle.canLocateAtPosition(position)) {// TODO TODO  - область между ячейками решает, может ли находиться препятствие + препятсвие решает, может ли оно находиться в этой области
             return false;
         }

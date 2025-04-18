@@ -2,7 +2,7 @@ package game.model.labyrinths;
 
 import game.model.field.core.Direction;
 import game.model.field.core.AbstractCell;
-import game.model.field.core.BetweenCellsPosition;
+import game.model.field.core.BetweenCellsArea;
 import org.jetbrains.annotations.NotNull;
 import game.model.field.core.Point;
 import game.model.field.core.Field;
@@ -56,22 +56,22 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<WallSegment, BetweenCellsPosition> createWalls(@NotNull Field field) {
-        Map<WallSegment, BetweenCellsPosition> wallMap = new HashMap<>();
+    protected Map<WallSegment, BetweenCellsArea> createWalls(@NotNull Field field) {
+        Map<WallSegment, BetweenCellsArea> wallMap = new HashMap<>();
 
         wallMap.put(
                 new WallSegment(),
-                new BetweenCellsPosition(field.getCell(new Point(2, 0)), Direction.SOUTH)
+                new BetweenCellsArea(field.getCell(new Point(2, 0)), Direction.SOUTH)
         );
 
         wallMap.put(
                 new WallSegment(),
-                new BetweenCellsPosition(field.getCell(new Point(2, 2)), Direction.SOUTH)
+                new BetweenCellsArea(field.getCell(new Point(2, 2)), Direction.SOUTH)
         );
 
         wallMap.put(
                 new WallSegment(),
-                new BetweenCellsPosition(field.getCell(new Point(2, 2)), Direction.EAST)
+                new BetweenCellsArea(field.getCell(new Point(2, 2)), Direction.EAST)
         );
 
         return wallMap;

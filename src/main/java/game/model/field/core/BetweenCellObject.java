@@ -13,14 +13,14 @@ public abstract class BetweenCellObject {
     /**
      * Позиция объекта между ячейками
      */
-    private BetweenCellsPosition position;
+    private BetweenCellsArea position;
 
     /**
      * Получить позицию {@link BetweenCellObject#position}.
      *
      * @return позиция.
      */
-    public BetweenCellsPosition getPosition() {
+    public BetweenCellsArea getPosition() {
         return position;
     }
 
@@ -30,7 +30,7 @@ public abstract class BetweenCellObject {
      * @param position позиция.
      * @return Удалось ли установить позицию.
      */
-    boolean setPosition(@NotNull BetweenCellsPosition position) {
+    boolean setPosition(@NotNull BetweenCellsArea position) {
         //TODO Проверки DONE
         if (this.position != null && this.position.equals(position)) {
             return true;
@@ -50,7 +50,7 @@ public abstract class BetweenCellObject {
      * @param newPosition проверяемая позиция.
      * @return может ли находиться объект в позиции.
      */
-    boolean canLocateAtPosition(@NotNull BetweenCellsPosition newPosition) {
+    boolean canLocateAtPosition(@NotNull BetweenCellsArea newPosition) {
         // TODO TODO будет вызываться только самим собой, следовательно protected
         Map<Direction, AbstractCell> neighborCells = newPosition.getNeighborCells();
 

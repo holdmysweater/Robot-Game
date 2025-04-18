@@ -35,22 +35,22 @@ public class SmallLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<WallSegment, BetweenCellsPosition> createWalls(@NotNull Field field) {
-        Map<WallSegment, BetweenCellsPosition> map = new HashMap<>();
+    protected Map<WallSegment, BetweenCellsArea> createWalls(@NotNull Field field) {
+        Map<WallSegment, BetweenCellsArea> map = new HashMap<>();
 
         map.put(
                 new WallSegment(),
-                new BetweenCellsPosition(field.getCell(new Point(2, 0)), Direction.SOUTH)
+                new BetweenCellsArea(field.getCell(new Point(2, 0)), Direction.SOUTH)
         );
 
         map.put(
                 new WallSegment(),
-                new BetweenCellsPosition(field.getCell(new Point(2, 2)), Direction.SOUTH)
+                new BetweenCellsArea(field.getCell(new Point(2, 2)), Direction.SOUTH)
         );
 
         map.put(
                 new WallSegment(),
-                new BetweenCellsPosition(field.getCell(new Point(2, 2)), Direction.EAST)
+                new BetweenCellsArea(field.getCell(new Point(2, 2)), Direction.EAST)
         );
 
         return map;

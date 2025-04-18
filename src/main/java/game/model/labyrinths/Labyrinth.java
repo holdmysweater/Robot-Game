@@ -2,7 +2,7 @@ package game.model.labyrinths;
 
 import game.model.field.core.Direction;
 import game.model.field.core.NormalCell;
-import game.model.field.core.BetweenCellsPosition;
+import game.model.field.core.BetweenCellsArea;
 import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.core.Field;
 import game.model.field.core.Robot;
@@ -71,7 +71,7 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     protected void populateWalls(@NotNull Field field) {
-        Map<WallSegment, BetweenCellsPosition> walls = createWalls(field);
+        Map<WallSegment, BetweenCellsArea> walls = createWalls(field);
 
         for (WallSegment wall : walls.keySet()) {
             Direction direction = walls.get(wall).getNeighborCells().keySet().iterator().next();
@@ -127,7 +127,7 @@ public abstract class Labyrinth {
      *
      * @param field поле.
      */
-    protected abstract Map<WallSegment, BetweenCellsPosition> createWalls(@NotNull Field field);
+    protected abstract Map<WallSegment, BetweenCellsArea> createWalls(@NotNull Field field);
 
     /**
      * Добавить роботов на поле.
