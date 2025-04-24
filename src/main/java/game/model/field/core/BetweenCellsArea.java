@@ -24,20 +24,16 @@ public class BetweenCellsArea {
      * @param obstacle объект, добавляемый в область между ячейками.
      */
     public boolean setObstacle(@NotNull BetweenCellObject obstacle) {
+        // Вернуть true если этот объект уже задан
         if (this.obstacle == obstacle) return true;
 
-        boolean hasObstacle = this.obstacle != null;
-        assert !hasObstacle;
-        if (hasObstacle) {
-            return false;
-        }
+        // Вернуть false если этот объект не может быть размещён в этой области
+        if (!canTakeObstacle(obstacle)) return false;
 
-        boolean isPositionSetSuccess = obstacle.setPosition(this);
-        assert isPositionSetSuccess;
-        if (!isPositionSetSuccess) {
-            return false;
-        }
+        // Вернуть false если объект между ячеек не смог принять позицию
+        if (!obstacle.setPosition(this)) return false;
 
+        // Запомнить объект
         this.obstacle = obstacle;
         return true;
     }
@@ -65,6 +61,15 @@ public class BetweenCellsArea {
      */
     public BetweenCellObject getObstacle() {
         return obstacle;
+    }
+
+    /**
+     * Может приять объект между ячейками.
+     * @param obstacle объект между ячейками.
+     * @return может приять объект.
+     */
+    protected boolean canTakeObstacle(BetweenCellObject obstacle) {
+        return this.obstacle == null;
     }
 
     /**
