@@ -104,31 +104,77 @@ public abstract class AbstractCell {
         return neighborCells.get(direction);
     }
 
+
+    boolean setNeighbor(@NotNull Map<Direction, AbstractCell> neighborCells) {
+        for (Direction direction : neighborCells.keySet()) {
+             if (!setNeighbor(neighborCells.get(direction), direction)) return false;
+        }
+
+        // Создать недостающее количество промежуточных областей для ячейки
+        createBetweenCellsAreas();
+        return true;
+    }
+
+
     /**
      * Установить ячейку соседней {@link AbstractCell#neighborCells}.
+     * Взять её область между ячейками.
      *
      * @param neighborCell соседняя ячейка.
      * @param direction    направление.
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      * @return успешность.
      */
-    boolean setNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
-        //TODO TODO - если повторно, то true
-        assert !(neighborCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborCell));
+    private boolean setNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
+        // Вернуть true если объект уже установлена связь с этой ячейкой в этом направлении
+        if (neighborCells.get(direction) == neighborCell) return true;
+
+        // Вернуть false если у любой из клеток нет возможности установить соседство
+        if (!canEstablishNeighbor(neighborCell, direction) ||
+                !neighborCell.canEstablishNeighbor(this, direction.getOppositeDirection()))
+            return false;
+
+        // Запомнить ячейку как соседа
+        neighborCells.put(direction, neighborCell);
+
+        // Вернуть false если не удалось установить связь с соседом
+        if (!neighborCell.setNeighbor(this, direction.getOppositeDirection())) return false;
+
+        // Если есть область между ячейками, то добавить в неё нового соседа
+        BetweenCellsArea betweenCellsArea = neighborAreas.get(direction);
+        if (betweenCellsArea != null) {
+            betweenCellsArea.addNeighbor(neighborCell, direction.getOppositeDirection());
+        }
+        // Иначе запомнить область между ячейками соседа
+        else {
+            neighborAreas.put(direction, neighborCell.getNeighborArea(direction.getOppositeDirection()));
+        }
+
+        // Успешно завершить установку связи с соседом.
+        return true;
+    }
+
+    boolean canEstablishNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
+        // Вернуть true если уже установлена связь с этим объектом в этом направлении
+        if (neighborCells.get(direction) == neighborCell) return true;
+
+        // Вернуть false если связь уже установлена с другим объектом
+        if (neighborCells.get(direction) != null) return false;
+
+        // Вернуть false если связь устанавливается с самим собой, связь уже имеется с этим объектом или по этому направлению
         if (neighborCell == this || neighborCells.containsKey(direction) || neighborCells.containsValue(neighborCell)) {
             return false;
         }
 
-        neighborCells.put(direction, neighborCell);
+        // Вернуть false если область между ячейками известна и она уже имеет связь c другой клеткой
+        if (neighborAreas.get(direction) != null &&
+                neighborAreas.get(direction).getNeighborCell(direction.getOppositeDirection()) != null &&
+                neighborAreas.get(direction).getNeighborCell(direction.getOppositeDirection()) != neighborCell)
+            return false;
 
-        if (!neighborCell.isNeighbor(this)) { //TODO TODO Нужно ли проверять - если только для assert
-            boolean success = neighborCell.setNeighbor(this, direction.getOppositeDirection());
-            assert success;
-        }
-
+        // Может быть соседом
         return true;
     }
-
     /**
      * Получить направление с соседней ячейкой.
      *
@@ -156,53 +202,37 @@ public abstract class AbstractCell {
 
     /*---------- ОБЪЕКТЫ МЕЖДУ ЯЧЕЙКАМИ ----------*/
     /**
-     * Соседние объекты, располагающиеся между ячейками.
+     * Области, располагающиеся между ячейками.
      */
-    private final Map<Direction, BetweenCellObject> neighborObstacles = new EnumMap<>(Direction.class);
+    private final Map<Direction, BetweenCellsArea> neighborAreas = new EnumMap<>(Direction.class);
 
     /**
-     * Получить соседние объекты, располагающиеся между ячейками {@link AbstractCell#neighborObstacles}.
+     * Получить соседние области, располагающиеся между ячейками {@link AbstractCell#neighborAreas}.
      *
-     * @return соседние объекты, располагающиеся между ячейками.
+     * @return соседние области, располагающиеся между ячейками.
      */
-    public Map<Direction, BetweenCellObject> getNeighborObstacles() {
-        return Collections.unmodifiableMap(neighborObstacles);
+    public Map<Direction, BetweenCellsArea> getNeighborAreas() {
+        return Collections.unmodifiableMap(neighborAreas);
     }
 
     /**
-     * Установить объект, располагающийся между ячейками в заданном направлении.
-     *
-     * @param obstacle объект, располагающийся между ячейками.
-     * @param direction         направление.
+     * Дополнить все недостающие области между ячейками.
      */
-    public boolean setNeighborObstacle(@NotNull BetweenCellObject obstacle, @NotNull Direction direction) {//TODO obstacle - поменять везде параметры на obstacle как тyт
-        //TODO Проверки DONE
-        if (getNeighborObstacle(direction) == obstacle) return true;
-
-        if (getNeighborObstacle(direction) != null) return false;
-
-        neighborObstacles.put(direction, obstacle);
-
-        BetweenCellsArea position = new BetweenCellsArea(this, direction);
-        if (!obstacle.canLocateAtPosition(position)) {// TODO TODO  - область между ячейками решает, может ли находиться препятствие + препятсвие решает, может ли оно находиться в этой области
-            return false;
+    private void createBetweenCellsAreas() {
+        Set<Direction> directions = new HashSet<>(List.of(Direction.values()));
+        directions.removeAll(neighborAreas.keySet());
+        for (Direction direction : directions) {
+            neighborAreas.put(direction, new BetweenCellsArea(this, direction));
         }
-
-        AbstractCell neighbor = getNeighborCell(direction);
-        if (neighbor != null) {
-            neighbor.setNeighborObstacle(obstacle, direction.getOppositeDirection());
-        }
-
-        return obstacle.setPosition(position);
     }
 
     /**
-     * Получить соседний объект, располагающийся между ячейками {@link AbstractCell#neighborObstacles} в заданном направлении.
+     * Получить соседнюю область, располагающийся между ячейками {@link AbstractCell#neighborAreas} в заданном направлении.
      *
      * @param direction направление.
-     * @return соседний объект, располагающийся между ячейками в заданном направлении.
+     * @return соседняя область, располагающийся между ячейками в заданном направлении.
      */
-    public BetweenCellObject getNeighborObstacle(@NotNull Direction direction) {
-        return neighborObstacles.get(direction);
+    public BetweenCellsArea getNeighborArea(@NotNull Direction direction) {
+        return neighborAreas.get(direction);
     }
 }

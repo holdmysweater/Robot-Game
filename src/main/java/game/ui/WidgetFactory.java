@@ -4,6 +4,7 @@ import game.model.field.core.ExitCell;
 import game.model.field.core.NormalCell;
 import game.model.field.core.*;
 import game.model.field.core.Robot;
+import game.ui.obstacle.BetweenCellsWidget;
 import game.ui.obstacle.WallWidget;
 import org.jetbrains.annotations.NotNull;
 import game.ui.obstacle.ObstacleWidget;
@@ -17,8 +18,10 @@ public class WidgetFactory {
 
     private final Map<AbstractCell, CellWidget> cells = new HashMap<>();
     private final Map<CellObject, CellItemWidget> cellObjects = new HashMap<>();
-    private final Map<BetweenCellObject, ObstacleWidget> betweenCellObjects = new HashMap<>();
+    //private final Map<BetweenCellObject, ObstacleWidget> betweenCellObjects = new HashMap<>();
+    private final Map<BetweenCellsArea, BetweenCellsWidget> betweenCellsAreas = new HashMap<>();
 
+    /*---------- AbstractCell ----------*/
     public CellWidget create(@NotNull AbstractCell cell) {
         if (cells.containsKey(cell)) return cells.get(cell);
 
@@ -52,6 +55,7 @@ public class WidgetFactory {
         cells.remove(cell);
     }
 
+    /*---------- CellObject ----------*/
     public CellItemWidget create(@NotNull CellObject cellObject) {
         if (cellObjects.containsKey(cellObject)) return cellObjects.get(cellObject);
 
@@ -76,7 +80,8 @@ public class WidgetFactory {
         cellObjects.remove(cellObject);
     }
 
-    public ObstacleWidget create(@NotNull BetweenCellObject betweenCellObject, Orientation orientation) {
+    /*---------- BetweenCellObject ----------*/
+    /*public ObstacleWidget create(@NotNull BetweenCellObject betweenCellObject, Orientation orientation) {
         if (betweenCellObjects.containsKey(betweenCellObject)) return betweenCellObjects.get(betweenCellObject);
 
         ObstacleWidget createdBlockWidget = new WallWidget(orientation);
@@ -91,5 +96,23 @@ public class WidgetFactory {
 
     public void remove(@NotNull BetweenCellObject betweenCellObject) {
         betweenCellObjects.remove(betweenCellObject);
+    }*/
+
+    /*---------- BetweenCellArea ----------*/
+    public BetweenCellsWidget create(@NotNull BetweenCellsArea betweenCellsArea) {
+        if (betweenCellsAreas.containsKey(betweenCellsArea)) return betweenCellsAreas.get(betweenCellsArea);
+
+        BetweenCellsWidget createdWidget = new BetweenCellsWidget(betweenCellsArea);
+
+        betweenCellsAreas.put(betweenCellsArea, createdWidget);
+        return createdWidget;
+    }
+
+    public BetweenCellsWidget getWidget(@NotNull BetweenCellsArea betweenCellsArea) {
+        return betweenCellsAreas.get(betweenCellsArea);
+    }
+
+    public void remove(@NotNull BetweenCellsArea betweenCellsArea) {
+        betweenCellsAreas.remove(betweenCellsArea);
     }
 }

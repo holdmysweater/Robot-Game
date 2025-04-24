@@ -52,7 +52,7 @@ public class Robot extends CellObject {
             return false;
         }
 
-        if (getPosition().getNeighborObstacle(direction) != null) {
+        if (getPosition().getNeighborArea(direction).getObstacle() != null) {
             System.out.println("Wall");
             return false;
         }

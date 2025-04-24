@@ -32,7 +32,7 @@ public abstract class BetweenCellObject {
      */
     boolean setPosition(@NotNull BetweenCellsArea position) {
         // Вернуть true если объект уже находится в этой позиции
-        if (this.position.equals(position)) return true;
+        if (position.equals(this.position)) return true;
 
         // Вернуть false если объект не может быть размещён в этой позиции
         if (!canLocateAtPosition(position)) return false;

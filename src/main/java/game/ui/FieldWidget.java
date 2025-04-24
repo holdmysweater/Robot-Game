@@ -7,7 +7,6 @@ import game.model.events.FieldActionListener;
 import game.model.events.RobotActionEvent;
 import game.model.events.RobotActionListener;
 import game.ui.obstacle.BetweenCellsWidget;
-import game.ui.obstacle.ObstacleWidget;
 import game.ui.cell.*;
 
 import javax.swing.*;
@@ -50,24 +49,13 @@ public class FieldWidget extends JPanel {
             CellWidget cellWidget = widgetFactory.create(cell);
 
             if(i == 0)  {
-                BetweenCellsWidget westCellWidget = new BetweenCellsWidget(Orientation.VERTICAL);
-                BetweenCellObject wallSegment = cell.getNeighborObstacle(Direction.WEST);
-                if( wallSegment != null) {
-                    ObstacleWidget wallWidget = widgetFactory.create(wallSegment, Orientation.VERTICAL);
-                    westCellWidget.setItem(wallWidget);
-                }
+                BetweenCellsWidget westCellWidget = widgetFactory.create(cell.getNeighborArea(Direction.WEST));
                 row.add(westCellWidget);
             }
 
             row.add(cellWidget);
 
-            BetweenCellsWidget eastCellWidget = new BetweenCellsWidget(Orientation.VERTICAL);
-            BetweenCellObject eastWallSegment = cell.getNeighborObstacle(Direction.EAST);
-            if(eastWallSegment != null) {
-                ObstacleWidget wallWidget = widgetFactory.create(eastWallSegment, Orientation.VERTICAL);
-                eastCellWidget.setItem(wallWidget);
-            }
-
+            BetweenCellsWidget eastCellWidget = widgetFactory.create(cell.getNeighborArea(Direction.EAST));
             row.add(eastCellWidget);
         }
         return row;
@@ -82,15 +70,8 @@ public class FieldWidget extends JPanel {
             Point point = new Point(i, rowIndex);
             AbstractCell cell = field.getCell(point);
 
-            BetweenCellsWidget southCellWidget = new BetweenCellsWidget(Orientation.HORIZONTAL);
-            BetweenCellObject southWallSegment =  cell.getNeighborObstacle(direction);
-
-            if(southWallSegment != null) {
-                ObstacleWidget wallWidget = widgetFactory.create(southWallSegment, Orientation.HORIZONTAL);
-                southCellWidget.setItem(wallWidget);
-            }
-
-            row.add(southCellWidget);
+            BetweenCellsWidget betweenCellWidget = widgetFactory.create(cell.getNeighborArea(direction));
+            row.add(betweenCellWidget);
         }
         return row;
     }

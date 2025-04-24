@@ -40,17 +40,17 @@ public class SmallLabyrinth extends Labyrinth {
 
         map.put(
                 new WallSegment(),
-                new BetweenCellsArea(field.getCell(new Point(2, 0)), Direction.SOUTH)
+                field.getCell(new Point(2, 0)).getNeighborArea(Direction.SOUTH)
         );
 
         map.put(
                 new WallSegment(),
-                new BetweenCellsArea(field.getCell(new Point(2, 2)), Direction.SOUTH)
+                field.getCell(new Point(2, 2)).getNeighborArea(Direction.SOUTH)
         );
 
         map.put(
                 new WallSegment(),
-                new BetweenCellsArea(field.getCell(new Point(2, 2)), Direction.EAST)
+                field.getCell(new Point(2, 2)).getNeighborArea(Direction.EAST)
         );
 
         return map;

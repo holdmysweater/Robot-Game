@@ -90,13 +90,18 @@ public class Field {
                 Point p = new Point(x, y);
                 AbstractCell cell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
 
+                Map<Direction, AbstractCell> neighborCells = new HashMap<>();
+
                 if (x > 0) {
-                    cell.setNeighbor(getCell(p.to(Direction.WEST, 1)), Direction.WEST);
+                    neighborCells.put(Direction.WEST, getCell(p.to(Direction.WEST, 1)));
                 }
 
                 if (y > 0) {
-                    cell.setNeighbor(getCell(p.to(Direction.NORTH, 1)), Direction.NORTH);
+                    neighborCells.put(Direction.NORTH, getCell(p.to(Direction.NORTH, 1)));
                 }
+
+                boolean success = cell.setNeighbor(neighborCells);
+                assert success: "Cell " + cell + " not successfully set";
 
                 cells.put(p, cell);
             }

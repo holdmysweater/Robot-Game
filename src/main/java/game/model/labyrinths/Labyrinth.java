@@ -74,12 +74,9 @@ public abstract class Labyrinth {
         Map<WallSegment, BetweenCellsArea> walls = createWalls(field);
 
         for (WallSegment wall : walls.keySet()) {
-            Direction direction = walls.get(wall).getNeighborCells().keySet().iterator().next();
-            AbstractCell cell = walls.get(wall).getNeighborCells().get(direction);
-
-            if (!cell.setNeighborObstacle(wall, direction)) {
-                throw new RuntimeException("Wall segment " + wall + " not set");
-            }
+            BetweenCellsArea betweenCellsArea = walls.get(wall);
+            boolean result = betweenCellsArea.setObstacle(wall);
+            assert result: "Wall segment " + wall + " not set at " + betweenCellsArea;
         }
     }
 

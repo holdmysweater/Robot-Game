@@ -2,6 +2,7 @@ package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
@@ -65,6 +66,7 @@ public class BetweenCellsArea {
 
     /**
      * Может приять объект между ячейками.
+     *
      * @param obstacle объект между ячейками.
      * @return может приять объект.
      */
@@ -72,29 +74,16 @@ public class BetweenCellsArea {
         return this.obstacle == null;
     }
 
+    /*---------- РАСПОЛОЖЕНИЕ ОБЛАСТИ МЕЖДУ ЯЧЕЙЦКАМИ ----------*/
     /**
      * Соседние ячейки.
      */
     private final Map<Direction, AbstractCell> neighborCells = new EnumMap<>(Direction.class);
 
     /**
-     * Конструктор класса позиции между ячейками.
-     *
-     * @param cell         ячейка.
-     * @param neighborCell соседняя ячейка.
-     * @throws IllegalArgumentException если ячейки не являются соседними.
+     * Ориентация области на поле.
      */
-    public BetweenCellsArea(@NotNull AbstractCell cell, @NotNull AbstractCell neighborCell) {
-        //TODO Проверки DONE
-        Direction neighborDirection = cell.getNeighborDirection(neighborCell);
-
-        if (neighborDirection == null) {
-            throw new IllegalArgumentException();
-        }
-
-        neighborCells.put(neighborDirection, neighborCell);
-        neighborCells.put(neighborDirection.getOppositeDirection(), cell);
-    }
+    private Orientation orientation = null;
 
     /**
      * Конструктор класса позиции между ячейками.
@@ -103,14 +92,20 @@ public class BetweenCellsArea {
      * @param direction направление.
      */
     public BetweenCellsArea(@NotNull AbstractCell cell, @NotNull Direction direction) {
-        //TODO Проверки DONE
         neighborCells.put(direction, cell);
+        orientation = calcOrientation(direction);
+    }
 
-        AbstractCell neighborCell = cell.getNeighborCell(direction);
-
-        if (neighborCell != null) {
-            neighborCells.put(direction.getOppositeDirection(), neighborCell);
+    boolean addNeighbor(@NotNull AbstractCell cell, @NotNull Direction direction) {
+        // Вернуть false если новая клетка не соседствует с уже имеющейся
+        for (AbstractCell neighborCell : neighborCells.values())
+        {
+            if (!cell.isNeighbor(neighborCell)) return false;
         }
+
+        // Сохранить клетку
+        neighborCells.put(direction, cell);
+        return true;
     }
 
     /**
@@ -120,6 +115,40 @@ public class BetweenCellsArea {
      */
     public Map<Direction, AbstractCell> getNeighborCells() {
         return Collections.unmodifiableMap(neighborCells);
+    }
+
+    public AbstractCell getNeighborCell(@NotNull Direction direction) {
+        return neighborCells.get(direction);
+    }
+
+    public boolean isNeighbor(@NotNull AbstractCell cell) {
+        return neighborCells.containsValue(cell);
+    }
+
+    /**
+     * Рассчитывает ориентацию области по направлению соседских ячеек.
+     *
+     * @param direction направление.
+     * @return ориентация.
+     */
+    private static Orientation calcOrientation(@NotNull Direction direction) {
+        if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+            return Orientation.HORIZONTAL;
+        } else if (direction == Direction.EAST || direction == Direction.WEST) {
+            return Orientation.VERTICAL;
+        } else {
+            assert true: "Unknown orientation type: " + direction;
+            return null;
+        }
+    }
+
+    /**
+     * Вернуть ориентацию поля.
+     *
+     * @return ориентация.
+     */
+    public Orientation getOrientation() {
+        return orientation;
     }
 
     @Override

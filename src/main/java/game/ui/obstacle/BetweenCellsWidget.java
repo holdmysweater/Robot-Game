@@ -1,5 +1,6 @@
 package game.ui.obstacle;
 
+import game.model.field.core.BetweenCellsArea;
 import org.jetbrains.annotations.NotNull;
 import game.model.field.core.Orientation;
 
@@ -18,11 +19,12 @@ public class BetweenCellsWidget extends JPanel {
     /**
      * Конструктор.
      *
-     * @param orientation ориентация.
+     * @param betweenCellsArea область между клетками.
      */
-    public BetweenCellsWidget(@NotNull Orientation orientation) {
+    public BetweenCellsWidget(@NotNull BetweenCellsArea betweenCellsArea) {
         super(new BorderLayout());
-        this.orientation = orientation;
+        this.orientation = betweenCellsArea.getOrientation();
+        if (betweenCellsArea.getObstacle() != null) { setItem(new WallWidget(orientation)); }
         setPreferredSize(getDimensionByOrientation());
         setBackground(Color.darkGray);
     }
@@ -33,7 +35,7 @@ public class BetweenCellsWidget extends JPanel {
      * @param obstacleWidget элемент.
      * @throws IllegalArgumentException если ориентация объекта не совпадает с ориентацией контейнера.
      */
-    public void setItem(@NotNull ObstacleWidget obstacleWidget) {
+    private void setItem(@NotNull ObstacleWidget obstacleWidget) {
         if (obstacleWidget.getOrientation() != orientation) throw new IllegalArgumentException();
         add(obstacleWidget);
     }
