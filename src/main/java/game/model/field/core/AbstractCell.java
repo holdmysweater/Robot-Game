@@ -205,14 +205,4 @@ public abstract class AbstractCell {
     public BetweenCellObject getNeighborObstacle(@NotNull Direction direction) {
         return neighborObstacles.get(direction);
     }
-
-    /**
-     * Является ли ячейка соседом.
-     *
-     * @param obstacle соседняя ячейка.
-     * @return Является ли ячейка соседом.
-     */
-    public boolean isNeighbor(@NotNull BetweenCellObject obstacle) {
-        return neighborObstacles.containsValue(obstacle);
-    }
 }
