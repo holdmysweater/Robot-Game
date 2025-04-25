@@ -114,13 +114,14 @@ public class Battery extends CellObject {
             return true;
         }
 
-        Robot oldUser = user; // TODO TODO - что-то может пойти не так
+        Robot oldUser = user;
         user = null;
 
         boolean success = oldUser.unsetBattery();
 
         assert success;
         if (!success) {
+            user = oldUser;
             return false;
         }
 
