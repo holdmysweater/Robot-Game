@@ -18,10 +18,14 @@ public class Battery extends CellObject {
 
     /**
      * Конструктор.
+     * @throws IllegalArgumentException Введено некорректное значение заряда.
      */
     public Battery(int charge) {
+        if (charge > maxCharge || charge < 0) {
+            throw new IllegalArgumentException("Charge must be greater than or equal to 0 and less than or equal to " + maxCharge);
+        }
         this.charge = charge;
-    } // TODO проверка
+    }
 
     /**
      * Батарейка уничтожена
