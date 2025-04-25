@@ -13,7 +13,7 @@ public class Battery extends CellObject {
      * Конструктор.
      */
     public Battery() {
-        charge = maxCharge;
+        charge = maxCapacity;
     }
 
     /**
@@ -21,8 +21,8 @@ public class Battery extends CellObject {
      * @throws IllegalArgumentException Введено некорректное значение заряда.
      */
     public Battery(int charge) {
-        if (charge > maxCharge || charge < 0) {
-            throw new IllegalArgumentException("Charge must be greater than or equal to 0 and less than or equal to " + maxCharge);
+        if (charge > maxCapacity || charge < 0) {
+            throw new IllegalArgumentException("Charge must be greater than or equal to 0 and less than or equal to " + maxCapacity);
         }
         this.charge = charge;
     }
@@ -139,7 +139,7 @@ public class Battery extends CellObject {
     /**
      * Максимальный заряд.
      */
-    private static final int maxCharge = 10; // TODO - capacity
+    private static final int maxCapacity = 10;
 
     /**
      * Получить заряд {@link Battery#charge}.
@@ -155,7 +155,7 @@ public class Battery extends CellObject {
     }
 
     /**
-     * Получить емкость {@link Battery#maxCharge}.
+     * Получить емкость {@link Battery#maxCapacity}.
      *
      * @return емкость.
      */
@@ -164,7 +164,7 @@ public class Battery extends CellObject {
             throw new RuntimeException("Battery is destroyed");
         }
 
-        return maxCharge;
+        return maxCapacity;
     }
 
     /**
