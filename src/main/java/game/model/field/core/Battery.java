@@ -72,7 +72,6 @@ public class Battery extends CellObject {
      * @return успешность подключения.
      */
     public boolean connectTo(Robot user) {
-        //TODO TODO Проверки DONE - не должна находиться в ячейке
         assert !isDestroy;
         if (isDestroy) {
             return false;
@@ -82,7 +81,7 @@ public class Battery extends CellObject {
             return true;
         }
 
-        if (isUsed()) {
+        if (isUsed() || getPosition() != null) {
             return false;
         }
 
