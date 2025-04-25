@@ -85,12 +85,13 @@ public class Battery extends CellObject {
             return false;
         }
 
-        this.user = user; // TODO TODO - позже может что-то пойти не так
+        this.user = user;
 
         boolean success = user.setBattery(this);
 
         assert success;
         if (!success) {
+            this.user = null;
             return false;
         }
 
