@@ -3,10 +3,7 @@ package game.model.field.core;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Класс позиции между ячейками {@link AbstractCell}
@@ -97,15 +94,27 @@ public class BetweenCellsArea {
     }
 
     boolean addNeighbor(@NotNull AbstractCell cell, @NotNull Direction direction) {
-        // Вернуть false если новая клетка не соседствует с уже имеющейся
-        for (AbstractCell neighborCell : neighborCells.values())
-        {
-            if (!cell.isNeighbor(neighborCell)) return false;
-        }
+        // Вернуть true если текущая клетка уже является соседом
+        if (this.getNeighborCell(direction) == cell) return true;
+
+        // Вернуть false, если ячейки не могут быть соседями друг друга
+        AbstractCell neighborCell = neighborCells.get(direction.getOppositeDirection()); // Получить ячейку уже соседствующую с областью
+        if (!neighborCell.canEstablishNeighbor(cell, direction) ||
+                !cell.canEstablishNeighbor(neighborCell, direction.getOppositeDirection())) return false;
 
         // Сохранить клетку
         neighborCells.put(direction, cell);
-        return true;
+
+        // Установить соседство для новой клетки
+        Map<Direction, AbstractCell> neighbor = new HashMap<>();
+        neighbor.put(direction.getOppositeDirection(), neighborCell);
+        boolean success = cell.setNeighbor(neighbor);
+
+        // Если установить соседство не удалось, значит метод 'canEstablishNeighbor' работает некорректно.
+        assert !success : "Cant't add neighbor. Check correctness of 'canEstablishNeighbor' method.";
+
+        // Вернуть результат установления соседства.
+        return success;
     }
 
     /**
@@ -137,7 +146,7 @@ public class BetweenCellsArea {
         } else if (direction == Direction.EAST || direction == Direction.WEST) {
             return Orientation.VERTICAL;
         } else {
-            assert true: "Unknown orientation type: " + direction;
+            assert true : "Unknown orientation type: " + direction;
             return null;
         }
     }

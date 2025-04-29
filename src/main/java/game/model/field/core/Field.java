@@ -100,8 +100,10 @@ public class Field {
                     neighborCells.put(Direction.NORTH, getCell(p.to(Direction.NORTH, 1)));
                 }
 
-                boolean success = cell.setNeighbor(neighborCells);
-                assert success: "Cell " + cell + " not successfully set";
+                if (!(x == 0 && y == 0)) {
+                    boolean success = cell.setNeighbor(neighborCells);
+                    assert success : "Cell " + cell + " not successfully set";
+                }
 
                 cells.put(p, cell);
             }
