@@ -30,7 +30,7 @@ public class Game {
     private Field gameField;
 
     public Game(Labyrinth labyrinth) {
-        startGame(labyrinth);
+        start(labyrinth);
     }
 
     /**
@@ -38,7 +38,7 @@ public class Game {
      *
      * @param labyrinth лабиринт, содержащий расстановку элементов на поле
      */
-    public void startGame(@NotNull Labyrinth labyrinth) { // TODO переименовать в start()
+    public void start(@NotNull Labyrinth labyrinth) {
         setStatus(GameStatus.GAME_IS_ON);
 
         gameField = labyrinth.createField();
