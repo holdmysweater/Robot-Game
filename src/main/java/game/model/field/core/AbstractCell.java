@@ -26,7 +26,7 @@ public abstract class AbstractCell {
         if (this.bigObject == bigObject) return true;
 
         // Return FALSE if cell can't take big object
-        if (!this.canTakeBigObject()) {
+        if (!this.canPutBigObject()) {
             return false;
         }
 
@@ -74,10 +74,9 @@ public abstract class AbstractCell {
      *
      * @return может принять большой объект.
      */
-    public boolean canTakeBigObject() {
+    public boolean canPutBigObject() {
         return getBigObject() == null;
     }
-    // TODO TODO - принять, а не изъять (canPutObject)
 
     /*---------- СОСЕДНИЕ ЯЧЕЙКИ ----------*/
 
