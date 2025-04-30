@@ -60,14 +60,6 @@ public class Game {
     }
 
     /**
-     * Прервать игру
-     */
-    public void abort() {
-        robot.setUnfrozen(false);
-        setStatus(GameStatus.GAME_ABORTED);
-    }
-
-    /**
      * Получить текущий статус игры {@link Game#gameStatus}
      *
      * @return текующий статус игры
