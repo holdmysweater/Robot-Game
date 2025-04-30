@@ -24,11 +24,6 @@ public class Robot extends CellObject {
     private Battery battery;
 
     /**
-     * Состояние заморозки робота.
-     */
-    private boolean isUnfrozen;
-
-    /**
      * Робот телепортирован.
      */
     private boolean isTeleported = false;
@@ -48,10 +43,6 @@ public class Robot extends CellObject {
      * @param direction направление.
      */
     public boolean move(@NotNull Direction direction) {
-        if (!isUnfrozen()) {
-            return false;
-        }
-
         if (getPosition().getNeighborArea(direction).getObstacle() != null) {
             System.out.println("Wall");
             return false;
@@ -90,10 +81,6 @@ public class Robot extends CellObject {
      * Заменить источник питания {@link Robot#battery}.
      */
     public boolean changeBattery() {
-        if (!isUnfrozen()) {
-            return false;
-        }
-
         if (getPosition() instanceof ExitCell) {
             return false;
         }
@@ -119,25 +106,6 @@ public class Robot extends CellObject {
         fireRobotChangeBattery(battery);
 
         return true;
-    }
-
-    /**
-     * Разморозить робота {@link Robot#isUnfrozen}.
-     *
-     * @param value состояние разморозки.
-     */
-    public void setUnfrozen(boolean value) {
-        isUnfrozen = value;
-        fireRobotChangeUnfrozen();
-    }
-
-    /**
-     * Получить состояние заморозки робота {@link Robot#isUnfrozen}.
-     *
-     * @return состояние заморозки робота.
-     */
-    public boolean isUnfrozen() {
-        return isUnfrozen;
     }
 
     /**
@@ -280,18 +248,6 @@ public class Robot extends CellObject {
 
         for (RobotActionListener listener : robotListListener) {
             listener.robotIsMoved(event);
-        }
-    }
-
-    /**
-     * Оповестить слушателей {@link Robot#robotListListener}, что состояние заморозки робота изменилось.
-     */
-    private void fireRobotChangeUnfrozen() {
-        RobotActionEvent event = new RobotActionEvent(this);
-        event.setRobot(this);
-
-        for (RobotActionListener listener : robotListListener) {
-            listener.robotUnfrozenChanged(event);
         }
     }
 

@@ -96,13 +96,6 @@ public class FieldWidget extends JPanel {
         }
 
         @Override
-        public void robotUnfrozenChanged(@NotNull RobotActionEvent event) {
-            Robot robot = event.getRobot();
-            RobotWidget robotWidget = (RobotWidget) widgetFactory.getWidget(robot);
-            robotWidget.setActive(robot.isUnfrozen());
-        }
-
-        @Override
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
             Robot robot = event.getRobot();
             CellWidget cellWidget = widgetFactory.getWidget(robot.getPosition());

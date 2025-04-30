@@ -55,8 +55,6 @@ public class Game {
         if (robot == null) {
             throw new RuntimeException("No robot found");
         }
-
-        robot.setUnfrozen(true);
     }
 
     /**
@@ -99,7 +97,6 @@ public class Game {
     private void updateGameState() { // TODO переименовать в updateGameStatus()
         GameStatus status = determineOutcomeGame();
         setStatus(status);
-        robot.setUnfrozen(status == GameStatus.GAME_IS_ON);
     }
 
     /**
@@ -133,11 +130,6 @@ public class Game {
         }
 
         @Override
-        public void robotUnfrozenChanged(@NotNull RobotActionEvent event) {
-            // Not implemented yet
-        }
-
-        @Override
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
             // Not implemented yet
         }
@@ -150,7 +142,6 @@ public class Game {
 
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
-            robot.setUnfrozen(false);
             fireRobotIsTeleported();
         }
     }
