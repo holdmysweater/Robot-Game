@@ -132,7 +132,6 @@ public abstract class AbstractCell {
         return true;
     }
 
-
     /**
      * Установить ячейку соседней.
      * Взять её область между ячейками.
@@ -142,47 +141,14 @@ public abstract class AbstractCell {
      * @return успешность.
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      */
-    @Deprecated
     private boolean setNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
-        // Вернуть true если у объекта уже установлена связь с этой ячейкой в этом направлении
-        if (getNeighborCell(direction) == neighborCell) return true;
-
-        // Вернуть false если у любой из клеток нет возможности установить соседство
-        if (!canSetNeighbor(direction, neighborCell)) return false;
-
-        // Получить соседнюю область от нового соседа
-        BetweenCellsArea neighborArea = neighborCell.getNeighborArea(direction.getOppositeDirection());
-
-        // Проверка случая, при котором обе ячейки имеют свои области.
-        // Запрещённая операция. Попытка соединить друг с другом сегменты из клеток.
-        if (neighborArea != null && getNeighborCell(direction) != null) {
-            throw new RuntimeException("Try connecting two cells with their own neighbor area. Cells:"
-                    + this + neighborArea + ".");
-        }
-
-        // Успешно завершить установку связи с соседом.
-        return true;
-    }
-
-    /**
-     * Может установить соседство с ячейкой в заданном направлении.
-     *
-     * @param neighborCell клетка сосед.
-     * @param direction    направление соседства.
-     * @return возможность соседства.
-     */
-    boolean canSetNeighbor(@NotNull Direction direction, @NotNull AbstractCell neighborCell) {
-        // Вернуть true если уже установлена связь с этим объектом в этом направлении
-        if (getNeighborCell(direction) == neighborCell) return true;
-
-        // Вернуть false если связь по этому направлению уже установлена с другим объектом
-        if (getNeighborCell(direction) != null) return false;
-
-        // Вернуть false если связь устанавливается с самим собой
-        if (neighborCell == this) return false;
-
-        // Может быть соседом
-        return true;
+        BetweenCellsArea area = neighborCell.getNeighborArea(direction.getOppositeDirection());
+        return switch (direction) {
+            case NORTH -> area.setVerticalNeighbors(neighborCell, this);
+            case SOUTH -> area.setVerticalNeighbors(this, neighborCell);
+            case EAST -> area.setHorizontalNeighbors(this, neighborCell);
+            case WEST -> area.setHorizontalNeighbors(neighborCell, this);
+        };
     }
 
     /**
@@ -233,8 +199,10 @@ public abstract class AbstractCell {
      * @return успешность.
      */
     boolean setNeighborArea(@NotNull Direction direction, @NotNull BetweenCellsArea neighborArea) {
-        //TODO нужно реализовать
-        return false;
+        BetweenCellsArea area = neighborAreas.get(direction);
+        if (area != null && !area.equals(neighborArea)) return false;
+        neighborAreas.put(direction, neighborArea);
+        return true;
     }
 
     /**
@@ -245,7 +213,13 @@ public abstract class AbstractCell {
         directions.removeAll(neighborAreas.keySet());
 
         for (Direction direction : directions) {
-            neighborAreas.put(direction, new BetweenCellsArea(this, direction.getOppositeDirection()));
+            BetweenCellsArea area = new BetweenCellsArea();
+            switch (direction) {
+                case NORTH -> area.setVerticalNeighbors(null, this);
+                case SOUTH -> area.setVerticalNeighbors(this, null);
+                case EAST -> area.setHorizontalNeighbors(this, null);
+                case WEST -> area.setHorizontalNeighbors(null, this);
+            }
         }
     }
 

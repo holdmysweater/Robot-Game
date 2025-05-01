@@ -9,21 +9,6 @@ import java.util.*;
  */
 public class BetweenCellsArea {
 
-    //region КОНСТРУКТОРЫ
-
-    /**
-     * Конструктор класса позиции между ячейками.
-     *
-     * @param cell      ячейка.
-     * @param direction направление.
-     */
-    public BetweenCellsArea(@NotNull AbstractCell cell, @NotNull Direction direction) {
-        neighborCells.put(direction, cell);
-        orientation = calculateOrientation(direction);
-    }
-
-    //endregion
-
     //region ПРЕПЯТСТВИЕ
 
     /**
@@ -124,7 +109,31 @@ public class BetweenCellsArea {
      * @return успешность.
      */
     boolean setHorizontalNeighbors(AbstractCell leftCell, AbstractCell rightCell) {
-        return true; // TODO реализация
+        if (!canSetHorizontalNeighbors(leftCell, rightCell)) return false;
+
+        orientation = Orientation.VERTICAL;
+
+        boolean success = true;
+
+        if (leftCell != null){
+            if (leftCell.setNeighborArea(Direction.EAST, this)) {
+                this.neighborCells.put(Direction.WEST, leftCell);
+            }
+            else {
+                success = false;
+            }
+        }
+
+        if (rightCell != null){
+            if (rightCell.setNeighborArea(Direction.WEST, this)) {
+                this.neighborCells.put(Direction.EAST, rightCell);
+            }
+            else {
+                success = false;
+            }
+        }
+
+        return success;
     }
 
     /**
@@ -135,42 +144,63 @@ public class BetweenCellsArea {
      * @return успешность.
      */
     boolean setVerticalNeighbors(AbstractCell topCell, AbstractCell bottomCell) {
-        return true; // TODO реализация
+        if (!canSetVerticalNeighbors(topCell, bottomCell)) return false;
+
+        orientation = Orientation.HORIZONTAL;
+
+        boolean success = true;
+
+        if (topCell != null){
+            if (topCell.setNeighborArea(Direction.SOUTH, this)) {
+                this.neighborCells.put(Direction.NORTH, topCell);
+            }
+            else {
+                success = false;
+            }
+        }
+
+        if (bottomCell != null){
+            if (bottomCell.setNeighborArea(Direction.NORTH, this)) {
+                this.neighborCells.put(Direction.SOUTH, bottomCell);
+            }
+            else {
+                success = false;
+            }
+        }
+
+        return success;
     }
 
     /**
-     * Может ли установить соседей.
+     * Может ли установить соседей по горизонтали.
      *
-     * @param cells соседние ячейки.
+     * @param leftCell  ячейка слева.
+     * @param rightCell ячейка справа.
      * @return возможность соседства.
      */
-    private boolean canSetNeighbors(Map<Direction, AbstractCell> cells) {
-        return true; // TODO реализация
+    private boolean canSetHorizontalNeighbors(AbstractCell leftCell, AbstractCell rightCell) {
+        AbstractCell currentLeftCell = this.neighborCells.get(Direction.WEST);
+        AbstractCell currentRightCell = this.neighborCells.get(Direction.EAST);
+
+        if (currentLeftCell != null && !currentLeftCell.equals(leftCell)) return false;
+        if (currentRightCell != null && !currentRightCell.equals(rightCell)) return false;
+        return this.neighborCells.get(Direction.NORTH) == null && this.neighborCells.get(Direction.SOUTH) == null;
     }
 
-    @Deprecated
-    boolean addNeighbor(@NotNull AbstractCell cell, @NotNull Direction direction) {
-        // Вернуть true если текущая клетка уже является соседом
-        if (this.getNeighborCell(direction) == cell) return true;
+    /**
+     * Может ли установить соседей по вертикали.
+     *
+     * @param topCell    верхняя ячейка.
+     * @param bottomCell нижняя ячейка.
+     * @return возможность соседства.
+     */
+    private boolean canSetVerticalNeighbors(AbstractCell topCell, AbstractCell bottomCell) {
+        AbstractCell currentTopCell = this.neighborCells.get(Direction.NORTH);
+        AbstractCell currantBottomCell = this.neighborCells.get(Direction.SOUTH);
 
-        // Вернуть false, если ячейки не могут быть соседями друг друга
-        AbstractCell neighborCell = neighborCells.get(direction.getOppositeDirection()); // Получить ячейку уже соседствующую с областью
-        if (!neighborCell.canSetNeighbor(direction, cell) ||
-                !cell.canSetNeighbor(direction.getOppositeDirection(), neighborCell)) return false;
-
-        // Сохранить клетку
-        neighborCells.put(direction, cell);
-
-        // Установить соседство для новой клетки
-        Map<Direction, AbstractCell> neighbor = new HashMap<>();
-        neighbor.put(direction.getOppositeDirection(), neighborCell);
-        boolean success = true; // TODO = cell.setNeighbor(neighbor);
-
-        // Если установить соседство не удалось, значит метод 'canEstablishNeighbor' работает некорректно.
-        assert !success : "Can't add neighbor. Check correctness of 'canEstablishNeighbor' method.";
-
-        // Вернуть результат установления соседства.
-        return success;
+        if (currentTopCell != null && !currentTopCell.equals(topCell)) return false;
+        if (currantBottomCell != null && !currantBottomCell.equals(bottomCell)) return false;
+        return this.neighborCells.get(Direction.WEST) == null && this.neighborCells.get(Direction.EAST) == null;
     }
 
     @Deprecated
