@@ -28,7 +28,7 @@ public class NormalCellTest {
         cell.setSmallObject(battery);
         Battery anotherBattery = new Battery();
 
-        assertThrows(IllegalArgumentException.class, () -> cell.setSmallObject(anotherBattery));
+        assertFalse(cell.setSmallObject(anotherBattery));
     }
 
     @Test
