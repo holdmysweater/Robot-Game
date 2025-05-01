@@ -7,6 +7,7 @@ import game.model.field.core.Robot;
 import game.model.labyrinths.Labyrinth;
 
 import java.util.ArrayList;
+import javax.swing.Timer;
 
 /**
  * Игра.
@@ -52,6 +53,11 @@ public class Game {
     private GameStatus gameStatus;
 
     /**
+     * Задержка обновления статуса игры.
+     */
+    private final int GAME_STATUS_UPDATE_DELAY = 5;
+
+    /**
      * Получить текущий статус игры {@link Game#gameStatus}
      *
      * @return текущий статус игры
@@ -70,6 +76,15 @@ public class Game {
             gameStatus = status;
             fireGameStatusIsChanged(gameStatus);
         }
+    }
+
+    /**
+     * Обновить состояние игры с задержкой {@link Game#GAME_STATUS_UPDATE_DELAY}.
+     */
+    private void updateGameStatusWithDelay() {
+        Timer timer = new Timer(GAME_STATUS_UPDATE_DELAY, e -> updateGameStatus());
+        timer.setRepeats(false);
+        timer.start();
     }
 
     /**
@@ -133,12 +148,12 @@ public class Game {
         @Override
         public void robotIsMoved(@NotNull RobotActionEvent event) {
             fireRobotIsMoved(event.getRobot());
-            updateGameStatus();
+            updateGameStatusWithDelay();
         }
 
         @Override
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
-            // Not implemented yet
+            updateGameStatusWithDelay();
         }
     }
 

@@ -24,7 +24,6 @@ public class Main {
 
         private Game game;
         private WidgetFactory widgetFactory;
-        private int SHOW_MESSAGE_DELAY = 10;
 
         public GamePanel() throws HeadlessException {
             setVisible(true);
@@ -118,10 +117,7 @@ public class Main {
                             break;
                     }
 
-                    String finalMessage = message;
-                    Timer timer = new Timer(SHOW_MESSAGE_DELAY, e -> showMessage(finalMessage));
-                    timer.setRepeats(false);
-                    timer.start();
+                    showMessage(message);
                 }
             }
 
