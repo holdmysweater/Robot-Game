@@ -9,6 +9,8 @@ import java.util.Objects;
  */
 public class WallSegment extends BetweenCellObject {
 
+    //region OBJECT
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -30,4 +32,6 @@ public class WallSegment extends BetweenCellObject {
     public String toString() {
         return "Wall{" + "position=" + getPosition() + '}';
     }
+
+    //endregion OBJECT
 }
