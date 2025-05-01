@@ -23,7 +23,7 @@ public class ExitCell extends AbstractCell {
      * Телепортировать робота.
      */
     private void teleportRobot() {
-        teleportedRobot = takeBigObject();
+        teleportedRobot = getBigObject();
         teleportedRobot.setTeleported();
         fireRobotIsTeleported();
     }
