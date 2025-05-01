@@ -19,6 +19,8 @@ import java.util.Map;
  */
 public abstract class Labyrinth {
 
+    //region СБОРЩИК ПОЛЯ
+
     /**
      * Построить поле.
      *
@@ -32,6 +34,80 @@ public abstract class Labyrinth {
 
         return field;
     }
+
+    //endregion
+
+    //region ЗАСЕЛЕНИЕ ПОЛЯ
+
+    /**
+     * Заселить поле.
+     *
+     * @param field поле.
+     */
+    private void populateField(@NotNull Field field) {
+        populateWalls(field);
+        populateRobot(field);
+        populateBatteries(field);
+    }
+
+    /**
+     * Добавить объекты между ячейками на поле.
+     *
+     * @param field поле.
+     */
+    private void populateWalls(@NotNull Field field) {
+        Map<WallSegment, BetweenCellsArea> walls = createWalls(field);
+
+        for (WallSegment wall : walls.keySet()) {
+            BetweenCellsArea betweenCellsArea = walls.get(wall);
+            //TODO изменить объявление
+            //boolean result = betweenCellsArea.setObstacle(wall);
+            //assert result: "Wall segment " + wall + " not set at " + betweenCellsArea;
+        }
+    }
+
+    /**
+     * Добавить роботов на поле.
+     *
+     * @param field поле.
+     */
+    private void populateRobot(@NotNull Field field) {
+        // Get information about single robot on field
+        AbstractMap.SimpleEntry<Robot, AbstractCell> robotInfo = createRobot(field);
+        Robot robot = robotInfo.getKey();
+        AbstractCell robotCell = robotInfo.getValue();
+
+        // Establish connection between the cell and the robot
+        boolean correct = robotCell.setBigObject(robot);
+        assert correct; // Check connection status
+    }
+
+    /**
+     * Добавить источники питания на поле.
+     *
+     * @param field поле.
+     */
+    private void populateBatteries(@NotNull Field field) {
+        Map<Battery, AbstractCell> batteries = createBatteries(field);
+
+        for (Battery battery : batteries.keySet()) {
+            AbstractCell cell = batteries.get(battery);
+
+            // Check cell class
+            boolean isNormalCell = cell instanceof NormalCell;
+            assert !isNormalCell : "Battery can't set at cell that is not NormalCell";
+            if (!isNormalCell) { continue; }
+
+            // Set battery
+            NormalCell normalCell = (NormalCell) cell;
+            boolean correct = normalCell.setSmallObject(battery);
+            assert correct : "Battery can't set at cell";
+        }
+    }
+
+    //endregion
+
+    //region СВОЙСТВА ПОЛЯ
 
     /**
      * Высота поля.
@@ -54,71 +130,9 @@ public abstract class Labyrinth {
      */
     protected abstract Point exitPoint();
 
-    /**
-     * Заселить поле.
-     *
-     * @param field поле.
-     */
-    protected void populateField(@NotNull Field field) {
-        populateWalls(field);
-        populateRobot(field);
-        populateBatteries(field);
-    }
+    //endregion
 
-    /**
-     * Добавить объекты между ячейками на поле.
-     *
-     * @param field поле.
-     */
-    protected void populateWalls(@NotNull Field field) {
-        Map<WallSegment, BetweenCellsArea> walls = createWalls(field);
-
-        for (WallSegment wall : walls.keySet()) {
-            BetweenCellsArea betweenCellsArea = walls.get(wall);
-            //TODO изменить объявление 
-            //boolean result = betweenCellsArea.setObstacle(wall);
-            //assert result: "Wall segment " + wall + " not set at " + betweenCellsArea;
-        }
-    }
-
-    /**
-     * Добавить роботов на поле.
-     *
-     * @param field поле.
-     */
-    protected void populateRobot(@NotNull Field field) {
-        // Get information about single robot on field
-        AbstractMap.SimpleEntry<Robot, AbstractCell> robotInfo = createRobot(field);
-        Robot robot = robotInfo.getKey();
-        AbstractCell robotCell = robotInfo.getValue();
-
-        // Establish connection between the cell and the robot
-        boolean correct = robotCell.setBigObject(robot);
-        assert correct; // Check connection status
-    }
-
-    /**
-     * Добавить источники питания на поле.
-     *
-     * @param field поле.
-     */
-    protected void populateBatteries(@NotNull Field field) {
-        Map<Battery, AbstractCell> batteries = createBatteries(field);
-
-        for (Battery battery : batteries.keySet()) {
-            AbstractCell cell = batteries.get(battery);
-
-            // Check cell class
-            boolean isNormalCell = cell instanceof NormalCell;
-            assert !isNormalCell : "Battery can't set at cell that is not NormalCell";
-            if (!isNormalCell) { continue; }
-
-            // Set battery
-            NormalCell normalCell = (NormalCell) cell;
-            boolean correct = normalCell.setSmallObject(battery);
-            assert correct : "Battery can't set at cell";
-        }
-    }
+    //region СОЗДАНИЕ ОБЪЕКТОВ
 
     /**
      * Добавить объекты между ячейками на поле.
@@ -140,4 +154,6 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     protected abstract Map<Battery, AbstractCell> createBatteries(@NotNull Field field);
+
+    //endregion
 }
