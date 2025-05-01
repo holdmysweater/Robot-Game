@@ -50,7 +50,7 @@ public class Robot extends CellObject {
 
         AbstractCell newPosition = getPosition().getNeighborCell(direction);
 
-        if (newPosition == null || !newPosition.canPutBigObject()) {
+        if (newPosition == null || !newPosition.canSetBigObject()) {
             return false;
         }
 

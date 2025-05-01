@@ -101,7 +101,7 @@ public class Field {
                 }
 
                 if (!(x == 0 && y == 0)) {
-                    boolean success = cell.setNeighbor(neighborCells);
+                    boolean success = cell.setNeighbors(neighborCells);
                     assert success : "Cell " + cell + " not successfully set";
                 }
 

@@ -99,8 +99,8 @@ public class BetweenCellsArea {
 
         // Вернуть false, если ячейки не могут быть соседями друг друга
         AbstractCell neighborCell = neighborCells.get(direction.getOppositeDirection()); // Получить ячейку уже соседствующую с областью
-        if (!neighborCell.canEstablishNeighbor(cell, direction) ||
-                !cell.canEstablishNeighbor(neighborCell, direction.getOppositeDirection())) return false;
+        if (!neighborCell.canSetNeighbor(direction, cell) ||
+                !cell.canSetNeighbor(direction.getOppositeDirection(), neighborCell)) return false;
 
         // Сохранить клетку
         neighborCells.put(direction, cell);
@@ -108,7 +108,7 @@ public class BetweenCellsArea {
         // Установить соседство для новой клетки
         Map<Direction, AbstractCell> neighbor = new HashMap<>();
         neighbor.put(direction.getOppositeDirection(), neighborCell);
-        boolean success = cell.setNeighbor(neighbor);
+        boolean success = true; // TODO = cell.setNeighbor(neighbor);
 
         // Если установить соседство не удалось, значит метод 'canEstablishNeighbor' работает некорректно.
         assert !success : "Cant't add neighbor. Check correctness of 'canEstablishNeighbor' method.";
