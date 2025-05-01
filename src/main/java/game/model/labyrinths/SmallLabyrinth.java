@@ -13,11 +13,7 @@ import java.util.Map;
  */
 public class SmallLabyrinth extends Labyrinth {
 
-    /**
-     * Стандартный заряд батарейки.
-     */
-    private static final int DEFAULT_BATTERY_CHARGE = 10;
-
+    //region СВОЙСТВА ПОЛЯ
 
     @Override
     protected int fieldHeight() {
@@ -33,6 +29,10 @@ public class SmallLabyrinth extends Labyrinth {
     protected Point exitPoint() {
         return new Point(2, 0);
     }
+
+    //endregion
+
+    //region СОЗДАНИЕ ОБЪЕКТОВ
 
     @Override
     protected Map<WallSegment, BetweenCellsArea> createWalls(@NotNull Field field) {
@@ -80,4 +80,6 @@ public class SmallLabyrinth extends Labyrinth {
 
         return map;
     }
+
+    //endregion
 }
