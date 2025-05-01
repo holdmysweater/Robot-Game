@@ -12,31 +12,12 @@ import java.util.Objects;
  */
 public class ExitCell extends AbstractCell {
 
-    /*---------- ТЕЛЕПОРТАЦИЯ----------*/
+    // region ТЕЛЕПОРТАЦИЯ
+
     /**
      * Телепортированный робот.
      */
     private Robot teleportedRobot;
-
-    /**
-     * Получить телепортированного робота {@link ExitCell#teleportedRobot}.
-     *
-     * @return телепортированный робот. TODO DONE
-     */
-    public Robot getTeleportedRobot() {
-        return teleportedRobot;
-    }
-
-    @Override
-    public boolean setBigObject(@NotNull Robot cellObject) {
-        if (super.setBigObject(cellObject)) { //TODO TODO Плохо - побочный эффект в условии  + что с событиями???? тяжело, Илюш, помоги...
-                                                // TODO TODO - задержка
-            teleportRobot();
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * Телепортировать робота.
@@ -47,7 +28,36 @@ public class ExitCell extends AbstractCell {
         fireRobotIsTeleported();
     }
 
-    /*---------- СЛУШАТЕЛИ ----------*/
+    /**
+     * Получить телепортированного робота {@link ExitCell#teleportedRobot}.
+     *
+     * @return телепортированный робот.
+     */
+    public Robot getTeleportedRobot() {
+        return teleportedRobot;
+    }
+
+    //endregion
+
+    //region ОБЪЕКТ В ЯЧЕЙКЕ
+
+    @Override
+    public boolean setBigObject(@NotNull Robot cellObject) {
+        boolean success = super.setBigObject(cellObject);
+
+        if (success) { //TODO что с событиями????
+                       // TODO - задержка
+            teleportRobot();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //endregion
+
+    //region СИГНАЛЫ
+
     /**
      * Список слушателей, подписанных на события ячейки выхода.
      */
@@ -83,7 +93,10 @@ public class ExitCell extends AbstractCell {
         }
     }
 
-    /*---------- МЕТОДЫ ОБЪЕКТОВ ----------*/
+    //endregion
+
+    //region OBJECT
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -113,4 +126,6 @@ public class ExitCell extends AbstractCell {
     public String toString() {
         return "ExitCell{" + "teleportedRobots=" + teleportedRobot + ", exitCellListListener=" + exitCellListListener + '}';
     }
+
+    //endregion
 }
