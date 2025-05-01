@@ -52,7 +52,7 @@ public class ExitCellTest {
 
         int expectedCountEvents = 1;
 
-        assertFalse(exitCell.setBigObject(robot));
+        assertFalse(exitCell.setBigObject(new Robot(new Battery())));
         assertEquals(expectedCountEvents, countEvents);
         assertEquals(robot, exitCell.getTeleportedRobot());
         assertTrue(robot.isTeleported());
