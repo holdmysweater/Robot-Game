@@ -40,7 +40,7 @@ class BatteryTest {
     public void test_canLocateAtPosition_inEmptyCell() {
         NormalCell cellWithPowerSupply = new NormalCell();
 
-        boolean result = battery.canLocateAtPosition(cellWithPowerSupply);
+        boolean result = battery.canSetPosition(cellWithPowerSupply);
 
         assertTrue(result);
     }
@@ -51,7 +51,7 @@ class BatteryTest {
         NormalCell cellWithPowerSupply = new NormalCell();
         cellWithPowerSupply.setSmallObject(anotherBattery);
 
-        boolean result = battery.canLocateAtPosition(cellWithPowerSupply);
+        boolean result = battery.canSetPosition(cellWithPowerSupply);
 
         assertFalse(result);
     }
@@ -61,7 +61,7 @@ class BatteryTest {
         NormalCell cellWithPowerSupply = new NormalCell();
         cellWithPowerSupply.setSmallObject(battery);
 
-        boolean result = battery.canLocateAtPosition(cellWithPowerSupply);
+        boolean result = battery.canSetPosition(cellWithPowerSupply);
 
         assertFalse(result);
     }
@@ -70,7 +70,7 @@ class BatteryTest {
     public void test_canLocateAtPosition_inNotCellWithPowerSupply() {
         AbstractCell cell = new NormalCell();
 
-        boolean result = battery.canLocateAtPosition(cell);
+        boolean result = battery.canSetPosition(cell);
 
         assertFalse(result);
     }

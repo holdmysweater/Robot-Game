@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class CellObject {
 
+    //region ПОЗИЦИЯ
+
     /**
      * Позиция объекта.
      */
@@ -28,25 +30,17 @@ public abstract class CellObject {
      * @return установлена ли позиция.
      */
     boolean setPosition(@NotNull AbstractCell position) {
-        // Return TRUE because connection already exist with THIS position
+        // Return TRUE because connection already exist with THIS position TODO translate
         if (this.getPosition() == position) return true;
 
-        // Return FALSE if can't locate at this position
-        if (!canLocateAtPosition(position)) {
+        // Return FALSE if object can't locate at this position
+        if (!canSetPosition(position)) {
             return false;
         }
 
         // Remember position
-        // Remember position
         this.position = position;
         return true;
-    }
-
-    /**
-     * Удалить позицию у объекта {@link CellObject#position}.
-     */
-    void unsetPosition() {
-        this.position = null;
     }
 
     /**
@@ -55,6 +49,14 @@ public abstract class CellObject {
      * @param cell позиция.
      * @return может ли объект располагаться в указанной позиции.
      */
-    protected abstract boolean canLocateAtPosition(@NotNull AbstractCell cell);
-    // TODO TODO - написать, что ячейка уже дала разрешение на помещение объекта в себя DONE
+    protected abstract boolean canSetPosition(@NotNull AbstractCell cell);
+
+    /**
+     * Удалить позицию у объекта {@link CellObject#position}.
+     */
+    void unsetPosition() {
+        this.position = null;
+    }
+
+    //endregion
 }

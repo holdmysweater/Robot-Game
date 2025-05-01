@@ -73,7 +73,7 @@ public class Robot extends CellObject {
     }
 
     @Override
-    protected boolean canLocateAtPosition(@NotNull AbstractCell newPosition) {
+    protected boolean canSetPosition(@NotNull AbstractCell newPosition) {
         return getPosition() == null;
     }
 

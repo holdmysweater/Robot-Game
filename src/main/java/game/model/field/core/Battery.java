@@ -194,8 +194,7 @@ public class Battery extends CellObject {
 
 
     @Override
-    protected boolean canLocateAtPosition(@NotNull AbstractCell cell) {
-        //TODO TODO - переделать,  что чисто  позиция
+    protected boolean canSetPosition(@NotNull AbstractCell cell) {
         return !this.isUsed() && getPosition() == null;
     }
 
