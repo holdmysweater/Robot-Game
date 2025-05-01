@@ -52,7 +52,10 @@ public class Robot extends CellObject {
         AbstractCell oldPosition = getPosition();
 
         oldPosition.takeBigObject();
-        if (!newPosition.setBigObject(this)) {
+
+        success = newPosition.setBigObject(this);
+
+        if (!success) {
             throw new RuntimeException("Robot can't move to the " + newPosition);
         }
 
