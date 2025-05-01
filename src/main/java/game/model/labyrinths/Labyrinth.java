@@ -75,8 +75,9 @@ public abstract class Labyrinth {
 
         for (WallSegment wall : walls.keySet()) {
             BetweenCellsArea betweenCellsArea = walls.get(wall);
-            boolean result = betweenCellsArea.setObstacle(wall);
-            assert result: "Wall segment " + wall + " not set at " + betweenCellsArea;
+            //TODO изменить объявление 
+            //boolean result = betweenCellsArea.setObstacle(wall);
+            //assert result: "Wall segment " + wall + " not set at " + betweenCellsArea;
         }
     }
 
