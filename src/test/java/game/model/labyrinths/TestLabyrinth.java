@@ -18,7 +18,6 @@ public class TestLabyrinth extends Labyrinth {
 
     private static final int FIELD_HEIGHT = 3;
     private static final int FIELD_WIDTH = 3;
-    private static final int DEFAULT_BATTERY_CHARGE = 10;
 
     @Override
     protected int fieldHeight() {
@@ -61,17 +60,17 @@ public class TestLabyrinth extends Labyrinth {
 
         wallMap.put(
                 new WallSegment(),
-                new BetweenCellsArea(field.getCell(new Point(2, 0)), Direction.SOUTH)
+                field.getCell(new Point(2, 0)).getNeighborArea(Direction.SOUTH)
         );
 
         wallMap.put(
                 new WallSegment(),
-                new BetweenCellsArea(field.getCell(new Point(2, 2)), Direction.SOUTH)
+                field.getCell(new Point(2, 2)).getNeighborArea(Direction.SOUTH)
         );
 
         wallMap.put(
                 new WallSegment(),
-                new BetweenCellsArea(field.getCell(new Point(2, 2)), Direction.EAST)
+                field.getCell(new Point(2, 2)).getNeighborArea(Direction.EAST)
         );
 
         return wallMap;
