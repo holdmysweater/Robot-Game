@@ -10,44 +10,7 @@ import java.util.*;
  */
 public class Field {
 
-    /**
-     * Ячейки поля.
-     */
-    private final Map<Point, AbstractCell> cells = new HashMap<>();
-
-    /**
-     * Ширина поля.
-     */
-    private final int width;
-
-    /**
-     * Высота поля.
-     */
-    private final int height;
-
-    /**
-     * Получить ширину поля {@link Field#width}.
-     *
-     * @return ширина поля.
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Получить высоту поля {@link Field#height}.
-     *
-     * @return высота поля.
-     */
-    public int getHeight() {
-        return height;
-    }
-
-
-    /**
-     * Ячейка выхода.
-     */
-    private final ExitCell exitCell;
+    //region КОНСТРУКТОРЫ
 
     /**
      * Конструктор.
@@ -100,16 +63,71 @@ public class Field {
                     neighborCells.put(Direction.NORTH, getCell(p.to(Direction.NORTH, 1)));
                 }
 
-                if (!(x == 0 && y == 0)) {
-                    boolean success = cell.setNeighbors(neighborCells);
-                    assert success : "Cell " + cell + " not successfully set";
-                }
+                boolean success = cell.setNeighbors(neighborCells);
+                assert success : "Cell " + cell + " not successfully set";
 
                 cells.put(p, cell);
             }
         }
     }
 
+    //endregion
+
+    //region СВОЙСТВА
+
+    //region ШИРИНА
+
+    /**
+     * Ширина поля.
+     */
+    private final int width;
+
+    /**
+     * Получить ширину поля {@link Field#width}.
+     *
+     * @return ширина поля.
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    //endregion
+
+    //region ВЫСОТА
+
+    /**
+     * Высота поля.
+     */
+    private final int height;
+
+    /**
+     * Получить высоту поля {@link Field#height}.
+     *
+     * @return высота поля.
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    //endregion
+
+    //region ТОЧКА ВЫХОДА
+
+    /**
+     * Ячейка выхода.
+     */
+    private final ExitCell exitCell;
+
+    //endregion
+
+    //endregion
+
+    //region ЯЧЕЙКИ
+
+    /**
+     * Ячейки поля.
+     */
+    private final Map<Point, AbstractCell> cells = new HashMap<>();
 
     /**
      * Получить ячейку по заданной координате.
@@ -120,6 +138,10 @@ public class Field {
     public AbstractCell getCell(@NotNull Point point) {
         return cells.get(point);
     }
+
+    //endregion
+
+    //region РОБОТ
 
     /**
      * Получить робота на поле.
@@ -136,27 +158,9 @@ public class Field {
         return null;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
+    //endregion
 
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Field field = (Field) o;
-
-        return width == field.width && height == field.height &&
-                Objects.equals(cells, field.cells) &&
-                Objects.equals(exitCell, field.exitCell);
-    }
-
-    @Override
-    public String toString() {
-        return "Field{" + "cells=" + cells + ", width=" + width + ", height=" + height + ", exitPoint=" + exitCell + '}';
-    }
+    //region СЛУШАТЕЛИ
 
     /**
      * Класс, реализующий наблюдение за событиями {@link ExitCellActionListener}.
@@ -168,6 +172,10 @@ public class Field {
             fireRobotIsTeleported(event.getTeleport());
         }
     }
+
+    //endregion
+
+    //region СИГНАЛЫ
 
     /**
      * Список слушателей, подписанных на события поля.
@@ -198,7 +206,6 @@ public class Field {
      * @param teleport телепорт.
      */
     private void fireRobotIsTeleported(@NotNull AbstractCell teleport) {
-        // TODO teleport - название??? (?: а что тут?)
         FieldActionEvent event = new FieldActionEvent(this);
         event.setRobot(((ExitCell) teleport).getTeleportedRobot());
         event.setTeleport(teleport);
@@ -207,4 +214,32 @@ public class Field {
             listener.robotIsTeleported(event);
         }
     }
+
+    //endregion
+
+    //region OBJECT
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Field field = (Field) o;
+
+        return width == field.width && height == field.height &&
+                Objects.equals(cells, field.cells) &&
+                Objects.equals(exitCell, field.exitCell);
+    }
+
+    @Override
+    public String toString() {
+        return "Field{" + "cells=" + cells + ", width=" + width + ", height=" + height + ", exitPoint=" + exitCell + '}';
+    }
+
+    //endregion
 }
