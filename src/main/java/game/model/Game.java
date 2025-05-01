@@ -2,7 +2,6 @@ package game.model;
 
 import org.jetbrains.annotations.NotNull;
 import game.model.events.*;
-import game.model.field.core.ExitCell;
 import game.model.field.core.Field;
 import game.model.field.core.Robot;
 import game.model.labyrinths.Labyrinth;
@@ -14,24 +13,15 @@ import java.util.ArrayList;
  */
 public class Game {
 
-    /**
-     * Статус игры.
-     */
-    private GameStatus gameStatus;
-
-    /**
-     * Робот.
-     */
-    private Robot robot;
-
-    /**
-     * Игровое поле.
-     */
-    private Field gameField;
+    //region КОНСТРУКТОРЫ
 
     public Game(Labyrinth labyrinth) {
         start(labyrinth);
     }
+
+    //endregion
+
+    //region СТАТУС ИГРЫ
 
     /**
      * Старт новой игры
@@ -49,23 +39,32 @@ public class Game {
             throw new RuntimeException("No field created");
         }
 
-        robot = gameField.getRobot();
-        robot.addRobotActionListener(new RobotObserver());
-
-        if (robot == null) {
+        if (getRobot() == null) {
             throw new RuntimeException("No robot found");
         }
+
+        getRobot().addRobotActionListener(new RobotObserver());
     }
+
+    /**
+     * Статус игры.
+     */
+    private GameStatus gameStatus;
 
     /**
      * Получить текущий статус игры {@link Game#gameStatus}
      *
-     * @return текующий статус игры
+     * @return текущий статус игры
      */
     public GameStatus getStatus() {
         return gameStatus;
     }
 
+    /**
+     * Установить текущий статус игры
+     *
+     * @param status новый статус игры
+     */
     private void setStatus(GameStatus status) {
         if (gameStatus != status) {
             gameStatus = status;
@@ -74,13 +73,31 @@ public class Game {
     }
 
     /**
-     * Получить робота {@link Game#robot}.
-     *
-     * @return робот.
+     * Обновить состояние игры.
      */
-    public Robot getRobot() {
-        return robot;
+    private void updateGameStatus() {
+        GameStatus status = GameStatus.GAME_IS_ON;
+
+        if (!getRobot().isCapable()) {
+            if (getRobot().isTeleported()) {
+                status = GameStatus.WIN;
+            }
+            else {
+                status = GameStatus.LOSS;
+            }
+        }
+
+        setStatus(status);
     }
+
+    //endregion
+
+    //region ПОЛЕ
+
+    /**
+     * Игровое поле.
+     */
+    private Field gameField;
 
     /**
      * Получить игровое поле {@link Game#gameField}.
@@ -91,32 +108,22 @@ public class Game {
         return gameField;
     }
 
-    /**
-     * Обновить состояние игры.
-     */
-    private void updateGameState() { // TODO переименовать в updateGameStatus()
-        GameStatus status = determineOutcomeGame();
-        setStatus(status);
-    }
+    //endregion
+
+    //region РОБОТ
 
     /**
-     * Определить исход игры.
+     * Получить робота {@link Field#getRobot()}.
      *
-     * @return статус игры.
+     * @return робот.
      */
-    private GameStatus determineOutcomeGame() {
-        GameStatus result = GameStatus.GAME_IS_ON;
-
-        if (!robot.isCapable()) {
-            if (robot.isTeleported()) {
-                result = GameStatus.WIN;
-            } else {
-                result = GameStatus.LOSS;
-            }
-        }
-
-        return result;
+    public Robot getRobot() {
+        return gameField.getRobot();
     }
+
+    //endregion
+
+    //region СЛУШАТЕЛИ
 
     /**
      * Класс, реализующий наблюдение за событиями {@link RobotActionListener}.
@@ -126,7 +133,7 @@ public class Game {
         @Override
         public void robotIsMoved(@NotNull RobotActionEvent event) {
             fireRobotIsMoved(event.getRobot());
-            updateGameState();
+            updateGameStatus();
         }
 
         @Override
@@ -145,6 +152,10 @@ public class Game {
             fireRobotIsTeleported();
         }
     }
+
+    //endregion
+
+    //region СИГНАЛЫ
 
     /**
      * Список слушателей, подписанных на события игры.
@@ -188,7 +199,7 @@ public class Game {
      */
     private void fireRobotIsTeleported() {
         GameActionEvent event = new GameActionEvent(this);
-        event.setRobot(robot);
+        event.setRobot(getRobot());
 
         for (GameActionListener listener : gameActionListeners) {
             listener.robotIsTeleported(event);
@@ -208,4 +219,6 @@ public class Game {
             listener.gameStatusChanged(event);
         }
     }
+
+    //endregion
 }
