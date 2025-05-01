@@ -31,27 +31,17 @@ public abstract class AbstractCell {
      * @param bigObject объект, добавляемый в ячейку.
      */
     public boolean setBigObject(@NotNull Robot bigObject) {
-        // Perform all my checks before initiate connection TODO translate
-
-        // Return TRUE because connection already exist with THIS big object
-        if (this.bigObject == bigObject) return true;
-
-        // Return FALSE if cell can't take big object
         if (!this.canSetBigObject()) {
             return false;
         }
 
-        // Established connection
         boolean success = bigObject.setPosition(this);
-
-        // Return FALSE if connection was failed
         if (!success) {
             return false;
         }
 
-        // Remember big object
         this.bigObject = bigObject;
-        // Connection is established correctly
+
         return true;
     }
 
