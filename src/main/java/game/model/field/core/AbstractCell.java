@@ -234,8 +234,7 @@ public abstract class AbstractCell {
      * @return соседнее препятствие, располагающееся между ячейками в заданном направлении.
      */
     public BetweenCellObject getNeighborObstacle(@NotNull Direction direction) {
-        // TODO нужно реализовать
-        return null;
+        return getNeighborArea(direction).getObstacle();
     }
 
     /**
@@ -246,8 +245,7 @@ public abstract class AbstractCell {
      * @return успешность.
      */
     public boolean setNeighborObstacle(@NotNull Direction direction, @NotNull BetweenCellObject obstacle) {
-        // TODO нужно реализовать
-        return false;
+        return getNeighborArea(direction).setObstacle(obstacle);
     }
 
     /**

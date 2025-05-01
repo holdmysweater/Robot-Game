@@ -30,7 +30,7 @@ public class BetweenCellsArea {
      *
      * @param obstacle объект, добавляемый в область между ячейками.
      */
-    boolean setObstacle(@NotNull BetweenCellObject obstacle) {
+    public boolean setObstacle(@NotNull BetweenCellObject obstacle) {
         // Вернуть true, если этот объект уже задан
         if (this.obstacle == obstacle) return true;
 
