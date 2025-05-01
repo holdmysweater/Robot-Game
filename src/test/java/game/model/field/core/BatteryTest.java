@@ -37,13 +37,24 @@ class BatteryTest {
     }
 
     @Test
-    public void test_canLocateAtPosition_inEmptyCell() {
+    public void test_canLocateAtPosition_isConnected() {
         NormalCell cellWithPowerSupply = new NormalCell();
+
+        boolean result = battery.canSetPosition(cellWithPowerSupply);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void test_canLocateAtPosition_disconnected() {
+        NormalCell cellWithPowerSupply = new NormalCell();
+        Battery battery = new Battery();
 
         boolean result = battery.canSetPosition(cellWithPowerSupply);
 
         assertTrue(result);
     }
+
 
     @Test
     public void test_canLocateAtPosition_inCellWithBattery() {
