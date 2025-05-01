@@ -1,7 +1,6 @@
 package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.model.events.FieldActionEvent;
@@ -37,14 +36,14 @@ public class FieldTest {
         AbstractCell abstractCell_1_0 = field.getCell(new Point(0, 1));
         AbstractCell abstractCell_1_1 = field.getCell(new Point(1, 1));
 
-        Assertions.assertEquals(Direction.SOUTH, abstractCell_0_0.getNeighborDirection(abstractCell_1_0));
-        assertEquals(Direction.SOUTH, abstractCell_0_1.getNeighborDirection(abstractCell_1_1));
-        assertEquals(Direction.NORTH, abstractCell_1_1.getNeighborDirection(abstractCell_0_1));
-        assertEquals(Direction.NORTH, abstractCell_1_0.getNeighborDirection(abstractCell_0_0));
-        assertEquals(Direction.EAST, abstractCell_0_0.getNeighborDirection(abstractCell_0_1));
-        assertEquals(Direction.EAST, abstractCell_1_0.getNeighborDirection(abstractCell_1_1));
-        assertEquals(Direction.WEST, abstractCell_0_1.getNeighborDirection(abstractCell_0_0));
-        assertEquals(Direction.WEST, abstractCell_1_1.getNeighborDirection(abstractCell_1_0));
+        assertEquals(abstractCell_1_0, abstractCell_0_0.getNeighborCell(Direction.SOUTH));
+        assertEquals(abstractCell_1_1, abstractCell_0_1.getNeighborCell(Direction.SOUTH));
+        assertEquals(abstractCell_0_1, abstractCell_1_1.getNeighborCell(Direction.NORTH));
+        assertEquals(abstractCell_0_0, abstractCell_1_0.getNeighborCell(Direction.NORTH));
+        assertEquals(abstractCell_0_1, abstractCell_0_0.getNeighborCell(Direction.EAST));
+        assertEquals(abstractCell_1_1, abstractCell_1_0.getNeighborCell(Direction.EAST));
+        assertEquals(abstractCell_0_0, abstractCell_0_1.getNeighborCell(Direction.WEST));
+        assertEquals(abstractCell_1_0, abstractCell_1_1.getNeighborCell(Direction.WEST));
         assertTrue(abstractCell_1_1 instanceof ExitCell);
     }
 
