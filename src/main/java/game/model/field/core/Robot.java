@@ -6,27 +6,12 @@ import game.model.events.RobotActionListener;
 
 import java.util.ArrayList;
 
-//TODO Полная валидация робота (перепроверить проверки и тд, я глянула, но глянь еще раз?)
-
 /**
  * Робот.
  */
 public class Robot extends CellObject {
 
-    /**
-     * Количество заряда для перемещения.
-     */
-    private static final int AMOUNT_OF_CHARGE_FOR_MOVE = 1;
-
-    /**
-     * Внутренний источник питания робота.
-     */
-    private Battery battery;
-
-    /**
-     * Робот телепортирован.
-     */
-    private boolean isTeleported = false;
+    //region КОНСТРУКТОРЫ
 
     /**
      * Конструктор.
@@ -37,13 +22,17 @@ public class Robot extends CellObject {
         setBattery(battery);
     }
 
+    //endregion
+
+    //region ПЕРЕМЕЩЕНИЕ
+
     /**
      * Переместить объект в заданном направлении.
      *
      * @param direction направление.
      */
     public boolean move(@NotNull Direction direction) {
-        if (getPosition().getNeighborArea(direction).getObstacle() != null) {
+        if (getPosition().getNeighborObstacle(direction) != null) {
             System.out.println("Wall");
             return false;
         }
@@ -78,6 +67,80 @@ public class Robot extends CellObject {
     }
 
     /**
+     * Получить дееспособность робота
+     *
+     * @return дееспособен ли робот
+     */
+    public boolean isCapable() {
+        if (getPosition() instanceof NormalCell) {
+            NormalCell cell = (NormalCell) getPosition();
+            if (cell.getSmallObject() != null) {
+                return true;
+            }
+        }
+        return !isTeleported() && getCharge() > 0;
+    }
+
+    //endregion
+
+    //region БАТАРЕЙКА
+
+    /**
+     * Количество заряда для перемещения.
+     */
+    private static final int AMOUNT_OF_CHARGE_FOR_MOVE = 1;
+
+    /**
+     * Внутренний источник питания робота.
+     */
+    private Battery battery;
+
+    /**
+     * Установить источник питания {@link Robot#battery}
+     *
+     * @param battery источник питания.
+     */
+    boolean setBattery(@NotNull Battery battery) {
+        if (battery == this.battery) return true;
+
+        if (this.battery != null) return false;
+
+        this.battery = battery;
+
+        boolean success = battery.connectTo(this);
+
+        assert success;
+        if (!success) {
+            this.battery = null;
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Изъять источник питания {@link Robot#battery}
+     *
+     * @return успешность изъятия
+     */
+    boolean unsetBattery() {
+        if (this.battery == null) return true;
+
+        Battery battery = this.battery;
+        this.battery = null;
+
+        boolean success = battery.disconnect();
+
+        assert success: "Disconnect failed";
+        if (!success) {
+            this.battery = battery;
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Заменить источник питания {@link Robot#battery}.
      */
     public boolean changeBattery() {
@@ -108,79 +171,7 @@ public class Robot extends CellObject {
         return true;
     }
 
-    /**
-     * Получить дееспособность робота
-     *
-     * @return дееспособен ли робот
-     */
-    public boolean isCapable() {
-        if (getPosition() instanceof NormalCell) {
-            NormalCell cell = (NormalCell) getPosition();
-            if (cell.getSmallObject() != null) {
-                return true;
-            }
-        }
-        return !isTeleported() && getCharge() > 0;
-    }
-
-    /**
-     * Телепортирован ли робот
-     *
-     * @return телепортирован ли робот
-     */
-    public boolean isTeleported() {
-        return isTeleported;
-    }
-
-    /**
-     * Считать, что робот телепортирован.
-     */
-    void setTeleported() { //TODO Плохо - может быть детелепортирован?? DONE
-        isTeleported = true;
-    }
-
-    /**
-     * Установить источник питания {@link Robot#battery}
-     *
-     * @param battery источник питания.
-     */
-    public boolean setBattery(@NotNull Battery battery) {
-        // TODO TODO - можно сделать private, что будет при создании робота?
-        if (battery == this.battery) return true;
-
-        if (getBattery() != null) return false;
-
-        this.battery = battery; // TODO TODO дальше что-то может пойти не так DONE
-
-        boolean success = battery.connectTo(this);
-
-        assert success;
-        if (!success) {
-            this.battery = null;
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Изъять источник питания {@link Robot#battery}
-     *
-     * @return успешность изъятия
-     */
-    public boolean unsetBattery() {
-        // TODO TODO - можно сделать private
-        if (getBattery() == null) return true;
-
-        Battery battery = this.battery; // TODO TODO что-то может пойти не так
-        this.battery = null;
-
-        if (!battery.disconnect()) {
-            throw new RuntimeException("Can't disconnect from user"); // TODO  TODO  почему исключение
-        }
-
-        return true;
-    }
+    //region ЁМКОСТЬ
 
     /**
      * Получить заряд {@link Battery#getCharge()}.
@@ -200,16 +191,36 @@ public class Robot extends CellObject {
         return battery.getCapacity();
     }
 
+    //endregion
+
+    //endregion
+
+    //region ТЕЛЕПОРТАЦИЯ
+
     /**
-     * Получить источник питания {@link Robot#battery}.
-     *
-     * @return источник питания.
+     * Робот телепортирован.
      */
-    public Battery getBattery() {
-        return this.battery;
+    private boolean isTeleported = false;
+
+    /**
+     * Считать, что робот телепортирован.
+     */
+    void setTeleported() {
+        isTeleported = true;
     }
-    //TODO Зачем??? (Ответ: тесты. Сделать пакетным?)
-    //TODO TODO - переписать тесты так, чтобы рассматривать робота как черный ящик, использовать только getCharge()
+
+    /**
+     * Телепортирован ли робот
+     *
+     * @return телепортирован ли робот
+     */
+    public boolean isTeleported() {
+        return isTeleported;
+    }
+
+    //endregion
+
+    //region СИГНАЛЫ
 
     /**
      * Список слушателей, подписанных на события игры.
@@ -265,4 +276,6 @@ public class Robot extends CellObject {
             listener.robotChangedBattery(event);
         }
     }
+
+    //endregion
 }
