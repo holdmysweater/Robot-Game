@@ -45,13 +45,11 @@ public class ExitCell extends AbstractCell {
     public boolean setBigObject(@NotNull Robot cellObject) {
         boolean success = super.setBigObject(cellObject);
 
-        if (success) { //TODO что с событиями????
-                       // TODO - задержка
+        if (success) {
             teleportRobot();
-            return true;
-        } else {
-            return false;
         }
+
+        return success;
     }
 
     //endregion
