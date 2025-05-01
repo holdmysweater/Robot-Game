@@ -2,13 +2,14 @@ package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
 import java.util.Objects;
 
 /**
  * Объект, располагающийся между ячейками {@link AbstractCell}
  */
 public abstract class BetweenCellObject {
+
+    //region ПОЗИЦИЯ
 
     /**
      * Позиция объекта между ячейками
@@ -20,7 +21,7 @@ public abstract class BetweenCellObject {
      *
      * @return позиция.
      */
-    public BetweenCellsArea getPosition() {
+    protected BetweenCellsArea getPosition() {
         return position;
     }
 
@@ -35,7 +36,7 @@ public abstract class BetweenCellObject {
         if (position.equals(this.position)) return true;
 
         // Вернуть false если объект не может быть размещён в этой позиции
-        if (!canLocateAtPosition(position)) return false;
+        if (!canSetPosition(position)) return false;
 
         // Запомнить объект в этой позиции
         this.position = position;
@@ -48,9 +49,13 @@ public abstract class BetweenCellObject {
      * @param newPosition проверяемая позиция.
      * @return может ли находиться объект в позиции.
      */
-    protected boolean canLocateAtPosition(@NotNull BetweenCellsArea newPosition) {
+    protected boolean canSetPosition(@NotNull BetweenCellsArea newPosition) {
         return this.position == null;
     }
+
+    //endregion
+
+    //region OBJECT
 
     @Override
     public boolean equals(Object o) {
@@ -71,4 +76,6 @@ public abstract class BetweenCellObject {
     public int hashCode() {
         return Objects.hash(position);
     }
+
+    //endregion
 }
