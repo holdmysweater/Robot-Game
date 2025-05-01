@@ -9,6 +9,8 @@ import java.util.Objects;
  */
 public class Battery extends CellObject {
 
+    //region КОНСТРУКТОРЫ
+
     /**
      * Конструктор.
      */
@@ -18,7 +20,8 @@ public class Battery extends CellObject {
 
     /**
      * Конструктор.
-     * @throws IllegalArgumentException Введено некорректное значение заряда.
+     *
+     * @throws IllegalArgumentException введено некорректное значение заряда.
      */
     public Battery(int charge) {
         if (charge > maxCapacity || charge < 0) {
@@ -27,109 +30,9 @@ public class Battery extends CellObject {
         this.charge = charge;
     }
 
-    /**
-     * Батарейка уничтожена
-     */
-    private boolean isDestroy = false;
+    //endregion
 
-    public boolean isDestroy() {
-        return isDestroy;
-    }
-
-    /**
-     * Уничтожение батарейки.
-     */
-    public void destroy() {
-        if(isDestroy()) return; // TODO - ничего не делать, если уже разрушена
-
-        disconnect();
-        isDestroy = true;
-    }
-    //TODO Связь с потребителем DONE
-
-    /**
-     * Потребитель.
-     */
-    private Robot user = null;
-
-    /**
-     * Подключение к потребителю.
-     *
-     * @return подключена ли батарейка к потребителю.
-     */
-    public boolean isUsed() {
-        if (isDestroy) {
-            throw new RuntimeException("Battery is destroyed");
-        }
-
-        return user != null;
-    }
-
-    /**
-     * Подключить к пользователю.
-     *
-     * @param user пользователь.
-     * @return успешность подключения.
-     */
-    public boolean connectTo(Robot user) {
-        assert !isDestroy;
-        if (isDestroy) {
-            return false;
-        }
-
-        if (user == this.user) {
-            return true;
-        }
-
-        if (isUsed() || getPosition() != null) {
-            return false;
-        }
-
-        this.user = user;
-
-        boolean success = user.setBattery(this);
-
-        assert success;
-        if (!success) {
-            this.user = null;
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Отключить от пользователя.
-     *
-     * @return успешность отключения
-     */
-    public boolean disconnect() {
-        //TODO Проверки DONE
-        assert !isDestroy;
-        if (isDestroy) {
-            return false;
-        }
-
-        if (!isUsed()) {
-            return true;
-        }
-
-        Robot oldUser = user;
-        user = null;
-
-        boolean success = oldUser.unsetBattery();
-
-        assert success;
-        if (!success) {
-            user = oldUser;
-            return false;
-        }
-
-        isDestroy = false;
-
-        return true;
-    }
-
+    //region ЗАРЯД
 
     /**
      * Заряд.
@@ -173,13 +76,12 @@ public class Battery extends CellObject {
      * @param chargeAmount запрашиваемое кол-во заряда.
      * @return отданное кол-во заряда.
      */
-    public boolean drainCharge(int chargeAmount) {
-        //TODO TODO Название  операции DONE?
+    boolean drainCharge(int chargeAmount) {
         if (isDestroy) {
             throw new RuntimeException("Battery is destroyed");
         }
 
-        if (!isUsed()) {
+        if (!isConnected()) {
             throw new RuntimeException("Not connected to user");
         }
 
@@ -192,11 +94,133 @@ public class Battery extends CellObject {
         return true;
     }
 
+    //endregion
+
+    //region ПОЛЬЗОВАТЕЛЬ
+
+    /**
+     * Потребитель.
+     */
+    private Robot user = null;
+
+    /**
+     * Подключить к пользователю.
+     *
+     * @param user пользователь.
+     * @return успешность подключения.
+     */
+    boolean connectTo(Robot user) {
+        assert !isDestroy;
+        if (isDestroy) {
+            return false;
+        }
+
+        if (user == this.user) {
+            return true;
+        }
+
+        if (isConnected() || getPosition() != null) {
+            return false;
+        }
+
+        this.user = user;
+
+        boolean success = user.setBattery(this);
+
+        assert success;
+        if (!success) {
+            this.user = null;
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Отключить от пользователя.
+     *
+     * @return успешность отключения
+     */
+    boolean disconnect() {
+        assert !isDestroy;
+        if (isDestroy) {
+            return false;
+        }
+
+        if (!isConnected()) {
+            return true;
+        }
+
+        Robot oldUser = user;
+        user = null;
+
+        boolean success = oldUser.unsetBattery();
+
+        assert success;
+        if (!success) {
+            user = oldUser;
+            return false;
+        }
+
+        isDestroy = false;
+
+        return true;
+    }
+
+    /**
+     * Подключение к потребителю.
+     *
+     * @return подключена ли батарейка к потребителю.
+     */
+    public boolean isConnected() {
+        if (isDestroy) {
+            throw new RuntimeException("Battery is destroyed");
+        }
+
+        return user != null;
+    }
+
+    //endregion
+
+    //region ПОЗИЦИЯ
 
     @Override
     protected boolean canSetPosition(@NotNull AbstractCell cell) {
-        return !this.isUsed() && getPosition() == null;
+        return !this.isConnected() && getPosition() == null;
     }
+
+    //endregion
+
+    //region УНИЧТОЖЕНИЕ
+    // TODO Привести в соответствие с диаграммами. В диаграммах нет операций уничтожения.
+
+    /**
+     * Батарейка уничтожена
+     */
+    private boolean isDestroy = false;
+
+    /**
+     * Уничтожение батарейки.
+     */
+    void destroy() {
+        if (isDestroy()) return;
+
+        disconnect();
+        isDestroy = true;
+    }
+
+    /**
+     * Является ли батарейка уничтоженной.
+     *
+     * @return является ли батарейка уничтоженной.
+     */
+    public boolean isDestroy() {
+        return isDestroy;
+    }
+
+    //endregion
+
+    //region OBJECT
 
     @Override
     public boolean equals(Object o) {
@@ -219,4 +243,6 @@ public class Battery extends CellObject {
     public String toString() {
         return "Battery{" + "charge=" + charge + '}';
     }
+
+    //endregion
 }
