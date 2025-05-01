@@ -6,10 +6,22 @@ import org.jetbrains.annotations.NotNull;
  * Ячейка выхода.
  */
 public class NormalCell extends AbstractCell {
+
+    //region МЛЕНЬКИЙ ОБЪЕКТ
+
     /**
      * Маленький объект, расположенный в ячейке.
      */
     private Battery smallObject = null;
+
+    /**
+     * Получить маленький объект.
+     *
+     * @return маленький объект.
+     */
+    public Battery getSmallObject() {
+        return smallObject;
+    }
 
     /**
      * Добавить маленький объект в ячейку {@link NormalCell#smallObject}.
@@ -17,13 +29,13 @@ public class NormalCell extends AbstractCell {
      * @param smallObject объект, добавляемый в ячейку.
      */
     public boolean setSmallObject(@NotNull Battery smallObject) {
-        // Perform all my checks before initiate connection
+        // Perform all my checks before initiate connection TODO translate
 
         // Return TRUE because connection already exist with THIS small object
         if (this.getSmallObject() == smallObject) return true;
 
         // Return FALSE if cell can't take small object
-        if (!this.canTakeSmallObject()) {
+        if (!this.canSetSmallObject()) {
             return false;
         }
 
@@ -42,6 +54,15 @@ public class NormalCell extends AbstractCell {
     }
 
     /**
+     * Может принять маленький объект.
+     *
+     * @return может принять маленький объект.
+     */
+    boolean canSetSmallObject() {
+        return getSmallObject() == null;
+    }
+
+    /**
      * Изъять маленький объект из ячейки.
      *
      * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link NormalCell#smallObject}.
@@ -57,24 +78,5 @@ public class NormalCell extends AbstractCell {
         return result;
     }
 
-    /**
-     * Получить маленький объект.
-     *
-     * @return маленький объект.
-     */
-    public Battery getSmallObject() {
-        return smallObject;
-    }
-
-    /**
-     * Может принять маленький объект.
-     *
-     * @return может принять маленький объект.
-     */
-    boolean canTakeSmallObject() {
-        return getSmallObject() == null;
-    }
-    //TODO Общий доступ??? DONE
-    // TODO TODO - симметрично с большим объектом
-    // TODO TODO - принять, а не изъять
+    //endregion
 }
