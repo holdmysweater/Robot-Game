@@ -55,23 +55,6 @@ public class BetweenCellsArea {
         return this.obstacle == null;
     }
 
-    /**
-     * Изъять препятствие из ячейки.
-     *
-     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link BetweenCellsArea#obstacle}.
-     */
-    @Deprecated
-    public BetweenCellObject takeObstacle() {
-        BetweenCellObject result = obstacle;
-
-        if (result != null) {
-            result.setPosition(null);
-            obstacle = null;
-        }
-
-        return result;
-    }
-
     //endregion
 
     //region СОСЕДИ
@@ -80,16 +63,6 @@ public class BetweenCellsArea {
      * Соседние ячейки.
      */
     private final Map<Direction, AbstractCell> neighborCells = new EnumMap<>(Direction.class);
-
-    /**
-     * Получить соседние ячейки {@link BetweenCellsArea#neighborCells}.
-     *
-     * @return соседние ячейки.
-     */
-    @Deprecated
-    public Map<Direction, AbstractCell> getNeighborCells() {
-        return Collections.unmodifiableMap(neighborCells);
-    }
 
     /**
      * Получить соседнюю ячейку в заданном направлении.
@@ -201,11 +174,6 @@ public class BetweenCellsArea {
         if (currentTopCell != null && !currentTopCell.equals(topCell)) return false;
         if (currantBottomCell != null && !currantBottomCell.equals(bottomCell)) return false;
         return this.neighborCells.get(Direction.WEST) == null && this.neighborCells.get(Direction.EAST) == null;
-    }
-
-    @Deprecated
-    public boolean isNeighbor(@NotNull AbstractCell cell) {
-        return neighborCells.containsValue(cell);
     }
 
     //endregion

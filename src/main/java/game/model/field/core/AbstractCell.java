@@ -75,29 +75,11 @@ public abstract class AbstractCell {
     //region СОСЕДНИЕ ЯЧЕЙКИ
 
     /**
-     * Получить соседние ячейки.
-     *
-     * @return соседние ячейки.
-     */
-    @Deprecated
-    public final Map<Direction, AbstractCell> getNeighborCells() {
-        Map<Direction, AbstractCell> neighborCells = new HashMap<Direction, AbstractCell>();
-        for (Direction direction : Direction.values()) {
-            AbstractCell cell = getNeighborCell(direction);
-            if (cell != null) {
-                neighborCells.put(direction, cell);
-            }
-        }
-        return Collections.unmodifiableMap(neighborCells);
-    }
-
-    /**
      * Получить соседнюю ячейку в заданном направлении.
      *
      * @param direction направление.
      * @return соседняя ячейка, null, если в заданном направлении нет соседней ячейки.
      */
-    // TODO геттер с Cell, а сеттер без Cell в наименовании, привести к единообразию
     public AbstractCell getNeighborCell(@NotNull Direction direction) {
         BetweenCellsArea area = neighborAreas.get(direction);
         if (area == null) {
@@ -144,17 +126,6 @@ public abstract class AbstractCell {
         };
     }
 
-    /**
-     * Является ли ячейка соседом.
-     *
-     * @param other соседняя ячейка.
-     * @return Является ли ячейка соседом.
-     */
-    @Deprecated
-    public boolean isNeighbor(@NotNull AbstractCell other) {
-        return getNeighborCells().containsValue(other);
-    }
-
     //endregion
 
     //region ОБЛАСТИ МЕЖДУ ЯЧЕЙКАМИ
@@ -163,16 +134,6 @@ public abstract class AbstractCell {
      * Области, располагающиеся между ячейками.
      */
     private final Map<Direction, BetweenCellsArea> neighborAreas = new EnumMap<>(Direction.class);
-
-    /**
-     * Получить соседние области, располагающиеся между ячейками {@link AbstractCell#neighborAreas}.
-     *
-     * @return соседние области, располагающиеся между ячейками.
-     */
-    @Deprecated
-    public Map<Direction, BetweenCellsArea> getNeighborAreas() {
-        return Collections.unmodifiableMap(neighborAreas);
-    }
 
     /**
      * Получить соседнюю область, располагающуюся между ячейками {@link AbstractCell#neighborAreas} в заданном направлении.
@@ -239,17 +200,6 @@ public abstract class AbstractCell {
      */
     public boolean setNeighborObstacle(@NotNull Direction direction, @NotNull BetweenCellObject obstacle) {
         return getNeighborArea(direction).setObstacle(obstacle);
-    }
-
-    /**
-     * Является ли препятствие соседом.
-     *
-     * @param obstacle препятствие.
-     * @return сосед.
-     */
-    @Deprecated
-    public Direction isNeighbor(@NotNull BetweenCellObject obstacle) {
-        return null;
     }
 
     //endregion
