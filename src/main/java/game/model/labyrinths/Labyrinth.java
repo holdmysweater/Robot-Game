@@ -56,12 +56,13 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     private void populateWalls(@NotNull Field field) {
-        Map<WallSegment, BetweenCellsArea> walls = createWalls(field);
+        Map<WallSegment, AbstractMap.SimpleEntry<AbstractCell, Direction>> walls = createWalls(field);
 
         for (WallSegment wall : walls.keySet()) {
-            BetweenCellsArea betweenCellsArea = walls.get(wall);
-            boolean result = betweenCellsArea.setObstacle(wall);
-            assert result: "Wall segment " + wall + " not set at " + betweenCellsArea;
+            AbstractCell cell = walls.get(wall).getKey();
+            Direction direction = walls.get(wall).getValue();
+            boolean result = cell.setNeighborObstacle(direction, wall);
+            assert result: "Wall segment " + wall + " not set at " + cell + " with direction " + direction;
         }
     }
 
@@ -138,7 +139,7 @@ public abstract class Labyrinth {
      *
      * @param field поле.
      */
-    protected abstract Map<WallSegment, BetweenCellsArea> createWalls(@NotNull Field field);
+    protected abstract Map<WallSegment, AbstractMap.SimpleEntry<AbstractCell, Direction>> createWalls(@NotNull Field field);
 
     /**
      * Добавить роботов на поле.
