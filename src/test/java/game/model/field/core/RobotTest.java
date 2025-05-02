@@ -8,7 +8,9 @@ import game.model.events.RobotActionListener;
 import game.model.field.between_cells_objects.WallSegment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,11 +26,6 @@ class RobotTest {
         @Override
         public void robotIsMoved(@NotNull RobotActionEvent event) {
             events.add(EVENT.ROBOT_MOVED);
-        }
-
-        @Override
-        public void robotUnfrozenChanged(@NotNull RobotActionEvent event) {
-            // Not implemented yet
         }
 
         @Override
@@ -55,21 +52,16 @@ class RobotTest {
 
         // create robot
         robot = new Robot(new Battery());
-        robot.setUnfrozen(true);
         robot.addRobotActionListener(new EventsListener());
 
         // create field
         abstractCell = new NormalCell();
         neighborAbstractCell = new NormalCell();
-        abstractCell.setNeighbor(neighborAbstractCell, direction);
-    }
 
-    @Test
-    public void test_setUnfrozenAndIsActive() {
-        robot.setUnfrozen(true);
-
-        assertTrue(robot.isUnfrozen());
-        assertTrue(events.isEmpty());
+        Map<Direction, AbstractCell> map = new HashMap<>();
+        neighborAbstractCell.setNeighbors(null);
+        map.put(direction, neighborAbstractCell);
+        abstractCell.setNeighbors(map);
     }
 
     @Test
@@ -124,23 +116,9 @@ class RobotTest {
     @Test
     public void test_move_emptyCellInDirectionWithWallAndRobotActiveAndEnoughCharge() {
         abstractCell.setBigObject(robot);
-        abstractCell.setNeighborObstacle(new WallSegment(), abstractCell.getNeighborDirection(neighborAbstractCell));
+        abstractCell.setNeighborObstacle(direction, new WallSegment());
 
         robot.setBattery(new Battery());
-        robot.move(direction);
-
-        assertEquals(robot, abstractCell.getBigObject());
-        assertEquals(abstractCell, robot.getPosition());
-        assertNull(neighborAbstractCell.getBigObject());
-        assertEquals(DEFAULT_TEST_BATTERY_CHARGE, robot.getCharge());
-        assertTrue(events.isEmpty());
-    }
-
-    @Test
-    public void test_move_emptyCellInDirectionAndRobotNotActiveAndEnoughCharge() {
-        abstractCell.setBigObject(robot);
-
-        robot.setUnfrozen(false);
         robot.move(direction);
 
         assertEquals(robot, abstractCell.getBigObject());
@@ -175,23 +153,6 @@ class RobotTest {
 
         assertNull(((NormalCell) abstractCell).getSmallObject());
         assertEquals(newBattery.getCharge(), robot.getCharge());
-        assertTrue(events.isEmpty());
-    }
-
-    @Test
-    public void test_changeBattery_robotIsNotActiveCellContainsBattery() {
-        abstractCell.setBigObject(robot);
-        Battery newBattery = new Battery();
-        ((NormalCell) abstractCell).setSmallObject(newBattery);
-
-        Battery robotBattery = new Battery();
-        robot.setBattery(robotBattery);
-        robot.setUnfrozen(false);
-
-        robot.changeBattery();
-
-        assertEquals(newBattery, ((NormalCell) abstractCell).getSmallObject());
-        assertEquals(robotBattery.getCharge(), robot.getCharge());
         assertTrue(events.isEmpty());
     }
 

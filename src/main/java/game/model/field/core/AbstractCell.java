@@ -113,9 +113,11 @@ public abstract class AbstractCell {
      * @param neighborCells список ячеек с соответствующими направлениями соседства.
      * @return успешность.
      */
-    boolean setNeighbors(@NotNull Map<Direction, AbstractCell> neighborCells) {
-        for (Direction direction : neighborCells.keySet()) {
-            if (!setNeighbor(neighborCells.get(direction), direction)) return false;
+    boolean setNeighbors(Map<Direction, AbstractCell> neighborCells) {
+        if (neighborCells != null){
+            for (Direction direction : neighborCells.keySet()) {
+                if (!setNeighbor(neighborCells.get(direction), direction)) return false;
+            }
         }
 
         surroundSelfWithBetweenCellsAreas();
@@ -132,6 +134,7 @@ public abstract class AbstractCell {
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      */
     private boolean setNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
+        if (this == neighborCell) { return false; }
         BetweenCellsArea area = neighborCell.getNeighborArea(direction.getOppositeDirection());
         return switch (direction) {
             case NORTH -> area.setVerticalNeighbors(neighborCell, this);
@@ -147,7 +150,7 @@ public abstract class AbstractCell {
      * @param other соседняя ячейка.
      * @return Является ли ячейка соседом.
      */
-    // TODO возможно, deprecated
+    @Deprecated
     public boolean isNeighbor(@NotNull AbstractCell other) {
         return getNeighborCells().containsValue(other);
     }
@@ -244,8 +247,8 @@ public abstract class AbstractCell {
      * @param obstacle препятствие.
      * @return сосед.
      */
+    @Deprecated
     public Direction isNeighbor(@NotNull BetweenCellObject obstacle) {
-        // TODO нужно реализовать
         return null;
     }
 

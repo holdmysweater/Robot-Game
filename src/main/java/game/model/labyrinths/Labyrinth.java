@@ -95,7 +95,7 @@ public abstract class Labyrinth {
 
             // Check cell class
             boolean isNormalCell = cell instanceof NormalCell;
-            assert !isNormalCell : "Battery can't set at cell that is not NormalCell";
+            assert isNormalCell : "Battery can't set at cell that is not NormalCell";
             if (!isNormalCell) { continue; }
 
             // Set battery

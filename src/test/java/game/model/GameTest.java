@@ -51,13 +51,6 @@ public class GameTest {
     }
 
     @Test
-    public void test_finishGame() {
-        game.abort();
-
-        assertEquals(GameStatus.GAME_ABORTED, game.getStatus());
-    }
-
-    @Test
     public void test_robotMoved_success() {
         Robot robot = game.getRobot();
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
@@ -74,7 +67,6 @@ public class GameTest {
         game.getRobot().move(Direction.WEST);
 
         assertEquals(robot, game.getRobot());
-        assertTrue(robot.isUnfrozen());
         assertEquals(expectedEvents, events);
         assertEquals(GameStatus.GAME_IS_ON, game.getStatus());
     }
@@ -92,7 +84,11 @@ public class GameTest {
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         assertEquals(expectedEvents, events);
-        assertFalse(robot.isUnfrozen());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(GameStatus.WIN, game.getStatus());
     }
 
@@ -108,7 +104,11 @@ public class GameTest {
         }
 
         assertEquals(0,  robot.getCharge());
-        assertFalse(robot.isUnfrozen());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(GameStatus.LOSS, game.getStatus());
     }
 
@@ -125,7 +125,11 @@ public class GameTest {
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         assertEquals(expectedEvents, events);
-        assertFalse(robot.isUnfrozen());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(GameStatus.WIN, game.getStatus());
     }
 }

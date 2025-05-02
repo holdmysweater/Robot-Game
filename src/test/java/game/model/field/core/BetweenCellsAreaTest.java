@@ -7,151 +7,54 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BetweenCellsAreaTest {
 
-    private final Direction direction = Direction.NORTH;
-
     private AbstractCell abstractCell;
     private AbstractCell neighborAbstractCell;
 
     @BeforeEach
     public void testSetup() {
         abstractCell = new NormalCell();
+        abstractCell.setNeighbors(null);
+
         neighborAbstractCell = new NormalCell();
     }
 
     @Test
-    public void test_createAndGetNeighborCells_withCellAndDirectionOnSingleCell() {
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, direction);
+    public void test_setHorizontalNeighbors() {
+        BetweenCellsArea betweenCellsArea = abstractCell.getNeighborArea(Direction.EAST);
 
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(direction));
+        assertTrue(betweenCellsArea.setHorizontalNeighbors(abstractCell, neighborAbstractCell));
+        assertEquals(Orientation.VERTICAL, betweenCellsArea.getOrientation());
+        assertEquals(abstractCell, betweenCellsArea.getNeighborCell(Direction.WEST));
+        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCell(Direction.EAST));
     }
 
     @Test
-    public void test_createAndGetNeighborCells_withCellAndDirectionOnTwoNeighborCells() {
-        abstractCell.setNeighbor(neighborAbstractCell, direction);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, direction);
+    public void test_setVerticalNeighbors() {
+        BetweenCellsArea betweenCellsArea = abstractCell.getNeighborArea(Direction.SOUTH);
 
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(direction));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(direction.getOppositeDirection()));
+        assertTrue(betweenCellsArea.setVerticalNeighbors(abstractCell, neighborAbstractCell));
+        assertEquals(Orientation.HORIZONTAL, betweenCellsArea.getOrientation());
+        assertEquals(abstractCell, betweenCellsArea.getNeighborCell(Direction.NORTH));
+        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCell(Direction.SOUTH));
     }
 
     @Test
-    public void test_createAndGetNeighborCells_withTwoNeighborsCells() {
-        abstractCell.setNeighbor(neighborAbstractCell, direction);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, neighborAbstractCell);
+    public void test_setHorizontalNeighbors_alreadyHasVerticalNeighbors() {
+        BetweenCellsArea betweenCellsArea = abstractCell.getNeighborArea(Direction.EAST);
 
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(direction.getOppositeDirection()));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(direction));
+        assertFalse(betweenCellsArea.setVerticalNeighbors(abstractCell, neighborAbstractCell));
+        assertEquals(Orientation.VERTICAL, betweenCellsArea.getOrientation());
+        assertEquals(abstractCell, betweenCellsArea.getNeighborCell(Direction.WEST));
+        assertNull(betweenCellsArea.getNeighborCell(Direction.EAST));
     }
 
     @Test
-    public void test_createAndGetNeighborCells_toNorthOnSingleCell() {
-        Direction north = Direction.NORTH;
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, north);
+    public void test_setVerticalNeighbors_alreadyHasHorizontalNeighbors() {
+        BetweenCellsArea betweenCellsArea = abstractCell.getNeighborArea(Direction.SOUTH);
 
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(north));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toSouthOnSingleCell() {
-        Direction south = Direction.SOUTH;
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, south);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(south));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toEastOnSingleCell() {
-        Direction east = Direction.EAST;
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, east);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(east));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toWestOnSingleCell() {
-        Direction west = Direction.WEST;
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, west);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(west));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toNorthOnTwoNeighborCells() {
-        Direction north = Direction.NORTH;
-        abstractCell.setNeighbor(neighborAbstractCell, north);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, neighborAbstractCell);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(north.getOppositeDirection()));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(north));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toSouthOnTwoNeighborCells() {
-        Direction south = Direction.SOUTH;
-        abstractCell.setNeighbor(neighborAbstractCell, south);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, neighborAbstractCell);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(south.getOppositeDirection()));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(south));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toEastOnTwoNeighborCells() {
-        Direction east = Direction.EAST;
-        abstractCell.setNeighbor(neighborAbstractCell, east);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, neighborAbstractCell);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(east.getOppositeDirection()));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(east));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toWestOnTwoNeighborCells() {
-        Direction west = Direction.WEST;
-        abstractCell.setNeighbor(neighborAbstractCell, west);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, neighborAbstractCell);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(west.getOppositeDirection()));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(west));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toNorthOnTwoNeighborCellsByCellAndDirection() {
-        Direction north = Direction.NORTH;
-        abstractCell.setNeighbor(neighborAbstractCell, north);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, north);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(north));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(north.getOppositeDirection()));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toSouthOnTwoNeighborCellsByCellAndDirection() {
-        Direction south = Direction.SOUTH;
-        abstractCell.setNeighbor(neighborAbstractCell, south);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, south);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(south));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(south.getOppositeDirection()));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toEastOnTwoNeighborCellsByCellAndDirection() {
-        Direction east = Direction.EAST;
-        abstractCell.setNeighbor(neighborAbstractCell, east);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, east);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(east));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(east.getOppositeDirection()));
-    }
-
-    @Test
-    public void test_createAndGetNeighborCells_toWestOnTwoNeighborCellsByCellAndDirection() {
-        Direction west = Direction.WEST;
-        abstractCell.setNeighbor(neighborAbstractCell, west);
-        BetweenCellsArea betweenCellsArea = new BetweenCellsArea(abstractCell, west);
-
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCells().get(west));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCells().get(west.getOppositeDirection()));
+        assertFalse(betweenCellsArea.setHorizontalNeighbors(abstractCell, neighborAbstractCell));
+        assertEquals(Orientation.HORIZONTAL, betweenCellsArea.getOrientation());
+        assertEquals(abstractCell, betweenCellsArea.getNeighborCell(Direction.NORTH));
+        assertNull(betweenCellsArea.getNeighborCell(Direction.SOUTH));
     }
 }

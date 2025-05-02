@@ -55,22 +55,22 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<WallSegment, BetweenCellsArea> createWalls(@NotNull Field field) {
-        Map<WallSegment, BetweenCellsArea> wallMap = new HashMap<>();
+    protected Map<WallSegment, AbstractMap.SimpleEntry<AbstractCell, Direction>> createWalls(@NotNull Field field) {
+        Map<WallSegment, AbstractMap.SimpleEntry<AbstractCell, Direction>> wallMap = new HashMap<>();
 
         wallMap.put(
                 new WallSegment(),
-                field.getCell(new Point(2, 0)).getNeighborArea(Direction.SOUTH)
+                new AbstractMap.SimpleEntry<>(field.getCell(new Point(2, 0)), Direction.SOUTH)
         );
 
         wallMap.put(
                 new WallSegment(),
-                field.getCell(new Point(2, 2)).getNeighborArea(Direction.SOUTH)
+                new AbstractMap.SimpleEntry<>(field.getCell(new Point(2, 2)), Direction.SOUTH)
         );
 
         wallMap.put(
                 new WallSegment(),
-                field.getCell(new Point(2, 2)).getNeighborArea(Direction.EAST)
+                new AbstractMap.SimpleEntry<>(field.getCell(new Point(2, 2)), Direction.EAST)
         );
 
         return wallMap;

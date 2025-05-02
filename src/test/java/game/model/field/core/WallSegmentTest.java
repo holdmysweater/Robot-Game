@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WallSegmentTest {
 
     private AbstractCell abstractCell1;
@@ -20,13 +23,19 @@ public class WallSegmentTest {
         abstractCell1 = new NormalCell();
         neighbourAbstractCell1 = new NormalCell();
         wallSegment1 = new WallSegment();
-        abstractCell1.setNeighbor(neighbourAbstractCell1, Direction.WEST);
+        Map<Direction, AbstractCell> map1 = new HashMap<>();
+        map1.put(Direction.WEST, neighbourAbstractCell1);
+        neighbourAbstractCell1.setNeighbors(null);
+        abstractCell1.setNeighbors(map1);
 
 
         abstractCell2 = new NormalCell();
         neighbourAbstractCell2 = new NormalCell();
         wallSegment2 = new WallSegment();
-        abstractCell2.setNeighbor(neighbourAbstractCell2, Direction.WEST);
+        Map<Direction, AbstractCell> map2 = new HashMap<>();
+        map2.put(Direction.WEST, neighbourAbstractCell2);
+        neighbourAbstractCell2.setNeighbors(null);
+        abstractCell2.setNeighbors(map2);
     }
 
     @Test
@@ -36,24 +45,14 @@ public class WallSegmentTest {
 
     @Test
     public void test_equalsForWallWithDifferentPosition() {
-        abstractCell1.setNeighborObstacle(wallSegment1, Direction.WEST);
-        abstractCell2.setNeighborObstacle(wallSegment2, Direction.WEST);
+        abstractCell1.setNeighborObstacle(Direction.WEST, wallSegment1);
+        abstractCell2.setNeighborObstacle(Direction.WEST, wallSegment2);
         Assertions.assertNotEquals(wallSegment1, wallSegment2);
     }
-
-    /*TODO {Не получается создать тест с одинаковыми позициями,
-       т.к. клетки не позволяют задать стенам одинаковые позиции.
-       Задать позицию стене напрямую через метод setPosition не получилось,
-       т.к. метод имеет пакетный уровень.}*/
-    /*@Test
-    public void test_equalsForWallWithSamePosition() {
-        Assertions.assertEquals(wallSegment1, wallSegment2);
-    }*/
 
     @Test
     public void test_equalsForWallWithPositionAndWallWithoutPosition() {
-        abstractCell1.setNeighborObstacle(wallSegment1, Direction.WEST);
+        abstractCell1.setNeighborObstacle(Direction.WEST, wallSegment1);
         Assertions.assertNotEquals(wallSegment1, wallSegment2);
     }
-
 }

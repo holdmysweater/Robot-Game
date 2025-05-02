@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.model.field.between_cells_objects.WallSegment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AbstractCellTest {
@@ -49,7 +52,7 @@ class AbstractCellTest {
 
         cell.setBigObject(robot);
 
-        assertThrows(IllegalArgumentException.class, () -> cell.setBigObject(newRobot));
+        assertFalse(cell.setBigObject(newRobot));
         assertEquals(robot, cell.getBigObject());
         assertEquals(cell, robot.getPosition());
         assertNull(newRobot.getPosition());
@@ -61,7 +64,7 @@ class AbstractCellTest {
 
         cell.setBigObject(robot);
 
-        assertThrows(IllegalArgumentException.class, () -> cell.setBigObject(robot));
+        assertFalse(cell.setBigObject(robot));
         assertEquals(robot, cell.getBigObject());
         assertEquals(cell, robot.getPosition());
     }
@@ -71,7 +74,11 @@ class AbstractCellTest {
         AbstractCell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
-        cell.setNeighbor(neighborCell, direction);
+        Map<Direction, AbstractCell> map = new HashMap<>();
+        map.put(direction, neighborCell);
+
+        neighborCell.setNeighbors(null);
+        cell.setNeighbors(map);
 
         assertEquals(neighborCell, cell.getNeighborCell(direction));
         assertEquals(cell, neighborCell.getNeighborCell(direction.getOppositeDirection()));
@@ -83,8 +90,15 @@ class AbstractCellTest {
         AbstractCell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
-        cell.setNeighbor(neighborCell, direction);
-        assertThrows(IllegalArgumentException.class, () -> neighborCell.setNeighbor(cell, direction.getOppositeDirection()));
+        Map<Direction, AbstractCell> map = new HashMap<>();
+        neighborCell.setNeighbors(null);
+        map.put(direction, neighborCell);
+
+        Map<Direction, AbstractCell> map2 = new HashMap<>();
+        cell.setNeighbors(map);
+        map2.put(direction.getOppositeDirection(), cell);
+
+        assertTrue(neighborCell.setNeighbors(map2));
         assertEquals(neighborCell, cell.getNeighborCell(direction));
         assertEquals(cell, neighborCell.getNeighborCell(direction.getOppositeDirection()));
     }
@@ -95,8 +109,18 @@ class AbstractCellTest {
         AbstractCell anotherCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
-        cell.setNeighbor(neighborCell, direction);
-        assertThrows(IllegalArgumentException.class, () -> cell.setNeighbor(anotherCell, direction));
+        Map<Direction, AbstractCell> map = new HashMap<>();
+        neighborCell.setNeighbors(null);
+        map.put(direction, neighborCell);
+
+        cell.setNeighbors(map);
+
+        Map<Direction, AbstractCell> map2 = new HashMap<>();
+        anotherCell.setNeighbors(null);
+        map2.put(direction, anotherCell);
+
+
+        assertFalse(cell.setNeighbors(map2));
         assertEquals(neighborCell, cell.getNeighborCell(direction));
         assertEquals(cell, neighborCell.getNeighborCell(direction.getOppositeDirection()));
     }
@@ -107,8 +131,16 @@ class AbstractCellTest {
         Direction direction = Direction.NORTH;
         Direction anotherDirection = Direction.SOUTH;
 
-        cell.setNeighbor(neighborCell, direction);
-        assertThrows(IllegalArgumentException.class, () -> cell.setNeighbor(neighborCell, anotherDirection));
+        Map<Direction, AbstractCell> map = new HashMap<>();
+        map.put(direction, neighborCell);
+
+        neighborCell.setNeighbors(null);
+        cell.setNeighbors(map);
+
+        Map<Direction, AbstractCell> map2 = new HashMap<>();
+        map2.put(anotherDirection, neighborCell);
+
+        assertFalse(cell.setNeighbors(map2));
         assertEquals(neighborCell, cell.getNeighborCell(direction));
         assertEquals(cell, neighborCell.getNeighborCell(direction.getOppositeDirection()));
     }
@@ -117,7 +149,10 @@ class AbstractCellTest {
     public void test_setNeighborCell_setSelfAsNeighbor() {
         Direction direction = Direction.NORTH;
 
-        assertThrows(IllegalArgumentException.class, () -> cell.setNeighbor(cell, direction));
+        Map<Direction, AbstractCell> map = new HashMap<>();
+        map.put(direction, cell);
+
+        assertFalse(cell.setNeighbors(map));
         assertNull(cell.getNeighborCell(direction));
     }
 
@@ -126,15 +161,18 @@ class AbstractCellTest {
         AbstractCell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
-        cell.setNeighbor(neighborCell, direction);
-        assertEquals(direction, cell.getNeighborDirection(neighborCell));
+        Map<Direction, AbstractCell> map = new HashMap<>();
+        map.put(direction, neighborCell);
+
+        neighborCell.setNeighbors(null);
+        cell.setNeighbors(map);
+
+        assertEquals(neighborCell, cell.getNeighborCell(direction));
     }
 
     @Test
     public void test_isNeighbor_WhenNeighborCellNotExists() {
-        AbstractCell neighborCell = new NormalCell();
-
-        assertNull(cell.getNeighborDirection(neighborCell));
+        assertNull(cell.getNeighborCell(Direction.NORTH));
     }
 
     @Test
@@ -142,9 +180,10 @@ class AbstractCellTest {
         Direction direction = Direction.NORTH;
         WallSegment wallSegment = new WallSegment();
 
-        cell.setNeighborObstacle(wallSegment, direction);
-        assertEquals(wallSegment, cell.getNeighborArea(direction));
-        assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction));
+        cell.setNeighbors(null);
+        cell.setNeighborObstacle(direction, wallSegment);
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(cell, wallSegment.getPosition().getNeighborCell(direction.getOppositeDirection()));
     }
 
     @Test
@@ -152,10 +191,11 @@ class AbstractCellTest {
         Direction direction = Direction.NORTH;
         WallSegment wallSegment = new WallSegment();
 
-        cell.setNeighborObstacle(wallSegment, direction);
-        assertFalse(cell.setNeighborObstacle(wallSegment, Direction.SOUTH));
-        assertEquals(wallSegment, cell.getNeighborArea(direction));
-        assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction));
+        cell.setNeighbors(null);
+        cell.setNeighborObstacle(direction, wallSegment);
+        assertFalse(cell.setNeighborObstacle(Direction.SOUTH, wallSegment));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(cell, wallSegment.getPosition().getNeighborCell(direction.getOppositeDirection()));
     }
 
     @Test
@@ -164,59 +204,71 @@ class AbstractCellTest {
         WallSegment wallSegment = new WallSegment();
         WallSegment anotherWallSegment = new WallSegment();
 
-        cell.setNeighborObstacle(wallSegment, direction);
-        assertFalse(cell.setNeighborObstacle(anotherWallSegment, direction));
-        assertEquals(wallSegment, cell.getNeighborArea(direction));
-        assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction));
+        cell.setNeighbors(null);
+        cell.setNeighborObstacle(direction, wallSegment);
+        assertFalse(cell.setNeighborObstacle(direction, anotherWallSegment));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(cell, wallSegment.getPosition().getNeighborCell(direction.getOppositeDirection()));
     }
 
     @Test
     public void test_setWall_inNeighborCells() {
         Direction direction = Direction.NORTH;
         AbstractCell neighborCell = new NormalCell();
+        Map<Direction, AbstractCell> neighborCells = new HashMap<>();
+        neighborCells.put(direction, neighborCell);
+
+        neighborCell.setNeighbors(null);
+        cell.setNeighbors(neighborCells);
         WallSegment wallSegment = new WallSegment();
-        cell.setNeighbor(neighborCell, direction);
+        cell.setNeighborObstacle(direction, wallSegment);
 
-        cell.setNeighborObstacle(wallSegment, direction);
-
-        assertEquals(wallSegment, cell.getNeighborArea(direction));
-        assertEquals(wallSegment, neighborCell.getNeighborArea(direction.getOppositeDirection()));
-        assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction));
-        assertEquals(neighborCell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(wallSegment, neighborCell.getNeighborObstacle(direction.getOppositeDirection()));
+        assertEquals(cell,wallSegment.getPosition().getNeighborCell(direction.getOppositeDirection()));
+        assertEquals(neighborCell,wallSegment.getPosition().getNeighborCell(direction));
     }
 
     @Test
     public void test_setWall_InNeighborCellsWithSameDirectionAndAnotherWallSegment() {
         Direction direction = Direction.NORTH;
         AbstractCell neighborCell = new NormalCell();
-        cell.setNeighbor(neighborCell, direction);
+        Map<Direction, AbstractCell> neighborCells = new HashMap<>();
+        neighborCells.put(direction, neighborCell);
+
+        neighborCell.setNeighbors(null);
+        cell.setNeighbors(neighborCells);
         WallSegment wallSegment = new WallSegment();
         WallSegment anotherWallSegment = new WallSegment();
 
-        cell.setNeighborObstacle(wallSegment, direction);
+        cell.setNeighborObstacle(direction, wallSegment);
 
-        assertFalse(cell.setNeighborObstacle(anotherWallSegment, direction));
-        assertEquals(wallSegment, cell.getNeighborArea(direction));
-        assertEquals(wallSegment, neighborCell.getNeighborArea(direction.getOppositeDirection()));
-        assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction));
-        assertEquals(neighborCell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
+        assertFalse(cell.setNeighborObstacle(direction, anotherWallSegment));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(wallSegment, neighborCell.getNeighborObstacle(direction.getOppositeDirection()));
+        assertEquals(cell, wallSegment.getPosition().getNeighborCell(direction.getOppositeDirection()));
+        assertEquals(neighborCell,wallSegment.getPosition().getNeighborCell(direction));
     }
 
     @Test
     public void test_setWall_InNeighborCellsWithSameWallSegmentAndAnotherDirection() {
         Direction direction = Direction.NORTH;
         AbstractCell neighborCell = new NormalCell();
-        cell.setNeighbor(neighborCell, direction);
+        Map<Direction, AbstractCell> neighborCells = new HashMap<>();
+        neighborCells.put(direction, neighborCell);
+
+        neighborCell.setNeighbors(null);
+        cell.setNeighbors(neighborCells);
         WallSegment wallSegment = new WallSegment();
         Direction anotherDirection = direction.getOppositeDirection();
 
-        cell.setNeighborObstacle(wallSegment, direction);
+        cell.setNeighborObstacle(direction, wallSegment);
 
-        assertFalse(cell.setNeighborObstacle(wallSegment, anotherDirection));
-        assertEquals(wallSegment, cell.getNeighborArea(direction));
-        assertEquals(wallSegment, neighborCell.getNeighborArea(direction.getOppositeDirection()));
-        assertEquals(cell,wallSegment.getPosition().getNeighborCells().get(direction));
-        assertEquals(neighborCell,wallSegment.getPosition().getNeighborCells().get(direction.getOppositeDirection()));
+        assertFalse(cell.setNeighborObstacle(anotherDirection, wallSegment));
+        assertEquals(wallSegment, cell.getNeighborObstacle(direction));
+        assertEquals(wallSegment, neighborCell.getNeighborObstacle(direction.getOppositeDirection()));
+        assertEquals(cell,wallSegment.getPosition().getNeighborCell(direction.getOppositeDirection()));
+        assertEquals(neighborCell,wallSegment.getPosition().getNeighborCell(direction));
     }
 
     @Test
