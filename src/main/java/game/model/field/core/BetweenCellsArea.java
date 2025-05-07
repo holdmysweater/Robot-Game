@@ -156,7 +156,7 @@ public class BetweenCellsArea {
 
         if (currentLeftCell != null && !currentLeftCell.equals(leftCell)) return false;
         if (currentRightCell != null && !currentRightCell.equals(rightCell)) return false;
-        return this.neighborCells.get(Direction.NORTH) == null && this.neighborCells.get(Direction.SOUTH) == null;
+        return orientation == null || orientation == Orientation.VERTICAL;
     }
 
     /**
@@ -172,7 +172,7 @@ public class BetweenCellsArea {
 
         if (currentTopCell != null && !currentTopCell.equals(topCell)) return false;
         if (currantBottomCell != null && !currantBottomCell.equals(bottomCell)) return false;
-        return this.neighborCells.get(Direction.WEST) == null && this.neighborCells.get(Direction.EAST) == null;
+        return orientation == null || orientation == Orientation.HORIZONTAL;
     }
 
     //endregion
