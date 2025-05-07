@@ -35,7 +35,7 @@ public class BetweenCellsArea {
         if (this.obstacle == obstacle) return true;
 
         // Вернуть false, если этот объект не может быть размещён в этой области
-        if (!canSetObstacle(obstacle)) return false;
+        if (!canSetObstacle()) return false;
 
         // Вернуть false, если объект между ячеек не смог принять позицию
         if (!obstacle.setPosition(this)) return false;
@@ -48,10 +48,9 @@ public class BetweenCellsArea {
     /**
      * Может принять препятствие.
      *
-     * @param obstacle препятствие.
      * @return может приять препятствие.
      */
-    private boolean canSetObstacle(BetweenCellObject obstacle) {
+    private boolean canSetObstacle() {
         return this.obstacle == null;
     }
 
