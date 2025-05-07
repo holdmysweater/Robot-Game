@@ -194,23 +194,6 @@ public class BetweenCellsArea {
         return orientation;
     }
 
-    /**
-     * Рассчитывает ориентацию области по направлению соседних ячеек.
-     *
-     * @param direction направление.
-     * @return ориентация.
-     */
-    private static Orientation calculateOrientation(@NotNull Direction direction) {
-        if (direction == Direction.NORTH || direction == Direction.SOUTH) {
-            return Orientation.HORIZONTAL;
-        } else if (direction == Direction.EAST || direction == Direction.WEST) {
-            return Orientation.VERTICAL;
-        } else {
-            assert true : "Unknown orientation type: " + direction;
-            return null;
-        }
-    }
-
     //endregion
 
     //region OBJECT
