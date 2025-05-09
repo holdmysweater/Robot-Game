@@ -41,6 +41,12 @@ public class WidgetFactory {
             item.addItem(exitWidget);
         }
 
+        Hole hole = (Hole) cell.getObject(NonInteractiveCellObject.class);
+        if (hole != null) {
+            CellItemWidget holeWidget = create(hole);
+            item.addItem(holeWidget);
+        }
+
         cells.put(cell, item);
         return item;
     }
@@ -64,6 +70,8 @@ public class WidgetFactory {
             createdWidget = new BatteryWidget((Battery) cellObject);
         } else if (cellObject instanceof ExitCell) {
             createdWidget = new ExitWidget();
+        } else if (cellObject instanceof Hole) {
+            createdWidget = new HoleWidget();
         } else {
             throw new IllegalArgumentException();
         }

@@ -66,6 +66,11 @@ public class SmallLabyrinth extends Labyrinth {
         );
 
         map.put(
+                new Hole(),
+                field.getCell(new Point(1, 1))
+        );
+
+        map.put(
                 new Battery(),
                 field.getCell(new Point(0, 3))
         );
