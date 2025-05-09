@@ -18,7 +18,6 @@ public class WidgetFactory {
 
     private final Map<AbstractCell, CellWidget> cells = new HashMap<>();
     private final Map<CellObject, CellItemWidget> cellObjects = new HashMap<>();
-    //private final Map<BetweenCellObject, ObstacleWidget> betweenCellObjects = new HashMap<>();
     private final Map<BetweenCellsArea, BetweenCellsWidget> betweenCellsAreas = new HashMap<>();
 
     /*---------- AbstractCell ----------*/
@@ -79,24 +78,6 @@ public class WidgetFactory {
     public void remove(@NotNull CellObject cellObject) {
         cellObjects.remove(cellObject);
     }
-
-    /*---------- BetweenCellObject ----------*/
-    /*public ObstacleWidget create(@NotNull BetweenCellObject betweenCellObject, Orientation orientation) {
-        if (betweenCellObjects.containsKey(betweenCellObject)) return betweenCellObjects.get(betweenCellObject);
-
-        ObstacleWidget createdBlockWidget = new WallWidget(orientation);
-
-        betweenCellObjects.put(betweenCellObject, createdBlockWidget);
-        return createdBlockWidget;
-    }
-
-    public ObstacleWidget getWidget(@NotNull BetweenCellObject betweenCellObject) {
-        return betweenCellObjects.get(betweenCellObject);
-    }
-
-    public void remove(@NotNull BetweenCellObject betweenCellObject) {
-        betweenCellObjects.remove(betweenCellObject);
-    }*/
 
     /*---------- BetweenCellArea ----------*/
     public BetweenCellsWidget create(@NotNull BetweenCellsArea betweenCellsArea) {
