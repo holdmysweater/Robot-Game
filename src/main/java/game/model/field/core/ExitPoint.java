@@ -1,8 +1,8 @@
 package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
-import game.model.events.ExitCellActionEvent;
-import game.model.events.ExitCellActionListener;
+import game.model.events.ExitPointActionEvent;
+import game.model.events.ExitPointActionListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Ячейка точки выхода.
  */
-public class ExitCell extends InteractiveCellObject {
+public class ExitPoint extends InteractiveCellObject {
 
     //region ДЕЙСТВИЯ
 
@@ -48,7 +48,7 @@ public class ExitCell extends InteractiveCellObject {
     }
 
     /**
-     * Получить телепортированного робота {@link ExitCell#teleportedRobot}.
+     * Получить телепортированного робота {@link ExitPoint#teleportedRobot}.
      *
      * @return телепортированный робот.
      */
@@ -63,15 +63,15 @@ public class ExitCell extends InteractiveCellObject {
     /**
      * Список слушателей, подписанных на события ячейки выхода.
      */
-    private final ArrayList<ExitCellActionListener> exitCellListListener = new ArrayList<>();
+    private final ArrayList<ExitPointActionListener> exitPointListListener = new ArrayList<>();
 
     /**
      * Добавить нового слушателя за событиями ячейки выхода.
      *
      * @param listener слушатель.
      */
-    public void addExitCellActionListener(ExitCellActionListener listener) {
-        exitCellListListener.add(listener);
+    public void addExitPointActionListener(ExitPointActionListener listener) {
+        exitPointListListener.add(listener);
     }
 
     /**
@@ -79,18 +79,18 @@ public class ExitCell extends InteractiveCellObject {
      *
      * @param listener слушатель.
      */
-    public void removeExitCellActionListener(ExitCellActionListener listener) {
-        exitCellListListener.remove(listener);
+    public void removeExitPointActionListener(ExitPointActionListener listener) {
+        exitPointListListener.remove(listener);
     }
 
     /**
-     * Оповестить слушателей {@link ExitCell#exitCellListListener}, что робот телепортирован.
+     * Оповестить слушателей {@link ExitPoint#exitPointListListener}, что робот телепортирован.
      */
     private void fireRobotIsTeleported() {
-        ExitCellActionEvent event = new ExitCellActionEvent(this);
+        ExitPointActionEvent event = new ExitPointActionEvent(this);
         event.setTeleport(this);
 
-        for (ExitCellActionListener listener : exitCellListListener) {
+        for (ExitPointActionListener listener : exitPointListListener) {
             listener.robotIsTeleported(event);
         }
     }
@@ -113,10 +113,10 @@ public class ExitCell extends InteractiveCellObject {
             return false;
         }
 
-        ExitCell exitCell = (ExitCell) o;
+        ExitPoint exitPoint = (ExitPoint) o;
 
-        return Objects.equals(teleportedRobot, exitCell.teleportedRobot) &&
-                Objects.equals(exitCellListListener, exitCell.exitCellListListener);
+        return Objects.equals(teleportedRobot, exitPoint.teleportedRobot) &&
+                Objects.equals(exitPointListListener, exitPoint.exitPointListListener);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class ExitCell extends InteractiveCellObject {
 
     @Override
     public String toString() {
-        return "ExitCell{" + "teleportedRobots=" + teleportedRobot + ", exitCellListListener=" + exitCellListListener + '}';
+        return "ExitPoint{" + "teleportedRobots=" + teleportedRobot + ", exitCellListListener=" + exitPointListListener + '}';
     }
 
     //endregion

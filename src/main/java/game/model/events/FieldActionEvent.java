@@ -1,7 +1,6 @@
 package game.model.events;
 
-import game.model.field.core.Cell;
-import game.model.field.core.ExitCell;
+import game.model.field.core.ExitPoint;
 import game.model.field.core.Field;
 import org.jetbrains.annotations.NotNull;
 import game.model.field.core.Robot;
@@ -39,14 +38,14 @@ public class FieldActionEvent extends EventObject {
     /**
      * Точка выхода.
      */
-    private ExitCell teleport;
+    private ExitPoint teleport;
 
     /**
      * Получить точку выхода {@link FieldActionEvent#teleport}.
      *
      * @return точка выхода.
      */
-    public ExitCell getTeleport() {
+    public ExitPoint getTeleport() {
         return teleport;
     }
 
@@ -55,7 +54,7 @@ public class FieldActionEvent extends EventObject {
      *
      * @param teleport точка выхода.
      */
-    public void setTeleport(ExitCell teleport) {
+    public void setTeleport(ExitPoint teleport) {
         this.teleport = teleport;
     }
 

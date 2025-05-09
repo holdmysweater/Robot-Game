@@ -21,14 +21,14 @@ public class FieldTest {
     }
 
     private Field field;
-    private ExitCell exitCell;
+    private ExitPoint exitPoint;
 
     @BeforeEach
     public void testSetup() {
         eventCount = 0;
         field = new Field(2, 2);
-        exitCell = new ExitCell();
-        field.getCell(new Point(1, 1)).setObject(InteractiveCellObject.class, exitCell);
+        exitPoint = new ExitPoint();
+        field.getCell(new Point(1, 1)).setObject(InteractiveCellObject.class, exitPoint);
         field.addFieldActionListener(new FieldObserver());
     }
 
@@ -84,8 +84,8 @@ public class FieldTest {
     }
 
     @Test
-    public void test_getExitCellOnField_oneRobot() {
-        assertEquals(exitCell, field.getExitCell());
+    public void test_getExitPointOnField_oneRobot() {
+        assertEquals(exitPoint, field.getExitPoint());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class FieldTest {
 
         robot.move(Direction.EAST);
 
-        assertEquals(robot, field.getExitCell().getTeleportedRobot());
+        assertEquals(robot, field.getExitPoint().getTeleportedRobot());
         assertTrue(robot.isTeleported());
     }
 

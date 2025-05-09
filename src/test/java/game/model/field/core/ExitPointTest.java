@@ -3,22 +3,22 @@ package game.model.field.core;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.events.ExitCellActionEvent;
-import game.model.events.ExitCellActionListener;
+import game.model.events.ExitPointActionEvent;
+import game.model.events.ExitPointActionListener;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ExitCellTest {
+public class ExitPointTest {
 
-    private ExitCell exitCell;
+    private ExitPoint exitPoint;
     private Robot robot;
 
     private int countEvents = 0;
 
-    private class EventListener implements ExitCellActionListener {
+    private class EventListener implements ExitPointActionListener {
 
         @Override
-        public void robotIsTeleported(@NotNull ExitCellActionEvent event) {
+        public void robotIsTeleported(@NotNull ExitPointActionEvent event) {
             countEvents += 1;
         }
     }
@@ -31,36 +31,36 @@ public class ExitCellTest {
         // setting up robot
         robot = new Robot(new Battery());
 
-        exitCell = new ExitCell();
-        exitCell.addExitCellActionListener(new EventListener());
+        exitPoint = new ExitPoint();
+        exitPoint.addExitPointActionListener(new EventListener());
     }
 
     @Test
     public void test_setRobot_oneRobot() {
-        exitCell.execute(robot);
+        exitPoint.execute(robot);
 
         int expectedCountEvents = 1;
 
         assertEquals(expectedCountEvents, countEvents);
-        assertEquals(robot, exitCell.getTeleportedRobot());
+        assertEquals(robot, exitPoint.getTeleportedRobot());
         assertTrue(robot.isTeleported());
     }
 
     @Test
     public void test_setRobot_setTeleportedRobot() {
-        exitCell.execute(robot);
+        exitPoint.execute(robot);
 
         int expectedCountEvents = 1;
 
-        exitCell.execute(new Robot(new Battery()));
+        exitPoint.execute(new Robot(new Battery()));
 
         assertEquals(expectedCountEvents, countEvents);
-        assertEquals(robot, exitCell.getTeleportedRobot());
+        assertEquals(robot, exitPoint.getTeleportedRobot());
         assertTrue(robot.isTeleported());
     }
 
     @Test
     public void test_getTeleportedRobots_empty() {
-        assertNull(exitCell.getTeleportedRobot());
+        assertNull(exitPoint.getTeleportedRobot());
     }
 }

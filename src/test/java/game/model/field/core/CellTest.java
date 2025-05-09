@@ -320,42 +320,42 @@ class CellTest {
 
     @Test
     public void test_setExit_inEmptyCell() {
-        ExitCell exitCell = new ExitCell();
+        ExitPoint exitPoint = new ExitPoint();
 
-        cell.setObject(InteractiveCellObject.class, exitCell);
-        assertEquals(exitCell, cell.getObject(InteractiveCellObject.class));
+        cell.setObject(InteractiveCellObject.class, exitPoint);
+        assertEquals(exitPoint, cell.getObject(InteractiveCellObject.class));
     }
 
     @Test
     public void test_setExit_inCell() {
-        ExitCell exitCell = new ExitCell();
+        ExitPoint exitPoint = new ExitPoint();
 
-        cell.setObject(InteractiveCellObject.class, exitCell);
-        ExitCell anotherExitCell = new ExitCell();
+        cell.setObject(InteractiveCellObject.class, exitPoint);
+        ExitPoint anotherExitPoint = new ExitPoint();
 
-        assertFalse(cell.setObject(InteractiveCellObject.class, anotherExitCell));
+        assertFalse(cell.setObject(InteractiveCellObject.class, anotherExitPoint));
     }
 
     @Test
     public void test_setExit_alreadySetExitToAnotherCell() {
-        ExitCell exitCell = new ExitCell();
+        ExitPoint exitPoint = new ExitPoint();
 
-        cell.setObject(InteractiveCellObject.class, exitCell);
+        cell.setObject(InteractiveCellObject.class, exitPoint);
 
         Cell anotherCell = new Cell();
 
-        assertFalse(anotherCell.setObject(InteractiveCellObject.class, exitCell));
+        assertFalse(anotherCell.setObject(InteractiveCellObject.class, exitPoint));
     }
 
     @Test
     public void test_takeExit_fromCell() {
-        ExitCell exitCell = new ExitCell();
+        ExitPoint exitPoint = new ExitPoint();
 
-        cell.setObject(InteractiveCellObject.class, exitCell);
+        cell.setObject(InteractiveCellObject.class, exitPoint);
 
-        assertEquals(exitCell, cell.takeObject(InteractiveCellObject.class));
+        assertEquals(exitPoint, cell.takeObject(InteractiveCellObject.class));
         assertNull(cell.getObject(InteractiveCellObject.class));
-        assertNull(exitCell.getPosition());
+        assertNull(exitPoint.getPosition());
     }
 
     @Test
@@ -425,7 +425,7 @@ class CellTest {
 
     @Test
     void test_canSetObject_SmallCellObject_withInteractiveObject() {
-        ExitCell interactiveObject = new ExitCell();
+        ExitPoint interactiveObject = new ExitPoint();
         cell.setObject(InteractiveCellObject.class, interactiveObject);
         assertFalse(cell.canSetObject(SmallCellObject.class));
     }
@@ -454,7 +454,7 @@ class CellTest {
 
     @Test
     void test_canSetObject_NonStationaryObject_withInteractiveObject() {
-        ExitCell interactiveObject = new ExitCell();
+        ExitPoint interactiveObject = new ExitPoint();
         cell.setObject(InteractiveCellObject.class, interactiveObject);
         assertTrue(cell.canSetObject(NonStationaryCellObject.class));
     }
@@ -483,7 +483,7 @@ class CellTest {
 
     @Test
     void test_canSetObject_InteractiveObject_withInteractiveObject() {
-        ExitCell interactiveObject = new ExitCell();
+        ExitPoint interactiveObject = new ExitPoint();
         cell.setObject(InteractiveCellObject.class, interactiveObject);
         assertFalse(cell.canSetObject(InteractiveCellObject.class));
     }
@@ -512,7 +512,7 @@ class CellTest {
 
     @Test
     void test_canSetObject_NonInteractiveObject_withInteractiveObject() {
-        ExitCell interactiveObject = new ExitCell();
+        ExitPoint interactiveObject = new ExitPoint();
         cell.setObject(InteractiveCellObject.class, interactiveObject);
         assertFalse(cell.canSetObject(NonInteractiveCellObject.class));
     }

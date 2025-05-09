@@ -1,34 +1,34 @@
 package game.model.events;
 
-import game.model.field.core.ExitCell;
+import game.model.field.core.ExitPoint;
 
 import java.util.EventObject;
 
 /**
- * Объект события класса ячейки выхода {@link ExitCell}.
+ * Объект события класса ячейки выхода {@link ExitPoint}.
  */
-public class ExitCellActionEvent extends EventObject {
+public class ExitPointActionEvent extends EventObject {
 
     /**
      * Точка выхода.
      */
-    private ExitCell teleport;
+    private ExitPoint teleport;
 
     /**
-     * Получить точку выхода {@link ExitCellActionEvent#teleport}.
+     * Получить точку выхода {@link ExitPointActionEvent#teleport}.
      *
      * @return точка выхода.
      */
-    public ExitCell getTeleport() {
+    public ExitPoint getTeleport() {
         return teleport;
     }
 
     /**
-     * Установить точку выхода {@link ExitCellActionEvent#teleport}.
+     * Установить точку выхода {@link ExitPointActionEvent#teleport}.
      *
      * @param teleport точка выхода.
      */
-    public void setTeleport(ExitCell teleport) {
+    public void setTeleport(ExitPoint teleport) {
         this.teleport = teleport;
     }
 
@@ -38,7 +38,7 @@ public class ExitCellActionEvent extends EventObject {
      * @param source the object on which the Event initially occurred
      * @throws IllegalArgumentException if source is null
      */
-    public ExitCellActionEvent(Object source) {
+    public ExitPointActionEvent(Object source) {
         super(source);
     }
 }

@@ -1,6 +1,6 @@
 package game.ui;
 
-import game.model.field.core.ExitCell;
+import game.model.field.core.ExitPoint;
 import game.model.field.core.*;
 import game.model.field.core.Robot;
 import game.ui.obstacle.BetweenCellsWidget;
@@ -35,9 +35,9 @@ public class WidgetFactory {
             item.addItem(batteryWidget);
         }
 
-        ExitCell exitCell = (ExitCell) cell.getObject(InteractiveCellObject.class);
-        if (exitCell != null) {
-            CellItemWidget exitWidget = create(exitCell);
+        ExitPoint exitPoint = (ExitPoint) cell.getObject(InteractiveCellObject.class);
+        if (exitPoint != null) {
+            CellItemWidget exitWidget = create(exitPoint);
             item.addItem(exitWidget);
         }
 
@@ -68,7 +68,7 @@ public class WidgetFactory {
             createdWidget = new RobotWidget((Robot) cellObject, Color.BLUE);
         } else if (cellObject instanceof Battery) {
             createdWidget = new BatteryWidget((Battery) cellObject);
-        } else if (cellObject instanceof ExitCell) {
+        } else if (cellObject instanceof ExitPoint) {
             createdWidget = new ExitWidget();
         } else if (cellObject instanceof Hole) {
             createdWidget = new HoleWidget();

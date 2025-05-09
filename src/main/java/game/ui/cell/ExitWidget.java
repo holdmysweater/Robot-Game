@@ -1,6 +1,6 @@
 package game.ui.cell;
 
-import game.model.field.core.ExitCell;
+import game.model.field.core.ExitPoint;
 import game.ui.utils.ImageUtils;
 
 import javax.imageio.ImageIO;
@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Виджет ячейки выхода.
  *
- * @see ExitCell
+ * @see ExitPoint
  */
 public class ExitWidget extends CellItemWidget {
 

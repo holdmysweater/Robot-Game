@@ -34,7 +34,7 @@ public class TestLabyrinth extends Labyrinth {
         );
 
         objects.put(
-                new ExitCell(),
+                new ExitPoint(),
                 field.getCell(new Point(2, 2))
         );
 

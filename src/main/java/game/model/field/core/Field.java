@@ -153,13 +153,13 @@ public class Field {
      *
      * @return точка выхода на поле.
      */
-    public ExitCell getExitCell() {
+    public ExitPoint getExitPoint() {
         for (var cell : cells.entrySet()) {
-            ExitCell exitCell = null;
+            ExitPoint exitPoint = null;
             try {
-                exitCell = (ExitCell) cell.getValue().getObject(InteractiveCellObject.class);
-                if (exitCell != null) {
-                    return exitCell;
+                exitPoint = (ExitPoint) cell.getValue().getObject(InteractiveCellObject.class);
+                if (exitPoint != null) {
+                    return exitPoint;
                 }
             } catch (Exception e) {
                 return null;
@@ -171,20 +171,20 @@ public class Field {
     /**
      * Инициализирована ли точка выхода
      */
-    boolean isInitiatedExitCell = false;
+    boolean isInitiatedExitPoint = false;
 
     /**
      * Добавить слушателя на точку выхода.
      */
-    void InitiateExitCell() {
-        if (isInitiatedExitCell) return;
+    void InitiateExitPoint() {
+        if (isInitiatedExitPoint) return;
 
-        if (getExitCell() == null) {
-            throw new RuntimeException("No exit cell found!");
+        if (getExitPoint() == null) {
+            throw new RuntimeException("No exit point found!");
         }
 
-        getExitCell().addExitCellActionListener(new ExitCellObserver());
-        isInitiatedExitCell = true;
+        getExitPoint().addExitPointActionListener(new ExitPointObserver());
+        isInitiatedExitPoint = true;
     }
 
     //endregion
@@ -192,12 +192,12 @@ public class Field {
     //region СЛУШАТЕЛИ
 
     /**
-     * Класс, реализующий наблюдение за событиями {@link ExitCellActionListener}.
+     * Класс, реализующий наблюдение за событиями {@link ExitPointActionListener}.
      */
-    class ExitCellObserver implements ExitCellActionListener {
+    class ExitPointObserver implements ExitPointActionListener {
 
         @Override
-        public void robotIsTeleported(@NotNull ExitCellActionEvent event) {
+        public void robotIsTeleported(@NotNull ExitPointActionEvent event) {
             fireRobotIsTeleported(event.getTeleport());
         }
     }
@@ -217,7 +217,7 @@ public class Field {
      * @param listener слушатель.
      */
     public void addFieldActionListener(FieldActionListener listener) {
-        InitiateExitCell();
+        InitiateExitPoint();
         fieldListListener.add(listener);
     }
 
@@ -235,7 +235,7 @@ public class Field {
      *
      * @param teleport телепорт.
      */
-    private void fireRobotIsTeleported(@NotNull ExitCell teleport) {
+    private void fireRobotIsTeleported(@NotNull ExitPoint teleport) {
         FieldActionEvent event = new FieldActionEvent(this);
         event.setRobot(teleport.getTeleportedRobot());
         event.setTeleport(teleport);

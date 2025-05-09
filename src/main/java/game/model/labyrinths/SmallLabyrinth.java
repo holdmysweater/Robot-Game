@@ -61,7 +61,7 @@ public class SmallLabyrinth extends Labyrinth {
         );
 
         map.put(
-                new ExitCell(),
+                new ExitPoint(),
                 field.getCell(new Point(2, 0))
         );
 
