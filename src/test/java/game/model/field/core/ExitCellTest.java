@@ -37,7 +37,7 @@ public class ExitCellTest {
 
     @Test
     public void test_setRobot_oneRobot() {
-        exitCell.setObject(NonStationaryCellObject.class, robot);
+        exitCell.execute(robot);
 
         int expectedCountEvents = 1;
 
@@ -48,11 +48,12 @@ public class ExitCellTest {
 
     @Test
     public void test_setRobot_setTeleportedRobot() {
-        exitCell.setObject(NonStationaryCellObject.class, robot);
+        exitCell.execute(robot);
 
         int expectedCountEvents = 1;
 
-        assertFalse(exitCell.setObject(NonStationaryCellObject.class, new Robot(new Battery())));
+        exitCell.execute(new Robot(new Battery()));
+
         assertEquals(expectedCountEvents, countEvents);
         assertEquals(robot, exitCell.getTeleportedRobot());
         assertTrue(robot.isTeleported());

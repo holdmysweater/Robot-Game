@@ -21,11 +21,14 @@ public class FieldTest {
     }
 
     private Field field;
+    private ExitCell exitCell;
 
     @BeforeEach
     public void testSetup() {
         eventCount = 0;
-        field = new Field(2, 2, new Point(1, 1));
+        field = new Field(2, 2);
+        exitCell = new ExitCell();
+        field.getCell(new Point(1, 1)).setObject(InteractiveCellObject.class, exitCell);
         field.addFieldActionListener(new FieldObserver());
     }
 
@@ -44,32 +47,27 @@ public class FieldTest {
         assertEquals(cell_1_1, cell_1_0.getNeighborCell(Direction.EAST));
         assertEquals(cell_0_0, cell_0_1.getNeighborCell(Direction.WEST));
         assertEquals(cell_1_0, cell_1_1.getNeighborCell(Direction.WEST));
-        assertTrue(cell_1_1 instanceof ExitCell);
+        assertNotNull(cell_1_1.getObject(InteractiveCellObject.class));
     }
 
     @Test
     public void test_create_withNegativeWidth() {
-        assertThrows(IllegalArgumentException.class, () -> new Field(-1, 1, new Point(0, 0)));
+        assertThrows(IllegalArgumentException.class, () -> new Field(-1, 1));
     }
 
     @Test
     public void test_create_withZeroWidth() {
-        assertThrows(IllegalArgumentException.class, () -> new Field(0, 1, new Point(0, 0)));
+        assertThrows(IllegalArgumentException.class, () -> new Field(0, 1));
     }
 
     @Test
     public void test_create_withNegativeHeight() {
-        assertThrows(IllegalArgumentException.class, () -> new Field(1, -1, new Point(0, 0)));
+        assertThrows(IllegalArgumentException.class, () -> new Field(1, -1));
     }
 
     @Test
     public void test_create_withZeroHeight() {
-        assertThrows(IllegalArgumentException.class, () -> new Field(1, 0, new Point(0, 0)));
-    }
-
-    @Test
-    public void test_create_withIncorrectExitPoint() {
-        assertThrows(IllegalArgumentException.class, () -> new Field(1, 1, new Point(2, 2)));
+        assertThrows(IllegalArgumentException.class, () -> new Field(1, 0));
     }
 
     @Test
@@ -86,12 +84,19 @@ public class FieldTest {
     }
 
     @Test
+    public void test_getExitCellOnField_oneRobot() {
+        assertEquals(exitCell, field.getExitCell());
+    }
+
+    @Test
     public void test_TeleportedRobots_oneRobot() {
         Robot robot = new Robot(new Battery());
-        ExitCell cell = (ExitCell) field.getCell(new Point(1, 1));
+        Cell cell = field.getCell(new Point(0, 1));
         cell.setObject(NonStationaryCellObject.class, robot);
 
-        assertEquals(robot, cell.getTeleportedRobot());
+        robot.move(Direction.EAST);
+
+        assertEquals(robot, field.getExitCell().getTeleportedRobot());
         assertTrue(robot.isTeleported());
     }
 
@@ -100,7 +105,9 @@ public class FieldTest {
         int expectedEventCount = 1;
         Robot robot = new Robot(new Battery());
 
-        field.getCell(new Point(1, 1)).setObject(NonStationaryCellObject.class, robot);
+        field.getCell(new Point(0, 1)).setObject(NonStationaryCellObject.class, robot);
+
+        robot.move(Direction.EAST);
 
         assertEquals(expectedEventCount, eventCount);
     }

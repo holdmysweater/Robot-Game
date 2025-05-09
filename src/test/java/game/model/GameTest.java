@@ -79,9 +79,9 @@ public class GameTest {
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         game.getRobot().move(Direction.EAST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
-
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
+
+        expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
 
         assertEquals(expectedEvents, events);
         try {
@@ -120,9 +120,9 @@ public class GameTest {
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
 
         game.getRobot().move(Direction.EAST);
-        expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
-
         expectedEvents.add(new Pair<>(Event.ROBOT_MOVED, robot));
+
+        expectedEvents.add(new Pair<>(Event.ROBOT_TELEPORTED, robot));
 
         assertEquals(expectedEvents, events);
         try {

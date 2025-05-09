@@ -25,11 +25,6 @@ public class SmallLabyrinth extends Labyrinth {
         return 4;
     }
 
-    @Override
-    protected Point exitPoint() {
-        return new Point(2, 0);
-    }
-
     //endregion
 
     //region СОЗДАНИЕ ОБЪЕКТОВ
@@ -63,6 +58,11 @@ public class SmallLabyrinth extends Labyrinth {
         map.put(
                 new Robot(new Battery()),
                 field.getCell(new Point(0, 2))
+        );
+
+        map.put(
+                new ExitCell(),
+                field.getCell(new Point(2, 0))
         );
 
         map.put(

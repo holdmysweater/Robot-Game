@@ -17,10 +17,9 @@ public class Field {
      *
      * @param width     ширина. Должна быть > 0.
      * @param height    высота. Должна быть > 0.
-     * @param exitPoint координата ячейки выхода.
      * @throws IllegalArgumentException если ширина, высота или координата ячейки переданы некорректные.
      */
-    public Field(int width, int height, @NotNull Point exitPoint) {
+    public Field(int width, int height) {
         if (width <= 0) {
             throw new IllegalArgumentException("Field width must be more than 0");
         }
@@ -29,29 +28,19 @@ public class Field {
             throw new IllegalArgumentException("Field height must be more than 0");
         }
 
-        if (exitPoint.getX() >= width || exitPoint.getY() >= height) {
-            throw new IllegalArgumentException("exit point coordinates must be in range from 0 to weight or height");
-        }
-
         this.width = width;
         this.height = height;
 
-        buildField(exitPoint);
-
-        this.exitCell = (ExitCell) getCell(exitPoint);
-        this.exitCell.addExitCellActionListener(new ExitCellObserver());
+        buildField();
     }
 
     /**
      * Построить игровое поле.
-     *
-     * @param exitPoint координата ячейки выхода.
      */
-    private void buildField(Point exitPoint) {
+    private void buildField() {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 Point p = new Point(x, y);
-                Cell cell = p.equals(exitPoint) ? new ExitCell() : new Cell();
 
                 Map<Direction, Cell> neighborCells = new HashMap<>();
 
@@ -63,6 +52,7 @@ public class Field {
                     neighborCells.put(Direction.NORTH, getCell(p.to(Direction.NORTH, 1)));
                 }
 
+                Cell cell = new Cell();
                 boolean success = cell.setNeighbors(neighborCells);
                 assert success : "Cell " + cell + " not successfully set";
 
@@ -111,15 +101,6 @@ public class Field {
 
     //endregion
 
-    //region ТОЧКА ВЫХОДА
-
-    /**
-     * Ячейка выхода.
-     */
-    private final ExitCell exitCell;
-
-    //endregion
-
     //endregion
 
     //region ЯЧЕЙКИ
@@ -165,6 +146,49 @@ public class Field {
 
     //endregion
 
+    //region ТОЧКА ВЫХОДА
+
+    /**
+     * Получить точку выхода на поле.
+     *
+     * @return точка выхода на поле.
+     */
+    public ExitCell getExitCell() {
+        for (var cell : cells.entrySet()) {
+            ExitCell exitCell = null;
+            try {
+                exitCell = (ExitCell) cell.getValue().getObject(InteractiveCellObject.class);
+                if (exitCell != null) {
+                    return exitCell;
+                }
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Инициализирована ли точка выхода
+     */
+    boolean isInitiatedExitCell = false;
+
+    /**
+     * Добавить слушателя на точку выхода.
+     */
+    void InitiateExitCell() {
+        if (isInitiatedExitCell) return;
+
+        if (getExitCell() == null) {
+            throw new RuntimeException("No exit cell found!");
+        }
+
+        getExitCell().addExitCellActionListener(new ExitCellObserver());
+        isInitiatedExitCell = true;
+    }
+
+    //endregion
+
     //region СЛУШАТЕЛИ
 
     /**
@@ -193,6 +217,7 @@ public class Field {
      * @param listener слушатель.
      */
     public void addFieldActionListener(FieldActionListener listener) {
+        InitiateExitCell();
         fieldListListener.add(listener);
     }
 
@@ -210,9 +235,9 @@ public class Field {
      *
      * @param teleport телепорт.
      */
-    private void fireRobotIsTeleported(@NotNull Cell teleport) {
+    private void fireRobotIsTeleported(@NotNull ExitCell teleport) {
         FieldActionEvent event = new FieldActionEvent(this);
-        event.setRobot(((ExitCell) teleport).getTeleportedRobot());
+        event.setRobot(teleport.getTeleportedRobot());
         event.setTeleport(teleport);
 
         for (FieldActionListener listener : fieldListListener) {
@@ -236,14 +261,12 @@ public class Field {
 
         Field field = (Field) o;
 
-        return width == field.width && height == field.height &&
-                Objects.equals(cells, field.cells) &&
-                Objects.equals(exitCell, field.exitCell);
+        return width == field.width && height == field.height && Objects.equals(cells, field.cells);
     }
 
     @Override
     public String toString() {
-        return "Field{" + "cells=" + cells + ", width=" + width + ", height=" + height + ", exitPoint=" + exitCell + '}';
+        return "Field{" + "cells=" + cells + ", width=" + width + ", height=" + height + '}';
     }
 
     //endregion

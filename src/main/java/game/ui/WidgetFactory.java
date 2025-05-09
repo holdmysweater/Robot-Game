@@ -21,7 +21,7 @@ public class WidgetFactory {
     public CellWidget create(@NotNull Cell cell) {
         if (cells.containsKey(cell)) return cells.get(cell);
 
-        CellWidget item = (cell instanceof ExitCell) ? new ExitWidget() : new CellWidget();
+        CellWidget item = new CellWidget();
 
         Robot robot = (Robot) cell.getObject(NonStationaryCellObject.class);
         if (robot != null) {
@@ -33,6 +33,12 @@ public class WidgetFactory {
         if (battery != null) {
             CellItemWidget batteryWidget = create(battery);
             item.addItem(batteryWidget);
+        }
+
+        ExitCell exitCell = (ExitCell) cell.getObject(InteractiveCellObject.class);
+        if (exitCell != null) {
+            CellItemWidget exitWidget = create(exitCell);
+            item.addItem(exitWidget);
         }
 
         cells.put(cell, item);
@@ -56,6 +62,8 @@ public class WidgetFactory {
             createdWidget = new RobotWidget((Robot) cellObject, Color.BLUE);
         } else if (cellObject instanceof Battery) {
             createdWidget = new BatteryWidget((Battery) cellObject);
+        } else if (cellObject instanceof ExitCell) {
+            createdWidget = new ExitWidget();
         } else {
             throw new IllegalArgumentException();
         }

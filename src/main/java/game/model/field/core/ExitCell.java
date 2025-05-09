@@ -10,9 +10,28 @@ import java.util.Objects;
 /**
  * Ячейка точки выхода.
  */
-public class ExitCell extends Cell {
+public class ExitCell extends InteractiveCellObject {
 
-    // region ТЕЛЕПОРТАЦИЯ
+    //region ДЕЙСТВИЯ
+
+    @Override
+    public void execute(NonStationaryCellObject object) {
+        if (teleportedRobot != null) return;
+        teleportRobot(object);
+    }
+
+    //endregion
+
+    //region ПОЗИЦИЯ
+
+    @Override
+    protected boolean canSetPosition(@NotNull Cell cell) {
+        return getPosition() == null;
+    }
+
+    //endregion
+
+    //region ТЕЛЕПОРТАЦИЯ
 
     /**
      * Телепортированный робот.
@@ -22,8 +41,8 @@ public class ExitCell extends Cell {
     /**
      * Телепортировать робота.
      */
-    private void teleportRobot() {
-        teleportedRobot = (Robot) getObject(NonStationaryCellObject.class); // TODO
+    private void teleportRobot(NonStationaryCellObject object) {
+        teleportedRobot = (Robot) object;
         teleportedRobot.setTeleported();
         fireRobotIsTeleported();
     }
@@ -35,21 +54,6 @@ public class ExitCell extends Cell {
      */
     public Robot getTeleportedRobot() {
         return teleportedRobot;
-    }
-
-    //endregion
-
-    //region ОБЪЕКТ В ЯЧЕЙКЕ
-
-    @Override
-    public boolean setObject(@NotNull Class<? extends CellObject> type, @NotNull CellObject object) {
-        boolean success = super.setObject(type, object);
-
-        if (success && NonStationaryCellObject.class.isAssignableFrom(type)) {
-            teleportRobot();
-        }
-
-        return success;
     }
 
     //endregion

@@ -61,6 +61,11 @@ public class Robot extends NonStationaryCellObject {
 
         fireRobotIsMoved(oldPosition, newPosition);
 
+        InteractiveCellObject interactiveCellObject = (InteractiveCellObject) getPosition().getObject(InteractiveCellObject.class);
+        if (interactiveCellObject != null) {
+            interactiveCellObject.execute(this);
+        }
+
         return true;
     }
 
@@ -141,7 +146,7 @@ public class Robot extends NonStationaryCellObject {
      * Заменить источник питания {@link Robot#battery}.
      */
     public boolean changeBattery() {
-        if (getPosition() instanceof ExitCell) {
+        if (isTeleported()) {
             return false;
         }
 

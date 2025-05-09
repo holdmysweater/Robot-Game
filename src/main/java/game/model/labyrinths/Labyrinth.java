@@ -1,7 +1,6 @@
 package game.model.labyrinths;
 
 import game.model.field.core.*;
-import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.core.Cell;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +21,7 @@ public abstract class Labyrinth {
      */
     public Field createField() {
 
-        Field field = new Field(fieldWidth(), fieldHeight(), exitPoint());
+        Field field = new Field(fieldWidth(), fieldHeight());
 
         populateField(field);
 
@@ -105,13 +104,6 @@ public abstract class Labyrinth {
      * @return ширина поля.
      */
     protected abstract int fieldWidth();
-
-    /**
-     * Координаты ячейки выхода.
-     *
-     * @return координаты ячейки выхода.
-     */
-    protected abstract Point exitPoint();
 
     //endregion
 

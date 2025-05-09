@@ -1,6 +1,5 @@
 package game.model.events;
 
-import game.model.field.core.Cell;
 import game.model.field.core.ExitCell;
 
 import java.util.EventObject;
@@ -11,25 +10,25 @@ import java.util.EventObject;
 public class ExitCellActionEvent extends EventObject {
 
     /**
-     * Ячейка выхода.
+     * Точка выхода.
      */
-    private Cell teleport;
+    private ExitCell teleport;
 
     /**
-     * Получить ячейку выхода {@link ExitCellActionEvent#teleport}.
+     * Получить точку выхода {@link ExitCellActionEvent#teleport}.
      *
-     * @return ячейка выхода.
+     * @return точка выхода.
      */
-    public Cell getTeleport() {
+    public ExitCell getTeleport() {
         return teleport;
     }
 
     /**
-     * Установить ячейку выхода {@link ExitCellActionEvent#teleport}.
+     * Установить точку выхода {@link ExitCellActionEvent#teleport}.
      *
-     * @param teleport ячейка выхода.
+     * @param teleport точка выхода.
      */
-    public void setTeleport(Cell teleport) {
+    public void setTeleport(ExitCell teleport) {
         this.teleport = teleport;
     }
 

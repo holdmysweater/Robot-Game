@@ -25,17 +25,17 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Point exitPoint() {
-        return new Point(2,2);
-    }
-
-    @Override
     protected Map<CellObject, Cell> createObjects(@NotNull Field field) {
         Map<CellObject, Cell> objects = new HashMap<>();
 
         objects.put(
                 new Robot(new Battery()),
                 field.getCell(new Point(0, 2))
+        );
+
+        objects.put(
+                new ExitCell(),
+                field.getCell(new Point(2, 2))
         );
 
         objects.put(
