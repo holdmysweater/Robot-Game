@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Робот.
  */
-public class Robot extends CellObject {
+public class Robot extends NonStationaryCellObject {
 
     //region КОНСТРУКТОРЫ
 

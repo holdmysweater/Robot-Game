@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Батарейка
  */
-public class Battery extends CellObject {
+public class Battery extends SmallCellObject {
 
     //region КОНСТРУКТОРЫ
 
