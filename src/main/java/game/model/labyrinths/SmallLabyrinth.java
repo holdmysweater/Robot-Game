@@ -35,8 +35,8 @@ public class SmallLabyrinth extends Labyrinth {
     //region СОЗДАНИЕ ОБЪЕКТОВ
 
     @Override
-    protected Map<WallSegment, AbstractMap.SimpleEntry<Cell, Direction>> createWalls(@NotNull Field field) {
-        Map<WallSegment, AbstractMap.SimpleEntry<Cell, Direction>> map = new HashMap<>();
+    protected Map<BetweenCellObject, AbstractMap.SimpleEntry<Cell, Direction>> createObstacles(@NotNull Field field) {
+        Map<BetweenCellObject, AbstractMap.SimpleEntry<Cell, Direction>> map = new HashMap<>();
 
         map.put(
                 new WallSegment(),
@@ -57,16 +57,13 @@ public class SmallLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected AbstractMap.SimpleEntry<Robot, Cell> createRobot(@NotNull Field field) {
-        return new AbstractMap.SimpleEntry<>(
+    protected Map<CellObject, Cell> createObjects(@NotNull Field field) {
+        Map<CellObject, Cell> map = new HashMap<>();
+
+        map.put(
                 new Robot(new Battery()),
                 field.getCell(new Point(0, 2))
         );
-    }
-
-    @Override
-    protected Map<Battery, Cell> createBatteries(@NotNull Field field) {
-        Map<Battery, Cell> map = new HashMap<>();
 
         map.put(
                 new Battery(),

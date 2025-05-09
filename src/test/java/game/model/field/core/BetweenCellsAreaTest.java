@@ -12,10 +12,10 @@ class BetweenCellsAreaTest {
 
     @BeforeEach
     public void testSetup() {
-        cell = new NormalCell();
+        cell = new Cell();
         cell.setNeighbors(null);
 
-        neighborCell = new NormalCell();
+        neighborCell = new Cell();
     }
 
     @Test

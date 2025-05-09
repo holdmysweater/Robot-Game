@@ -23,7 +23,7 @@ public class ExitCell extends Cell {
      * Телепортировать робота.
      */
     private void teleportRobot() {
-        teleportedRobot = getBigObject();
+        teleportedRobot = (Robot) getObject(NonStationaryCellObject.class); // TODO
         teleportedRobot.setTeleported();
         fireRobotIsTeleported();
     }
@@ -42,10 +42,10 @@ public class ExitCell extends Cell {
     //region ОБЪЕКТ В ЯЧЕЙКЕ
 
     @Override
-    public boolean setBigObject(@NotNull Robot cellObject) {
-        boolean success = super.setBigObject(cellObject);
+    public boolean setObject(@NotNull Class<? extends CellObject> type, @NotNull CellObject object) {
+        boolean success = super.setObject(type, object);
 
-        if (success) {
+        if (success && NonStationaryCellObject.class.isAssignableFrom(type)) {
             teleportRobot();
         }
 

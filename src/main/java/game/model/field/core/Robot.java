@@ -39,7 +39,7 @@ public class Robot extends NonStationaryCellObject {
 
         Cell newPosition = getPosition().getNeighborCell(direction);
 
-        if (newPosition == null || !newPosition.canSetBigObject()) {
+        if (newPosition == null || !newPosition.canSetObject(NonStationaryCellObject.class)) {
             return false;
         }
 
@@ -51,9 +51,9 @@ public class Robot extends NonStationaryCellObject {
 
         Cell oldPosition = getPosition();
 
-        oldPosition.takeBigObject();
+        oldPosition.takeObject(NonStationaryCellObject.class);
 
-        success = newPosition.setBigObject(this);
+        success = newPosition.setObject(NonStationaryCellObject.class, this);
 
         if (!success) {
             throw new RuntimeException("Robot can't move to the " + newPosition);
@@ -75,13 +75,7 @@ public class Robot extends NonStationaryCellObject {
      * @return дееспособен ли робот
      */
     public boolean isCapable() {
-        if (getPosition() instanceof NormalCell) {
-            NormalCell cell = (NormalCell) getPosition();
-            if (cell.getSmallObject() != null) {
-                return true;
-            }
-        }
-        return !isTeleported() && getCharge() > 0;
+        return getPosition() != null && getPosition().getObject(SmallCellObject.class) != null || !isTeleported() && getCharge() > 0;
     }
 
     //endregion
@@ -151,7 +145,14 @@ public class Robot extends NonStationaryCellObject {
             return false;
         }
 
-        Battery battery = ((NormalCell) getPosition()).takeSmallObject();
+        Battery battery;
+
+        try {
+            battery = (Battery) getPosition().takeObject(SmallCellObject.class);
+        }
+        catch (Exception e) {
+            return false;
+        }
 
         if (battery == null) {
             return false;

@@ -1,7 +1,6 @@
 package game.ui;
 
 import game.model.field.core.ExitCell;
-import game.model.field.core.NormalCell;
 import game.model.field.core.*;
 import game.model.field.core.Robot;
 import game.ui.obstacle.BetweenCellsWidget;
@@ -24,21 +23,17 @@ public class WidgetFactory {
 
         CellWidget item = (cell instanceof ExitCell) ? new ExitWidget() : new CellWidget();
 
-        Robot robot = cell.getBigObject();
+        Robot robot = (Robot) cell.getObject(NonStationaryCellObject.class);
         if (robot != null) {
             CellItemWidget robotWidget = create(robot);
             item.addItem(robotWidget);
         }
 
-        if (cell instanceof NormalCell) {
-            Battery battery = ((NormalCell) cell).getSmallObject();
-
-            if (battery != null) {
-                CellItemWidget batteryWidget = create(battery);
-                item.addItem(batteryWidget);
-            }
+        Battery battery = (Battery) cell.getObject(SmallCellObject.class);
+        if (battery != null) {
+            CellItemWidget batteryWidget = create(battery);
+            item.addItem(batteryWidget);
         }
-
 
         cells.put(cell, item);
         return item;

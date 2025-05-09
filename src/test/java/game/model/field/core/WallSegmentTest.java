@@ -20,8 +20,8 @@ public class WallSegmentTest {
 
     @BeforeEach
     public void testSetup() {
-        cell1 = new NormalCell();
-        neighbourCell1 = new NormalCell();
+        cell1 = new Cell();
+        neighbourCell1 = new Cell();
         wallSegment1 = new WallSegment();
         Map<Direction, Cell> map1 = new HashMap<>();
         map1.put(Direction.WEST, neighbourCell1);
@@ -29,8 +29,8 @@ public class WallSegmentTest {
         cell1.setNeighbors(map1);
 
 
-        cell2 = new NormalCell();
-        neighbourCell2 = new NormalCell();
+        cell2 = new Cell();
+        neighbourCell2 = new Cell();
         wallSegment2 = new WallSegment();
         Map<Direction, Cell> map2 = new HashMap<>();
         map2.put(Direction.WEST, neighbourCell2);

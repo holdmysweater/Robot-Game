@@ -30,44 +30,41 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected AbstractMap.SimpleEntry<Robot, Cell> createRobot(@NotNull Field field) {
-        return new AbstractMap.SimpleEntry<>(
+    protected Map<CellObject, Cell> createObjects(@NotNull Field field) {
+        Map<CellObject, Cell> objects = new HashMap<>();
+
+        objects.put(
                 new Robot(new Battery()),
                 field.getCell(new Point(0, 2))
         );
-    }
 
-    @Override
-    protected Map<Battery, Cell> createBatteries(@NotNull Field field) {
-        Map<Battery, Cell> batteryMap = new HashMap<>();
-
-        batteryMap.put(
+        objects.put(
                 new Battery(),
                 field.getCell(new Point(1, 2))
         );
 
-        return batteryMap;
+        return objects;
     }
 
     @Override
-    protected Map<WallSegment, AbstractMap.SimpleEntry<Cell, Direction>> createWalls(@NotNull Field field) {
-        Map<WallSegment, AbstractMap.SimpleEntry<Cell, Direction>> wallMap = new HashMap<>();
+    protected Map<BetweenCellObject, AbstractMap.SimpleEntry<Cell, Direction>> createObstacles(@NotNull Field field) {
+        Map<BetweenCellObject, AbstractMap.SimpleEntry<Cell, Direction>> obstacles = new HashMap<>();
 
-        wallMap.put(
+        obstacles.put(
                 new WallSegment(),
                 new AbstractMap.SimpleEntry<>(field.getCell(new Point(2, 0)), Direction.SOUTH)
         );
 
-        wallMap.put(
+        obstacles.put(
                 new WallSegment(),
                 new AbstractMap.SimpleEntry<>(field.getCell(new Point(2, 2)), Direction.SOUTH)
         );
 
-        wallMap.put(
+        obstacles.put(
                 new WallSegment(),
                 new AbstractMap.SimpleEntry<>(field.getCell(new Point(2, 2)), Direction.EAST)
         );
 
-        return wallMap;
+        return obstacles;
     }
 }

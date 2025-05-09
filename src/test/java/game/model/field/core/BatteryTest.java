@@ -38,7 +38,7 @@ class BatteryTest {
 
     @Test
     public void test_canLocateAtPosition_isConnected() {
-        NormalCell cellWithPowerSupply = new NormalCell();
+        Cell cellWithPowerSupply = new Cell();
 
         boolean result = battery.canSetPosition(cellWithPowerSupply);
 
@@ -47,7 +47,7 @@ class BatteryTest {
 
     @Test
     public void test_canLocateAtPosition_disconnected() {
-        NormalCell cellWithPowerSupply = new NormalCell();
+        Cell cellWithPowerSupply = new Cell();
         Battery battery = new Battery();
 
         boolean result = battery.canSetPosition(cellWithPowerSupply);
@@ -59,8 +59,8 @@ class BatteryTest {
     @Test
     public void test_canLocateAtPosition_inCellWithBattery() {
         Battery anotherBattery = new Battery();
-        NormalCell cellWithPowerSupply = new NormalCell();
-        cellWithPowerSupply.setSmallObject(anotherBattery);
+        Cell cellWithPowerSupply = new Cell();
+        cellWithPowerSupply.setObject(SmallCellObject.class, anotherBattery);
 
         boolean result = battery.canSetPosition(cellWithPowerSupply);
 
@@ -69,8 +69,8 @@ class BatteryTest {
 
     @Test
     public void test_canLocateAtPosition_alreadyHavePosition() {
-        NormalCell cellWithPowerSupply = new NormalCell();
-        cellWithPowerSupply.setSmallObject(battery);
+        Cell cellWithPowerSupply = new Cell();
+        cellWithPowerSupply.setObject(SmallCellObject.class, battery);
 
         boolean result = battery.canSetPosition(cellWithPowerSupply);
 
@@ -79,7 +79,7 @@ class BatteryTest {
 
     @Test
     public void test_canLocateAtPosition_inNotCellWithPowerSupply() {
-        Cell cell = new NormalCell();
+        Cell cell = new Cell();
 
         boolean result = battery.canSetPosition(cell);
 

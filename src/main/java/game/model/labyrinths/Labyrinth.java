@@ -40,8 +40,7 @@ public abstract class Labyrinth {
      */
     private void populateField(@NotNull Field field) {
         populateWalls(field);
-        populateRobot(field);
-        populateBatteries(field);
+        populateObjects(field);
     }
 
     /**
@@ -50,52 +49,42 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     private void populateWalls(@NotNull Field field) {
-        Map<WallSegment, AbstractMap.SimpleEntry<Cell, Direction>> walls = createWalls(field);
+        Map<BetweenCellObject, AbstractMap.SimpleEntry<Cell, Direction>> obstacles = createObstacles(field);
 
-        for (WallSegment wall : walls.keySet()) {
-            Cell cell = walls.get(wall).getKey();
-            Direction direction = walls.get(wall).getValue();
-            boolean result = cell.setNeighborObstacle(direction, wall);
-            assert result: "Wall segment " + wall + " not set at " + cell + " with direction " + direction;
+        for (BetweenCellObject obstacle : obstacles.keySet()) {
+            Cell cell = obstacles.get(obstacle).getKey();
+            Direction direction = obstacles.get(obstacle).getValue();
+            boolean result = cell.setNeighborObstacle(direction, obstacle);
+            assert result: "Wall segment " + obstacle + " not set at " + cell + " with direction " + direction;
         }
     }
 
     /**
-     * Добавить роботов на поле.
+     * Добавить объекты на поле.
      *
      * @param field поле.
      */
-    private void populateRobot(@NotNull Field field) {
-        // Get information about single robot on field
-        AbstractMap.SimpleEntry<Robot, Cell> robotInfo = createRobot(field);
-        Robot robot = robotInfo.getKey();
-        Cell robotCell = robotInfo.getValue();
+    private void populateObjects(@NotNull Field field) {
+        Map<CellObject, Cell> objects = createObjects(field);
 
-        // Establish connection between the cell and the robot
-        boolean correct = robotCell.setBigObject(robot);
-        assert correct; // Check connection status
-    }
+        for (CellObject object : objects.keySet()) {
 
-    /**
-     * Добавить источники питания на поле.
-     *
-     * @param field поле.
-     */
-    private void populateBatteries(@NotNull Field field) {
-        Map<Battery, Cell> batteries = createBatteries(field);
+            boolean correct = false;
 
-        for (Battery battery : batteries.keySet()) {
-            Cell cell = batteries.get(battery);
+            if (object instanceof SmallCellObject) {
+                correct = objects.get(object).setObject(SmallCellObject.class, object);
+            }
+            else if (object instanceof NonStationaryCellObject) {
+                correct = objects.get(object).setObject(NonStationaryCellObject.class, object);
+            }
+            else if (object instanceof InteractiveCellObject) {
+                correct = objects.get(object).setObject(InteractiveCellObject.class, object);
+            }
+            else if (object instanceof NonInteractiveCellObject) {
+                correct = objects.get(object).setObject(NonInteractiveCellObject.class, object);
+            }
 
-            // Check cell class
-            boolean isNormalCell = cell instanceof NormalCell;
-            assert isNormalCell : "Battery can't set at cell that is not NormalCell";
-            if (!isNormalCell) { continue; }
-
-            // Set battery
-            NormalCell normalCell = (NormalCell) cell;
-            boolean correct = normalCell.setSmallObject(battery);
-            assert correct : "Battery can't set at cell";
+            assert correct : "Object can't set at cell";
         }
     }
 
@@ -133,21 +122,14 @@ public abstract class Labyrinth {
      *
      * @param field поле.
      */
-    protected abstract Map<WallSegment, AbstractMap.SimpleEntry<Cell, Direction>> createWalls(@NotNull Field field);
+    protected abstract Map<BetweenCellObject, AbstractMap.SimpleEntry<Cell, Direction>> createObstacles(@NotNull Field field);
 
     /**
-     * Добавить роботов на поле.
+     * Добавить объекты на поле.
      *
      * @param field поле.
      */
-    protected abstract AbstractMap.SimpleEntry<Robot, Cell> createRobot(@NotNull Field field);
-
-    /**
-     * Добавить источники питания на поле.
-     *
-     * @param field поле.
-     */
-    protected abstract Map<Battery, Cell> createBatteries(@NotNull Field field);
+    protected abstract Map<CellObject, Cell> createObjects(@NotNull Field field);
 
     //endregion
 }

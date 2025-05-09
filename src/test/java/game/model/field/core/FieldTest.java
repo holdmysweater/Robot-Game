@@ -80,7 +80,7 @@ public class FieldTest {
     @Test
     public void test_getRobotsOnField_oneRobot() {
         Robot robot = new Robot(new Battery());
-        field.getCell(new Point(0, 0)).setBigObject(robot);
+        field.getCell(new Point(0, 0)).setObject(NonStationaryCellObject.class, robot);
 
         assertEquals(robot, field.getRobot());
     }
@@ -89,7 +89,7 @@ public class FieldTest {
     public void test_TeleportedRobots_oneRobot() {
         Robot robot = new Robot(new Battery());
         ExitCell cell = (ExitCell) field.getCell(new Point(1, 1));
-        cell.setBigObject(robot);
+        cell.setObject(NonStationaryCellObject.class, robot);
 
         assertEquals(robot, cell.getTeleportedRobot());
         assertTrue(robot.isTeleported());
@@ -100,7 +100,7 @@ public class FieldTest {
         int expectedEventCount = 1;
         Robot robot = new Robot(new Battery());
 
-        field.getCell(new Point(1, 1)).setBigObject(robot);
+        field.getCell(new Point(1, 1)).setObject(NonStationaryCellObject.class, robot);
 
         assertEquals(expectedEventCount, eventCount);
     }

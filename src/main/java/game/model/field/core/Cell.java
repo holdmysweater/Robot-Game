@@ -7,64 +7,111 @@ import java.util.*;
 /**
  * Ячейка.
  */
-public abstract class Cell {
-
-    //region ОБЪЕКТ В ЯЧЕЙКЕ
+public class Cell {
 
     /**
-     * Крупный объект, расположенный в ячейке.
+     * Конечные классы иерархии.
      */
-    private Robot bigObject = null;
+    List<Class<? extends CellObject>> endOfHierarchyClasses = List.of(
+        SmallCellObject.class,
+        NonStationaryCellObject.class,
+        InteractiveCellObject.class,
+        NonInteractiveCellObject.class
+    );
 
     /**
-     * Получить крупный объект.
+     * Объекты, расположенные в ячейке.
+     */
+    private Map<Class<? extends CellObject>, CellObject> objects = new HashMap<>();
+
+    /**
+     * Получить объекты.
      *
-     * @return крупный объект.
+     * @return объекты.
      */
-    public Robot getBigObject() {
-        return bigObject;
+    public Map<Class<? extends CellObject>, CellObject> getObjects() {
+        return Collections.unmodifiableMap(objects);
     }
 
     /**
-     * Поместить крупный объект в ячейку {@link Cell#bigObject}.
+     * Поместить объект в ячейку {@link Cell#objects}.
      *
-     * @param bigObject объект, добавляемый в ячейку.
+     * @param type класс объекта, который нужно получить.
+     * @return первый найденный запрашиваемый объект, null - если объект не содержится в ячейке {@link Cell#objects}.
      */
-    public boolean setBigObject(@NotNull Robot bigObject) {
-        if (!this.canSetBigObject()) {
+    public CellObject getObject(Class<? extends CellObject> type) {
+        for (Map.Entry<Class<? extends CellObject>, CellObject> entry : objects.entrySet()) {
+            if (type.isAssignableFrom(entry.getKey())) {
+                return entry.getValue();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Поместить объект в ячейку {@link Cell#objects}.
+     *
+     * @param type класс объекта.
+     * @param object объект, добавляемый в ячейку.
+     * @return успешность.
+     * @throws IllegalArgumentException если запрашиваемый класс не является поддерживаемым абстрактным классом.
+     */
+    public boolean setObject(@NotNull Class<? extends CellObject> type, @NotNull CellObject object) {
+        if (!endOfHierarchyClasses.contains(type) || !this.canSetObject(type)) {
             return false;
         }
 
-        boolean success = bigObject.setPosition(this);
+        boolean success = object.setPosition(this);
         if (!success) {
             return false;
         }
 
-        this.bigObject = bigObject;
+        objects.put(type, object);
 
         return true;
     }
 
     /**
-     * Может принять крупный объект.
+     * Может принять объект.
      *
-     * @return может принять крупный объект.
+     * @param type класс объекта, который нужно проверить.
+     * @return может принять объект.
      */
-    public boolean canSetBigObject() {
-        return getBigObject() == null;
+    public boolean canSetObject(@NotNull Class<? extends CellObject> type) {
+        if (SmallCellObject.class.isAssignableFrom(type)) {
+            return getObject(SmallCellObject.class) == null && getObject(StationaryCellObject.class) == null;
+        }
+
+        if (NonStationaryCellObject.class.isAssignableFrom(type)) {
+            return getObject(NonStationaryCellObject.class) == null && getObject(NonInteractiveCellObject.class) == null;
+        }
+
+        if (InteractiveCellObject.class.isAssignableFrom(type)) {
+            return getObject(StationaryCellObject.class) == null && getObject(SmallCellObject.class) == null;
+        }
+
+        if (NonInteractiveCellObject.class.isAssignableFrom(type)) {
+            return getObject(CellObject.class) == null;
+        }
+
+        return false;
     }
 
     /**
-     * Изъять крупный объект из ячейки.
+     * Изъять объект из ячейки.
      *
-     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link Cell#bigObject}.
+     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link Cell#objects}.
      */
-    public Robot takeBigObject() {
-        Robot result = bigObject;
+    public CellObject takeObject(Class<? extends CellObject> type) {
+        if (!endOfHierarchyClasses.contains(type)) {
+            throw new IllegalArgumentException("Unsupported class type: " + type.getName());
+        }
+
+        CellObject result = objects.remove(type);
 
         if (result != null) {
             result.unsetPosition();
-            bigObject = null;
         }
 
         return result;

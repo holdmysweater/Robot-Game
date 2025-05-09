@@ -19,17 +19,16 @@ class CellTest {
 
     @BeforeEach
     public void testSetup() {
-
-        cell = new NormalCell();
+        cell = new Cell();
     }
 
     @Test
     public void test_setRobot_InEmptyCell() {
         Robot robot = new Robot(new Battery());
 
-        cell.setBigObject(robot);
+        cell.setObject(NonStationaryCellObject.class, robot);
 
-        assertEquals(robot, cell.getBigObject());
+        assertEquals(robot, cell.getObject(NonStationaryCellObject.class));
         assertEquals(cell, robot.getPosition());
     }
 
@@ -37,11 +36,11 @@ class CellTest {
     public void test_takeRobot_FromCellWithRobot() {
         Robot robot = new Robot(new Battery());
 
-        cell.setBigObject(robot);
+        cell.setObject(NonStationaryCellObject.class, robot);
 
-        assertEquals(robot, cell.takeBigObject());
+        assertEquals(robot, cell.takeObject(NonStationaryCellObject.class));
         assertNull(robot.getPosition());
-        assertNull(cell.getBigObject());
+        assertNull(cell.getObject(NonStationaryCellObject.class));
     }
 
 
@@ -50,10 +49,10 @@ class CellTest {
         Robot robot = new Robot(new Battery());
         Robot newRobot = new Robot(new Battery());
 
-        cell.setBigObject(robot);
+        cell.setObject(NonStationaryCellObject.class, robot);
 
-        assertFalse(cell.setBigObject(newRobot));
-        assertEquals(robot, cell.getBigObject());
+        assertFalse(cell.setObject(NonStationaryCellObject.class, newRobot));
+        assertEquals(robot, cell.getObject(NonStationaryCellObject.class));
         assertEquals(cell, robot.getPosition());
         assertNull(newRobot.getPosition());
     }
@@ -62,16 +61,16 @@ class CellTest {
     public void test_setRobot_ToCellAgain() {
         Robot robot = new Robot(new Battery());
 
-        cell.setBigObject(robot);
+        cell.setObject(NonStationaryCellObject.class, robot);
 
-        assertFalse(cell.setBigObject(robot));
-        assertEquals(robot, cell.getBigObject());
+        assertFalse(cell.setObject(NonStationaryCellObject.class, robot));
+        assertEquals(robot, cell.getObject(NonStationaryCellObject.class));
         assertEquals(cell, robot.getPosition());
     }
 
     @Test
     public void test_setNeighborCell() {
-        Cell neighborCell = new NormalCell();
+        Cell neighborCell = new Cell();
         Direction direction = Direction.NORTH;
 
         Map<Direction, Cell> map = new HashMap<>();
@@ -87,7 +86,7 @@ class CellTest {
 
     @Test
     public void test_setNeighborCell_doubleSided() {
-        Cell neighborCell = new NormalCell();
+        Cell neighborCell = new Cell();
         Direction direction = Direction.NORTH;
 
         Map<Direction, Cell> map = new HashMap<>();
@@ -105,8 +104,8 @@ class CellTest {
 
     @Test
     public void test_setNeighborCell_twoTimesInOneDirection() {
-        Cell neighborCell = new NormalCell();
-        Cell anotherCell = new NormalCell();
+        Cell neighborCell = new Cell();
+        Cell anotherCell = new Cell();
         Direction direction = Direction.NORTH;
 
         Map<Direction, Cell> map = new HashMap<>();
@@ -127,7 +126,7 @@ class CellTest {
 
     @Test
     public void test_setNeighborCell_alreadyNeighborWithAnotherDirection() {
-        Cell neighborCell = new NormalCell();
+        Cell neighborCell = new Cell();
         Direction direction = Direction.NORTH;
         Direction anotherDirection = Direction.SOUTH;
 
@@ -158,7 +157,7 @@ class CellTest {
 
     @Test
     public void test_isNeighbor_WhenNeighborCellExists() {
-        Cell neighborCell = new NormalCell();
+        Cell neighborCell = new Cell();
         Direction direction = Direction.NORTH;
 
         Map<Direction, Cell> map = new HashMap<>();
@@ -214,7 +213,7 @@ class CellTest {
     @Test
     public void test_setWall_inNeighborCells() {
         Direction direction = Direction.NORTH;
-        Cell neighborCell = new NormalCell();
+        Cell neighborCell = new Cell();
         Map<Direction, Cell> neighborCells = new HashMap<>();
         neighborCells.put(direction, neighborCell);
 
@@ -232,7 +231,7 @@ class CellTest {
     @Test
     public void test_setWall_InNeighborCellsWithSameDirectionAndAnotherWallSegment() {
         Direction direction = Direction.NORTH;
-        Cell neighborCell = new NormalCell();
+        Cell neighborCell = new Cell();
         Map<Direction, Cell> neighborCells = new HashMap<>();
         neighborCells.put(direction, neighborCell);
 
@@ -253,7 +252,7 @@ class CellTest {
     @Test
     public void test_setWall_InNeighborCellsWithSameWallSegmentAndAnotherDirection() {
         Direction direction = Direction.NORTH;
-        Cell neighborCell = new NormalCell();
+        Cell neighborCell = new Cell();
         Map<Direction, Cell> neighborCells = new HashMap<>();
         neighborCells.put(direction, neighborCell);
 
@@ -276,5 +275,50 @@ class CellTest {
         Direction direction = Direction.NORTH;
 
         assertNull(cell.getNeighborArea(direction));
+    }
+
+    @Test
+    public void test_setBattery_inEmptyCell() {
+        Battery battery = new Battery();
+
+        cell.setObject(SmallCellObject.class, battery);
+        assertEquals(battery, cell.getObject(SmallCellObject.class));
+    }
+
+    @Test
+    public void test_setBattery_inCell() {
+        Battery battery = new Battery();
+
+        cell.setObject(SmallCellObject.class, battery);
+        Battery anotherBattery = new Battery();
+
+        assertFalse(cell.setObject(SmallCellObject.class, anotherBattery));
+    }
+
+    @Test
+    public void test_setBattery_alreadySetBatteryToAnotherCell() {
+        Battery battery = new Battery();
+
+        cell.setObject(SmallCellObject.class, battery);
+
+        Cell anotherCell = new Cell();
+
+        assertFalse(anotherCell.setObject(SmallCellObject.class, battery));
+    }
+
+    @Test
+    public void test_takeBattery_fromCell(){
+        Battery battery = new Battery();
+
+        cell.setObject(SmallCellObject.class, battery);
+
+        assertEquals(battery, cell.takeObject(SmallCellObject.class));
+        assertNull(cell.getObject(SmallCellObject.class));
+        assertNull(battery.getPosition());
+    }
+
+    @Test
+    public void test_takeBattery_fromCellWithoutBattery() {
+        assertNull(cell.takeObject(SmallCellObject.class));
     }
 }

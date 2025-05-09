@@ -51,7 +51,7 @@ public class Field {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 Point p = new Point(x, y);
-                Cell cell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
+                Cell cell = p.equals(exitPoint) ? new ExitCell() : new Cell();
 
                 Map<Direction, Cell> neighborCells = new HashMap<>();
 
@@ -150,9 +150,14 @@ public class Field {
      */
     public Robot getRobot() {
         for (var cell : cells.entrySet()) {
-            Robot robot = cell.getValue().getBigObject();
-            if (robot != null) {
-                return robot;
+            Robot robot = null;
+            try {
+                robot = (Robot) cell.getValue().getObject(NonStationaryCellObject.class);
+                if (robot != null) {
+                    return robot;
+                }
+            } catch (Exception e) {
+                return null;
             }
         }
         return null;
