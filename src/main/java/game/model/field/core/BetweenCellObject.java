@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Объект, располагающийся между ячейками {@link AbstractCell}
+ * Объект, располагающийся между ячейками {@link Cell}
  */
 public abstract class BetweenCellObject {
 

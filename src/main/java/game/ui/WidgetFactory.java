@@ -5,9 +5,7 @@ import game.model.field.core.NormalCell;
 import game.model.field.core.*;
 import game.model.field.core.Robot;
 import game.ui.obstacle.BetweenCellsWidget;
-import game.ui.obstacle.WallWidget;
 import org.jetbrains.annotations.NotNull;
-import game.ui.obstacle.ObstacleWidget;
 import game.ui.cell.*;
 
 import java.awt.*;
@@ -16,12 +14,12 @@ import java.util.Map;
 
 public class WidgetFactory {
 
-    private final Map<AbstractCell, CellWidget> cells = new HashMap<>();
+    private final Map<Cell, CellWidget> cells = new HashMap<>();
     private final Map<CellObject, CellItemWidget> cellObjects = new HashMap<>();
     private final Map<BetweenCellsArea, BetweenCellsWidget> betweenCellsAreas = new HashMap<>();
 
-    /*---------- AbstractCell ----------*/
-    public CellWidget create(@NotNull AbstractCell cell) {
+    /*---------- Cell ----------*/
+    public CellWidget create(@NotNull Cell cell) {
         if (cells.containsKey(cell)) return cells.get(cell);
 
         CellWidget item = (cell instanceof ExitCell) ? new ExitWidget() : new CellWidget();
@@ -46,11 +44,11 @@ public class WidgetFactory {
         return item;
     }
 
-    public CellWidget getWidget(@NotNull AbstractCell cell) {
+    public CellWidget getWidget(@NotNull Cell cell) {
         return cells.get(cell);
     }
 
-    public void remove(@NotNull AbstractCell cell) {
+    public void remove(@NotNull Cell cell) {
         cells.remove(cell);
     }
 

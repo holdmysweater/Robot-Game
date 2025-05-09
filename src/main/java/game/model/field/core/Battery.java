@@ -185,7 +185,7 @@ public class Battery extends SmallCellObject {
     //region ПОЗИЦИЯ
 
     @Override
-    protected boolean canSetPosition(@NotNull AbstractCell cell) {
+    protected boolean canSetPosition(@NotNull Cell cell) {
         return !this.isConnected() && getPosition() == null;
     }
 

@@ -31,20 +31,20 @@ public class FieldTest {
 
     @Test
     public void test_create_withCorrectParams() {
-        AbstractCell abstractCell_0_0 = field.getCell(new Point(0, 0));
-        AbstractCell abstractCell_0_1 = field.getCell(new Point(1, 0));
-        AbstractCell abstractCell_1_0 = field.getCell(new Point(0, 1));
-        AbstractCell abstractCell_1_1 = field.getCell(new Point(1, 1));
+        Cell cell_0_0 = field.getCell(new Point(0, 0));
+        Cell cell_0_1 = field.getCell(new Point(1, 0));
+        Cell cell_1_0 = field.getCell(new Point(0, 1));
+        Cell cell_1_1 = field.getCell(new Point(1, 1));
 
-        assertEquals(abstractCell_1_0, abstractCell_0_0.getNeighborCell(Direction.SOUTH));
-        assertEquals(abstractCell_1_1, abstractCell_0_1.getNeighborCell(Direction.SOUTH));
-        assertEquals(abstractCell_0_1, abstractCell_1_1.getNeighborCell(Direction.NORTH));
-        assertEquals(abstractCell_0_0, abstractCell_1_0.getNeighborCell(Direction.NORTH));
-        assertEquals(abstractCell_0_1, abstractCell_0_0.getNeighborCell(Direction.EAST));
-        assertEquals(abstractCell_1_1, abstractCell_1_0.getNeighborCell(Direction.EAST));
-        assertEquals(abstractCell_0_0, abstractCell_0_1.getNeighborCell(Direction.WEST));
-        assertEquals(abstractCell_1_0, abstractCell_1_1.getNeighborCell(Direction.WEST));
-        assertTrue(abstractCell_1_1 instanceof ExitCell);
+        assertEquals(cell_1_0, cell_0_0.getNeighborCell(Direction.SOUTH));
+        assertEquals(cell_1_1, cell_0_1.getNeighborCell(Direction.SOUTH));
+        assertEquals(cell_0_1, cell_1_1.getNeighborCell(Direction.NORTH));
+        assertEquals(cell_0_0, cell_1_0.getNeighborCell(Direction.NORTH));
+        assertEquals(cell_0_1, cell_0_0.getNeighborCell(Direction.EAST));
+        assertEquals(cell_1_1, cell_1_0.getNeighborCell(Direction.EAST));
+        assertEquals(cell_0_0, cell_0_1.getNeighborCell(Direction.WEST));
+        assertEquals(cell_1_0, cell_1_1.getNeighborCell(Direction.WEST));
+        assertTrue(cell_1_1 instanceof ExitCell);
     }
 
     @Test

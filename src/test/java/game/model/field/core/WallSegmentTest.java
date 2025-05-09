@@ -10,32 +10,32 @@ import java.util.Map;
 
 public class WallSegmentTest {
 
-    private AbstractCell abstractCell1;
-    private AbstractCell neighbourAbstractCell1;
+    private Cell cell1;
+    private Cell neighbourCell1;
     private WallSegment wallSegment1;
 
-    private AbstractCell abstractCell2;
-    private AbstractCell neighbourAbstractCell2;
+    private Cell cell2;
+    private Cell neighbourCell2;
     private WallSegment wallSegment2;
 
     @BeforeEach
     public void testSetup() {
-        abstractCell1 = new NormalCell();
-        neighbourAbstractCell1 = new NormalCell();
+        cell1 = new NormalCell();
+        neighbourCell1 = new NormalCell();
         wallSegment1 = new WallSegment();
-        Map<Direction, AbstractCell> map1 = new HashMap<>();
-        map1.put(Direction.WEST, neighbourAbstractCell1);
-        neighbourAbstractCell1.setNeighbors(null);
-        abstractCell1.setNeighbors(map1);
+        Map<Direction, Cell> map1 = new HashMap<>();
+        map1.put(Direction.WEST, neighbourCell1);
+        neighbourCell1.setNeighbors(null);
+        cell1.setNeighbors(map1);
 
 
-        abstractCell2 = new NormalCell();
-        neighbourAbstractCell2 = new NormalCell();
+        cell2 = new NormalCell();
+        neighbourCell2 = new NormalCell();
         wallSegment2 = new WallSegment();
-        Map<Direction, AbstractCell> map2 = new HashMap<>();
-        map2.put(Direction.WEST, neighbourAbstractCell2);
-        neighbourAbstractCell2.setNeighbors(null);
-        abstractCell2.setNeighbors(map2);
+        Map<Direction, Cell> map2 = new HashMap<>();
+        map2.put(Direction.WEST, neighbourCell2);
+        neighbourCell2.setNeighbors(null);
+        cell2.setNeighbors(map2);
     }
 
     @Test
@@ -45,14 +45,14 @@ public class WallSegmentTest {
 
     @Test
     public void test_equalsForWallWithDifferentPosition() {
-        abstractCell1.setNeighborObstacle(Direction.WEST, wallSegment1);
-        abstractCell2.setNeighborObstacle(Direction.WEST, wallSegment2);
+        cell1.setNeighborObstacle(Direction.WEST, wallSegment1);
+        cell2.setNeighborObstacle(Direction.WEST, wallSegment2);
         Assertions.assertNotEquals(wallSegment1, wallSegment2);
     }
 
     @Test
     public void test_equalsForWallWithPositionAndWallWithoutPosition() {
-        abstractCell1.setNeighborObstacle(Direction.WEST, wallSegment1);
+        cell1.setNeighborObstacle(Direction.WEST, wallSegment1);
         Assertions.assertNotEquals(wallSegment1, wallSegment2);
     }
 }

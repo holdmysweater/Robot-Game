@@ -79,7 +79,7 @@ class BatteryTest {
 
     @Test
     public void test_canLocateAtPosition_inNotCellWithPowerSupply() {
-        AbstractCell cell = new NormalCell();
+        Cell cell = new NormalCell();
 
         boolean result = battery.canSetPosition(cell);
 

@@ -37,7 +37,7 @@ public class Robot extends NonStationaryCellObject {
             return false;
         }
 
-        AbstractCell newPosition = getPosition().getNeighborCell(direction);
+        Cell newPosition = getPosition().getNeighborCell(direction);
 
         if (newPosition == null || !newPosition.canSetBigObject()) {
             return false;
@@ -49,7 +49,7 @@ public class Robot extends NonStationaryCellObject {
             return false;
         }
 
-        AbstractCell oldPosition = getPosition();
+        Cell oldPosition = getPosition();
 
         oldPosition.takeBigObject();
 
@@ -65,7 +65,7 @@ public class Robot extends NonStationaryCellObject {
     }
 
     @Override
-    protected boolean canSetPosition(@NotNull AbstractCell newPosition) {
+    protected boolean canSetPosition(@NotNull Cell newPosition) {
         return getPosition() == null;
     }
 
@@ -254,7 +254,7 @@ public class Robot extends NonStationaryCellObject {
      * @param oldPosition ячейка откуда переместился робот.
      * @param newPosition ячейка куда переместился робот.
      */
-    private void fireRobotIsMoved(@NotNull AbstractCell oldPosition, @NotNull AbstractCell newPosition) {
+    private void fireRobotIsMoved(@NotNull Cell oldPosition, @NotNull Cell newPosition) {
         RobotActionEvent event = new RobotActionEvent(this);
         event.setRobot(this);
         event.setFromCell(oldPosition);

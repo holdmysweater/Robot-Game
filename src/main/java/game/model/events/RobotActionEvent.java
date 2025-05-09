@@ -1,8 +1,8 @@
 package game.model.events;
 
 import game.model.field.core.Battery;
+import game.model.field.core.Cell;
 import org.jetbrains.annotations.NotNull;
-import game.model.field.core.AbstractCell;
 import game.model.field.core.Robot;
 
 import java.util.EventObject;
@@ -20,12 +20,12 @@ public class RobotActionEvent extends EventObject {
     /**
      * Ячейка откуда переместился робот {@link RobotActionEvent#robot}.
      */
-    private AbstractCell fromCell;
+    private Cell fromCell;
 
     /**
      * Ячейка куда переместился робот {@link RobotActionEvent#robot}.
      */
-    private AbstractCell toCell;
+    private Cell toCell;
 
     /**
      * Источник питания.
@@ -37,7 +37,7 @@ public class RobotActionEvent extends EventObject {
      *
      * @param fromCell ячейка откуда переместился робот.
      */
-    public void setFromCell(AbstractCell fromCell) {
+    public void setFromCell(Cell fromCell) {
         this.fromCell = fromCell;
     }
 
@@ -46,7 +46,7 @@ public class RobotActionEvent extends EventObject {
      *
      * @return ячейка откуда переместился робот.
      */
-    public AbstractCell getFromCell() {
+    public Cell getFromCell() {
         return fromCell;
     }
 
@@ -55,7 +55,7 @@ public class RobotActionEvent extends EventObject {
      *
      * @param toCell ячейка куда переместился робот.
      */
-    public void setToCell(AbstractCell toCell) {
+    public void setToCell(Cell toCell) {
         this.toCell = toCell;
     }
 
@@ -64,7 +64,7 @@ public class RobotActionEvent extends EventObject {
      *
      * @return ячейка куда переместился робот.
      */
-    public AbstractCell getToCell() {
+    public Cell getToCell() {
         return toCell;
     }
 

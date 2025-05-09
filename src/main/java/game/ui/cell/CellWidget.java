@@ -1,6 +1,6 @@
 package game.ui.cell;
 
-import game.model.field.core.AbstractCell;
+import game.model.field.core.Cell;
 import game.ui.utils.ImageUtils;
 
 import javax.swing.*;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Виджет ячейки.
  *
- * @see AbstractCell
+ * @see Cell
  */
 public class CellWidget extends JPanel {
 

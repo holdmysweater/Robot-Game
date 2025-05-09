@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Ячейка точки выхода.
  */
-public class ExitCell extends AbstractCell {
+public class ExitCell extends Cell {
 
     // region ТЕЛЕПОРТАЦИЯ
 

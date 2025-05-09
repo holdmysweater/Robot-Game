@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Ячейка.
  */
-public abstract class AbstractCell {
+public abstract class Cell {
 
     //region ОБЪЕКТ В ЯЧЕЙКЕ
 
@@ -26,7 +26,7 @@ public abstract class AbstractCell {
     }
 
     /**
-     * Поместить крупный объект в ячейку {@link AbstractCell#bigObject}.
+     * Поместить крупный объект в ячейку {@link Cell#bigObject}.
      *
      * @param bigObject объект, добавляемый в ячейку.
      */
@@ -57,7 +57,7 @@ public abstract class AbstractCell {
     /**
      * Изъять крупный объект из ячейки.
      *
-     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link AbstractCell#bigObject}.
+     * @return запрашиваемый объект, null - если объект не содержится в ячейке {@link Cell#bigObject}.
      */
     public Robot takeBigObject() {
         Robot result = bigObject;
@@ -80,7 +80,7 @@ public abstract class AbstractCell {
      * @param direction направление.
      * @return соседняя ячейка, null, если в заданном направлении нет соседней ячейки.
      */
-    public AbstractCell getNeighborCell(@NotNull Direction direction) {
+    public Cell getNeighborCell(@NotNull Direction direction) {
         BetweenCellsArea area = neighborAreas.get(direction);
         if (area == null) {
             return null;
@@ -95,7 +95,7 @@ public abstract class AbstractCell {
      * @param neighborCells список ячеек с соответствующими направлениями соседства.
      * @return успешность.
      */
-    boolean setNeighbors(Map<Direction, AbstractCell> neighborCells) {
+    boolean setNeighbors(Map<Direction, Cell> neighborCells) {
         if (neighborCells != null){
             for (Direction direction : neighborCells.keySet()) {
                 if (!setNeighbor(neighborCells.get(direction), direction)) return false;
@@ -115,7 +115,7 @@ public abstract class AbstractCell {
      * @return успешность.
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      */
-    private boolean setNeighbor(@NotNull AbstractCell neighborCell, @NotNull Direction direction) {
+    private boolean setNeighbor(@NotNull Cell neighborCell, @NotNull Direction direction) {
         if (this == neighborCell) { return false; }
         BetweenCellsArea area = neighborCell.getNeighborArea(direction.getOppositeDirection());
         return switch (direction) {
@@ -136,7 +136,7 @@ public abstract class AbstractCell {
     private final Map<Direction, BetweenCellsArea> neighborAreas = new EnumMap<>(Direction.class);
 
     /**
-     * Получить соседнюю область, располагающуюся между ячейками {@link AbstractCell#neighborAreas} в заданном направлении.
+     * Получить соседнюю область, располагающуюся между ячейками {@link Cell#neighborAreas} в заданном направлении.
      *
      * @param direction направление.
      * @return соседняя область, располагающийся между ячейками в заданном направлении.

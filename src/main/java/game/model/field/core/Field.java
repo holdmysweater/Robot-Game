@@ -51,9 +51,9 @@ public class Field {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 Point p = new Point(x, y);
-                AbstractCell cell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
+                Cell cell = p.equals(exitPoint) ? new ExitCell() : new NormalCell();
 
-                Map<Direction, AbstractCell> neighborCells = new HashMap<>();
+                Map<Direction, Cell> neighborCells = new HashMap<>();
 
                 if (x > 0) {
                     neighborCells.put(Direction.WEST, getCell(p.to(Direction.WEST, 1)));
@@ -127,7 +127,7 @@ public class Field {
     /**
      * Ячейки поля.
      */
-    private final Map<Point, AbstractCell> cells = new HashMap<>();
+    private final Map<Point, Cell> cells = new HashMap<>();
 
     /**
      * Получить ячейку по заданной координате.
@@ -135,7 +135,7 @@ public class Field {
      * @param point координата.
      * @return ячейка.
      */
-    public AbstractCell getCell(@NotNull Point point) {
+    public Cell getCell(@NotNull Point point) {
         return cells.get(point);
     }
 
@@ -205,7 +205,7 @@ public class Field {
      *
      * @param teleport телепорт.
      */
-    private void fireRobotIsTeleported(@NotNull AbstractCell teleport) {
+    private void fireRobotIsTeleported(@NotNull Cell teleport) {
         FieldActionEvent event = new FieldActionEvent(this);
         event.setRobot(((ExitCell) teleport).getTeleportedRobot());
         event.setTeleport(teleport);

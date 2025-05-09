@@ -1,14 +1,9 @@
 package game.model.labyrinths;
 
-import game.model.field.core.Direction;
-import game.model.field.core.AbstractCell;
-import game.model.field.core.BetweenCellsArea;
+import game.model.field.core.*;
+import game.model.field.core.Cell;
 import org.jetbrains.annotations.NotNull;
-import game.model.field.core.Point;
-import game.model.field.core.Field;
 import game.model.field.between_cells_objects.WallSegment;
-import game.model.field.core.Robot;
-import game.model.field.core.Battery;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -35,7 +30,7 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected AbstractMap.SimpleEntry<Robot, AbstractCell> createRobot(@NotNull Field field) {
+    protected AbstractMap.SimpleEntry<Robot, Cell> createRobot(@NotNull Field field) {
         return new AbstractMap.SimpleEntry<>(
                 new Robot(new Battery()),
                 field.getCell(new Point(0, 2))
@@ -43,8 +38,8 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<Battery, AbstractCell> createBatteries(@NotNull Field field) {
-        Map<Battery, AbstractCell> batteryMap = new HashMap<>();
+    protected Map<Battery, Cell> createBatteries(@NotNull Field field) {
+        Map<Battery, Cell> batteryMap = new HashMap<>();
 
         batteryMap.put(
                 new Battery(),
@@ -55,8 +50,8 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<WallSegment, AbstractMap.SimpleEntry<AbstractCell, Direction>> createWalls(@NotNull Field field) {
-        Map<WallSegment, AbstractMap.SimpleEntry<AbstractCell, Direction>> wallMap = new HashMap<>();
+    protected Map<WallSegment, AbstractMap.SimpleEntry<Cell, Direction>> createWalls(@NotNull Field field) {
+        Map<WallSegment, AbstractMap.SimpleEntry<Cell, Direction>> wallMap = new HashMap<>();
 
         wallMap.put(
                 new WallSegment(),

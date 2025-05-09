@@ -7,54 +7,54 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BetweenCellsAreaTest {
 
-    private AbstractCell abstractCell;
-    private AbstractCell neighborAbstractCell;
+    private Cell cell;
+    private Cell neighborCell;
 
     @BeforeEach
     public void testSetup() {
-        abstractCell = new NormalCell();
-        abstractCell.setNeighbors(null);
+        cell = new NormalCell();
+        cell.setNeighbors(null);
 
-        neighborAbstractCell = new NormalCell();
+        neighborCell = new NormalCell();
     }
 
     @Test
     public void test_setHorizontalNeighbors() {
-        BetweenCellsArea betweenCellsArea = abstractCell.getNeighborArea(Direction.EAST);
+        BetweenCellsArea betweenCellsArea = cell.getNeighborArea(Direction.EAST);
 
-        assertTrue(betweenCellsArea.setHorizontalNeighbors(abstractCell, neighborAbstractCell));
+        assertTrue(betweenCellsArea.setHorizontalNeighbors(cell, neighborCell));
         assertEquals(Orientation.VERTICAL, betweenCellsArea.getOrientation());
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCell(Direction.WEST));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCell(Direction.EAST));
+        assertEquals(cell, betweenCellsArea.getNeighborCell(Direction.WEST));
+        assertEquals(neighborCell, betweenCellsArea.getNeighborCell(Direction.EAST));
     }
 
     @Test
     public void test_setVerticalNeighbors() {
-        BetweenCellsArea betweenCellsArea = abstractCell.getNeighborArea(Direction.SOUTH);
+        BetweenCellsArea betweenCellsArea = cell.getNeighborArea(Direction.SOUTH);
 
-        assertTrue(betweenCellsArea.setVerticalNeighbors(abstractCell, neighborAbstractCell));
+        assertTrue(betweenCellsArea.setVerticalNeighbors(cell, neighborCell));
         assertEquals(Orientation.HORIZONTAL, betweenCellsArea.getOrientation());
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCell(Direction.NORTH));
-        assertEquals(neighborAbstractCell, betweenCellsArea.getNeighborCell(Direction.SOUTH));
+        assertEquals(cell, betweenCellsArea.getNeighborCell(Direction.NORTH));
+        assertEquals(neighborCell, betweenCellsArea.getNeighborCell(Direction.SOUTH));
     }
 
     @Test
     public void test_setHorizontalNeighbors_alreadyHasVerticalNeighbors() {
-        BetweenCellsArea betweenCellsArea = abstractCell.getNeighborArea(Direction.EAST);
+        BetweenCellsArea betweenCellsArea = cell.getNeighborArea(Direction.EAST);
 
-        assertFalse(betweenCellsArea.setVerticalNeighbors(abstractCell, neighborAbstractCell));
+        assertFalse(betweenCellsArea.setVerticalNeighbors(cell, neighborCell));
         assertEquals(Orientation.VERTICAL, betweenCellsArea.getOrientation());
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCell(Direction.WEST));
+        assertEquals(cell, betweenCellsArea.getNeighborCell(Direction.WEST));
         assertNull(betweenCellsArea.getNeighborCell(Direction.EAST));
     }
 
     @Test
     public void test_setVerticalNeighbors_alreadyHasHorizontalNeighbors() {
-        BetweenCellsArea betweenCellsArea = abstractCell.getNeighborArea(Direction.SOUTH);
+        BetweenCellsArea betweenCellsArea = cell.getNeighborArea(Direction.SOUTH);
 
-        assertFalse(betweenCellsArea.setHorizontalNeighbors(abstractCell, neighborAbstractCell));
+        assertFalse(betweenCellsArea.setHorizontalNeighbors(cell, neighborCell));
         assertEquals(Orientation.HORIZONTAL, betweenCellsArea.getOrientation());
-        assertEquals(abstractCell, betweenCellsArea.getNeighborCell(Direction.NORTH));
+        assertEquals(cell, betweenCellsArea.getNeighborCell(Direction.NORTH));
         assertNull(betweenCellsArea.getNeighborCell(Direction.SOUTH));
     }
 }

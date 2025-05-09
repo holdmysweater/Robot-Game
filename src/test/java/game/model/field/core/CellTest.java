@@ -9,11 +9,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AbstractCellTest {
+class CellTest {
 
-    private AbstractCell cell;
+    private Cell cell;
 
-    public AbstractCellTest() {
+    public CellTest() {
     }
 
 
@@ -71,10 +71,10 @@ class AbstractCellTest {
 
     @Test
     public void test_setNeighborCell() {
-        AbstractCell neighborCell = new NormalCell();
+        Cell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
-        Map<Direction, AbstractCell> map = new HashMap<>();
+        Map<Direction, Cell> map = new HashMap<>();
         map.put(direction, neighborCell);
 
         neighborCell.setNeighbors(null);
@@ -87,14 +87,14 @@ class AbstractCellTest {
 
     @Test
     public void test_setNeighborCell_doubleSided() {
-        AbstractCell neighborCell = new NormalCell();
+        Cell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
-        Map<Direction, AbstractCell> map = new HashMap<>();
+        Map<Direction, Cell> map = new HashMap<>();
         neighborCell.setNeighbors(null);
         map.put(direction, neighborCell);
 
-        Map<Direction, AbstractCell> map2 = new HashMap<>();
+        Map<Direction, Cell> map2 = new HashMap<>();
         cell.setNeighbors(map);
         map2.put(direction.getOppositeDirection(), cell);
 
@@ -105,17 +105,17 @@ class AbstractCellTest {
 
     @Test
     public void test_setNeighborCell_twoTimesInOneDirection() {
-        AbstractCell neighborCell = new NormalCell();
-        AbstractCell anotherCell = new NormalCell();
+        Cell neighborCell = new NormalCell();
+        Cell anotherCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
-        Map<Direction, AbstractCell> map = new HashMap<>();
+        Map<Direction, Cell> map = new HashMap<>();
         neighborCell.setNeighbors(null);
         map.put(direction, neighborCell);
 
         cell.setNeighbors(map);
 
-        Map<Direction, AbstractCell> map2 = new HashMap<>();
+        Map<Direction, Cell> map2 = new HashMap<>();
         anotherCell.setNeighbors(null);
         map2.put(direction, anotherCell);
 
@@ -127,17 +127,17 @@ class AbstractCellTest {
 
     @Test
     public void test_setNeighborCell_alreadyNeighborWithAnotherDirection() {
-        AbstractCell neighborCell = new NormalCell();
+        Cell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
         Direction anotherDirection = Direction.SOUTH;
 
-        Map<Direction, AbstractCell> map = new HashMap<>();
+        Map<Direction, Cell> map = new HashMap<>();
         map.put(direction, neighborCell);
 
         neighborCell.setNeighbors(null);
         cell.setNeighbors(map);
 
-        Map<Direction, AbstractCell> map2 = new HashMap<>();
+        Map<Direction, Cell> map2 = new HashMap<>();
         map2.put(anotherDirection, neighborCell);
 
         assertFalse(cell.setNeighbors(map2));
@@ -149,7 +149,7 @@ class AbstractCellTest {
     public void test_setNeighborCell_setSelfAsNeighbor() {
         Direction direction = Direction.NORTH;
 
-        Map<Direction, AbstractCell> map = new HashMap<>();
+        Map<Direction, Cell> map = new HashMap<>();
         map.put(direction, cell);
 
         assertFalse(cell.setNeighbors(map));
@@ -158,10 +158,10 @@ class AbstractCellTest {
 
     @Test
     public void test_isNeighbor_WhenNeighborCellExists() {
-        AbstractCell neighborCell = new NormalCell();
+        Cell neighborCell = new NormalCell();
         Direction direction = Direction.NORTH;
 
-        Map<Direction, AbstractCell> map = new HashMap<>();
+        Map<Direction, Cell> map = new HashMap<>();
         map.put(direction, neighborCell);
 
         neighborCell.setNeighbors(null);
@@ -214,8 +214,8 @@ class AbstractCellTest {
     @Test
     public void test_setWall_inNeighborCells() {
         Direction direction = Direction.NORTH;
-        AbstractCell neighborCell = new NormalCell();
-        Map<Direction, AbstractCell> neighborCells = new HashMap<>();
+        Cell neighborCell = new NormalCell();
+        Map<Direction, Cell> neighborCells = new HashMap<>();
         neighborCells.put(direction, neighborCell);
 
         neighborCell.setNeighbors(null);
@@ -232,8 +232,8 @@ class AbstractCellTest {
     @Test
     public void test_setWall_InNeighborCellsWithSameDirectionAndAnotherWallSegment() {
         Direction direction = Direction.NORTH;
-        AbstractCell neighborCell = new NormalCell();
-        Map<Direction, AbstractCell> neighborCells = new HashMap<>();
+        Cell neighborCell = new NormalCell();
+        Map<Direction, Cell> neighborCells = new HashMap<>();
         neighborCells.put(direction, neighborCell);
 
         neighborCell.setNeighbors(null);
@@ -253,8 +253,8 @@ class AbstractCellTest {
     @Test
     public void test_setWall_InNeighborCellsWithSameWallSegmentAndAnotherDirection() {
         Direction direction = Direction.NORTH;
-        AbstractCell neighborCell = new NormalCell();
-        Map<Direction, AbstractCell> neighborCells = new HashMap<>();
+        Cell neighborCell = new NormalCell();
+        Map<Direction, Cell> neighborCells = new HashMap<>();
         neighborCells.put(direction, neighborCell);
 
         neighborCell.setNeighbors(null);

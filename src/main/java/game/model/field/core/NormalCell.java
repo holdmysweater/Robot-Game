@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Ячейка выхода.
  */
-public class NormalCell extends AbstractCell {
+public class NormalCell extends Cell {
 
     //region МЛЕНЬКИЙ ОБЪЕКТ
 

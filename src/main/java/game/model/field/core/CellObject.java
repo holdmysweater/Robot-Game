@@ -12,14 +12,14 @@ public abstract class CellObject {
     /**
      * Позиция объекта.
      */
-    private AbstractCell position;
+    private Cell position;
 
     /**
      * Получить позицию объекта {@link CellObject#position}.
      *
      * @return позиция объекта.
      */
-    public AbstractCell getPosition() {
+    public Cell getPosition() {
         return position;
     }
 
@@ -29,7 +29,7 @@ public abstract class CellObject {
      * @param position позиция.
      * @return установлена ли позиция.
      */
-    boolean setPosition(@NotNull AbstractCell position) {
+    boolean setPosition(@NotNull Cell position) {
         if (!canSetPosition(position)) {
             return false;
         }
@@ -44,7 +44,7 @@ public abstract class CellObject {
      * @param cell позиция.
      * @return может ли объект располагаться в указанной позиции.
      */
-    protected abstract boolean canSetPosition(@NotNull AbstractCell cell);
+    protected abstract boolean canSetPosition(@NotNull Cell cell);
 
     /**
      * Удалить позицию у объекта {@link CellObject#position}.
