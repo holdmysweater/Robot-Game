@@ -1,5 +1,8 @@
 package game.model.field.core;
 
+import game.model.field.cell_objects.InteractiveCellObject;
+import game.model.field.cell_objects.NonStationaryCellObject;
+import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.RobotActionEvent;
 import game.model.events.RobotActionListener;

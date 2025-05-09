@@ -1,5 +1,9 @@
 package game.ui;
 
+import game.model.field.cell_objects.InteractiveCellObject;
+import game.model.field.cell_objects.NonInteractiveCellObject;
+import game.model.field.cell_objects.NonStationaryCellObject;
+import game.model.field.cell_objects.SmallCellObject;
 import game.model.field.core.ExitPoint;
 import game.model.field.core.*;
 import game.model.field.core.Robot;
