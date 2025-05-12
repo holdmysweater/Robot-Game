@@ -17,8 +17,8 @@ public class Field {
     /**
      * Конструктор.
      *
-     * @param width     ширина. Должна быть > 0.
-     * @param height    высота. Должна быть > 0.
+     * @param width  ширина. Должна быть > 0.
+     * @param height высота. Должна быть > 0.
      * @throws IllegalArgumentException если ширина, высота или координата ячейки переданы некорректные.
      */
     public Field(int width, int height) {
