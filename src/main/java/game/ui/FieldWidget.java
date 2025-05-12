@@ -13,6 +13,8 @@ import javax.swing.*;
 
 public class FieldWidget extends JPanel {
 
+    // region КОНСТРУКТОРЫ
+
     private final Field field;
     private final WidgetFactory widgetFactory;
 
@@ -24,6 +26,10 @@ public class FieldWidget extends JPanel {
         subscribeOnRobots();
         field.addFieldActionListener(new FieldController());
     }
+
+    //endregion
+
+    // region СОЗДАНИЕ ПОЛЯ
 
     private void fillField() {
         if(field.getHeight() > 0) {
@@ -76,6 +82,10 @@ public class FieldWidget extends JPanel {
         return row;
     }
 
+    //endregion
+
+    //region СЛУШАТЕЛЬ РОБОТА
+
     private void subscribeOnRobots() {
         Robot robot = field.getRobot();
         robot.addRobotActionListener(new RobotController());
@@ -105,6 +115,10 @@ public class FieldWidget extends JPanel {
         }
     }
 
+    //endregion
+
+    //region СЛУШАТЕЛЬ ПОЛЯ
+
     private class FieldController implements FieldActionListener {
 
         @Override
@@ -116,4 +130,7 @@ public class FieldWidget extends JPanel {
             teleportWidget.removeItem(robotWidget);
         }
     }
+
+    //endregion
+
 }
