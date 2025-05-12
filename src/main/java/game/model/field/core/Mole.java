@@ -3,24 +3,12 @@ package game.model.field.core;
 import game.model.events.GameTickListener;
 import game.model.events.MoleActionListener;
 import game.model.field.cell_objects.NonInteractiveCellObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Mole implements GameTickListener {
-
-    //region КОНСТРУКТОР
-
-    /**
-     * Конструктор крота.
-     *
-     * @param field поле.
-     */
-    public Mole(Field field) {
-        this.field = field;
-    }
-
-    //endregion
 
     //region РЫТЬ ЯМУ
 
@@ -29,10 +17,6 @@ public class Mole implements GameTickListener {
      */
     private static int PROBABILITY = 25;
 
-    /**
-     * Поле.
-     */
-    private Field field;
 
     /**
      * Разбудить крота.
@@ -75,7 +59,43 @@ public class Mole implements GameTickListener {
      * @return Ячейка, если удалось её найти. В противном случае null.
      */
     private Cell findCellForHole() {
+        if (this.field == null) {
+            return null;
+        }
         return this.field.getEmptyCell();
+    }
+
+    //endregion
+
+    //region ПОЛЕ
+
+    /**
+     * Поле.
+     */
+    private Field field;
+
+    /**
+     * Заселить крота на поле.
+     *
+     * @param field поле.
+     * @return успешность.
+     */
+    boolean setField(@NotNull Field field) {
+        if (!this.canSetField(field)) {
+            return false;
+        }
+        this.field = field;
+        return true;
+    }
+
+    /**
+     * Может заселиться на поле.
+     *
+     * @param field поле.
+     * @return может заселиться на поле.
+     */
+    private boolean canSetField(@NotNull Field field) {
+        return this.field == null || this.field == field;
     }
 
     //endregion

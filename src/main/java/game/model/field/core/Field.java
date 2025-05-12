@@ -164,6 +164,41 @@ public class Field {
 
     //endregion
 
+    //region КРОТЫ
+
+    /**
+     * Множество заселённых на поле кротов.
+     */
+    private Set<Mole> moles = new HashSet<>();
+
+    /**
+     * Получить множество заселённый кротов.
+     *
+     * @return множество кротов.
+     */
+    public Set<Mole> getMoles() {
+        return Collections.unmodifiableSet(moles);
+    }
+
+    /**
+     * Заселить крота.
+     *
+     * @param mole крот.
+     * @return удалось заселить крота.
+     */
+    public boolean addMole(Mole mole) {
+        if (moles.contains(mole)) {
+            return true;
+        }
+        if (!mole.setField(this)) {
+            return false;
+        }
+        moles.add(mole);
+        return true;
+    }
+
+    //endregion
+
     //region ТОЧКА ВЫХОДА
 
     /**
