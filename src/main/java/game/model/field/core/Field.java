@@ -122,6 +122,22 @@ public class Field {
         return cells.get(point);
     }
 
+    /**
+     * Получить случайную свободную клетку.
+     *
+     * @return Свободная клетка, если удалось её найти. В противном случае null.
+     */
+    public Cell getEmptyCell() {
+        List<Cell> cellsList = new ArrayList<>(cells.values());
+        Collections.shuffle(cellsList);
+        for (Cell cell : cellsList) {
+            if (cell.isEmpty()) {
+                return cell;
+            }
+        }
+        return null;
+    }
+
     //endregion
 
     //region РОБОТ
