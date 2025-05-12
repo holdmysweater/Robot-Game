@@ -59,7 +59,7 @@ public abstract class Labyrinth {
             Cell cell = obstacles.get(obstacle).getKey();
             Direction direction = obstacles.get(obstacle).getValue();
             boolean result = cell.setNeighborObstacle(direction, obstacle);
-            assert result: "Wall segment " + obstacle + " not set at " + cell + " with direction " + direction;
+            assert result : "Wall segment " + obstacle + " not set at " + cell + " with direction " + direction;
         }
     }
 
