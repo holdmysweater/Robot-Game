@@ -25,6 +25,11 @@ public class SmallLabyrinth extends Labyrinth {
         return 4;
     }
 
+    @Override
+    protected int moleCount() {
+        return 1;
+    }
+
     //endregion
 
     //region СОЗДАНИЕ ОБЪЕКТОВ

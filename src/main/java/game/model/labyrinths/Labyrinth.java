@@ -44,6 +44,7 @@ public abstract class Labyrinth {
     private void populateField(@NotNull Field field) {
         populateWalls(field);
         populateObjects(field);
+        populateMoles(field);
     }
 
     /**
@@ -91,6 +92,19 @@ public abstract class Labyrinth {
         }
     }
 
+    /**
+     * Заселить кротов на поле.
+     *
+     * @param field поле.
+     */
+    private void populateMoles(@NotNull Field field) {
+        for (int i = 0; i < this.moleCount(); i++) {
+            Mole mole = new Mole();
+            boolean success = field.addMole(mole);
+            assert success : "Mole " + mole + " not set in field " + field;
+        }
+    }
+
     //endregion
 
     //region СВОЙСТВА ПОЛЯ
@@ -108,6 +122,13 @@ public abstract class Labyrinth {
      * @return ширина поля.
      */
     protected abstract int fieldWidth();
+
+    /**
+     * Количество кротов на поле.
+     *
+     * @return количество кротов.
+     */
+    protected abstract int moleCount();
 
     //endregion
 

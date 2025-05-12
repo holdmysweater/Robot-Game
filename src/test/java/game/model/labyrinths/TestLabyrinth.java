@@ -25,6 +25,11 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
+    protected int moleCount() {
+        return 1;
+    }
+
+    @Override
     protected Map<CellObject, Cell> createObjects(@NotNull Field field) {
         Map<CellObject, Cell> objects = new HashMap<>();
 
