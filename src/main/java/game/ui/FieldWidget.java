@@ -1,11 +1,8 @@
 package game.ui;
 
+import game.model.events.*;
 import game.model.field.core.*;
 import org.jetbrains.annotations.NotNull;
-import game.model.events.FieldActionEvent;
-import game.model.events.FieldActionListener;
-import game.model.events.RobotActionEvent;
-import game.model.events.RobotActionListener;
 import game.ui.obstacle.BetweenCellsWidget;
 import game.ui.cell.*;
 
@@ -24,6 +21,7 @@ public class FieldWidget extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         fillField();
         subscribeOnRobots();
+        subscribeOnMoles();
         field.addFieldActionListener(new FieldController());
     }
 
@@ -128,6 +126,28 @@ public class FieldWidget extends JPanel {
             CellWidget teleportWidget = widgetFactory.getWidget(teleport);
             CellItemWidget robotWidget = widgetFactory.getWidget(robot);
             teleportWidget.removeItem(robotWidget);
+        }
+    }
+
+    //endregion
+
+    //region СЛУШАТЕЛЬ КРОТА
+
+    private void subscribeOnMoles() {
+        for (Mole mole : field.getMoles()) {
+            mole.addMoleActionListener(new MoleController());
+        }
+    }
+
+    private class MoleController implements MoleActionListener {
+
+        @Override
+        public void digNewHole(@NotNull Hole hole) {
+            CellItemWidget holeWidget = widgetFactory.create(hole);
+            Cell cell = hole.getPosition();
+            CellWidget cellWidget = widgetFactory.getWidget(cell);
+            cellWidget.addItem(holeWidget);
+            cellWidget.revalidate();
         }
     }
 
