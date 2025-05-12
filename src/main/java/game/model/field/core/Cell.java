@@ -10,6 +10,8 @@ import java.util.*;
  */
 public class Cell {
 
+    //region ОБЪЕКТЫ ВНУТРИ КЛЕТКИ
+
     /**
      * Конечные классы иерархии.
      */
