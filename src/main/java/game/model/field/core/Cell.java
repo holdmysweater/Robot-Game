@@ -181,7 +181,7 @@ public class Cell {
      * @return успешность.
      */
     boolean setNeighbors(Map<Direction, Cell> neighborCells) {
-        if (neighborCells != null){
+        if (neighborCells != null) {
             for (Direction direction : neighborCells.keySet()) {
                 if (!setNeighbor(neighborCells.get(direction), direction)) return false;
             }
@@ -201,7 +201,9 @@ public class Cell {
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      */
     private boolean setNeighbor(@NotNull Cell neighborCell, @NotNull Direction direction) {
-        if (this == neighborCell) { return false; }
+        if (this == neighborCell) {
+            return false;
+        }
         BetweenCellsArea area = neighborCell.getNeighborArea(direction.getOppositeDirection());
         return switch (direction) {
             case NORTH -> area.setVerticalNeighbors(neighborCell, this);
@@ -233,7 +235,7 @@ public class Cell {
     /**
      * Задать соседнюю область между ячейками.
      *
-     * @param direction направление.
+     * @param direction    направление.
      * @param neighborArea соседняя область между ячейками.
      * @return успешность.
      */
@@ -280,7 +282,7 @@ public class Cell {
      * Установить соседнее препятствие.
      *
      * @param direction направление.
-     * @param obstacle соседнее препятствие.
+     * @param obstacle  соседнее препятствие.
      * @return успешность.
      */
     public boolean setNeighborObstacle(@NotNull Direction direction, @NotNull BetweenCellObject obstacle) {
