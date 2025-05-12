@@ -114,14 +114,14 @@ public abstract class Labyrinth {
     //region СОЗДАНИЕ ОБЪЕКТОВ
 
     /**
-     * Добавить объекты между ячейками на поле.
+     * Создать объекты между ячейками.
      *
      * @param field поле.
      */
     protected abstract Map<BetweenCellObject, AbstractMap.SimpleEntry<Cell, Direction>> createObstacles(@NotNull Field field);
 
     /**
-     * Добавить объекты на поле.
+     * Создать объекты в ячейках.
      *
      * @param field поле.
      */
