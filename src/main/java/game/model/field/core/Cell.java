@@ -122,6 +122,20 @@ public class Cell {
     }
 
     /**
+     * Проверяет пустая ли клетка.
+     *
+     * @return пустая ли клетка.
+     */
+    public boolean isEmpty() {
+        for (Class<? extends CellObject> type : endOfHierarchyClasses) {
+            if (objects.containsKey(type)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Определить тип объекта в иерархии объектов в ячейке
      *
      * @param object объект
