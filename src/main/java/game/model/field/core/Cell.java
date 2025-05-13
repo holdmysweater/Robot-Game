@@ -127,17 +127,12 @@ public class Cell {
     private Class<? extends CellObject> getType(CellObject object) {
         Class<? extends CellObject> type = object.getClass();
 
-        if (object instanceof SmallCellObject) {
-            type = SmallCellObject.class;
-        }
-        else if (object instanceof NonStationaryCellObject) {
-            type = NonStationaryCellObject.class;
-        }
-        else if (object instanceof InteractiveCellObject) {
-            type = InteractiveCellObject.class;
-        }
-        else if (object instanceof NonInteractiveCellObject) {
-            type = NonInteractiveCellObject.class;
+        switch (object) {
+            case SmallCellObject smallCellObject -> type = SmallCellObject.class;
+            case NonStationaryCellObject nonStationaryCellObject -> type = NonStationaryCellObject.class;
+            case InteractiveCellObject interactiveCellObject -> type = InteractiveCellObject.class;
+            case NonInteractiveCellObject nonInteractiveCellObject -> type = NonInteractiveCellObject.class;
+            default -> {}
         }
 
         return type;
