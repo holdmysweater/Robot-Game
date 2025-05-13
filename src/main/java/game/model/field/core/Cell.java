@@ -118,6 +118,31 @@ public class Cell {
         return result;
     }
 
+    /**
+     * Определить тип объекта в иерархии объектов в ячейке
+     *
+     * @param object объект
+     * @return конечный класс иерархии, если он был определен, иначе CellObject
+     */
+    private Class<? extends CellObject> getType(CellObject object) {
+        Class<? extends CellObject> type = object.getClass();
+
+        if (object instanceof SmallCellObject) {
+            type = SmallCellObject.class;
+        }
+        else if (object instanceof NonStationaryCellObject) {
+            type = NonStationaryCellObject.class;
+        }
+        else if (object instanceof InteractiveCellObject) {
+            type = InteractiveCellObject.class;
+        }
+        else if (object instanceof NonInteractiveCellObject) {
+            type = NonInteractiveCellObject.class;
+        }
+
+        return type;
+    }
+
     //endregion
 
     //region СОСЕДНИЕ ЯЧЕЙКИ
