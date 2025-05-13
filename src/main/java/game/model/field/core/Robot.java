@@ -42,7 +42,7 @@ public class Robot extends NonStationaryCellObject {
 
         Cell newPosition = getPosition().getNeighborCell(direction);
 
-        if (newPosition == null || !newPosition.canSetObject(NonStationaryCellObject.class)) {
+        if (newPosition == null || !newPosition.canSetObject(this.getClass())) {
             return false;
         }
 
