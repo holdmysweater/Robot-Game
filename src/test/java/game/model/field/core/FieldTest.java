@@ -30,7 +30,7 @@ public class FieldTest {
         eventCount = 0;
         field = new Field(2, 2);
         exitPoint = new ExitPoint();
-        field.getCell(new Point(1, 1)).setObject(InteractiveCellObject.class, exitPoint);
+        field.getCell(new Point(1, 1)).setObject(exitPoint);
         field.addFieldActionListener(new FieldObserver());
     }
 
@@ -80,7 +80,7 @@ public class FieldTest {
     @Test
     public void test_getRobotsOnField_oneRobot() {
         Robot robot = new Robot(new Battery());
-        field.getCell(new Point(0, 0)).setObject(NonStationaryCellObject.class, robot);
+        field.getCell(new Point(0, 0)).setObject(robot);
 
         assertEquals(robot, field.getRobot());
     }
@@ -94,7 +94,7 @@ public class FieldTest {
     public void test_TeleportedRobots_oneRobot() {
         Robot robot = new Robot(new Battery());
         Cell cell = field.getCell(new Point(0, 1));
-        cell.setObject(NonStationaryCellObject.class, robot);
+        cell.setObject(robot);
 
         robot.move(Direction.EAST);
 
@@ -107,7 +107,7 @@ public class FieldTest {
         int expectedEventCount = 1;
         Robot robot = new Robot(new Battery());
 
-        field.getCell(new Point(0, 1)).setObject(NonStationaryCellObject.class, robot);
+        field.getCell(new Point(0, 1)).setObject(robot);
 
         robot.move(Direction.EAST);
 

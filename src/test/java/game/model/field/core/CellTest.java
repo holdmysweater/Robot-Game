@@ -4,6 +4,7 @@ import game.model.field.cell_objects.InteractiveCellObject;
 import game.model.field.cell_objects.NonInteractiveCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
 import game.model.field.cell_objects.SmallCellObject;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.model.field.between_cells_objects.WallSegment;
@@ -26,7 +27,7 @@ class CellTest {
     public void test_setRobot_InEmptyCell() {
         Robot robot = new Robot(new Battery());
 
-        cell.setObject(NonStationaryCellObject.class, robot);
+        cell.setObject(robot);
 
         assertEquals(robot, cell.getObject(NonStationaryCellObject.class));
         assertEquals(cell, robot.getPosition());
@@ -36,7 +37,7 @@ class CellTest {
     public void test_takeRobot_FromCellWithRobot() {
         Robot robot = new Robot(new Battery());
 
-        cell.setObject(NonStationaryCellObject.class, robot);
+        cell.setObject(robot);
 
         assertEquals(robot, cell.takeObject(NonStationaryCellObject.class));
         assertNull(robot.getPosition());
@@ -49,9 +50,9 @@ class CellTest {
         Robot robot = new Robot(new Battery());
         Robot newRobot = new Robot(new Battery());
 
-        cell.setObject(NonStationaryCellObject.class, robot);
+        cell.setObject(robot);
 
-        assertFalse(cell.setObject(NonStationaryCellObject.class, newRobot));
+        assertFalse(cell.setObject(newRobot));
         assertEquals(robot, cell.getObject(NonStationaryCellObject.class));
         assertEquals(cell, robot.getPosition());
         assertNull(newRobot.getPosition());
@@ -61,9 +62,9 @@ class CellTest {
     public void test_setRobot_ToCellAgain() {
         Robot robot = new Robot(new Battery());
 
-        cell.setObject(NonStationaryCellObject.class, robot);
+        cell.setObject(robot);
 
-        assertFalse(cell.setObject(NonStationaryCellObject.class, robot));
+        assertFalse(cell.setObject(robot));
         assertEquals(robot, cell.getObject(NonStationaryCellObject.class));
         assertEquals(cell, robot.getPosition());
     }
@@ -281,7 +282,7 @@ class CellTest {
     public void test_setBattery_inEmptyCell() {
         Battery battery = new Battery();
 
-        cell.setObject(SmallCellObject.class, battery);
+        cell.setObject(battery);
         assertEquals(battery, cell.getObject(SmallCellObject.class));
     }
 
@@ -289,28 +290,28 @@ class CellTest {
     public void test_setBattery_inCell() {
         Battery battery = new Battery();
 
-        cell.setObject(SmallCellObject.class, battery);
+        cell.setObject(battery);
         Battery anotherBattery = new Battery();
 
-        assertFalse(cell.setObject(SmallCellObject.class, anotherBattery));
+        assertFalse(cell.setObject(anotherBattery));
     }
 
     @Test
     public void test_setBattery_alreadySetBatteryToAnotherCell() {
         Battery battery = new Battery();
 
-        cell.setObject(SmallCellObject.class, battery);
+        cell.setObject(battery);
 
         Cell anotherCell = new Cell();
 
-        assertFalse(anotherCell.setObject(SmallCellObject.class, battery));
+        assertFalse(anotherCell.setObject(battery));
     }
 
     @Test
     public void test_takeBattery_fromCell(){
         Battery battery = new Battery();
 
-        cell.setObject(SmallCellObject.class, battery);
+        cell.setObject(battery);
 
         assertEquals(battery, cell.takeObject(SmallCellObject.class));
         assertNull(cell.getObject(SmallCellObject.class));
@@ -326,7 +327,7 @@ class CellTest {
     public void test_setExit_inEmptyCell() {
         ExitPoint exitPoint = new ExitPoint();
 
-        cell.setObject(InteractiveCellObject.class, exitPoint);
+        cell.setObject(exitPoint);
         assertEquals(exitPoint, cell.getObject(InteractiveCellObject.class));
     }
 
@@ -334,28 +335,28 @@ class CellTest {
     public void test_setExit_inCell() {
         ExitPoint exitPoint = new ExitPoint();
 
-        cell.setObject(InteractiveCellObject.class, exitPoint);
+        cell.setObject(exitPoint);
         ExitPoint anotherExitPoint = new ExitPoint();
 
-        assertFalse(cell.setObject(InteractiveCellObject.class, anotherExitPoint));
+        assertFalse(cell.setObject(anotherExitPoint));
     }
 
     @Test
     public void test_setExit_alreadySetExitToAnotherCell() {
         ExitPoint exitPoint = new ExitPoint();
 
-        cell.setObject(InteractiveCellObject.class, exitPoint);
+        cell.setObject(exitPoint);
 
         Cell anotherCell = new Cell();
 
-        assertFalse(anotherCell.setObject(InteractiveCellObject.class, exitPoint));
+        assertFalse(anotherCell.setObject(exitPoint));
     }
 
     @Test
     public void test_takeExit_fromCell() {
         ExitPoint exitPoint = new ExitPoint();
 
-        cell.setObject(InteractiveCellObject.class, exitPoint);
+        cell.setObject(exitPoint);
 
         assertEquals(exitPoint, cell.takeObject(InteractiveCellObject.class));
         assertNull(cell.getObject(InteractiveCellObject.class));
@@ -371,7 +372,7 @@ class CellTest {
     public void test_setHole_inEmptyCell() {
         Hole hole = new Hole();
 
-        cell.setObject(NonInteractiveCellObject.class, hole);
+        cell.setObject(hole);
         assertEquals(hole, cell.getObject(NonInteractiveCellObject.class));
     }
 
@@ -379,28 +380,28 @@ class CellTest {
     public void test_setHole_inCell() {
         Hole hole = new Hole();
 
-        cell.setObject(NonInteractiveCellObject.class, hole);
+        cell.setObject(hole);
         Hole anotherHole = new Hole();
 
-        assertFalse(cell.setObject(NonInteractiveCellObject.class, anotherHole));
+        assertFalse(cell.setObject(anotherHole));
     }
 
     @Test
     public void test_setHole_alreadySetHoleToAnotherCell() {
         Hole hole = new Hole();
 
-        cell.setObject(NonInteractiveCellObject.class, hole);
+        cell.setObject(hole);
 
         Cell anotherCell = new Cell();
 
-        assertFalse(anotherCell.setObject(NonInteractiveCellObject.class, hole));
+        assertFalse(anotherCell.setObject(hole));
     }
 
     @Test
     public void test_takeHole_fromCell() {
         Hole hole = new Hole();
 
-        cell.setObject(NonInteractiveCellObject.class, hole);
+        cell.setObject(hole);
 
         assertEquals(hole, cell.takeObject(NonInteractiveCellObject.class));
         assertNull(cell.getObject(NonInteractiveCellObject.class));
@@ -416,28 +417,28 @@ class CellTest {
     @Test
     void test_canSetObject_SmallCellObject_withSmallCellObject() {
         Battery smallObject = new Battery();
-        cell.setObject(SmallCellObject.class, smallObject);
+        cell.setObject(smallObject);
         assertFalse(cell.canSetObject(SmallCellObject.class));
     }
 
     @Test
     void test_canSetObject_SmallCellObject_withNonStationaryObject() {
         Robot nonStationaryObject = new Robot(new Battery());
-        cell.setObject(NonStationaryCellObject.class, nonStationaryObject);
+        cell.setObject(nonStationaryObject);
         assertTrue(cell.canSetObject(SmallCellObject.class));
     }
 
     @Test
     void test_canSetObject_SmallCellObject_withInteractiveObject() {
         ExitPoint interactiveObject = new ExitPoint();
-        cell.setObject(InteractiveCellObject.class, interactiveObject);
+        cell.setObject(interactiveObject);
         assertFalse(cell.canSetObject(SmallCellObject.class));
     }
 
     @Test
     void test_canSetObject_SmallCellObject_withNonInteractiveObject() {
         Hole nonInteractiveObject = new Hole();
-        cell.setObject(NonInteractiveCellObject.class, nonInteractiveObject);
+        cell.setObject(nonInteractiveObject);
         assertFalse(cell.canSetObject(SmallCellObject.class));
     }
 
@@ -445,28 +446,28 @@ class CellTest {
     @Test
     void test_canSetObject_NonStationaryObject_withSmallCellObject() {
         Battery smallObject = new Battery();
-        cell.setObject(SmallCellObject.class, smallObject);
+        cell.setObject(smallObject);
         assertTrue(cell.canSetObject(NonStationaryCellObject.class));
     }
 
     @Test
     void test_canSetObject_NonStationaryObject_withNonStationaryObject() {
         Robot nonStationaryObject = new Robot(new Battery());
-        cell.setObject(NonStationaryCellObject.class, nonStationaryObject);
+        cell.setObject(nonStationaryObject);
         assertFalse(cell.canSetObject(NonStationaryCellObject.class));
     }
 
     @Test
     void test_canSetObject_NonStationaryObject_withInteractiveObject() {
         ExitPoint interactiveObject = new ExitPoint();
-        cell.setObject(InteractiveCellObject.class, interactiveObject);
+        cell.setObject(interactiveObject);
         assertTrue(cell.canSetObject(NonStationaryCellObject.class));
     }
 
     @Test
     void test_canSetObject_NonStationaryObject_withNonInteractiveObject() {
         Hole nonInteractiveObject = new Hole();
-        cell.setObject(NonInteractiveCellObject.class, nonInteractiveObject);
+        cell.setObject(nonInteractiveObject);
         assertFalse(cell.canSetObject(NonStationaryCellObject.class));
     }
 
@@ -474,28 +475,28 @@ class CellTest {
     @Test
     void test_canSetObject_InteractiveObject_withSmallCellObject() {
         Battery smallObject = new Battery();
-        cell.setObject(SmallCellObject.class, smallObject);
+        cell.setObject(smallObject);
         assertFalse(cell.canSetObject(InteractiveCellObject.class));
     }
 
     @Test
     void test_canSetObject_InteractiveObject_withNonStationaryObject() {
         Robot nonStationaryObject = new Robot(new Battery());
-        cell.setObject(NonStationaryCellObject.class, nonStationaryObject);
+        cell.setObject(nonStationaryObject);
         assertTrue(cell.canSetObject(InteractiveCellObject.class));
     }
 
     @Test
     void test_canSetObject_InteractiveObject_withInteractiveObject() {
         ExitPoint interactiveObject = new ExitPoint();
-        cell.setObject(InteractiveCellObject.class, interactiveObject);
+        cell.setObject(interactiveObject);
         assertFalse(cell.canSetObject(InteractiveCellObject.class));
     }
 
     @Test
     void test_canSetObject_InteractiveObject_withNonInteractiveObject() {
         Hole nonInteractiveObject = new Hole();
-        cell.setObject(NonInteractiveCellObject.class, nonInteractiveObject);
+        cell.setObject(nonInteractiveObject);
         assertFalse(cell.canSetObject(InteractiveCellObject.class));
     }
 
@@ -503,28 +504,40 @@ class CellTest {
     @Test
     void test_canSetObject_NonInteractiveObject_withSmallCellObject() {
         Battery smallObject = new Battery();
-        cell.setObject(SmallCellObject.class, smallObject);
+        cell.setObject(smallObject);
         assertFalse(cell.canSetObject(NonInteractiveCellObject.class));
     }
 
     @Test
     void test_canSetObject_NonInteractiveObject_withNonStationaryObject() {
         Robot nonStationaryObject = new Robot(new Battery());
-        cell.setObject(NonStationaryCellObject.class, nonStationaryObject);
+        cell.setObject(nonStationaryObject);
         assertFalse(cell.canSetObject(NonInteractiveCellObject.class));
     }
 
     @Test
     void test_canSetObject_NonInteractiveObject_withInteractiveObject() {
         ExitPoint interactiveObject = new ExitPoint();
-        cell.setObject(InteractiveCellObject.class, interactiveObject);
+        cell.setObject(interactiveObject);
         assertFalse(cell.canSetObject(NonInteractiveCellObject.class));
     }
 
     @Test
     void test_canSetObject_NonInteractiveObject_withNonInteractiveObject() {
         Hole nonInteractiveObject = new Hole();
-        cell.setObject(NonInteractiveCellObject.class, nonInteractiveObject);
+        cell.setObject(nonInteractiveObject);
         assertFalse(cell.canSetObject(NonInteractiveCellObject.class));
+    }
+
+    @Test
+    void test_setObject_CellObject() {
+        CellObject cellObject = new CellObject() {
+            @Override
+            protected boolean canSetPosition(@NotNull Cell cell) {
+                return true;
+            }
+        };
+        cell.setObject(cellObject);
+        assertFalse(cell.setObject(cellObject));
     }
 }

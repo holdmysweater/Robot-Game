@@ -75,16 +75,16 @@ public abstract class Labyrinth {
             boolean correct = false;
 
             if (object instanceof SmallCellObject) {
-                correct = objects.get(object).setObject(SmallCellObject.class, object);
+                correct = objects.get(object).setObject(object);
             }
             else if (object instanceof NonStationaryCellObject) {
-                correct = objects.get(object).setObject(NonStationaryCellObject.class, object);
+                correct = objects.get(object).setObject(object);
             }
             else if (object instanceof InteractiveCellObject) {
-                correct = objects.get(object).setObject(InteractiveCellObject.class, object);
+                correct = objects.get(object).setObject(object);
             }
             else if (object instanceof NonInteractiveCellObject) {
-                correct = objects.get(object).setObject(NonInteractiveCellObject.class, object);
+                correct = objects.get(object).setObject(object);
             }
 
             assert correct : "Object can't set at cell";

@@ -53,12 +53,13 @@ public class Cell {
     /**
      * Поместить объект в ячейку {@link Cell#objects}.
      *
-     * @param type класс объекта.
      * @param object объект, добавляемый в ячейку.
      * @return успешность.
      * @throws IllegalArgumentException если запрашиваемый класс не является поддерживаемым абстрактным классом.
      */
-    public boolean setObject(@NotNull Class<? extends CellObject> type, @NotNull CellObject object) {
+    public boolean setObject(@NotNull CellObject object) {
+        Class<? extends CellObject> type = getType(object);
+
         if (!endOfHierarchyClasses.contains(type) || !this.canSetObject(type)) {
             return false;
         }

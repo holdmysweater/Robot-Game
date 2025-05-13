@@ -61,7 +61,7 @@ class BatteryTest {
     public void test_canLocateAtPosition_inCellWithBattery() {
         Battery anotherBattery = new Battery();
         Cell cellWithPowerSupply = new Cell();
-        cellWithPowerSupply.setObject(SmallCellObject.class, anotherBattery);
+        cellWithPowerSupply.setObject(anotherBattery);
 
         boolean result = battery.canSetPosition(cellWithPowerSupply);
 
@@ -71,7 +71,7 @@ class BatteryTest {
     @Test
     public void test_canLocateAtPosition_alreadyHavePosition() {
         Cell cellWithPowerSupply = new Cell();
-        cellWithPowerSupply.setObject(SmallCellObject.class, battery);
+        cellWithPowerSupply.setObject(battery);
 
         boolean result = battery.canSetPosition(cellWithPowerSupply);
 

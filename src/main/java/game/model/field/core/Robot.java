@@ -56,7 +56,7 @@ public class Robot extends NonStationaryCellObject {
 
         oldPosition.takeObject(NonStationaryCellObject.class);
 
-        success = newPosition.setObject(NonStationaryCellObject.class, this);
+        success = newPosition.setObject(this);
 
         if (!success) {
             throw new RuntimeException("Robot can't move to the " + newPosition);
