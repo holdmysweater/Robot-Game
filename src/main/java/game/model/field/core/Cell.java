@@ -233,6 +233,15 @@ public class Cell {
     }
 
     /**
+     * Получить множество соседних областей ячейки.
+     *
+     * @return множество соседних областей ячейки.
+     */
+    public Map<Direction, BetweenCellsArea> getNeighborAreas() {
+        return Collections.unmodifiableMap(neighborAreas);
+    }
+
+    /**
      * Задать соседнюю область между ячейками.
      *
      * @param direction    направление.
