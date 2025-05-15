@@ -173,62 +173,9 @@ public class Game implements GameTickListener {
 
     //endregion
 
-    //region ИГРОВЫЕ ТИКИ
-
-    /**
-     * Временной интервал между тиками игры в миллисекундах.
-     */
-    private static final int TICK_DELAY = 100;
-
-    /**
-     * Генератор игровых тиков.
-     */
-    private final GameTickGenerator gameTickGenerator;
-
-
-    @Override
-    public void gameTick() {
-        this.fireNewGameTick();
-    }
-
-    //region СЛУШАТЕЛИ ТИКОВ
-    /**
-     * Список слушателей тиков игры.
-     */
-    private final ArrayList<GameTickListener> gameTickListeners = new ArrayList<>();
-
-    /**
-     * Добавить нового слушателя события тик игры.
-     *
-     * @param listener слушатель.
-     */
-    private void addTickListener(@NotNull GameTickListener listener) {
-        gameTickListeners.add(listener);
-    }
-
-    /**
-     * Удалить слушателя событий тик игры
-     *
-     * @param listener слушатель.
-     */
-    private void removeTickListener(@NotNull GameTickListener listener) {
-        gameTickListeners.remove(listener);
-    }
-
-    /**
-     * Оповестить слушателей {@link Game#gameTickListeners}, о новом тике игры.
-     */
-    private void fireNewGameTick() {
-        for (GameTickListener listener : gameTickListeners) {
-            listener.gameTick();
-        }
-    }
-
-    //endregion
-
-    //endregion
-
     //region СИГНАЛЫ
+
+    //region РОБОТ
 
     /**
      * Список слушателей, подписанных на события игры.
@@ -292,6 +239,63 @@ public class Game implements GameTickListener {
             listener.gameStatusChanged(event);
         }
     }
+
+    //endregion
+
+    //region ИГРОВЫЕ ТИКИ
+
+    /**
+     * Временной интервал между тиками игры в миллисекундах.
+     */
+    private static final int TICK_DELAY = 100;
+
+    /**
+     * Генератор игровых тиков.
+     */
+    private final GameTickGenerator gameTickGenerator;
+
+
+    @Override
+    public void gameTick() {
+        this.fireNewGameTick();
+    }
+
+    //region СЛУШАТЕЛИ ТИКОВ
+    /**
+     * Список слушателей тиков игры.
+     */
+    private final ArrayList<GameTickListener> gameTickListeners = new ArrayList<>();
+
+    /**
+     * Добавить нового слушателя события тик игры.
+     *
+     * @param listener слушатель.
+     */
+    private void addTickListener(@NotNull GameTickListener listener) {
+        gameTickListeners.add(listener);
+    }
+
+    /**
+     * Удалить слушателя событий тик игры
+     *
+     * @param listener слушатель.
+     */
+    private void removeTickListener(@NotNull GameTickListener listener) {
+        gameTickListeners.remove(listener);
+    }
+
+    /**
+     * Оповестить слушателей {@link Game#gameTickListeners}, о новом тике игры.
+     */
+    private void fireNewGameTick() {
+        for (GameTickListener listener : gameTickListeners) {
+            listener.gameTick();
+        }
+    }
+
+    //endregion
+
+    //endregion
 
     //endregion
 }
