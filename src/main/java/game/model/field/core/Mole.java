@@ -24,6 +24,7 @@ public class Mole implements GameTickListener {
      * @return Яма, если была вырыта. В противном случае null.
      */
     private Hole wakeUp() {
+        System.out.println("Mole" + this + ": wake up");
         Random rand = new Random();
         if (rand.nextInt(1, 101) <= PROBABILITY) {
             return this.digHole();
@@ -38,6 +39,7 @@ public class Mole implements GameTickListener {
      * @return Яма, если удалось её вырыть. В противном случае null.
      */
     private Hole digHole() {
+        System.out.println("Mole" + this + ": dig hole start");
         Cell cell = this.findCellForHole();
         if (cell == null) {
             return null;
@@ -49,6 +51,7 @@ public class Mole implements GameTickListener {
             return null;
         }
         this.fireMoleDigNewHole(hole);
+        System.out.println("Mole" + this + ": dig hole success");
         return hole;
     }
 
