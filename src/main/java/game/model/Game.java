@@ -1,5 +1,7 @@
 package game.model;
 
+import game.model.field.core.Hole;
+import game.model.field.core.Mole;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.*;
 import game.model.field.core.Field;
@@ -47,6 +49,9 @@ public class Game implements GameTickListener {
         }
 
         getRobot().addRobotActionListener(new RobotObserver());
+        for (Mole mole : gameField.getMoles()) {
+            mole.addMoleActionListener(new MoleObserver());
+        }
 
         this.gameTickGenerator.start();
     }
@@ -103,6 +108,9 @@ public class Game implements GameTickListener {
             } else {
                 status = GameStatus.LOSS;
             }
+            this.gameTickGenerator.stop();
+        } else if (!getGameField().canRobotGoToExitCell()) {
+            status = GameStatus.LOSS;
             this.gameTickGenerator.stop();
         }
 
@@ -172,6 +180,15 @@ public class Game implements GameTickListener {
         }
     }
 
+    /**
+     * Класс, реализующий наблюдение за событиями {@link Mole}
+     */
+    private class MoleObserver implements MoleActionListener {
+        @Override
+        public void digNewHole(@NotNull Hole hole) {
+            updateGameStatusWithDelay();
+        }
+    }
     //endregion
 
     //region СИГНАЛЫ
