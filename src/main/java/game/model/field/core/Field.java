@@ -1,6 +1,7 @@
 package game.model.field.core;
 
 import game.model.field.cell_objects.InteractiveCellObject;
+import game.model.field.cell_objects.NonInteractiveCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.*;
@@ -342,6 +343,48 @@ public class Field implements GameTickListener {
         }
     }
     //endregion
+
+    //endregion
+
+    //region ПРОВЕРКА МАРШРУТА
+
+    public boolean canRobotGoToExitCell() {
+        if (getRobot().isTeleported()) {
+            return true;
+        }
+        Cell robotCell = getRobot().getPosition();
+        if (robotCell == null) {
+            return false;
+        }
+        return canRobotGoFromTo(getRobot().getPosition(), getExitPoint().getPosition());
+    }
+
+    private boolean canRobotGoFromTo(@NotNull Cell startCell, @NotNull Cell endCell) {
+        List<Cell> queue = new LinkedList<>();
+        Set<Cell> visited = new HashSet<>();
+
+        queue.add(startCell);
+        while (!queue.isEmpty()) {
+            Cell cell = queue.removeFirst();
+            if (cell.equals(endCell)) {
+                return true;
+            }
+            visited.add(cell);
+            for (Map.Entry<Direction, BetweenCellsArea> entry : cell.getNeighborAreas().entrySet()) {
+                if (entry.getValue().getObstacle() == null) {
+                    Cell neigborCell = entry.getValue().getNeighborCell(entry.getKey());
+                    if (neigborCell == null) {
+                        continue;
+                    }
+                    if (neigborCell.getObject(NonInteractiveCellObject.class) == null && !visited.contains(neigborCell)) {
+                        queue.add(neigborCell);
+                        visited.add(neigborCell);
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     //endregion
 
