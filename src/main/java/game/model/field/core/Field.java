@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * Поле.
  */
-public class Field {
+public class Field implements GameTickListener {
 
     //region КОНСТРУКТОРЫ
 
@@ -194,6 +194,7 @@ public class Field {
             return false;
         }
         moles.add(mole);
+        this.addTickListener(mole);
         return true;
     }
 

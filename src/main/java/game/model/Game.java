@@ -18,6 +18,7 @@ public class Game implements GameTickListener {
 
     public Game(Labyrinth labyrinth) {
         this.gameTickGenerator = new GameTickGenerator(TICK_DELAY);
+        this.gameTickGenerator.addTickListener(this);
         start(labyrinth);
     }
 
@@ -34,7 +35,7 @@ public class Game implements GameTickListener {
         setStatus(GameStatus.GAME_IS_ON);
 
         gameField = labyrinth.createField();
-
+        this.addTickListener(gameField);
         gameField.addFieldActionListener(new FieldObserver());
 
         if (gameField == null) {
