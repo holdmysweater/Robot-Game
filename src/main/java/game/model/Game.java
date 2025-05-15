@@ -106,11 +106,11 @@ public class Game implements GameTickListener {
             if (getRobot().isTeleported()) {
                 status = GameStatus.WIN;
             } else {
-                status = GameStatus.LOSS;
+                status = GameStatus.LOSS_NO_CHARGE;
             }
             this.gameTickGenerator.stop();
         } else if (!getGameField().canRobotGoToExitCell()) {
-            status = GameStatus.LOSS;
+            status = GameStatus.LOSS_NO_WIN_PATH;
             this.gameTickGenerator.stop();
         }
 

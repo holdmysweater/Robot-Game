@@ -109,7 +109,7 @@ public class GameTest {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        assertEquals(GameStatus.LOSS, game.getStatus());
+        assertEquals(GameStatus.LOSS_NO_CHARGE, game.getStatus());
     }
 
     @Test

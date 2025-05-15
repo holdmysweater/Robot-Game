@@ -112,8 +112,11 @@ public class Main {
                         case GAME_ABORTED:
                             message = "Игра завершена досрочно";
                             break;
-                        case LOSS:
+                        case LOSS_NO_CHARGE:
                             message = "Робот имеет нулевой заряд";
+                            break;
+                        case LOSS_NO_WIN_PATH:
+                            message = "Робот больше не может добраться в точку выхода.";
                             break;
                     }
 
