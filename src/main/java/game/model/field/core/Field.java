@@ -302,6 +302,46 @@ public class Field {
 
     //endregion
 
+    //region ИГРОВЫЕ ТИКИ
+
+    @Override
+    public void gameTick() {
+        this.fireNewGameTick();
+    }
+
+    /**
+     * Список слушателей тиков игры.
+     */
+    private final ArrayList<GameTickListener> gameTickListeners = new ArrayList<>();
+
+    /**
+     * Добавить нового слушателя события тик игры.
+     *
+     * @param listener слушатель.
+     */
+    private void addTickListener(@NotNull GameTickListener listener) {
+        gameTickListeners.add(listener);
+    }
+
+    /**
+     * Удалить слушателя событий тик игры
+     *
+     * @param listener слушатель.
+     */
+    private void removeTickListener(@NotNull GameTickListener listener) {
+        gameTickListeners.remove(listener);
+    }
+
+    /**
+     * Оповестить слушателей {@link Field#gameTickListeners}, о новом тике игры.
+     */
+    private void fireNewGameTick() {
+        for (GameTickListener listener : gameTickListeners) {
+            listener.gameTick();
+        }
+    }
+    //endregion
+
     //endregion
 
     //region OBJECT
