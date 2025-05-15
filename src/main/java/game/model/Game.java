@@ -248,7 +248,7 @@ public class Game implements GameTickListener {
     /**
      * Временной интервал между тиками игры в миллисекундах.
      */
-    private static final int TICK_DELAY = 100;
+    private static final int TICK_DELAY = 1000;
 
     /**
      * Генератор игровых тиков.
