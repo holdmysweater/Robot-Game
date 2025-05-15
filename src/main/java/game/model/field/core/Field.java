@@ -259,6 +259,8 @@ public class Field {
 
     //region СИГНАЛЫ
 
+    //region ПОЛЕ
+
     /**
      * Список слушателей, подписанных на события поля.
      */
@@ -297,6 +299,8 @@ public class Field {
             listener.robotIsTeleported(event);
         }
     }
+
+    //endregion
 
     //endregion
 
