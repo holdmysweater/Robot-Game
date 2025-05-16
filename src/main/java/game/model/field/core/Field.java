@@ -224,14 +224,14 @@ public class Field implements GameTickListener {
     }
 
     /**
-     * Инициализирована ли точка выхода
+     * Инициализирован ли слушатель точки выхода
      */
     boolean isInitiatedExitPoint = false;
 
     /**
      * Добавить слушателя на точку выхода.
      */
-    void InitiateExitPoint() {
+    void InitiateExitPointListener() {
         if (isInitiatedExitPoint) return;
 
         if (getExitPoint() == null) {
@@ -274,7 +274,7 @@ public class Field implements GameTickListener {
      * @param listener слушатель.
      */
     public void addFieldActionListener(FieldActionListener listener) {
-        InitiateExitPoint();
+        InitiateExitPointListener();
         fieldListListener.add(listener);
     }
 
