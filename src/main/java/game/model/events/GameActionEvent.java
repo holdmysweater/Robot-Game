@@ -11,6 +11,22 @@ import java.util.EventObject;
  */
 public class GameActionEvent extends EventObject {
 
+    //region КОНСТРУКТОР
+
+    /**
+     * Создаёт событие.
+     *
+     * @param source объект, на котором изначально произошло событие
+     * @throws IllegalArgumentException если source равен null
+     */
+    public GameActionEvent(Object source) {
+        super(source);
+    }
+
+    //endregion
+
+    //region РОБОТ
+
     /**
      * Робот.
      */
@@ -33,6 +49,10 @@ public class GameActionEvent extends EventObject {
     public Robot getRobot() {
         return robot;
     }
+
+    //endregion
+
+    //region СТАТУС ИГРЫ
 
     /**
      * Статус игры.
@@ -57,13 +77,5 @@ public class GameActionEvent extends EventObject {
         this.status = status;
     }
 
-    /**
-     * Constructs a prototypical Event.
-     *
-     * @param source the object on which the Event initially occurred
-     * @throws IllegalArgumentException if source is null
-     */
-    public GameActionEvent(Object source) {
-        super(source);
-    }
+    //endregion
 }
