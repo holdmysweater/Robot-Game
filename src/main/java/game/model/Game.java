@@ -53,6 +53,7 @@ public class Game {
             mole.addMoleActionListener(new MoleObserver());
         }
 
+        getRobot().setUnfrozen(true);
         this.gameTickGenerator.start();
     }
 
@@ -115,6 +116,7 @@ public class Game {
         }
 
         setStatus(status);
+        getRobot().setUnfrozen(status == GameStatus.GAME_IS_ON);
     }
 
     //endregion
@@ -164,6 +166,11 @@ public class Game {
         }
 
         @Override
+        public void robotUnfrozenChanged(@NotNull RobotActionEvent event) {
+            // Not implemented yet
+        }
+
+        @Override
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
             updateGameStatusWithDelay();
         }
@@ -176,6 +183,7 @@ public class Game {
 
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
+            getRobot().setUnfrozen(false);
             fireRobotIsTeleported();
         }
     }

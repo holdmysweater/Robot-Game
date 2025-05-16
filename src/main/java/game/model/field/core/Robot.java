@@ -23,6 +23,35 @@ public class Robot extends NonStationaryCellObject {
      */
     public Robot(@NotNull Battery battery) {
         setBattery(battery);
+        isUnfrozen = false;
+    }
+
+    //endregion
+
+    //region ЗАМОРОЗКА
+
+    /**
+     * Состояние заморозки робота.
+     */
+    private boolean isUnfrozen;
+
+    /**
+     * Разморозить робота {@link Robot#isUnfrozen}.
+     *
+     * @param value состояние разморозки.
+     */
+    public void setUnfrozen(boolean value) {
+        isUnfrozen = value;
+        fireRobotChangeUnfrozen();
+    }
+
+    /**
+     * Получить состояние заморозки робота {@link Robot#isUnfrozen}.
+     *
+     * @return состояние заморозки робота.
+     */
+    public boolean isUnfrozen() {
+        return isUnfrozen;
     }
 
     //endregion
@@ -35,6 +64,10 @@ public class Robot extends NonStationaryCellObject {
      * @param direction направление.
      */
     public boolean move(@NotNull Direction direction) {
+        if (!isUnfrozen()) {
+            return false;
+        }
+
         if (getPosition().getNeighborObstacle(direction) != null) {
             System.out.println("Wall");
             return false;
@@ -149,7 +182,7 @@ public class Robot extends NonStationaryCellObject {
      * Заменить источник питания {@link Robot#battery}.
      */
     public boolean changeBattery() {
-        if (isTeleported()) {
+        if (!isUnfrozen() || isTeleported()) {
             return false;
         }
 
@@ -271,6 +304,18 @@ public class Robot extends NonStationaryCellObject {
 
         for (RobotActionListener listener : robotListListener) {
             listener.robotIsMoved(event);
+        }
+    }
+
+    /**
+     * Оповестить слушателей {@link Robot#robotListListener}, что состояние заморозки робота изменилось.
+     */
+    private void fireRobotChangeUnfrozen() {
+        RobotActionEvent event = new RobotActionEvent(this);
+        event.setRobot(this);
+
+        for (RobotActionListener listener : robotListListener) {
+            listener.robotUnfrozenChanged(event);
         }
     }
 

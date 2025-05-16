@@ -31,6 +31,11 @@ class RobotTest {
         }
 
         @Override
+        public void robotUnfrozenChanged(@NotNull RobotActionEvent event) {
+
+        }
+
+        @Override
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
             // Not implemented yet
         }
@@ -92,6 +97,7 @@ class RobotTest {
     public void test_move_emptyCellInDirectionAndRobotActiveAndEnoughCharge() {
         cell.setObject(robot);
 
+        robot.setUnfrozen(true);
         robot.move(direction);
 
         expectedEvents.add(EVENT.ROBOT_MOVED);
@@ -151,6 +157,7 @@ class RobotTest {
         Battery newBattery = new Battery();
         cell.setObject(newBattery);
 
+        robot.setUnfrozen(true);
         robot.changeBattery();
 
         assertNull(((Cell) cell).getObject(SmallCellObject.class));

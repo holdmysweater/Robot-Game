@@ -96,6 +96,7 @@ public class FieldTest {
         Cell cell = field.getCell(new Point(0, 1));
         cell.setObject(robot);
 
+        robot.setUnfrozen(true);
         robot.move(Direction.EAST);
 
         assertEquals(robot, field.getExitPoint().getTeleportedRobot());
@@ -109,6 +110,7 @@ public class FieldTest {
 
         field.getCell(new Point(0, 1)).setObject(robot);
 
+        robot.setUnfrozen(true);
         robot.move(Direction.EAST);
 
         assertEquals(expectedEventCount, eventCount);
