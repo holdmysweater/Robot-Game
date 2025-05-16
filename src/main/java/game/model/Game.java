@@ -131,8 +131,6 @@ public class Game {
         } else if (!getGameField().canRobotGoToExitCell()) {
             status = GameStatus.LOSS_NO_WIN_PATH;
             stop();
-        } else {
-            getRobot().setUnfrozen(true);
         }
 
         setStatus(status);
@@ -202,7 +200,6 @@ public class Game {
 
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
-            getRobot().setUnfrozen(false);
             fireRobotIsTeleported();
         }
 
