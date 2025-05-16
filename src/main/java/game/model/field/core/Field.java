@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * Поле.
  */
-public class Field implements GameTickListener {
+public class Field {
 
     //region КОНСТРУКТОРЫ
 
@@ -61,6 +61,16 @@ public class Field implements GameTickListener {
 
                 cells.put(p, cell);
             }
+        }
+    }
+
+    //endregion
+
+    //region ОБНОВЛЕНИЕ
+
+    public void update() {
+        for (Mole mole : getMoles()) {
+            mole.update();
         }
     }
 
@@ -196,7 +206,6 @@ public class Field implements GameTickListener {
         }
         mole.addMoleActionListener(new MoleObserver());
         moles.add(mole);
-        this.addTickListener(mole);
         return true;
     }
 
@@ -272,8 +281,6 @@ public class Field implements GameTickListener {
 
     //region СИГНАЛЫ
 
-    //region ПОЛЕ
-
     /**
      * Список слушателей, подписанных на события поля.
      */
@@ -325,48 +332,6 @@ public class Field implements GameTickListener {
             listener.holeWasCreated(event);
         }
     }
-
-    //endregion
-
-    //region ИГРОВЫЕ ТИКИ
-
-    @Override
-    public void gameTick() {
-        this.fireNewGameTick();
-    }
-
-    /**
-     * Список слушателей тиков игры.
-     */
-    private final ArrayList<GameTickListener> gameTickListeners = new ArrayList<>();
-
-    /**
-     * Добавить нового слушателя события тик игры.
-     *
-     * @param listener слушатель.
-     */
-    private void addTickListener(@NotNull GameTickListener listener) {
-        gameTickListeners.add(listener);
-    }
-
-    /**
-     * Удалить слушателя событий тик игры
-     *
-     * @param listener слушатель.
-     */
-    private void removeTickListener(@NotNull GameTickListener listener) {
-        gameTickListeners.remove(listener);
-    }
-
-    /**
-     * Оповестить слушателей {@link Field#gameTickListeners}, о новом тике игры.
-     */
-    private void fireNewGameTick() {
-        for (GameTickListener listener : gameTickListeners) {
-            listener.gameTick();
-        }
-    }
-    //endregion
 
     //endregion
 

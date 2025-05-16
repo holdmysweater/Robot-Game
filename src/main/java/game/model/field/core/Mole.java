@@ -1,6 +1,5 @@
 package game.model.field.core;
 
-import game.model.events.GameTickListener;
 import game.model.events.MoleActionEvent;
 import game.model.events.MoleActionListener;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Mole implements GameTickListener {
+public class Mole {
 
     //region РЫТЬ ЯМУ
 
@@ -17,13 +16,12 @@ public class Mole implements GameTickListener {
      */
     private static int PROBABILITY = 25;
 
-
     /**
      * Обновить крота.
      *
      * @return Яма, если была вырыта. В противном случае null.
      */
-    private Hole update() {
+    Hole update() {
         System.out.println("Mole" + this + ": updated");
         Random rand = new Random();
         if (rand.nextInt(1, 101) <= PROBABILITY) {
@@ -144,14 +142,4 @@ public class Mole implements GameTickListener {
     }
 
     //endregion
-
-    //region ОБРАБОТКА ТИКОВ
-
-    @Override
-    public void gameTick() {
-        update();
-    }
-
-    //endregion
-
 }
