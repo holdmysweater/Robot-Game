@@ -12,6 +12,22 @@ import java.util.EventObject;
  */
 public class FieldActionEvent extends EventObject {
 
+    //region КОНСТРУКТОР
+
+    /**
+     * Создаёт событие.
+     *
+     * @param source объект, на котором изначально произошло событие
+     * @throws IllegalArgumentException если source равен null
+     */
+    public FieldActionEvent(Object source) {
+        super(source);
+    }
+
+    //endregion
+
+    //region ОБЪЕКТ В ЯЧЕЙКЕ
+
     /**
      * Объект в ячейке.
      */
@@ -35,13 +51,5 @@ public class FieldActionEvent extends EventObject {
         return cellObject;
     }
 
-    /**
-     * Constructs a prototypical Event.
-     *
-     * @param source the object on which the Event initially occurred
-     * @throws IllegalArgumentException if source is null
-     */
-    public FieldActionEvent(Object source) {
-        super(source);
-    }
+    //endregion
 }
