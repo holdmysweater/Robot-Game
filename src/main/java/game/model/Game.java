@@ -58,6 +58,14 @@ public class Game {
     }
 
     /**
+     * Остановка игры
+     */
+    private void stop() {
+        this.gameTickGenerator.stop();
+        getRobot().setUnfrozen(false);
+    }
+
+    /**
      * Статус игры.
      */
     private GameStatus gameStatus;
@@ -109,14 +117,15 @@ public class Game {
             } else {
                 status = GameStatus.LOSS_NO_CHARGE;
             }
-            this.gameTickGenerator.stop();
+            stop();
         } else if (!getGameField().canRobotGoToExitCell()) {
             status = GameStatus.LOSS_NO_WIN_PATH;
-            this.gameTickGenerator.stop();
+            stop();
+        } else {
+            getRobot().setUnfrozen(true);
         }
 
         setStatus(status);
-        getRobot().setUnfrozen(status == GameStatus.GAME_IS_ON);
     }
 
     //endregion
