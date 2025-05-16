@@ -12,79 +12,26 @@ import java.util.EventObject;
  */
 public class RobotActionEvent extends EventObject {
 
+    //region КОНСТРУКТОР
+
+    /**
+     * Создаёт событие.
+     *
+     * @param source объект, на котором изначально произошло событие
+     * @throws IllegalArgumentException если source равен null
+     */
+    public RobotActionEvent(Object source) {
+        super(source);
+    }
+
+    //endregion
+
+    //region РОБОТ
+
     /**
      * Робот.
      */
     private Robot robot;
-
-    /**
-     * Ячейка откуда переместился робот {@link RobotActionEvent#robot}.
-     */
-    private Cell fromCell;
-
-    /**
-     * Ячейка куда переместился робот {@link RobotActionEvent#robot}.
-     */
-    private Cell toCell;
-
-    /**
-     * Источник питания.
-     */
-    private Battery battery;
-
-    /**
-     * Установить ячейку {@link RobotActionEvent#fromCell} откуда переместился робот {@link RobotActionEvent#robot}.
-     *
-     * @param fromCell ячейка откуда переместился робот.
-     */
-    public void setFromCell(Cell fromCell) {
-        this.fromCell = fromCell;
-    }
-
-    /**
-     * Получить ячейку {@link RobotActionEvent#fromCell} откуда переместился робот {@link RobotActionEvent#robot}.
-     *
-     * @return ячейка откуда переместился робот.
-     */
-    public Cell getFromCell() {
-        return fromCell;
-    }
-
-    /**
-     * Установить ячейку {@link RobotActionEvent#toCell} куда переместился робот {@link RobotActionEvent#robot}.
-     *
-     * @param toCell ячейка куда переместился робот.
-     */
-    public void setToCell(Cell toCell) {
-        this.toCell = toCell;
-    }
-
-    /**
-     * Получить ячейку {@link RobotActionEvent#toCell} куда переместился робот {@link RobotActionEvent#robot}.
-     *
-     * @return ячейка куда переместился робот.
-     */
-    public Cell getToCell() {
-        return toCell;
-    }
-
-    /**
-     * Установить источник питания {@link RobotActionEvent#battery}.
-     *
-     * @param battery источник питания.
-     */
-    public void setBattery(@NotNull Battery battery) {
-        this.battery = battery;
-    }
-
-    /**
-     * Получить источник питания {@link RobotActionEvent#battery}.
-     *
-     * @return источник питания.
-     */
-    public Battery getBattery() {
-        return battery;
-    }
 
     /**
      * Установить робота {@link RobotActionEvent#robot}.
@@ -104,13 +51,86 @@ public class RobotActionEvent extends EventObject {
         return robot;
     }
 
+    //endregion
+
+    //region СТАРАЯ ПОЗИЦИЯ
+
     /**
-     * Constructs a prototypical Event.
-     *
-     * @param source the object on which the Event initially occurred
-     * @throws IllegalArgumentException if source is null
+     * Ячейка, откуда переместился робот {@link RobotActionEvent#robot}.
      */
-    public RobotActionEvent(Object source) {
-        super(source);
+    private Cell fromCell;
+
+    /**
+     * Установить ячейку {@link RobotActionEvent#fromCell}, откуда переместился робот {@link RobotActionEvent#robot}.
+     *
+     * @param fromCell ячейка, откуда переместился робот.
+     */
+    public void setFromCell(Cell fromCell) {
+        this.fromCell = fromCell;
     }
+
+    /**
+     * Получить ячейку {@link RobotActionEvent#fromCell}, откуда переместился робот {@link RobotActionEvent#robot}.
+     *
+     * @return ячейка, откуда переместился робот.
+     */
+    public Cell getFromCell() {
+        return fromCell;
+    }
+
+    //endregion
+
+    //region НОВАЯ ПОЗИЦИЯ
+
+    /**
+     * Ячейка, куда переместился робот {@link RobotActionEvent#robot}.
+     */
+    private Cell toCell;
+
+    /**
+     * Установить ячейку {@link RobotActionEvent#toCell}, куда переместился робот {@link RobotActionEvent#robot}.
+     *
+     * @param toCell ячейка, куда переместился робот.
+     */
+    public void setToCell(Cell toCell) {
+        this.toCell = toCell;
+    }
+
+    /**
+     * Получить ячейку {@link RobotActionEvent#toCell}, куда переместился робот {@link RobotActionEvent#robot}.
+     *
+     * @return ячейка, куда переместился робот.
+     */
+    public Cell getToCell() {
+        return toCell;
+    }
+
+    //endregion
+
+    //region БАТАРЕЙКА
+
+    /**
+     * Источник питания.
+     */
+    private Battery battery;
+
+    /**
+     * Установить источник питания {@link RobotActionEvent#battery}.
+     *
+     * @param battery источник питания.
+     */
+    public void setBattery(@NotNull Battery battery) {
+        this.battery = battery;
+    }
+
+    /**
+     * Получить источник питания {@link RobotActionEvent#battery}.
+     *
+     * @return источник питания.
+     */
+    public Battery getBattery() {
+        return battery;
+    }
+
+    //endregion
 }
