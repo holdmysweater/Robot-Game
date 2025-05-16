@@ -9,6 +9,22 @@ import java.util.EventObject;
  */
 public class ExitPointActionEvent extends EventObject {
 
+    //region КОНСТРУКТОР
+
+    /**
+     * Создаёт событие.
+     *
+     * @param source объект, на котором изначально произошло событие
+     * @throws IllegalArgumentException если source равен null
+     */
+    public ExitPointActionEvent(Object source) {
+        super(source);
+    }
+
+    //endregion
+
+    //region ТОЧКА ВЫХОДА
+
     /**
      * Точка выхода.
      */
@@ -32,13 +48,5 @@ public class ExitPointActionEvent extends EventObject {
         this.teleport = teleport;
     }
 
-    /**
-     * Constructs a prototypical Event.
-     *
-     * @param source the object on which the Event initially occurred
-     * @throws IllegalArgumentException if source is null
-     */
-    public ExitPointActionEvent(Object source) {
-        super(source);
-    }
+    //endregion
 }
