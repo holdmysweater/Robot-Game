@@ -348,6 +348,11 @@ public class Field implements GameTickListener {
 
     //region ПРОВЕРКА МАРШРУТА
 
+    /**
+     * Может ли робот дойти до точки выхода
+     *
+     * @return может ли робот дойти до точки выхода
+     */
     public boolean canRobotGoToExitCell() {
         if (getRobot().isTeleported()) {
             return true;
@@ -359,6 +364,13 @@ public class Field implements GameTickListener {
         return canRobotGoFromTo(getRobot().getPosition(), getExitPoint().getPosition());
     }
 
+    /**
+     * Может ли робот дойти от заданной начальной ячейки до заданной конечной ячейки
+     *
+     * @param startCell начальная ячейка
+     * @param endCell конечная ячейка
+     * @return может ли робот дойти от заданной начальной ячейки до заданной конечной ячейки
+     */
     private boolean canRobotGoFromTo(@NotNull Cell startCell, @NotNull Cell endCell) {
         List<Cell> queue = new LinkedList<>();
         Set<Cell> visited = new HashSet<>();
