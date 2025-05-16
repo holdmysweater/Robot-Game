@@ -16,10 +16,10 @@ import javax.swing.Timer;
  */
 public class Game {
 
-//region КОНСТРУКТОРЫ
+    //region КОНСТРУКТОРЫ
 
-    public Game(Labyrinth labyrinth) {
-        this.gameTickGenerator = new GameTickGenerator(TICK_DELAY);
+    public Game(Labyrinth labyrinth, int tickDelay) {
+        this.gameTickGenerator = new GameTickGenerator(tickDelay);
         this.gameTickGenerator.addTickListener(new TickObserver());
         start(labyrinth);
     }
@@ -287,11 +287,6 @@ public class Game {
     //endregion
 
     //region ИГРОВЫЕ ТИКИ
-
-    /**
-     * Временной интервал между тиками игры в миллисекундах.
-     */
-    private static final int TICK_DELAY = 1000;
 
     /**
      * Генератор игровых тиков.

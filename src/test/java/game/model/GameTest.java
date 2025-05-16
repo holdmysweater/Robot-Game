@@ -46,7 +46,7 @@ public class GameTest {
         events.clear();
         expectedEvents.clear();
 
-        game = new Game(new TestLabyrinth());
+        game = new Game(new TestLabyrinth(), 1000);
         game.addGameActionListener(new EventListener());
     }
 
