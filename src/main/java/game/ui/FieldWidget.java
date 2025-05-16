@@ -128,7 +128,7 @@ public class FieldWidget extends JPanel {
 
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
-            Robot robot = event.getRobot();
+            Robot robot = (Robot) event.getCellObject();
             Cell teleport = robot.getPosition();
             CellWidget teleportWidget = widgetFactory.getWidget(teleport);
             CellItemWidget robotWidget = widgetFactory.getWidget(robot);

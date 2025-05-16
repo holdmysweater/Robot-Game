@@ -1,6 +1,6 @@
 package game.model.events;
 
-import game.model.field.core.ExitPoint;
+import game.model.field.core.CellObject;
 import game.model.field.core.Field;
 import org.jetbrains.annotations.NotNull;
 import game.model.field.core.Robot;
@@ -13,49 +13,26 @@ import java.util.EventObject;
 public class FieldActionEvent extends EventObject {
 
     /**
-     * Робот.
+     * Объект в ячейке.
      */
-    private Robot robot;
+    private CellObject cellObject;
 
     /**
-     * Установить робота {@link FieldActionEvent#robot}.
+     * Установить объект {@link FieldActionEvent#cellObject}.
      *
-     * @param robot робот.
+     * @param cellObject объект.
      */
-    public void setRobot(@NotNull Robot robot) {
-        this.robot = robot;
+    public void setCellObject(@NotNull CellObject cellObject) {
+        this.cellObject = cellObject;
     }
 
     /**
-     * Получить робота {@link FieldActionEvent#robot}.
+     * Получить объект {@link FieldActionEvent#cellObject}.
      *
-     * @return робот
+     * @return объект.
      */
-    public Robot getRobot() {
-        return robot;
-    }
-
-    /**
-     * Точка выхода.
-     */
-    private ExitPoint teleport;
-
-    /**
-     * Получить точку выхода {@link FieldActionEvent#teleport}.
-     *
-     * @return точка выхода.
-     */
-    public ExitPoint getTeleport() {
-        return teleport;
-    }
-
-    /**
-     * Установить точка выхода {@link FieldActionEvent#teleport}.
-     *
-     * @param teleport точка выхода.
-     */
-    public void setTeleport(ExitPoint teleport) {
-        this.teleport = teleport;
+    public CellObject getCellObject() {
+        return cellObject;
     }
 
     /**

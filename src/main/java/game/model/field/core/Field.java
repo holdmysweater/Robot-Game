@@ -294,8 +294,7 @@ public class Field implements GameTickListener {
      */
     private void fireRobotIsTeleported(@NotNull ExitPoint teleport) {
         FieldActionEvent event = new FieldActionEvent(this);
-        event.setRobot(teleport.getTeleportedRobot());
-        event.setTeleport(teleport);
+        event.setCellObject(teleport.getTeleportedRobot());
 
         for (FieldActionListener listener : fieldListListener) {
             listener.robotIsTeleported(event);
