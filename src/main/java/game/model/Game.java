@@ -14,13 +14,13 @@ import javax.swing.Timer;
 /**
  * Игра.
  */
-public class Game implements GameTickListener {
+public class Game {
 
 //region КОНСТРУКТОРЫ
 
     public Game(Labyrinth labyrinth) {
         this.gameTickGenerator = new GameTickGenerator(TICK_DELAY);
-        this.gameTickGenerator.addTickListener(this);
+        this.gameTickGenerator.addTickListener(new TickObserver());
         start(labyrinth);
     }
 
@@ -189,6 +189,15 @@ public class Game implements GameTickListener {
             updateGameStatusWithDelay();
         }
     }
+
+    private class TickObserver implements GameTickListener {
+
+        @Override
+        public void gameTick() {
+            fireNewGameTick();
+        }
+    }
+
     //endregion
 
     //region СИГНАЛЫ
@@ -271,12 +280,6 @@ public class Game implements GameTickListener {
      * Генератор игровых тиков.
      */
     private final GameTickGenerator gameTickGenerator;
-
-
-    @Override
-    public void gameTick() {
-        this.fireNewGameTick();
-    }
 
     //region СЛУШАТЕЛИ ТИКОВ
     /**
