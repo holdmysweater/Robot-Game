@@ -19,12 +19,12 @@ public class Mole implements GameTickListener {
 
 
     /**
-     * Разбудить крота.
+     * Обновить крота.
      *
      * @return Яма, если была вырыта. В противном случае null.
      */
-    private Hole wakeUp() {
-        System.out.println("Mole" + this + ": wake up");
+    private Hole update() {
+        System.out.println("Mole" + this + ": updated");
         Random rand = new Random();
         if (rand.nextInt(1, 101) <= PROBABILITY) {
             return this.digHole();
@@ -149,7 +149,7 @@ public class Mole implements GameTickListener {
 
     @Override
     public void gameTick() {
-        wakeUp();
+        update();
     }
 
     //endregion
