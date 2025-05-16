@@ -16,4 +16,11 @@ public interface FieldActionListener extends EventListener {
      * @param event объект события класса поля.
      */
     void robotIsTeleported(@NotNull FieldActionEvent event);
+
+    /**
+     * Вырыта яма
+     *
+     * @param event объект события класса поля.
+     */
+    void holeWasCreated(@NotNull FieldActionEvent event);
 }

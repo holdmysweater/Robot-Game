@@ -1,7 +1,5 @@
 package game.model;
 
-import game.model.field.core.Hole;
-import game.model.field.core.Mole;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.*;
 import game.model.field.core.Field;
@@ -49,9 +47,6 @@ public class Game {
         }
 
         getRobot().addRobotActionListener(new RobotObserver());
-        for (Mole mole : gameField.getMoles()) {
-            mole.addMoleActionListener(new MoleObserver());
-        }
 
         getRobot().setUnfrozen(true);
         this.gameTickGenerator.start();
@@ -195,14 +190,9 @@ public class Game {
             getRobot().setUnfrozen(false);
             fireRobotIsTeleported();
         }
-    }
 
-    /**
-     * Класс, реализующий наблюдение за событиями {@link Mole}
-     */
-    private class MoleObserver implements MoleActionListener {
         @Override
-        public void digNewHole(@NotNull Hole hole) {
+        public void holeWasCreated(@NotNull FieldActionEvent event) {
             updateGameStatusWithDelay();
         }
     }

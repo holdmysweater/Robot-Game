@@ -194,6 +194,7 @@ public class Field implements GameTickListener {
         if (!mole.setField(this)) {
             return false;
         }
+        mole.addMoleActionListener(new MoleObserver());
         moles.add(mole);
         this.addTickListener(mole);
         return true;
@@ -257,6 +258,16 @@ public class Field implements GameTickListener {
         }
     }
 
+    /**
+     * Класс, реализующий наблюдение за событиями {@link Mole}
+     */
+    private class MoleObserver implements MoleActionListener {
+        @Override
+        public void holeWasCreated(@NotNull MoleActionEvent event) {
+            fireHoleWasCreated(event.getHole());
+        }
+    }
+
     //endregion
 
     //region СИГНАЛЫ
@@ -298,6 +309,20 @@ public class Field implements GameTickListener {
 
         for (FieldActionListener listener : fieldListListener) {
             listener.robotIsTeleported(event);
+        }
+    }
+
+    /**
+     * Оповестить слушателей {@link Field#fieldListListener}, что вырыта яма.
+     *
+     * @param hole яма.
+     */
+    private void fireHoleWasCreated(@NotNull Hole hole) {
+        FieldActionEvent event = new FieldActionEvent(this);
+        event.setCellObject(hole);
+
+        for (FieldActionListener listener : fieldListListener) {
+            listener.holeWasCreated(event);
         }
     }
 

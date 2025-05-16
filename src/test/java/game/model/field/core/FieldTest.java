@@ -20,6 +20,11 @@ public class FieldTest {
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
             eventCount += 1;
         }
+
+        @Override
+        public void holeWasCreated(@NotNull FieldActionEvent event) {
+            // Not implemented
+        }
     }
 
     private Field field;

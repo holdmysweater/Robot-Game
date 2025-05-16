@@ -1,8 +1,8 @@
 package game.model.field.core;
 
 import game.model.events.GameTickListener;
+import game.model.events.MoleActionEvent;
 import game.model.events.MoleActionListener;
-import game.model.field.cell_objects.NonInteractiveCellObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -134,8 +134,12 @@ public class Mole implements GameTickListener {
      * @param hole яма.
      */
     private void fireMoleDigNewHole(Hole hole) {
+        MoleActionEvent event = new MoleActionEvent(this);
+        event.setMole(this);
+        event.setHole(hole);
+
         for (MoleActionListener listener : moleListListener) {
-            listener.digNewHole(hole);
+            listener.holeWasCreated(event);
         }
     }
 

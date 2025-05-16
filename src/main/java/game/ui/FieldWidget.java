@@ -21,7 +21,6 @@ public class FieldWidget extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         fillField();
         subscribeOnRobots();
-        subscribeOnMoles();
         field.addFieldActionListener(new FieldController());
     }
 
@@ -134,22 +133,10 @@ public class FieldWidget extends JPanel {
             CellItemWidget robotWidget = widgetFactory.getWidget(robot);
             teleportWidget.removeItem(robotWidget);
         }
-    }
-
-    //endregion
-
-    //region СЛУШАТЕЛЬ КРОТА
-
-    private void subscribeOnMoles() {
-        for (Mole mole : field.getMoles()) {
-            mole.addMoleActionListener(new MoleController());
-        }
-    }
-
-    private class MoleController implements MoleActionListener {
 
         @Override
-        public void digNewHole(@NotNull Hole hole) {
+        public void holeWasCreated(@NotNull FieldActionEvent event) {
+            Hole hole = (Hole) event.getCellObject();
             CellItemWidget holeWidget = widgetFactory.create(hole);
             Cell cell = hole.getPosition();
             CellWidget cellWidget = widgetFactory.getWidget(cell);
@@ -159,5 +146,4 @@ public class FieldWidget extends JPanel {
     }
 
     //endregion
-
 }
