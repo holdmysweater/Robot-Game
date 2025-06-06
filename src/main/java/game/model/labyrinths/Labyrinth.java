@@ -69,26 +69,13 @@ public abstract class Labyrinth {
      * @param field поле.
      */
     private void populateObjects(@NotNull Field field) {
-        Map<CellObject, Cell> objects = createObjects(field);
+        Map<CellObject, Point> objects = createObjects(field);
 
-        for (CellObject object : objects.keySet()) {
+        for (Map.Entry<CellObject, Point> entry : objects.entrySet()) {
+            CellObject object = entry.getKey();
+            Point point = entry.getValue();
 
-            boolean correct = false;
-
-            if (object instanceof SmallCellObject) {
-                correct = objects.get(object).setObject(object);
-            }
-            else if (object instanceof NonStationaryCellObject) {
-                correct = objects.get(object).setObject(object);
-            }
-            else if (object instanceof InteractiveCellObject) {
-                correct = objects.get(object).setObject(object);
-            }
-            else if (object instanceof NonInteractiveCellObject) {
-                correct = objects.get(object).setObject(object);
-            }
-
-            assert correct : "Object can't set at cell";
+            field.addObjectToCell(object, point);
         }
     }
 
@@ -146,7 +133,7 @@ public abstract class Labyrinth {
      *
      * @param field поле.
      */
-    protected abstract Map<CellObject, Cell> createObjects(@NotNull Field field);
+    protected abstract Map<CellObject, Point> createObjects(@NotNull Field field);
 
     //endregion
 }

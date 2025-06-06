@@ -57,32 +57,32 @@ public class SmallLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<CellObject, Cell> createObjects(@NotNull Field field) {
-        Map<CellObject, Cell> map = new HashMap<>();
+    protected Map<CellObject, Point> createObjects(@NotNull Field field) {
+        Map<CellObject, Point> map = new HashMap<>();
 
         map.put(
                 new Robot(new Battery()),
-                field.getCell(new Point(0, 2))
+                new Point(0, 2)
         );
 
         map.put(
                 new ExitPoint(),
-                field.getCell(new Point(2, 0))
+                new Point(2, 0)
         );
 
         map.put(
                 new Battery(),
-                field.getCell(new Point(0, 3))
+                new Point(0, 3)
         );
 
         map.put(
                 new Battery(),
-                field.getCell(new Point(1, 2))
+                new Point(1, 2)
         );
 
         map.put(
                 new Battery(0),
-                field.getCell(new Point(1, 3))
+                new Point(1, 3)
         );
 
         return map;

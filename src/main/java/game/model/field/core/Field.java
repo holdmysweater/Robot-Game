@@ -152,6 +152,26 @@ public class Field {
 
     //endregion
 
+    //region ПОПУЛЯЦИИ
+
+    /**
+     * Менеджер популяций.
+     */
+    private final PopulationManager populationManager = new PopulationManager();
+
+    /**
+     * Добавить объект в ячейку на поле.
+     * @param object объект.
+     * @param point координата ячейки.
+     * @return успешность добавления объекта в ячейку.
+     */
+    public boolean addObjectToCell(@NotNull CellObject object, @NotNull Point point) {
+        Cell cell = getCell(point);
+        return  cell.setObject(object);
+    }
+
+    //endregion
+
     //region РОБОТ
 
     /**

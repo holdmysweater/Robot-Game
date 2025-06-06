@@ -30,22 +30,22 @@ public class TestLabyrinth extends Labyrinth {
     }
 
     @Override
-    protected Map<CellObject, Cell> createObjects(@NotNull Field field) {
-        Map<CellObject, Cell> objects = new HashMap<>();
+    protected Map<CellObject, Point> createObjects(@NotNull Field field) {
+        Map<CellObject, Point> objects = new HashMap<>();
 
         objects.put(
                 new Robot(new Battery()),
-                field.getCell(new Point(0, 2))
+                new Point(0, 2)
         );
 
         objects.put(
                 new ExitPoint(),
-                field.getCell(new Point(2, 2))
+                new Point(2, 2)
         );
 
         objects.put(
                 new Battery(),
-                field.getCell(new Point(1, 2))
+                new Point(1, 2)
         );
 
         return objects;
