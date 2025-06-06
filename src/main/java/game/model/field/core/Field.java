@@ -1,10 +1,11 @@
 package game.model.field.core;
 
+import game.model.events.*;
 import game.model.field.cell_objects.InteractiveCellObject;
 import game.model.field.cell_objects.NonInteractiveCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
+import game.model.field.population.PopulationManager;
 import org.jetbrains.annotations.NotNull;
-import game.model.events.*;
 
 import java.util.*;
 
@@ -357,7 +358,7 @@ public class Field {
      * Может ли робот дойти от заданной начальной ячейки до заданной конечной ячейки
      *
      * @param startCell начальная ячейка
-     * @param endCell конечная ячейка
+     * @param endCell   конечная ячейка
      * @return может ли робот дойти от заданной начальной ячейки до заданной конечной ячейки
      */
     private boolean canRobotGoFromTo(@NotNull Cell startCell, @NotNull Cell endCell) {
