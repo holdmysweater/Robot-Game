@@ -166,8 +166,18 @@ public class Field {
      * @return успешность добавления объекта в ячейку.
      */
     public boolean addObjectToCell(@NotNull CellObject object, @NotNull Point point) {
+        // Добавить объект в ячейку
         Cell cell = getCell(point);
-        return  cell.setObject(object);
+        boolean result = cell.setObject(object);
+
+        // Вернуть Ложь, если не удалось добавить объект в ячейку
+        if (!result) { return false; }
+
+        // Добавить объект в популяции
+        populationManager.addObject(object);
+
+        // Вернуть Правду
+        return true;
     }
 
     //endregion
