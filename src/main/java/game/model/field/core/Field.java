@@ -70,9 +70,7 @@ public class Field {
     //region ОБНОВЛЕНИЕ
 
     public void update() {
-        for (Mole mole : getMoles()) {
-            mole.update();
-        }
+        populationManager.update();
     }
 
     //endregion
