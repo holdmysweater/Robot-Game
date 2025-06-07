@@ -160,6 +160,16 @@ public class Field {
     private final PopulationManager populationManager = new PopulationManager();
 
     /**
+     * Добавить объект на поле.
+     *
+     * @param object объект.
+     */
+    public void addObject(@NotNull FieldObject object) {
+        object.setField(this);
+        populationManager.addObject(object);
+    }
+
+    /**
      * Добавить объект в ячейку на поле.
      *
      * @param object объект.
