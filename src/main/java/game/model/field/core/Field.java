@@ -161,8 +161,9 @@ public class Field {
 
     /**
      * Добавить объект в ячейку на поле.
+     *
      * @param object объект.
-     * @param point координата ячейки.
+     * @param point  координата ячейки.
      * @return успешность добавления объекта в ячейку.
      */
     public boolean addObjectToCell(@NotNull CellObject object, @NotNull Point point) {
