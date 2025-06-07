@@ -21,7 +21,7 @@ public class Mole extends FieldObject {
      *
      * @return Яма, если была вырыта. В противном случае null.
      */
-    Hole update() {
+    public Hole update() {
         System.out.println("Mole" + this + ": updated");
         Random rand = new Random();
         if (rand.nextInt(1, 101) <= PROBABILITY) {
