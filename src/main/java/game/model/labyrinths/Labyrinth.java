@@ -87,8 +87,7 @@ public abstract class Labyrinth {
     private void populateMoles(@NotNull Field field) {
         for (int i = 0; i < this.moleCount(); i++) {
             Mole mole = new Mole();
-            boolean success = field.addMole(mole);
-            assert success : "Mole " + mole + " not set in field " + field;
+            field.addObject(mole);
         }
     }
 

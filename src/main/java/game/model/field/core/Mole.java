@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Mole {
+public class Mole extends FieldObject {
 
     //region РЫТЬ ЯМУ
 
@@ -64,39 +64,6 @@ public class Mole {
             return null;
         }
         return this.field.getEmptyCell();
-    }
-
-    //endregion
-
-    //region ПОЛЕ
-
-    /**
-     * Поле.
-     */
-    private Field field;
-
-    /**
-     * Заселить крота на поле.
-     *
-     * @param field поле.
-     * @return успешность.
-     */
-    boolean setField(@NotNull Field field) {
-        if (!this.canSetField(field)) {
-            return false;
-        }
-        this.field = field;
-        return true;
-    }
-
-    /**
-     * Может заселиться на поле.
-     *
-     * @param field поле.
-     * @return может заселиться на поле.
-     */
-    private boolean canSetField(@NotNull Field field) {
-        return this.field == null || this.field == field;
     }
 
     //endregion
