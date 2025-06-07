@@ -171,7 +171,12 @@ public class Field {
         boolean result = cell.setObject(object);
 
         // Вернуть Ложь, если не удалось добавить объект в ячейку
-        if (!result) { return false; }
+        if (!result) {
+            return false;
+        }
+
+        // Установить поле для объекта
+        object.setField(this);
 
         // Добавить объект в популяции
         populationManager.addObject(object);
