@@ -5,9 +5,7 @@ import game.model.field.core.Mole;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Выполняет задачу управления популяциями объектов поля {@link game.model.field.core.CellObject}
@@ -53,6 +51,14 @@ public class PopulationManager {
      * Список экземпляров популяций {@link Population} в порядке их обновления в игре.
      */
     private List<Population> populationList = new ArrayList<>();
+
+    /**
+     * Получить неизменяемый список популяций, расположенных в порядке обновления.
+     * @return список популяций.
+     */
+    public List<Population> getPopulations() {
+        return Collections.unmodifiableList(populationList);
+    }
 
     /**
      * Получить экземпляр класса популяции по его типу.
