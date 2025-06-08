@@ -210,7 +210,7 @@ public class Cell extends VisibleFieldObject {
      * @throws IllegalArgumentException если переданная ячейка не может быть соседней.
      */
     private boolean setNeighbor(@NotNull Cell neighborCell, @NotNull Direction direction) {
-        if (this == neighborCell) {
+        if (this == neighborCell || this.intersects(neighborCell)) {
             return false;
         }
         BetweenCellsArea area = neighborCell.getNeighborArea(direction.getOppositeDirection());
