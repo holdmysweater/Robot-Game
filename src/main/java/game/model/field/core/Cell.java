@@ -8,7 +8,16 @@ import java.util.*;
 /**
  * Ячейка.
  */
-public class Cell {
+public class Cell extends VisibleFieldObject {
+
+    //region РАЗМЕРЫ АПРОКСИМИРУЮЩЕГО ПРЯМОУГОЛЬНИКА
+
+    static {
+        DEFAULT_WIDTH = 100;
+        DEFAULT_HEIGHT = 100;
+    }
+
+    //endregion
 
     //region ОБЪЕКТЫ ВНУТРИ КЛЕТКИ
 
