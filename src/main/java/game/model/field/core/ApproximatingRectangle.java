@@ -2,7 +2,7 @@ package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ApproximatingRectangle {
+public class ApproximatingRectangle implements Cloneable {
 
     //region КОНСТРУКТОРЫ
 
@@ -124,4 +124,14 @@ public class ApproximatingRectangle {
     //endregion
 
     //endregion
+
+    //region OBJECT
+
+    @Override
+    public ApproximatingRectangle clone() {
+        return new ApproximatingRectangle(centerPoint, width, height);
+    }
+
+    //endregion
+
 }
