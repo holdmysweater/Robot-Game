@@ -4,9 +4,12 @@ import game.model.events.*;
 import game.model.field.cell_objects.InteractiveCellObject;
 import game.model.field.cell_objects.NonInteractiveCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
+import game.model.field.population.Population;
 import game.model.field.population.PopulationManager;
+import game.model.field.population.PopulationMole;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -36,6 +39,7 @@ public class Field {
         this.height = height;
 
         buildField();
+        initiatePopulations();
     }
 
     /**
@@ -155,7 +159,48 @@ public class Field {
     /**
      * Менеджер популяций.
      */
-    private final PopulationManager populationManager = new PopulationManager();
+    private PopulationManager populationManager;
+
+    private final Map<Class<? extends Population>, Class<? extends EventListener>> pairsOfPopulationsAndTheirObserver = Map.ofEntries(
+            Map.entry(PopulationMole.class, MoleObserver.class)
+    );
+
+    private void initiatePopulations() {
+        // Создать менеджер популяций
+        populationManager = new PopulationManager();
+
+        // Для каждой популяции
+        for (Population population : populationManager.getPopulations()) {
+            // Получить класс слушателя текущей популяции
+            Class<? extends EventListener> populationObserverClass = pairsOfPopulationsAndTheirObserver.get(population.getClass());
+
+            // Проверить что класс слушателя определён
+            assert populationObserverClass == null : "Population observer class for population " + population.getClass().getSimpleName() + " not initialized.";
+            if (populationObserverClass == null) {
+                continue;
+            }
+
+            // Получить экземпляр слушателя текущей популяции
+            EventListener populationObserver = null;
+            try {
+                // Попробовать создать экземпляр
+                populationObserver = populationObserverClass.getDeclaredConstructor(this.getClass()).newInstance(this);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                // Обработать ошибки, если они возникли при создании экземпляра класса
+                System.err.println(e);
+                assert populationObserver != null : "Can't create instance of " + populationObserverClass.getSimpleName();
+            } finally {
+                // Перейти к следующей популяции, если экземпляр слушателя не был создан
+                if (populationObserver == null) {
+                    continue;
+                }
+            }
+
+            // Добавить слушателя для популяции
+            population.addPopulationActionListener(populationObserver);
+        }
+    }
 
     /**
      * Добавить объект на поле.
