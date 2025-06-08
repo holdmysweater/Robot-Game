@@ -45,6 +45,8 @@ public class BetweenCellsArea extends VisibleFieldObject {
         // Вернуть false, если объект между ячеек не смог принять позицию
         if (!obstacle.setPosition(this)) return false;
 
+        obstacle.setApproximatingRectangle(this.getApproximatingRectangle());
+
         // Запомнить объект
         this.obstacle = obstacle;
         return true;
