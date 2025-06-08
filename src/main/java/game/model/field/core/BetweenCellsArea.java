@@ -2,12 +2,17 @@ package game.model.field.core;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 /**
  * Класс позиции между ячейками {@link Cell}
  */
-public class BetweenCellsArea {
+public class BetweenCellsArea extends VisibleFieldObject {
 
     //region ПРЕПЯТСТВИЕ
 
@@ -105,6 +110,8 @@ public class BetweenCellsArea {
             }
         }
 
+        success = success && this.setApproximatingRectangleForHorizontalNeighbors(leftCell, rightCell);
+
         return success;
     }
 
@@ -139,6 +146,8 @@ public class BetweenCellsArea {
                 success = false;
             }
         }
+
+        success = success && this.setApproximatingRectangleForVerticalNeighbors(topCell, bottomCell);
 
         return success;
     }
@@ -175,6 +184,119 @@ public class BetweenCellsArea {
         return orientation == null || orientation == Orientation.HORIZONTAL;
     }
 
+    /**
+     * Установить аппроксимирующий прямоугольник для области между левой и правой ячейками.
+     *
+     * @param leftCell  левая ячейка.
+     * @param rightCell правая ячейка.
+     * @return успешность установки.
+     */
+    private boolean setApproximatingRectangleForHorizontalNeighbors(Cell leftCell, Cell rightCell) {
+        // Рассчитать значения аппроксимирующего прямоугольника
+        int areaWidth;
+        int areaHeight;
+        int areaCenterX;
+        int areaCenterY;
+
+        // Задана левая и правая клетка
+        if (rightCell != null && leftCell != null) {
+            ApproximatingRectangle leftApproximationRectangle = leftCell.getApproximatingRectangle();
+            ApproximatingRectangle rightApproximationRectangle = rightCell.getApproximatingRectangle();
+            Point leftCellCenter = leftApproximationRectangle.getCenter();
+            Point rightCellCenter = rightApproximationRectangle.getCenter();
+
+            areaWidth = abs(leftCellCenter.getX() - rightCellCenter.getX()) -
+                    (leftApproximationRectangle.getWidth() / 2 + rightApproximationRectangle.getWidth() / 2);
+            areaHeight = max(leftApproximationRectangle.getHeight(), rightApproximationRectangle.getHeight());
+            areaCenterX = (leftCellCenter.getX() + rightCellCenter.getX()) / 2;
+            areaCenterY = (leftCellCenter.getY() + rightCellCenter.getY()) / 2;
+        }
+
+        // Задана только левая клетка
+        else if (leftCell != null) {
+            ApproximatingRectangle leftApproximationRectangle = leftCell.getApproximatingRectangle();
+            Point leftCellCenter = leftApproximationRectangle.getCenter();
+            areaWidth = 0;
+            areaHeight = leftApproximationRectangle.getHeight();
+            areaCenterX = leftCellCenter.getX() + (leftApproximationRectangle.getWidth() / 2);
+            areaCenterY = leftCellCenter.getY();
+        }
+
+        // Задана только правая клетка
+        else if (rightCell != null) {
+            ApproximatingRectangle rightApproximationRectangle = rightCell.getApproximatingRectangle();
+            Point rightCellCenter = rightApproximationRectangle.getCenter();
+            areaWidth = rightApproximationRectangle.getWidth();
+            areaHeight = 0;
+            areaCenterX = rightCellCenter.getX() - (rightApproximationRectangle.getWidth() / 2);
+            areaCenterY = rightCellCenter.getY();
+        }
+
+        // Не задана ни одна клетка
+        else {
+            return false;
+        }
+
+        // Установить рассчитанные значения
+        return setApproximatingRectangle(areaCenterX, areaCenterY, areaWidth, areaHeight);
+    }
+
+    /**
+     * Установить аппроксимирующий прямоугольник для области между верхней и нижней ячейками.
+     *
+     * @param topCell    верхняя ячейка.
+     * @param bottomCell нижняя ячейка.
+     * @return успешность установки.
+     */
+    private boolean setApproximatingRectangleForVerticalNeighbors(Cell topCell, Cell bottomCell) {
+        // Рассчитать значения аппроксимирующего прямоугольника
+        int areaWidth;
+        int areaHeight;
+        int areaCenterX;
+        int areaCenterY;
+
+        // Задана верхняя и нижняя клетка
+        if (topCell != null && bottomCell != null) {
+            ApproximatingRectangle topApproximationRectangle = bottomCell.getApproximatingRectangle();
+            ApproximatingRectangle bottomApproximationRectangle = topCell.getApproximatingRectangle();
+            Point topCellCenter = topApproximationRectangle.getCenter();
+            Point bottomCellCenter = bottomApproximationRectangle.getCenter();
+
+            areaWidth = max(topApproximationRectangle.getWidth(), bottomApproximationRectangle.getWidth());
+            areaHeight = abs(topCellCenter.getY() - bottomCellCenter.getY()) -
+                    (topApproximationRectangle.getHeight() / 2 + bottomApproximationRectangle.getHeight() / 2);
+            areaCenterX = (topCellCenter.getX() + bottomCellCenter.getX()) / 2;
+            areaCenterY = (topCellCenter.getY() + bottomCellCenter.getY()) / 2;
+        }
+
+        // Задана только нижняя клетка
+        else if (bottomCell != null) {
+            ApproximatingRectangle bottomApproximationRectangle = bottomCell.getApproximatingRectangle();
+            Point bottomCellCenter = bottomApproximationRectangle.getCenter();
+            areaWidth = bottomApproximationRectangle.getWidth();
+            areaHeight = 0;
+            areaCenterX = bottomCellCenter.getX();
+            areaCenterY = bottomCellCenter.getY() - (bottomApproximationRectangle.getHeight() / 2);
+        }
+
+        // Задана только верхняя клетка
+        else if (topCell != null) {
+            ApproximatingRectangle topApproximationRectangle = topCell.getApproximatingRectangle();
+            Point topCellCenter = topApproximationRectangle.getCenter();
+            areaWidth = topApproximationRectangle.getWidth();
+            areaHeight = 0;
+            areaCenterX = topCellCenter.getX();
+            areaCenterY = topCellCenter.getY() + (topApproximationRectangle.getHeight() / 2);
+        }
+
+        // Не задана ни одна клетка
+        else {
+            return false;
+        }
+
+        // Установить рассчитанные значения
+        return setApproximatingRectangle(areaCenterX, areaCenterY, areaWidth, areaHeight);
+    }
     //endregion
 
     //region ОРИЕНТАЦИЯ
