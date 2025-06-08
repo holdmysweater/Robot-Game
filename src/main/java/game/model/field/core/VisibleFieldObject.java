@@ -25,6 +25,24 @@ public abstract class VisibleFieldObject extends FieldObject {
      */
     protected static int DEFAULT_HEIGHT = -1;
 
+    /**
+     * Получить стандартную ширину объекта.
+     *
+     * @return стандартная ширина объекта.
+     */
+    public static int getDefaultWidth() {
+        return DEFAULT_WIDTH;
+    }
+
+    /**
+     * Получить стандартную высоты объекта.
+     *
+     * @return стандартная высота объекта.
+     */
+    public static int getDefaultHeight() {
+        return DEFAULT_HEIGHT;
+    }
+
     //endregion
 
     //region ГЕТТЕРЫ
