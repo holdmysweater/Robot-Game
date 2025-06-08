@@ -24,25 +24,4 @@ public abstract class FieldObject {
     
     //endregion
 
-    //region АППРОКСИМИРУЮЩИЙ ПРЯМОУГОЛЬНИК
-    
-    /**
-     * Аппроксимирующий прямоугольник объекта.
-     */
-    ApproximatingRectangle approximatingRectangle = null;
-
-    /**
-     * Пересекается ли с другим объектом поля.
-     *
-     * @param other объект поля.
-     * @return пересекаются ли объекты.
-     */
-    boolean intersects(FieldObject other) {
-        if (this.approximatingRectangle == null || other.approximatingRectangle == null) {
-            return false;
-        }
-        return this.approximatingRectangle.intersects(other.approximatingRectangle);
-    }
-
-    //endregion
 }

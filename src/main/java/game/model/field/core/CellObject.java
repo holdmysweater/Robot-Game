@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Объект, располагающийся в ячейке.
  */
-public abstract class CellObject extends FieldObject {
+public abstract class CellObject extends VisibleFieldObject {
 
     //region ПОЗИЦИЯ
 
@@ -54,4 +54,5 @@ public abstract class CellObject extends FieldObject {
     }
 
     //endregion
+
 }
