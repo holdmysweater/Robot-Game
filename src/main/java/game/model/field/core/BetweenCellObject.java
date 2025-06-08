@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Объект, располагающийся между ячейками {@link Cell}
  */
-public abstract class BetweenCellObject {
+public abstract class BetweenCellObject extends VisibleFieldObject {
 
     //region ПОЗИЦИЯ
 
