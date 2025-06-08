@@ -42,6 +42,12 @@ public class Field {
         initiatePopulations();
     }
 
+    //endregion
+
+    //region ПОСТРОЕНИЕ ПОЛЯ
+
+    static final int DISTANCE_BETWEEN_CELLS = 6;
+
     /**
      * Построить игровое поле.
      */
@@ -61,12 +67,29 @@ public class Field {
                 }
 
                 Cell cell = new Cell();
+                cell.setApproximatingRectangle(this.calculateApproximatingRectangleCenter(p));
                 boolean success = cell.setNeighbors(neighborCells);
                 assert success : "Cell " + cell + " not successfully set";
 
                 cells.put(p, cell);
             }
         }
+    }
+
+    /**
+     * Рассчитать центра аппроксимирующего прямоугольника для клетки на поле.
+     *
+     * @param p координаты ячейки на поле.
+     * @return координата центра аппроксимирующего прямоугольника для клетки.
+     */
+    private Point calculateApproximatingRectangleCenter(Point p) {
+        int x = p.getX();
+        int y = p.getY();
+        int defaultCellWidth = Cell.getDefaultWidth();
+        int defaultCellHeight = Cell.getDefaultHeight();
+        int centerX = (defaultCellWidth + DISTANCE_BETWEEN_CELLS) * x + (defaultCellWidth / 2);
+        int centerY = (defaultCellHeight + DISTANCE_BETWEEN_CELLS) * y + (defaultCellHeight / 2);
+        return new Point(centerX, centerY);
     }
 
     //endregion
