@@ -1,7 +1,7 @@
 package game.model.field.core;
 
 import game.model.field.cell_objects.InteractiveCellObject;
-import game.model.field.cell_objects.NonStationaryCellObject;
+import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.ExitPointActionEvent;
 import game.model.events.ExitPointActionListener;
@@ -17,7 +17,7 @@ public class ExitPoint extends InteractiveCellObject {
     //region ДЕЙСТВИЯ
 
     @Override
-    public void execute(NonStationaryCellObject object) {
+    public void execute(SmallCellObject object) {
         if (teleportedRobot != null) return;
         teleportRobot(object);
     }
@@ -43,7 +43,7 @@ public class ExitPoint extends InteractiveCellObject {
     /**
      * Телепортировать робота.
      */
-    private void teleportRobot(NonStationaryCellObject object) {
+    private void teleportRobot(SmallCellObject object) {
         teleportedRobot = (Robot) object;
         teleportedRobot.setTeleported();
         fireRobotIsTeleported();
