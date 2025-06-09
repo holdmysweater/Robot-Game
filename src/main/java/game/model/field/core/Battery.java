@@ -1,6 +1,6 @@
 package game.model.field.core;
 
-import game.model.field.cell_objects.SmallCellObject;
+import game.model.field.cell_objects.LowProfileCellObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Батарейка
  */
-public class Battery extends SmallCellObject {
+public class Battery extends LowProfileCellObject {
 
     //region КОНСТРУКТОРЫ
 
