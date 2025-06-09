@@ -5,21 +5,21 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Объект, располагающийся в ячейке.
  */
-public abstract class CellObject extends VisibleFieldObject {
+public abstract class CellObject<T> extends VisibleFieldObject {
 
     //region ПОЗИЦИЯ
 
     /**
      * Позиция объекта.
      */
-    private Cell position;
+    private T position;
 
     /**
      * Получить позицию объекта {@link CellObject#position}.
      *
      * @return позиция объекта.
      */
-    public Cell getPosition() {
+    public T getPosition() {
         return position;
     }
 
@@ -29,7 +29,7 @@ public abstract class CellObject extends VisibleFieldObject {
      * @param position позиция.
      * @return установлена ли позиция.
      */
-    boolean setPosition(@NotNull Cell position) {
+    boolean setPosition(@NotNull T position) {
         if (!canSetPosition(position)) {
             return false;
         }
@@ -44,7 +44,7 @@ public abstract class CellObject extends VisibleFieldObject {
      * @param cell позиция.
      * @return может ли объект располагаться в указанной позиции.
      */
-    protected abstract boolean canSetPosition(@NotNull Cell cell);
+    protected abstract boolean canSetPosition(@NotNull T cell);
 
     /**
      * Удалить позицию у объекта {@link CellObject#position}.
