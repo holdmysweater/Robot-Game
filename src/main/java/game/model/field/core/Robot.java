@@ -1,5 +1,6 @@
 package game.model.field.core;
 
+import game.model.field.cell_objects.ICollidingObject;
 import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
 import game.model.field.cell_objects.SmallCellObject;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Робот.
  */
-public class Robot extends NonStationaryCellObject {
+public class Robot extends SmallCellObject implements ICollidingObject {
 
     //region КОНСТРУКТОРЫ
 
@@ -58,12 +59,23 @@ public class Robot extends NonStationaryCellObject {
 
     //region ПЕРЕМЕЩЕНИЕ
 
+    @Override
+    public void move() {
+        // TODO move in Robot
+    }
+
+    @Override
+    public boolean startMoving(@NotNull Direction direction, int speed) {
+        // TODO startMoving in Robot
+        return false;
+    }
+
     /**
      * Переместить объект в заданном направлении.
      *
      * @param direction направление.
      */
-    public boolean move(@NotNull Direction direction) {
+    public boolean move(@NotNull Direction direction) { // TODO fix move()
         if (!isUnfrozen()) {
             return false;
         }
@@ -105,17 +117,12 @@ public class Robot extends NonStationaryCellObject {
         return true;
     }
 
-    @Override
-    protected boolean canSetPosition(@NotNull Cell newPosition) {
-        return getPosition() == null;
-    }
-
     /**
      * Получить дееспособность робота
      *
      * @return дееспособен ли робот
      */
-    public boolean isCapable() {
+    public boolean isCapable() { // TODO fix isCapable()
         return getPosition() != null && getPosition().getObject(SmallCellObject.class) != null || !isTeleported() && getCharge() > 0;
     }
 
@@ -181,7 +188,7 @@ public class Robot extends NonStationaryCellObject {
     /**
      * Заменить источник питания {@link Robot#battery}.
      */
-    public boolean changeBattery() {
+    public boolean changeBattery() { // TODO fix changeBattery()
         if (!isUnfrozen() || isTeleported()) {
             return false;
         }
@@ -237,6 +244,15 @@ public class Robot extends NonStationaryCellObject {
     }
 
     //endregion
+
+    //endregion
+
+    //region ОБЪЕКТ С КОЛЛИЗИЕЙ
+
+    @Override
+    public void processCollisionWith(@NotNull ICollidingObject object) {
+        // not implemented
+    }
 
     //endregion
 
