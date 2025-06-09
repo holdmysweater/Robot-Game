@@ -1,7 +1,6 @@
 package game.model.field.core;
 
-import game.model.field.cell_objects.InteractiveCellObject;
-import game.model.field.cell_objects.NonStationaryCellObject;
+import game.model.field.cell_objects.SelfActivatingCellObject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,7 +53,7 @@ public class FieldTest {
         assertEquals(cell_1_1, cell_1_0.getNeighborCell(Direction.EAST));
         assertEquals(cell_0_0, cell_0_1.getNeighborCell(Direction.WEST));
         assertEquals(cell_1_0, cell_1_1.getNeighborCell(Direction.WEST));
-        assertNotNull(cell_1_1.getObject(InteractiveCellObject.class));
+        assertNotNull(cell_1_1.getObject(SelfActivatingCellObject.class));
     }
 
     @Test

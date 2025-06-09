@@ -1,6 +1,6 @@
 package game.model.field.core;
 
-import game.model.field.cell_objects.InteractiveCellObject;
+import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.ExitPointActionEvent;
@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Ячейка точки выхода.
  */
-public class ExitPoint extends InteractiveCellObject {
+public class ExitPoint extends SelfActivatingCellObject {
 
     //region ДЕЙСТВИЯ
 

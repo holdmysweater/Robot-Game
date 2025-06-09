@@ -1,6 +1,6 @@
 package game.model.field.core;
 
-import game.model.field.cell_objects.InteractiveCellObject;
+import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.NonInteractiveCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
 import game.model.field.cell_objects.SmallCellObject;
@@ -328,7 +328,7 @@ class CellTest {
         ExitPoint exitPoint = new ExitPoint();
 
         cell.setObject(exitPoint);
-        assertEquals(exitPoint, cell.getObject(InteractiveCellObject.class));
+        assertEquals(exitPoint, cell.getObject(SelfActivatingCellObject.class));
     }
 
     @Test
@@ -358,14 +358,14 @@ class CellTest {
 
         cell.setObject(exitPoint);
 
-        assertEquals(exitPoint, cell.takeObject(InteractiveCellObject.class));
-        assertNull(cell.getObject(InteractiveCellObject.class));
+        assertEquals(exitPoint, cell.takeObject(SelfActivatingCellObject.class));
+        assertNull(cell.getObject(SelfActivatingCellObject.class));
         assertNull(exitPoint.getPosition());
     }
 
     @Test
     public void test_takeExit_fromCellWithoutExit() {
-        assertNull(cell.takeObject(InteractiveCellObject.class));
+        assertNull(cell.takeObject(SelfActivatingCellObject.class));
     }
 
     @Test
@@ -471,33 +471,33 @@ class CellTest {
         assertFalse(cell.canSetObject(NonStationaryCellObject.class));
     }
 
-    // Tests for InteractiveCellObject
+    // Tests for SelfActivatingCellObject
     @Test
     void test_canSetObject_InteractiveObject_withSmallCellObject() {
         Battery smallObject = new Battery();
         cell.setObject(smallObject);
-        assertFalse(cell.canSetObject(InteractiveCellObject.class));
+        assertFalse(cell.canSetObject(SelfActivatingCellObject.class));
     }
 
     @Test
     void test_canSetObject_InteractiveObject_withNonStationaryObject() {
         Robot nonStationaryObject = new Robot(new Battery());
         cell.setObject(nonStationaryObject);
-        assertTrue(cell.canSetObject(InteractiveCellObject.class));
+        assertTrue(cell.canSetObject(SelfActivatingCellObject.class));
     }
 
     @Test
     void test_canSetObject_InteractiveObject_withInteractiveObject() {
         ExitPoint interactiveObject = new ExitPoint();
         cell.setObject(interactiveObject);
-        assertFalse(cell.canSetObject(InteractiveCellObject.class));
+        assertFalse(cell.canSetObject(SelfActivatingCellObject.class));
     }
 
     @Test
     void test_canSetObject_InteractiveObject_withNonInteractiveObject() {
         Hole nonInteractiveObject = new Hole();
         cell.setObject(nonInteractiveObject);
-        assertFalse(cell.canSetObject(InteractiveCellObject.class));
+        assertFalse(cell.canSetObject(SelfActivatingCellObject.class));
     }
 
     // Tests for NonInteractiveCellObject

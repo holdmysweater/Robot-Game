@@ -27,7 +27,7 @@ public class Cell extends VisibleFieldObject {
     List<Class<? extends CellObject>> endOfHierarchyClasses = List.of(
         SmallCellObject.class,
         NonStationaryCellObject.class,
-        InteractiveCellObject.class,
+        SelfActivatingCellObject.class,
         NonInteractiveCellObject.class
     );
 
@@ -100,7 +100,7 @@ public class Cell extends VisibleFieldObject {
             return getObject(NonStationaryCellObject.class) == null && getObject(NonInteractiveCellObject.class) == null;
         }
 
-        if (InteractiveCellObject.class.isAssignableFrom(type)) {
+        if (SelfActivatingCellObject.class.isAssignableFrom(type)) {
             return getObject(StationaryCellObject.class) == null && getObject(SmallCellObject.class) == null;
         }
 
@@ -156,7 +156,7 @@ public class Cell extends VisibleFieldObject {
         switch (object) {
             case SmallCellObject smallCellObject -> type = SmallCellObject.class;
             case NonStationaryCellObject nonStationaryCellObject -> type = NonStationaryCellObject.class;
-            case InteractiveCellObject interactiveCellObject -> type = InteractiveCellObject.class;
+            case SelfActivatingCellObject selfActivatingCellObject -> type = SelfActivatingCellObject.class;
             case NonInteractiveCellObject nonInteractiveCellObject -> type = NonInteractiveCellObject.class;
             default -> {}
         }

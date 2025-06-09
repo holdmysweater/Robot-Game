@@ -1,7 +1,7 @@
 package game.model.field.core;
 
 import game.model.events.*;
-import game.model.field.cell_objects.InteractiveCellObject;
+import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.NonInteractiveCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
 import game.model.field.population.Population;
@@ -299,7 +299,7 @@ public class Field {
         for (var cell : cells.entrySet()) {
             ExitPoint exitPoint = null;
             try {
-                exitPoint = (ExitPoint) cell.getValue().getObject(InteractiveCellObject.class);
+                exitPoint = (ExitPoint) cell.getValue().getObject(SelfActivatingCellObject.class);
                 if (exitPoint != null) {
                     return exitPoint;
                 }

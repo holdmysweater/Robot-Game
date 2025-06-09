@@ -1,6 +1,6 @@
 package game.model.field.core;
 
-import game.model.field.cell_objects.InteractiveCellObject;
+import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
@@ -97,9 +97,9 @@ public class Robot extends NonStationaryCellObject {
 
         fireRobotIsMoved(oldPosition, newPosition);
 
-        InteractiveCellObject interactiveCellObject = (InteractiveCellObject) getPosition().getObject(InteractiveCellObject.class);
-        if (interactiveCellObject != null) {
-            interactiveCellObject.execute(this);
+        SelfActivatingCellObject selfActivatingCellObject = (SelfActivatingCellObject) getPosition().getObject(SelfActivatingCellObject.class);
+        if (selfActivatingCellObject != null) {
+            selfActivatingCellObject.execute(this);
         }
 
         return true;

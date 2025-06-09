@@ -1,6 +1,6 @@
 package game.model.field.cell_objects;
 
-public abstract class InteractiveCellObject extends LowProfileCellObject {
+public abstract class SelfActivatingCellObject extends LowProfileCellObject {
 
     //region ДЕЙСТВИЯ
 

@@ -1,6 +1,6 @@
 package game.ui;
 
-import game.model.field.cell_objects.InteractiveCellObject;
+import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.NonInteractiveCellObject;
 import game.model.field.cell_objects.NonStationaryCellObject;
 import game.model.field.cell_objects.SmallCellObject;
@@ -39,7 +39,7 @@ public class WidgetFactory {
             item.addItem(batteryWidget);
         }
 
-        ExitPoint exitPoint = (ExitPoint) cell.getObject(InteractiveCellObject.class);
+        ExitPoint exitPoint = (ExitPoint) cell.getObject(SelfActivatingCellObject.class);
         if (exitPoint != null) {
             CellItemWidget exitWidget = create(exitPoint);
             item.addItem(exitWidget);
