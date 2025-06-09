@@ -1,10 +1,10 @@
 package game.model.field.cell_objects;
 
-public abstract class InteractiveCellObject extends StationaryCellObject {
+public abstract class InteractiveCellObject extends LowProfileCellObject {
 
     //region ДЕЙСТВИЯ
 
-    public abstract void execute(NonStationaryCellObject object);
+    public abstract void execute(SmallCellObject object);
 
     //endregion
 
