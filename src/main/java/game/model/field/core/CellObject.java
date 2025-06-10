@@ -12,7 +12,7 @@ public abstract class CellObject<T> extends VisibleFieldObject {
     /**
      * Позиция объекта.
      */
-    private T position;
+    protected T position;
 
     /**
      * Получить позицию объекта {@link CellObject#position}.
@@ -29,22 +29,7 @@ public abstract class CellObject<T> extends VisibleFieldObject {
      * @param position позиция.
      * @return установлена ли позиция.
      */
-    boolean setPosition(@NotNull T position) {
-        if (!canSetPosition(position)) {
-            return false;
-        }
-
-        this.position = position;
-        return true;
-    }
-
-    /**
-     * Может ли объект располагаться в указанной позиции.
-     *
-     * @param cell позиция.
-     * @return может ли объект располагаться в указанной позиции.
-     */
-    protected abstract boolean canSetPosition(@NotNull T cell);
+    abstract boolean setPosition(@NotNull T position);
 
     /**
      * Удалить позицию у объекта {@link CellObject#position}.
