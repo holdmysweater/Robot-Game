@@ -419,7 +419,7 @@ public class Field {
      *
      * @return может ли робот дойти до точки выхода
      */
-    public boolean canRobotGoToExitCell() {
+    public boolean canRobotGoToExitCell() { // TODO fix canRobotGoToExitCell
         if (getRobot().isTeleported()) {
             return true;
         }
