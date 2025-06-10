@@ -68,6 +68,10 @@ public class Cell extends VisibleFieldObject {
      * @throws IllegalArgumentException если запрашиваемый класс не является поддерживаемым абстрактным классом.
      */
     public boolean setObject(@NotNull CellObject object) {
+        if (object instanceof MobileCellObject) {
+            return setObject((MobileCellObject) object, CellObjectStatus.IDLE);
+        }
+
         Class<? extends CellObject> type = getType(object);
 
         if (!endOfHierarchyClasses.contains(type) || !this.canSetObject(type)) {
@@ -118,6 +122,10 @@ public class Cell extends VisibleFieldObject {
 
         CellObject result = objects.remove(type);
 
+        if (result instanceof MobileCellObject) {
+            mobileCellObjectStatus.remove(result);
+        }
+
         if (result != null) {
             result.unsetPosition();
         }
@@ -156,6 +164,75 @@ public class Cell extends VisibleFieldObject {
         }
 
         return type;
+    }
+
+    //endregion
+
+    //region МОБИЛЬНЫЕ ОБЪЕКТЫ
+
+    /**
+     * Статусы мобильных объектов в ячейке.
+     */
+    private Map<MobileCellObject, CellObjectStatus> mobileCellObjectStatus = new HashMap<>();
+
+    /**
+     * Поместить мобильный объект в ячейку {@link Cell#objects}.
+     *
+     * @param object объект, добавляемый в ячейку.
+     * @param status статус
+     * @return успешность.
+     * @throws IllegalArgumentException если запрашиваемый класс не является поддерживаемым абстрактным классом.
+     */
+    public boolean setObject(@NotNull MobileCellObject object, @NotNull CellObjectStatus status) {
+        Class<? extends CellObject> type = getType(object);
+
+        if (!endOfHierarchyClasses.contains(type) || !this.canSetObject(type)) {
+            return false;
+        }
+
+        boolean success = object.setPosition(this, status);
+        if (!success) {
+            return false;
+        }
+
+        objects.put(type, object);
+        mobileCellObjectStatus.put(object, status);
+
+        return true;
+    }
+
+    /**
+     * Обновить статус мобильного объекта в ячейке {@link Cell#objects}.
+     *
+     * @param object объект
+     * @param status статус
+     * @return успешность.
+     */
+    public boolean updateMobileObjectStatus(@NotNull MobileCellObject object, @NotNull CellObjectStatus status) {
+        Class<? extends CellObject> type = getType(object);
+
+        if (!endOfHierarchyClasses.contains(type) || !this.getObject(type).equals(object)) {
+            return false;
+        }
+
+        boolean success = object.setPosition(this, status);
+        if (!success) {
+            return false;
+        }
+
+        mobileCellObjectStatus.put(object, status);
+
+        return true;
+    }
+
+    /**
+     * Получить статус объекта.
+     *
+     * @param object объект.
+     * @return статус.
+     */
+    public CellObjectStatus getObjectStatus(@NotNull MobileCellObject object) {
+        return mobileCellObjectStatus.get(object);
     }
 
     //endregion
