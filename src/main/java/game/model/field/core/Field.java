@@ -423,11 +423,11 @@ public class Field {
         if (getRobot().isTeleported()) {
             return true;
         }
-        Cell robotCell = getRobot().getPosition();
+        Cell robotCell = getRobot().getIdleCellPosition();
         if (robotCell == null) {
             return false;
         }
-        return canRobotGoFromTo(getRobot().getPosition(), getExitPoint().getPosition());
+        return canRobotGoFromTo(getRobot().getIdleCellPosition(), getExitPoint().getPosition());
     }
 
     /**
