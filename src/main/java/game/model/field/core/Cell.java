@@ -127,7 +127,12 @@ public class Cell extends VisibleFieldObject {
         }
 
         if (result != null) {
-            result.unsetPosition();
+            if (result instanceof MobileCellObject) {
+                ((MobileCellObject) result).unsetPosition(this);
+            }
+            else {
+                result.unsetPosition();
+            }
         }
 
         return result;
