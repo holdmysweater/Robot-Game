@@ -19,16 +19,15 @@ public class Cell extends VisibleFieldObject {
 
     //endregion
 
-    //region ОБЪЕКТЫ ВНУТРИ КЛЕТКИ
+    //region ОБЪЕКТЫ ВНУТРИ ЯЧЕЙКИ
 
     /**
      * Конечные классы иерархии.
      */
     List<Class<? extends CellObject>> endOfHierarchyClasses = List.of(
+        BigCellObject.class,
         SmallCellObject.class,
-        NonStationaryCellObject.class,
-        SelfActivatingCellObject.class,
-        NonInteractiveCellObject.class
+        LowProfileCellObject.class
     );
 
     /**
@@ -93,19 +92,15 @@ public class Cell extends VisibleFieldObject {
      */
     public boolean canSetObject(@NotNull Class<? extends CellObject> type) {
         if (SmallCellObject.class.isAssignableFrom(type)) {
-            return getObject(SmallCellObject.class) == null && getObject(StationaryCellObject.class) == null;
+            return getObject(SmallCellObject.class) == null && getObject(BigCellObject.class) == null;
         }
 
-        if (NonStationaryCellObject.class.isAssignableFrom(type)) {
-            return getObject(NonStationaryCellObject.class) == null && getObject(NonInteractiveCellObject.class) == null;
+        if (BigCellObject.class.isAssignableFrom(type)) {
+            return getObjects().isEmpty();
         }
 
-        if (SelfActivatingCellObject.class.isAssignableFrom(type)) {
-            return getObject(StationaryCellObject.class) == null && getObject(SmallCellObject.class) == null;
-        }
-
-        if (NonInteractiveCellObject.class.isAssignableFrom(type)) {
-            return getObject(CellObject.class) == null;
+        if (LowProfileCellObject.class.isAssignableFrom(type)) {
+            return getObject(LowProfileCellObject.class) == null && getObject(BigCellObject.class) == null;
         }
 
         return false;
@@ -155,9 +150,8 @@ public class Cell extends VisibleFieldObject {
 
         switch (object) {
             case SmallCellObject smallCellObject -> type = SmallCellObject.class;
-            case NonStationaryCellObject nonStationaryCellObject -> type = NonStationaryCellObject.class;
-            case SelfActivatingCellObject selfActivatingCellObject -> type = SelfActivatingCellObject.class;
-            case NonInteractiveCellObject nonInteractiveCellObject -> type = NonInteractiveCellObject.class;
+            case BigCellObject bigCellObject -> type = BigCellObject.class;
+            case LowProfileCellObject lowProfileCellObject -> type = LowProfileCellObject.class;
             default -> {}
         }
 
