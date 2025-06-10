@@ -80,12 +80,17 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             return false;
         }
 
-        if (getPosition().getNeighborObstacle(direction) != null) {
+        if (getIdleCellPosition() == null) {
+            System.out.println("Idle cell position is null");
+            return false;
+        }
+
+        if (getIdleCellPosition().getNeighborObstacle(direction) != null) {
             System.out.println("Wall");
             return false;
         }
 
-        Cell newPosition = getPosition().getNeighborCell(direction);
+        Cell newPosition = getIdleCellPosition().getNeighborCell(direction);
 
         if (newPosition == null || !newPosition.canSetObject(this.getClass())) {
             return false;
@@ -97,9 +102,9 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             return false;
         }
 
-        Cell oldPosition = getPosition();
+        Cell oldPosition = getIdleCellPosition();
 
-        oldPosition.takeObject(NonStationaryCellObject.class);
+        oldPosition.takeObject(SmallCellObject.class);
 
         success = newPosition.setObject(this);
 
@@ -109,7 +114,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
         fireRobotIsMoved(oldPosition, newPosition);
 
-        SelfActivatingCellObject selfActivatingCellObject = (SelfActivatingCellObject) getPosition().getObject(SelfActivatingCellObject.class);
+        SelfActivatingCellObject selfActivatingCellObject = (SelfActivatingCellObject) getIdleCellPosition().getObject(SelfActivatingCellObject.class);
         if (selfActivatingCellObject != null) {
             selfActivatingCellObject.execute(this);
         }
@@ -123,7 +128,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
      * @return дееспособен ли робот
      */
     public boolean isCapable() { // TODO fix isCapable()
-        return getPosition() != null && getPosition().getObject(SmallCellObject.class) != null || !isTeleported() && getCharge() > 0;
+        return getPosition() != null && getIdleCellPosition().getObject(SmallCellObject.class) != null || !isTeleported() && getCharge() > 0;
     }
 
     //endregion
@@ -196,7 +201,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
         Battery battery;
 
         try {
-            battery = (Battery) getPosition().takeObject(SmallCellObject.class);
+            battery = (Battery) getIdleCellPosition().takeObject(SmallCellObject.class);
         }
         catch (Exception e) {
             return false;
