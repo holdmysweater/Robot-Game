@@ -222,6 +222,19 @@ public class Cell extends VisibleFieldObject {
         };
     }
 
+    /**
+     * Является ли соседом.
+     *
+     * @param cell другая ячейка
+     * @return является ли другая ячейка соседом
+     */
+    public boolean isNeighbor(@NotNull Cell cell) {
+        for (Direction direction : Direction.values()) {
+            if (getNeighborCell(direction) == this) return true;
+        }
+        return false;
+    }
+
     //endregion
 
     //region ОБЛАСТИ МЕЖДУ ЯЧЕЙКАМИ
