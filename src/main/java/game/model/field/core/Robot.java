@@ -126,8 +126,8 @@ public class Robot extends SmallCellObject implements ICollidingObject {
      *
      * @return дееспособен ли робот
      */
-    public boolean isCapable() { // TODO fix isCapable()
-        return getPosition() != null && getIdleCellPosition().getObject(SmallCellObject.class) != null || !isTeleported() && getCharge() > 0;
+    public boolean isCapable() {
+        return (getIdleCellPosition() != null || getArrivalCellPosition() != null) && !isTeleported() && getCharge() > 0;
     }
 
     //endregion
