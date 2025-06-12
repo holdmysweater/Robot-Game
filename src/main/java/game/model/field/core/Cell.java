@@ -45,7 +45,7 @@ public class Cell extends VisibleFieldObject {
     }
 
     /**
-     * Поместить объект в ячейку {@link Cell#objects}.
+     * Получить объект в ячейке {@link Cell#objects}.
      *
      * @param type класс объекта, который нужно получить.
      * @return первый найденный запрашиваемый объект, null - если объект не содержится в ячейке {@link Cell#objects}.
