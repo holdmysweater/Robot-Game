@@ -23,25 +23,25 @@ public class WidgetFactory {
 
         CellWidget item = new CellWidget();
 
-        Robot robot = (Robot) cell.getObject(NonStationaryCellObject.class);
+        Robot robot = (Robot) cell.getObject(Robot.class);
         if (robot != null) {
             CellItemWidget robotWidget = create(robot);
             item.addItem(robotWidget);
         }
 
-        Battery battery = (Battery) cell.getObject(SmallCellObject.class);
+        Battery battery = (Battery) cell.getObject(Battery.class);
         if (battery != null) {
             CellItemWidget batteryWidget = create(battery);
             item.addItem(batteryWidget);
         }
 
-        ExitPoint exitPoint = (ExitPoint) cell.getObject(SelfActivatingCellObject.class);
+        ExitPoint exitPoint = (ExitPoint) cell.getObject(ExitPoint.class);
         if (exitPoint != null) {
             CellItemWidget exitWidget = create(exitPoint);
             item.addItem(exitWidget);
         }
 
-        Hole hole = (Hole) cell.getObject(NonInteractiveCellObject.class);
+        Hole hole = (Hole) cell.getObject(Hole.class);
         if (hole != null) {
             CellItemWidget holeWidget = create(hole);
             item.addItem(holeWidget);

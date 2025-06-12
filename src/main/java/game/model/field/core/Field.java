@@ -272,7 +272,7 @@ public class Field {
         for (var cell : cells.entrySet()) {
             Robot robot = null;
             try {
-                robot = (Robot) cell.getValue().getObject(NonStationaryCellObject.class);
+                robot = (Robot) cell.getValue().getObject(Robot.class);
                 if (robot != null) {
                     return robot;
                 }
@@ -296,7 +296,7 @@ public class Field {
         for (var cell : cells.entrySet()) {
             ExitPoint exitPoint = null;
             try {
-                exitPoint = (ExitPoint) cell.getValue().getObject(SelfActivatingCellObject.class);
+                exitPoint = (ExitPoint) cell.getValue().getObject(ExitPoint.class);
                 if (exitPoint != null) {
                     return exitPoint;
                 }
@@ -451,7 +451,7 @@ public class Field {
                     if (neigborCell == null) {
                         continue;
                     }
-                    if (neigborCell.getObject(NonInteractiveCellObject.class) == null && !visited.contains(neigborCell)) {
+                    if (neigborCell.getObject(Robot.class) == null && !visited.contains(neigborCell)) {
                         queue.add(neigborCell);
                         visited.add(neigborCell);
                     }
