@@ -144,12 +144,7 @@ public class Cell extends VisibleFieldObject {
      * @return пустая ли клетка.
      */
     public boolean isEmpty() {
-        for (Class<? extends CellObject> type : endOfHierarchyClasses) {
-            if (objects.containsKey(type)) {
-                return false;
-            }
-        }
-        return true;
+        return objects.isEmpty();
     }
 
     /**
