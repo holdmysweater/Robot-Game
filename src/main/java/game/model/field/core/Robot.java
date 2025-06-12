@@ -1,6 +1,7 @@
 package game.model.field.core;
 
 import game.model.field.cell_objects.ICollidingObject;
+import game.model.field.cell_objects.LowProfileCellObject;
 import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
@@ -192,17 +193,18 @@ public class Robot extends SmallCellObject implements ICollidingObject {
     /**
      * Заменить источник питания {@link Robot#battery}.
      */
-    public boolean changeBattery() { // TODO fix changeBattery()
-        if (!isUnfrozen() || isTeleported()) {
+    public boolean changeBattery() {
+        if (!isUnfrozen() || isTeleported() || getIdleCellPosition() == null) {
             return false;
         }
 
         Battery battery;
 
         try {
-            battery = (Battery) getIdleCellPosition().takeObject(SmallCellObject.class);
+            battery = (Battery) getIdleCellPosition().takeObject(LowProfileCellObject.class);
         }
         catch (Exception e) {
+            System.out.println(e);
             return false;
         }
 
