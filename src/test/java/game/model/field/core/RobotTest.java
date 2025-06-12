@@ -1,6 +1,5 @@
 package game.model.field.core;
 
-import game.model.field.cell_objects.NonStationaryCellObject;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;

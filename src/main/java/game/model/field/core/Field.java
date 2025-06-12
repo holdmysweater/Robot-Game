@@ -1,9 +1,6 @@
 package game.model.field.core;
 
 import game.model.events.*;
-import game.model.field.cell_objects.SelfActivatingCellObject;
-import game.model.field.cell_objects.NonInteractiveCellObject;
-import game.model.field.cell_objects.NonStationaryCellObject;
 import game.model.field.population.Population;
 import game.model.field.population.PopulationManager;
 import game.model.field.population.PopulationMole;
