@@ -52,7 +52,7 @@ public class Cell extends VisibleFieldObject {
      */
     public CellObject getObject(Class<? extends CellObject> type) {
         for (Map.Entry<Class<? extends CellObject>, CellObject> entry : objects.entrySet()) {
-            if (type.isAssignableFrom(entry.getKey())) {
+            if (type.isAssignableFrom(entry.getValue().getClass())) {
                 return entry.getValue();
             }
         }
