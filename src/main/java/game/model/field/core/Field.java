@@ -416,13 +416,16 @@ public class Field {
      *
      * @return может ли робот дойти до точки выхода
      */
-    public boolean canRobotGoToExitCell() { // TODO fix canRobotGoToExitCell
+    public boolean canRobotGoToExitCell() {
         if (getRobot().isTeleported()) {
             return true;
         }
         Cell robotCell = getRobot().getIdleCellPosition();
         if (robotCell == null) {
-            return false;
+            robotCell = getRobot().getArrivalCellPosition();
+            if (robotCell == null) {
+                return false;
+            }
         }
         return canRobotGoFromTo(getRobot().getIdleCellPosition(), getExitPoint().getPosition());
     }
