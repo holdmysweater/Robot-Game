@@ -112,5 +112,15 @@ public abstract class MobileCellObject extends CellObject<Map<Cell, CellObjectSt
         return null;
     }
 
+    public Cell getArrivalCellPosition() {
+        if (this.position != null && this.position.size() == 1) {
+            Map.Entry<Cell, CellObjectStatus> entry = this.position.entrySet().iterator().next();
+            if (entry.getValue() == CellObjectStatus.ARRIVING) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
     //endregion
 }
