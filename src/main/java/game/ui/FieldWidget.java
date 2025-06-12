@@ -112,7 +112,7 @@ public class FieldWidget extends JPanel {
         @Override
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
             Robot robot = event.getRobot();
-            CellWidget cellWidget = widgetFactory.getWidget(robot.getPosition());
+            CellWidget cellWidget = widgetFactory.getWidget(robot.getIdleCellPosition());
             CellItemWidget batteryWidget = widgetFactory.getWidget(event.getBattery());
             cellWidget.removeItem(batteryWidget);
             widgetFactory.remove(event.getBattery());
@@ -128,7 +128,7 @@ public class FieldWidget extends JPanel {
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
             Robot robot = (Robot) event.getCellObject();
-            Cell teleport = robot.getPosition();
+            Cell teleport = robot.getIdleCellPosition();
             CellWidget teleportWidget = widgetFactory.getWidget(teleport);
             CellItemWidget robotWidget = widgetFactory.getWidget(robot);
             teleportWidget.removeItem(robotWidget);
