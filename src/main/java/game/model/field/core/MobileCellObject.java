@@ -3,7 +3,9 @@ package game.model.field.core;
 import game.model.field.cell_objects.IMobileFieldObject;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class MobileCellObject extends CellObject<Map<Cell, CellObjectStatus>> implements IMobileFieldObject {
 
@@ -58,6 +60,9 @@ public abstract class MobileCellObject extends CellObject<Map<Cell, CellObjectSt
         if (status == CellObjectStatus.IDLE) {
             this.position.clear();
             this.position.put(cell, status);
+            if (getApproximatingRectangle() == null) {
+                this.createApproximatingRectangle(newEntry.getKey());
+            }
             return true;
         }
 
@@ -120,6 +125,20 @@ public abstract class MobileCellObject extends CellObject<Map<Cell, CellObjectSt
             }
         }
         return null;
+    }
+
+    //endregion
+
+    //region АППРОКСИМИРУЮЩИЙ ПРЯМОУГОЛЬНИК
+
+    /**
+     * Создать аппроксимирующий прямоугольник
+     *
+     * @param cell клетка, в которой находится объект.
+     */
+    private void createApproximatingRectangle(Cell cell) {
+        ApproximatingRectangle cellApproximationRectangle = cell.getApproximatingRectangle();
+        this.setApproximatingRectangle(cellApproximationRectangle.getCenter());
     }
 
     //endregion
