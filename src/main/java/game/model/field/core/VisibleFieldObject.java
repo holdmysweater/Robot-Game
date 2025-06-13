@@ -145,6 +145,19 @@ public abstract class VisibleFieldObject extends FieldObject {
         return this.approximatingRectangle.intersects(other.approximatingRectangle);
     }
 
+    /**
+     * Центры объектов совпадают.
+     *
+     * @param other объект поля.
+     * @return совпадают ли центры объектов.
+     */
+    boolean hasSameCenter(VisibleFieldObject other) {
+        if (this.approximatingRectangle == null || other.approximatingRectangle == null) {
+            return false;
+        }
+        return this.approximatingRectangle.getCenter() == other.approximatingRectangle.getCenter();
+    }
+
     //endregion
 
     //endregion
