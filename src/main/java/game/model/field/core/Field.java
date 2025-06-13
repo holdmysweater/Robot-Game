@@ -1,10 +1,12 @@
 package game.model.field.core;
 
-import game.model.events.*;
+import game.model.events.ExitPointActionEvent;
+import game.model.events.ExitPointActionListener;
+import game.model.events.FieldActionEvent;
+import game.model.events.FieldActionListener;
 import game.model.field.cell_objects.BigCellObject;
 import game.model.field.population.Population;
 import game.model.field.population.PopulationManager;
-import game.model.field.population.PopulationMole;
 import game.model.field.population.PopulationWithListeners;
 import org.jetbrains.annotations.NotNull;
 
@@ -200,7 +202,6 @@ public class Field {
     private PopulationManager populationManager;
 
     private final Map<Class<? extends Population>, Class<? extends EventListener>> pairsOfPopulationsAndTheirObserver = Map.ofEntries(
-            Map.entry(PopulationMole.class, MoleObserver.class)
     );
 
     private void initiatePopulations() {
@@ -365,15 +366,6 @@ public class Field {
         @Override
         public void robotIsTeleported(@NotNull ExitPointActionEvent event) {
             fireRobotIsTeleported(event.getTeleport());
-        }
-    }
-
-    /**
-     * Класс, реализующий наблюдение за событиями {@link Mole}
-     */
-    private class MoleObserver implements MoleActionListener {
-        @Override
-        public void holeWasCreated(@NotNull MoleActionEvent event) {
         }
     }
 

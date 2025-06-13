@@ -1,10 +1,7 @@
 package game.model.field.core;
 
 import game.Debug;
-import game.model.events.MoleActionEvent;
-import game.model.events.MoleActionListener;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Mole extends FieldObject {
@@ -69,7 +66,6 @@ public class Mole extends FieldObject {
         if (!success) {
             return null;
         }
-        this.fireMoleDigNewHole(hole);
 
         Debug.log(Debug.Options.MoleDigSuccess, "Mole" + this + ": dig hole success");
 
@@ -87,48 +83,6 @@ public class Mole extends FieldObject {
             return null;
         }
         return this.field.getEmptyCell();
-    }
-
-    //endregion
-
-    //region СИГНАЛЫ
-
-    /**
-     * Список слушателей, подписанных на события игры.
-     */
-    private final ArrayList<MoleActionListener> moleListListener = new ArrayList<>();
-
-    /**
-     * Добавить нового слушателя за событиями игры.
-     *
-     * @param listener слушатель.
-     */
-    public void addMoleActionListener(MoleActionListener listener) {
-        moleListListener.add(listener);
-    }
-
-    /**
-     * Удалить слушателя за событиями игры.
-     *
-     * @param listener слушатель.
-     */
-    public void removeMoleActionListener(MoleActionListener listener) {
-        moleListListener.remove(listener);
-    }
-
-    /**
-     * Оповестить слушателей {@link Mole#moleListListener}, что крот вырыл новую яму.
-     *
-     * @param hole яма.
-     */
-    private void fireMoleDigNewHole(Hole hole) {
-        MoleActionEvent event = new MoleActionEvent(this);
-        event.setMole(this);
-        event.setHole(hole);
-
-        for (MoleActionListener listener : moleListListener) {
-            listener.holeWasCreated(event);
-        }
     }
 
     //endregion
