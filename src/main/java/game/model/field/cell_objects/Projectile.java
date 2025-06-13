@@ -1,5 +1,6 @@
 package game.model.field.cell_objects;
 
+import game.model.events.MobileObjectListener;
 import game.model.field.core.Direction;
 import game.model.field.core.MobilityOnFieldProperty;
 import game.model.field.core.VisibleFieldObject;
@@ -27,6 +28,16 @@ public abstract class Projectile extends VisibleFieldObject implements IMobileFi
     @Override
     public Direction getMovementDirection() {
         return _mobility.getMovementDirection();
+    }
+
+    @Override
+    public void addMobileObjectActionListener(MobileObjectListener listener) {
+        _mobility.addMobileObjectActionListener(listener);
+    }
+
+    @Override
+    public void removeMobileObjectActionListener(MobileObjectListener listener) {
+        _mobility.removeMobileObjectActionListener(listener);
     }
 
     //endregion

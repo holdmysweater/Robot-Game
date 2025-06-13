@@ -20,15 +20,5 @@ public class Bullet extends Projectile {
         return true;
     }
 
-    @Override
-    public void addMobileObjectActionListener(MobileObjectListener listener) {
-        
-    }
-
-    @Override
-    public void removeMobileObjectActionListener(MobileObjectListener listener) {
-
-    }
-
     //endregion
 }
