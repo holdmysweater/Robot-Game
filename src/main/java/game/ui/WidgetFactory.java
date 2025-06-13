@@ -69,20 +69,14 @@ public class WidgetFactory {
     public CellItemWidget create(@NotNull CellObject cellObject) {
         if (cellObjects.containsKey(cellObject)) return cellObjects.get(cellObject);
 
-        CellItemWidget createdWidget = null;
-        if (cellObject instanceof Robot) {
-            createdWidget = new RobotWidget((Robot) cellObject, Color.BLUE);
-        } else if (cellObject instanceof Battery) {
-            createdWidget = new BatteryWidget((Battery) cellObject);
-        } else if (cellObject instanceof ExitPoint) {
-            createdWidget = new ExitWidget();
-        } else if (cellObject instanceof Hole) {
-            createdWidget = new HoleWidget();
-        } else if (cellObject instanceof Turret) {
-            createdWidget = new TurretWidget();
-        } else {
-            throw new IllegalArgumentException();
-        }
+        CellItemWidget createdWidget = switch (cellObject) {
+            case Robot robot -> new RobotWidget(robot, Color.BLUE);
+            case Battery battery -> new BatteryWidget(battery);
+            case ExitPoint exitPoint -> new ExitWidget();
+            case Hole hole -> new HoleWidget();
+            case Turret turret -> new TurretWidget();
+            default -> throw new IllegalArgumentException();
+        };
 
         cellObjects.put(cellObject, createdWidget);
         return createdWidget;
