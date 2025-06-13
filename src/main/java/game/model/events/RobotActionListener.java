@@ -11,6 +11,13 @@ import java.util.EventListener;
 public interface RobotActionListener extends EventListener {
 
     /**
+     * Робот начал перемещение.
+     *
+     * @param event объект события класса робот.
+     */
+    void robotStartedMoving(@NotNull RobotActionEvent event);
+
+    /**
      * Робот переместился.
      *
      * @param event объект события класса робот.

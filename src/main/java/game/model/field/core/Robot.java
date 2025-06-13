@@ -79,8 +79,6 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
     private static final int SPEED = 1;
 
-    private Cell oldPosition, newPosition;
-
     @Override
     public boolean move() {
         if (!isUnfrozen() || !isCapable() || _mobility.getMovementDirection() == null) {
@@ -100,13 +98,12 @@ public class Robot extends SmallCellObject implements ICollidingObject {
         if (getArrivalCellPosition() != null && getArrivalCellPosition().hasSameCenter(this)) {
             _mobility.stopMoving();
 
-            boolean success = newPosition.updateMobileObjectStatus(this, CellObjectStatus.IDLE);
+            boolean success = getArrivalCellPosition().updateMobileObjectStatus(this, CellObjectStatus.IDLE);
             if (!success) {
                 throw new RuntimeException("Couldn't update robot status to IDLE");
             }
 
-            fireRobotIsMoved(oldPosition, newPosition);
-            oldPosition = newPosition = null;
+            fireRobotFinishedMoving(getIdleCellPosition());
 
             // TODO move this logic into a manager
             if (getIdleCellPosition().getObject(SelfActivatingCellObject.class) != null) {
@@ -141,7 +138,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             return false;
         }
 
-        newPosition = getIdleCellPosition().getNeighborCell(direction);
+        Cell newPosition = getIdleCellPosition().getNeighborCell(direction);
 
         if (newPosition == null || !newPosition.canSetObject(this.getClass())) {
             return false;
@@ -153,7 +150,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             return false;
         }
 
-        oldPosition = getIdleCellPosition();
+        Cell oldPosition = getIdleCellPosition();
 
         success = oldPosition.updateMobileObjectStatus(this, CellObjectStatus.DEPARTING);
 
@@ -172,6 +169,8 @@ public class Robot extends SmallCellObject implements ICollidingObject {
         if (!success) {
             throw new RuntimeException("Could not start moving to " + newPosition);
         }
+
+        fireRobotStartedMoving(oldPosition);
 
         Debug.log(Debug.Options.RobotMoveStarted, "Robot started moving to " + direction);
 
@@ -372,12 +371,25 @@ public class Robot extends SmallCellObject implements ICollidingObject {
      * Оповестить слушателей {@link Robot#robotListListener}, что робот переместился.
      *
      * @param oldPosition ячейка откуда переместился робот.
-     * @param newPosition ячейка куда переместился робот.
      */
-    private void fireRobotIsMoved(@NotNull Cell oldPosition, @NotNull Cell newPosition) {
+    private void fireRobotStartedMoving(@NotNull Cell oldPosition) {
         RobotActionEvent event = new RobotActionEvent(this);
         event.setRobot(this);
         event.setFromCell(oldPosition);
+
+        for (RobotActionListener listener : robotListListener) {
+            listener.robotStartedMoving(event);
+        }
+    }
+
+    /**
+     * Оповестить слушателей {@link Robot#robotListListener}, что робот переместился.
+     *
+     * @param newPosition ячейка куда переместился робот.
+     */
+    private void fireRobotFinishedMoving(@NotNull Cell newPosition) {
+        RobotActionEvent event = new RobotActionEvent(this);
+        event.setRobot(this);
         event.setToCell(newPosition);
 
         for (RobotActionListener listener : robotListListener) {
