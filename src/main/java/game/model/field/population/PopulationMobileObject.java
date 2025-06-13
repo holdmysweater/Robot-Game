@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.EventObject;
 
-public class PopulationMobileObject extends Population<IMobileFieldObject, MobileObjectListener> {
+public class PopulationMobileObject extends PopulationWithListeners<IMobileFieldObject, MobileObjectListener> {
     @Override
     void update() {
         for (IMobileFieldObject object : this.objects) {

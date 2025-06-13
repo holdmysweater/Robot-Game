@@ -5,7 +5,7 @@ import game.model.events.MoleActionListener;
 import game.model.field.core.Mole;
 import org.jetbrains.annotations.NotNull;
 
-public class PopulationMole extends Population<Mole, MoleActionListener> {
+public class PopulationMole extends PopulationWithListeners<Mole, MoleActionListener> {
     @Override
     void update() {
         for (Mole mole : this.objects) {

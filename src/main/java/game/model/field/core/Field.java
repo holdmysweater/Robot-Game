@@ -5,6 +5,7 @@ import game.model.field.cell_objects.BigCellObject;
 import game.model.field.population.Population;
 import game.model.field.population.PopulationManager;
 import game.model.field.population.PopulationMole;
+import game.model.field.population.PopulationWithListeners;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
@@ -192,35 +193,38 @@ public class Field {
 
         // Для каждой популяции
         for (Population population : populationManager.getPopulations()) {
-            // Получить класс слушателя текущей популяции
-            Class<? extends EventListener> populationObserverClass = pairsOfPopulationsAndTheirObserver.get(population.getClass());
-
-            // Проверить что класс слушателя определён
-            assert populationObserverClass == null : "Population observer class for population " + population.getClass().getSimpleName() + " not initialized.";
-            if (populationObserverClass == null) {
-                continue;
+            // Назначить слушателя популяции, если популяция испускает сигналы
+            if (population instanceof PopulationWithListeners) {
+                addListenerForPopulation((PopulationWithListeners) population);
             }
-
-            // Получить экземпляр слушателя текущей популяции
-            EventListener populationObserver = null;
-            try {
-                // Попробовать создать экземпляр
-                populationObserver = populationObserverClass.getDeclaredConstructor(this.getClass()).newInstance(this);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException e) {
-                // Обработать ошибки, если они возникли при создании экземпляра класса
-                System.err.println(e);
-                assert populationObserver != null : "Can't create instance of " + populationObserverClass.getSimpleName();
-            } finally {
-                // Перейти к следующей популяции, если экземпляр слушателя не был создан
-                if (populationObserver == null) {
-                    continue;
-                }
-            }
-
-            // Добавить слушателя для популяции
-            population.addPopulationActionListener(populationObserver);
         }
+    }
+
+    private boolean addListenerForPopulation(PopulationWithListeners population) {
+        // Получить класс слушателя текущей популяции
+        Class<? extends EventListener> populationObserverClass = pairsOfPopulationsAndTheirObserver.get(population.getClass());
+
+        // Проверить что класс слушателя определён
+        if (populationObserverClass == null) {
+            return false;
+        }
+
+        // Получить экземпляр слушателя текущей популяции
+        EventListener populationObserver;
+
+        // Попробовать создать экземпляр
+        try {
+            populationObserver = populationObserverClass.getDeclaredConstructor(this.getClass()).newInstance(this);
+            // Обработать ошибки, если они возникли при создании экземпляра класса
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            System.err.println(e);
+            return false;
+        }
+
+        // Добавить слушателя для популяции
+        population.addPopulationActionListener(populationObserver);
+        return true;
     }
 
     /**
