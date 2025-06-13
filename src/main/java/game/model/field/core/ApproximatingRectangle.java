@@ -36,7 +36,7 @@ public class ApproximatingRectangle implements Cloneable {
      *
      * @return центральная точка.
      */
-    Point getCenter() {
+    public Point getCenter() {
         return centerPoint;
     }
 
@@ -45,7 +45,7 @@ public class ApproximatingRectangle implements Cloneable {
      *
      * @return ширина.
      */
-    int getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -54,7 +54,7 @@ public class ApproximatingRectangle implements Cloneable {
      *
      * @return высота.
      */
-    int getHeight() {
+    public int getHeight() {
         return height;
     }
 
@@ -63,7 +63,7 @@ public class ApproximatingRectangle implements Cloneable {
      *
      * @return точка прямоугольника.
      */
-    Point getPointNorthWest() {
+    public Point getPointNorthWest() {
         return new Point(centerPoint.getX() - width / 2, centerPoint.getY() - height / 2);
     }
 
@@ -72,7 +72,7 @@ public class ApproximatingRectangle implements Cloneable {
      *
      * @return точка прямоугольника.
      */
-    Point getPointSouthEast() {
+    public Point getPointSouthEast() {
         return new Point(centerPoint.getX() + width / 2, centerPoint.getY() + height / 2);
     }
 
@@ -88,7 +88,7 @@ public class ApproximatingRectangle implements Cloneable {
      * @param approximatingRectangle аппроксимирующий прямоугольник.
      * @return пресекаются ли прямоугольники.
      */
-    boolean intersects(ApproximatingRectangle approximatingRectangle) {
+    public boolean intersects(ApproximatingRectangle approximatingRectangle) {
         int dx = Math.abs(centerPoint.getX() - approximatingRectangle.centerPoint.getX());
         int dy = Math.abs(centerPoint.getY() - approximatingRectangle.centerPoint.getY());
         int intersectX = width / 2 + approximatingRectangle.width / 2;
