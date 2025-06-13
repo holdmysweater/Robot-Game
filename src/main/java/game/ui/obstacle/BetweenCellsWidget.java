@@ -1,6 +1,7 @@
 package game.ui.obstacle;
 
 import game.model.field.core.BetweenCellsArea;
+import game.ui.utils.ImageUtils;
 import org.jetbrains.annotations.NotNull;
 import game.model.field.core.Orientation;
 
@@ -26,7 +27,7 @@ public class BetweenCellsWidget extends JPanel {
         this.orientation = betweenCellsArea.getOrientation();
         if (betweenCellsArea.getObstacle() != null) { setItem(new WallWidget(orientation)); }
         setPreferredSize(getDimensionByOrientation());
-        setBackground(Color.darkGray);
+        setBackground(ImageUtils.BETWEEN_CELLS_COLOR);
     }
 
     /**

@@ -18,4 +18,6 @@ public class ImageUtils {
     public static final String IMAGE_PATH = "src/main/resources/";
 
     public static final Color BACKGROUND_COLOR = Color.decode("#888888");
+
+    public static final Color BETWEEN_CELLS_COLOR = Color.darkGray;
 }
