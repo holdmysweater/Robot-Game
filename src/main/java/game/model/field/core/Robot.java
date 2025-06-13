@@ -32,9 +32,17 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
     //region РАЗМЕРЫ АПРОКСИМИРУЮЩЕГО ПРЯМОУГОЛЬНИКА
 
-    static {
-        DEFAULT_WIDTH = 60;
-        DEFAULT_HEIGHT = 60;
+    public static final int DEFAULT_WIDTH = 60;
+    public static final int DEFAULT_HEIGHT = 113;
+
+    @Override
+    public int getDefaultWidth() {
+        return DEFAULT_WIDTH;
+    }
+
+    @Override
+    public int getDefaultHeight() {
+        return DEFAULT_HEIGHT;
     }
 
     //endregion

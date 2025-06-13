@@ -16,22 +16,12 @@ public abstract class VisibleFieldObject extends FieldObject {
     //region СТАНДАРТНЫЕ РАЗМЕРЫ
 
     /**
-     * Стандартная ширина объекта.
-     */
-    protected static int DEFAULT_WIDTH = -1;
-
-    /**
-     * Стандартная высота объекта.
-     */
-    protected static int DEFAULT_HEIGHT = -1;
-
-    /**
      * Получить стандартную ширину объекта.
      *
      * @return стандартная ширина объекта.
      */
-    public static int getDefaultWidth() {
-        return DEFAULT_WIDTH;
+    public int getDefaultWidth() {
+        return -1;
     }
 
     /**
@@ -39,8 +29,8 @@ public abstract class VisibleFieldObject extends FieldObject {
      *
      * @return стандартная высота объекта.
      */
-    public static int getDefaultHeight() {
-        return DEFAULT_HEIGHT;
+    public int getDefaultHeight() {
+        return -1;
     }
 
     //endregion
@@ -63,26 +53,26 @@ public abstract class VisibleFieldObject extends FieldObject {
     /**
      * Установить аппроксимирующий прямоугольник {@link VisibleFieldObject#approximatingRectangle}.
      * Прямоугольник будет создан со значениями по умолчанию:
-     * {@link VisibleFieldObject#DEFAULT_WIDTH} и {@link VisibleFieldObject#DEFAULT_HEIGHT}.
+     * {@link VisibleFieldObject#getDefaultWidth()} и {@link VisibleFieldObject#getDefaultWidth()}.
      *
      * @param centerPoint центральная точка.
      * @return успешность установки.
      */
     boolean setApproximatingRectangle(Point centerPoint) {
-        return this.setApproximatingRectangle(centerPoint, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        return this.setApproximatingRectangle(centerPoint, getDefaultWidth(), getDefaultHeight());
     }
 
     /**
      * Установить аппроксимирующий прямоугольник {@link VisibleFieldObject#approximatingRectangle}.
      * Прямоугольник будет создан со значениями по умолчанию:
-     * {@link VisibleFieldObject#DEFAULT_WIDTH} и {@link VisibleFieldObject#DEFAULT_HEIGHT}.
+     * {@link VisibleFieldObject#getDefaultWidth()} и {@link VisibleFieldObject#getDefaultHeight()}.
      *
      * @param centerX значение X центральной координаты.
      * @param centerY значение Y центральной координаты.
      * @return успешность установки.
      */
     boolean setApproximatingRectangle(int centerX, int centerY) {
-        return this.setApproximatingRectangle(centerX, centerY, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        return this.setApproximatingRectangle(centerX, centerY, getDefaultWidth(), getDefaultHeight());
     }
 
     /**

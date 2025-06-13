@@ -83,8 +83,8 @@ public class Field {
     private Point calculateApproximatingRectangleCenter(Point p) {
         int x = p.getX();
         int y = p.getY();
-        int defaultCellWidth = Cell.getDefaultWidth();
-        int defaultCellHeight = Cell.getDefaultHeight();
+        int defaultCellWidth = Cell.DEFAULT_WIDTH;
+        int defaultCellHeight = Cell.DEFAULT_HEIGHT;
         int centerX = (defaultCellWidth + DISTANCE_BETWEEN_CELLS) * x + (defaultCellWidth / 2);
         int centerY = (defaultCellHeight + DISTANCE_BETWEEN_CELLS) * y + (defaultCellHeight / 2);
         return new Point(centerX, centerY);

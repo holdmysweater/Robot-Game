@@ -22,8 +22,8 @@ public class FieldWidget extends JLayeredPane {
     private final JPanel gridPanel;
 
     // Размеры клетки
-    private static final int CELL_WIDTH = 120;
-    private static final int CELL_HEIGHT = 120;
+    private static final int CELL_WIDTH = Cell.DEFAULT_WIDTH;
+    private static final int CELL_HEIGHT = Cell.DEFAULT_HEIGHT;
 
     public FieldWidget(@NotNull Field field, @NotNull WidgetFactory widgetFactory) {
         this.field = field;

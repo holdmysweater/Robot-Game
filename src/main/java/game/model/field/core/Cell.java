@@ -12,9 +12,17 @@ public class Cell extends VisibleFieldObject {
 
     //region РАЗМЕРЫ АПРОКСИМИРУЮЩЕГО ПРЯМОУГОЛЬНИКА
 
-    static {
-        DEFAULT_WIDTH = 100;
-        DEFAULT_HEIGHT = 100;
+    public static final int DEFAULT_WIDTH = 120;
+    public static final int DEFAULT_HEIGHT = 120;
+
+    @Override
+    public int getDefaultWidth() {
+        return DEFAULT_WIDTH;
+    }
+
+    @Override
+    public int getDefaultHeight() {
+        return DEFAULT_HEIGHT;
     }
 
     //endregion
