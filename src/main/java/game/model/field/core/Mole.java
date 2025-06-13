@@ -58,8 +58,13 @@ public class Mole extends FieldObject {
         if (cell == null) {
             return null;
         }
+        Point cellPoint = field.getPoint(cell);
+        if (cellPoint == null) {
+            return null;
+        }
+
         Hole hole = new Hole();
-        boolean success = cell.setObject(hole);
+        boolean success = field.addObjectToCell(hole, cellPoint);
         assert success : "Hole must be installed.";
         if (!success) {
             return null;
