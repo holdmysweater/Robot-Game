@@ -180,8 +180,7 @@ public class FieldWidget extends JLayeredPane {
     private class RobotController implements RobotActionListener {
 
         @Override
-        public void robotIsMoved(@NotNull RobotActionEvent event) {
-            // Снимаем с JLayeredPane и добавляем в CellWidget
+        public void robotFinishedMoving(@NotNull RobotActionEvent event) {
             snapRobotWidgetToCell(event.getRobot(), event.getToCell());
             CellItemWidget robotWidget = widgetFactory.getWidget(event.getRobot());
             robotWidget.requestFocus();

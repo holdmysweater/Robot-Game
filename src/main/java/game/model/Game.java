@@ -177,7 +177,7 @@ public class Game {
     private class RobotObserver implements RobotActionListener {
 
         @Override
-        public void robotIsMoved(@NotNull RobotActionEvent event) {
+        public void robotFinishedMoving(@NotNull RobotActionEvent event) {
             fireRobotIsMoved(event.getRobot());
             updateGameStatusWithDelay();
         }

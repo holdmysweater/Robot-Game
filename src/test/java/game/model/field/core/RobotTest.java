@@ -25,7 +25,7 @@ class RobotTest {
     private class EventsListener implements RobotActionListener {
 
         @Override
-        public void robotIsMoved(@NotNull RobotActionEvent event) {
+        public void robotFinishedMoving(@NotNull RobotActionEvent event) {
             events.add(EVENT.ROBOT_MOVED);
         }
 

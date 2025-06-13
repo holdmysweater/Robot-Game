@@ -381,7 +381,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
         event.setToCell(newPosition);
 
         for (RobotActionListener listener : robotListListener) {
-            listener.robotIsMoved(event);
+            listener.robotFinishedMoving(event);
         }
     }
 
