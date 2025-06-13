@@ -75,7 +75,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
     @Override
     public boolean move() {
-        if (!isUnfrozen() || !isCapable()) {
+        if (!isUnfrozen() || !isCapable() || _mobility.getMovementDirection() == null) {
             return false;
         }
 
