@@ -78,12 +78,13 @@ public abstract class MobileCellObject extends CellObject<Map<Cell, CellObjectSt
     }
 
     /**
-     * Устанавливает позицию для одной ячейки и статуса с учетом правил перехода состояний:
+     * Устанавливает позицию для одной ячейки и статуса с учетом новых правил перехода состояний:
      * <ul>
      *   <li>Если статус IDLE — очищает карту позиций и добавляет только эту запись.</li>
-     *   <li>Если текущий статус — IDLE, запрещает переход напрямую в DEPARTING/ARRIVING.</li>
-     *   <li>Если уже есть одна запись DEPARTING или ARRIVING, разрешает добавить вторую только если она соответствует допустимому переходу и ячейки соседние.</li>
-     *   <li>Не допускает больше двух записей в карте позиций.</li>
+     *   <li>Если текущая позиция содержит только IDLE и новый статус DEPARTING для той же ячейки — заменяет IDLE на DEPARTING.</li>
+     *   <li>Если текущая позиция содержит только DEPARTING и приходит ARRIVING для соседней ячейки — добавляет ARRIVING.</li>
+     *   <li>Если в позиции DEPARTING+ARRIVING и приходит IDLE для ячейки ARRIVING — карта сбрасывается и остаётся только IDLE.</li>
+     *   <li>Во всех остальных случаях возвращает false.</li>
      * </ul>
      *
      * @param newEntry пара (ячейка, статус) для установки
@@ -99,42 +100,62 @@ public abstract class MobileCellObject extends CellObject<Map<Cell, CellObjectSt
 
         // Переход в состояние "покой" — очищаем карту и добавляем только эту запись
         if (status == CellObjectStatus.IDLE) {
+            // Если было ARRIVING и ячейка совпадает — сбросить в IDLE
+            if (this.position.size() == 1 && this.position.containsValue(CellObjectStatus.ARRIVING)) {
+                Map.Entry<Cell, CellObjectStatus> entry = this.position.entrySet().iterator().next();
+                if (entry.getKey().equals(cell)) {
+                    this.position.clear();
+                    this.position.put(cell, status);
+                    if (getApproximatingRectangle() == null) {
+                        this.createApproximatingRectangle(cell);
+                    }
+                    return true;
+                }
+            }
+            // Если было DEPARTING+ARRIVING и приходит IDLE для ячейки ARRIVING — сбросить в IDLE
+            if (this.position.size() == 2) {
+                for (Map.Entry<Cell, CellObjectStatus> entry : this.position.entrySet()) {
+                    if (entry.getKey().equals(cell) && entry.getValue() == CellObjectStatus.ARRIVING) {
+                        this.position.clear();
+                        this.position.put(cell, status);
+                        if (getApproximatingRectangle() == null) {
+                            this.createApproximatingRectangle(cell);
+                        }
+                        return true;
+                    }
+                }
+            }
+            // Обычный переход в IDLE
             this.position.clear();
             this.position.put(cell, status);
             if (getApproximatingRectangle() == null) {
-                this.createApproximatingRectangle(newEntry.getKey());
+                this.createApproximatingRectangle(cell);
             }
             return true;
         }
 
-        // Если текущий статус — "покой", переход напрямую в DEPARTING/ARRIVING невозможен
-        if (this.position.containsValue(CellObjectStatus.IDLE)) {
-            return false;
-        }
-
-        // Если выполняется переход — разрешить только валидную пару соседних ячеек
-        if (this.position.size() == 1) {
-            Map.Entry<Cell, CellObjectStatus> existingEntry = this.position.entrySet().iterator().next();
-            Cell existingCell = existingEntry.getKey();
-            CellObjectStatus existingStatus = existingEntry.getValue();
-
-            boolean validTransition =
-                    (existingStatus == CellObjectStatus.DEPARTING && status == CellObjectStatus.ARRIVING) ||
-                            (existingStatus == CellObjectStatus.ARRIVING && status == CellObjectStatus.DEPARTING);
-
-            boolean areNeighbors = existingCell.isNeighbor(cell);
-
-            if (validTransition && areNeighbors) {
+        // Если текущий статус — только IDLE и новый DEPARTING для той же ячейки — заменить
+        if (this.position.size() == 1 && this.position.containsValue(CellObjectStatus.IDLE)) {
+            Map.Entry<Cell, CellObjectStatus> entry = this.position.entrySet().iterator().next();
+            if (status == CellObjectStatus.DEPARTING && entry.getKey().equals(cell)) {
+                this.position.clear();
                 this.position.put(cell, status);
                 return true;
             } else {
-                return false; // Недопустимый переход
+                return false;
             }
         }
 
-        // Если уже две записи в позиции — запрещаем добавлять еще
-        if (this.position.size() >= 2) {
-            return false;
+        // Если текущий статус — только DEPARTING и приходит ARRIVING для соседа — добавить в карту
+        if (this.position.size() == 1 && this.position.containsValue(CellObjectStatus.DEPARTING)) {
+            Map.Entry<Cell, CellObjectStatus> departingEntry = this.position.entrySet().iterator().next();
+            Cell departingCell = departingEntry.getKey();
+            if (status == CellObjectStatus.ARRIVING && !departingCell.equals(cell) && departingCell.isNeighbor(cell)) {
+                this.position.put(cell, status);
+                return true;
+            } else {
+                return false;
+            }
         }
 
         return false;
