@@ -87,7 +87,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             }
         }
 
-        if (getArrivalCellPosition() != null && !getArrivalCellPosition().hasSameCenter(this)) {
+        if (getArrivalCellPosition() != null && getArrivalCellPosition().hasSameCenter(this)) {
             _mobility.stopMoving();
 
             boolean success = newPosition.updateMobileObjectStatus(this, CellObjectStatus.IDLE);
