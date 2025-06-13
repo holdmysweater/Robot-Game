@@ -1,6 +1,7 @@
 package game.model.field.core;
 
 import game.model.events.*;
+import game.model.field.cell_objects.BigCellObject;
 import game.model.field.population.Population;
 import game.model.field.population.PopulationManager;
 import game.model.field.population.PopulationMole;
@@ -427,7 +428,7 @@ public class Field {
                 return false;
             }
         }
-        return canRobotGoFromTo(getRobot().getIdleCellPosition(), getExitPoint().getPosition());
+        return canRobotGoFromTo(robotCell, getExitPoint().getPosition());
     }
 
     /**
@@ -454,7 +455,7 @@ public class Field {
                     if (neigborCell == null) {
                         continue;
                     }
-                    if (neigborCell.getObject(Robot.class) == null && !visited.contains(neigborCell)) {
+                    if (neigborCell.getObject(BigCellObject.class) == null && !visited.contains(neigborCell)) {
                         queue.add(neigborCell);
                         visited.add(neigborCell);
                     }
