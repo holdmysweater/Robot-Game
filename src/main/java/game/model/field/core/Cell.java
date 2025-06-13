@@ -301,7 +301,7 @@ public class Cell extends VisibleFieldObject {
      */
     public boolean isNeighbor(@NotNull Cell cell) {
         for (Direction direction : Direction.values()) {
-            if (getNeighborCell(direction) == this) return true;
+            if (getNeighborCell(direction) == cell) return true;
         }
         return false;
     }
