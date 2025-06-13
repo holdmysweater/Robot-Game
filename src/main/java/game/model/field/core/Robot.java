@@ -2,6 +2,7 @@ package game.model.field.core;
 
 import game.model.field.cell_objects.ICollidingObject;
 import game.model.field.cell_objects.LowProfileCellObject;
+import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.RobotActionEvent;
@@ -92,6 +93,12 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
             fireRobotIsMoved(oldPosition, newPosition);
             oldPosition = newPosition = null;
+
+            // TODO move this logic into a manager
+            if (getIdleCellPosition().getObject(SelfActivatingCellObject.class) != null) {
+                SelfActivatingCellObject object = (SelfActivatingCellObject) getIdleCellPosition().getObject(SelfActivatingCellObject.class);
+                object.execute(this);
+            }
 
             return true;
         }
