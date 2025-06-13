@@ -80,7 +80,11 @@ public class Robot extends SmallCellObject implements ICollidingObject {
         }
 
         if (getDepartCellPosition() != null && !getDepartCellPosition().intersects(this)) {
-            getDepartCellPosition().takeObject(SmallCellObject.class);
+            CellObject object = getDepartCellPosition().takeObject(SmallCellObject.class);
+
+            if (object != this) {
+                throw new RuntimeException("Couldn't take object from departing cell");
+            }
         }
 
         if (getArrivalCellPosition() != null && !getArrivalCellPosition().hasSameCenter(this)) {
