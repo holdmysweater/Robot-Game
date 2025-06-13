@@ -81,7 +81,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
     @Override
     public boolean move() {
-        if (!isUnfrozen() || !isCapable() || _mobility.getMovementDirection() == null) {
+        if (!isCapable() || _mobility.getMovementDirection() == null) {
             return false;
         }
 
@@ -103,6 +103,12 @@ public class Robot extends SmallCellObject implements ICollidingObject {
                 throw new RuntimeException("Couldn't update robot status to IDLE");
             }
 
+            success = battery.drainCharge(AMOUNT_OF_CHARGE_FOR_MOVE);
+            if (!success) {
+                throw new RuntimeException("Couldn't drain charge to mobility");
+            }
+
+            setUnfrozen(true);
             fireRobotFinishedMoving(getIdleCellPosition());
 
             // TODO move this logic into a manager
@@ -144,15 +150,13 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             return false;
         }
 
-        boolean success = battery.drainCharge(AMOUNT_OF_CHARGE_FOR_MOVE);
-
-        if (!success) {
+        if (getCharge() <= 0) {
             return false;
         }
 
         Cell oldPosition = getIdleCellPosition();
 
-        success = oldPosition.updateMobileObjectStatus(this, CellObjectStatus.DEPARTING);
+        boolean success = oldPosition.updateMobileObjectStatus(this, CellObjectStatus.DEPARTING);
 
         if (!success) {
             throw new RuntimeException("Could not update mobile object status");
@@ -170,6 +174,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             throw new RuntimeException("Could not start moving to " + newPosition);
         }
 
+        setUnfrozen(false);
         fireRobotStartedMoving(oldPosition);
 
         Debug.log(Debug.Options.RobotMoveStarted, "Robot started moving to " + direction);
