@@ -19,12 +19,13 @@ public class Bullet extends Projectile {
     @Override
     public boolean move() {
         // TODO move in Bullet
+        _mobility.move();
         return false;
     }
 
     @Override
     public boolean startMoving(@NotNull Direction direction, int speed) {
-        // TODO startMoving in Bullet
+        _mobility.startMoving(direction, speed);
         return true;
     }
 
