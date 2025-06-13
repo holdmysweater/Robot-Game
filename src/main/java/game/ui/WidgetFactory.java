@@ -74,7 +74,7 @@ public class WidgetFactory {
             case Battery battery -> new BatteryWidget(battery);
             case ExitPoint exitPoint -> new ExitWidget();
             case Hole hole -> new HoleWidget();
-            case Turret turret -> new TurretWidget();
+            case Turret turret -> new TurretWidget(turret.getDirection());
             default -> throw new IllegalArgumentException();
         };
 
