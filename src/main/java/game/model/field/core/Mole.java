@@ -55,13 +55,13 @@ public class Mole extends FieldObject {
         if (cell == null) {
             return null;
         }
-        Point cellPoint = field.getPoint(cell);
+        Point cellPoint = getField().getPoint(cell);
         if (cellPoint == null) {
             return null;
         }
 
         Hole hole = new Hole();
-        boolean success = field.addObjectToCell(hole, cellPoint);
+        boolean success = getField().addObjectToCell(hole, cellPoint);
         assert success : "Hole must be installed.";
         if (!success) {
             return null;
@@ -79,10 +79,10 @@ public class Mole extends FieldObject {
      * @return Ячейка, если удалось её найти. В противном случае null.
      */
     private Cell findCellForHole() {
-        if (this.field == null) {
+        if (getField() == null) {
             return null;
         }
-        return this.field.getEmptyCell();
+        return getField().getEmptyCell();
     }
 
     //endregion

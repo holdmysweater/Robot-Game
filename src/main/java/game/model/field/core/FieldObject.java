@@ -10,6 +10,11 @@ public abstract class FieldObject {
     //region ПОЛЕ
 
     /**
+     * Поле на котором находится объект.
+     */
+    private Field field;
+
+    /**
      * Привязать объект к полю.
      * @param filed поле.
      */
@@ -18,9 +23,12 @@ public abstract class FieldObject {
     }
 
     /**
-     * Поле на котором находится объект.
+     * Получить поле.
+     * @return поле.
      */
-    Field field;
+    protected Field getField() {
+        return field;
+    }
     
     //endregion
 
