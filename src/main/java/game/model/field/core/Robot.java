@@ -2,7 +2,6 @@ package game.model.field.core;
 
 import game.model.field.cell_objects.ICollidingObject;
 import game.model.field.cell_objects.LowProfileCellObject;
-import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
 import game.model.events.RobotActionEvent;
@@ -68,16 +67,41 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
     //region ПЕРЕМЕЩЕНИЕ
 
+    private static final int SPEED = 1;
+
+    private Cell oldPosition, newPosition;
+
     @Override
     public boolean move() {
-        // TODO move in Robot
-        return false;
+        if (!isUnfrozen() || !isCapable()) {
+            System.out.println("Couldn't move because froze or incapable");
+            return false;
+        }
+
+        if (getDepartCellPosition() != null && !getDepartCellPosition().intersects(this)) {
+            getDepartCellPosition().takeObject(SmallCellObject.class);
+        }
+
+        if (getArrivalCellPosition() != null && !getArrivalCellPosition().hasSameCenter(this)) {
+            _mobility.stopMoving();
+
+            boolean success = newPosition.updateMobileObjectStatus(this, CellObjectStatus.IDLE);
+            if (!success) {
+                throw new RuntimeException("Couldn't update robot status to IDLE");
+            }
+
+            fireRobotIsMoved(oldPosition, newPosition);
+            oldPosition = newPosition = null;
+
+            return true;
+        }
+
+        return _mobility.move();
     }
 
     @Override
     public boolean startMoving(@NotNull Direction direction, int speed) {
-        // TODO startMoving in Robot
-        return false;
+        return this._mobility.startMoving(direction, speed);
     }
 
     /**
@@ -85,22 +109,12 @@ public class Robot extends SmallCellObject implements ICollidingObject {
      *
      * @param direction направление.
      */
-    public boolean move(@NotNull Direction direction) { // TODO fix move()
-        if (!isUnfrozen()) {
+    public boolean move(@NotNull Direction direction) {
+        if (!isUnfrozen() || !isCapable() || getIdleCellPosition() == null) {
             return false;
         }
 
-        if (getIdleCellPosition() == null) {
-            System.out.println("Idle cell position is null");
-            return false;
-        }
-
-        if (getIdleCellPosition().getNeighborObstacle(direction) != null) {
-            System.out.println("Wall");
-            return false;
-        }
-
-        Cell newPosition = getIdleCellPosition().getNeighborCell(direction);
+        newPosition = getIdleCellPosition().getNeighborCell(direction);
 
         if (newPosition == null || !newPosition.canSetObject(this.getClass())) {
             return false;
@@ -112,22 +126,27 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             return false;
         }
 
-        Cell oldPosition = getIdleCellPosition();
+        oldPosition = getIdleCellPosition();
 
-        oldPosition.takeObject(SmallCellObject.class);
+        success = oldPosition.updateMobileObjectStatus(this, CellObjectStatus.DEPARTING);
 
-        success = newPosition.setObject(this);
+        if (!success) {
+            throw new RuntimeException("Could not update mobile object status");
+        }
+
+        success = newPosition.setObject(this, CellObjectStatus.ARRIVING);
 
         if (!success) {
             throw new RuntimeException("Robot can't move to the " + newPosition);
         }
 
-        fireRobotIsMoved(oldPosition, newPosition);
+        success = startMoving(direction, SPEED);
 
-        SelfActivatingCellObject selfActivatingCellObject = (SelfActivatingCellObject) getIdleCellPosition().getObject(SelfActivatingCellObject.class);
-        if (selfActivatingCellObject != null) {
-            selfActivatingCellObject.execute(this);
+        if (!success) {
+            throw new RuntimeException("Could not start moving to " + newPosition);
         }
+
+        System.out.println("Robot started moving to " + direction);
 
         return true;
     }
