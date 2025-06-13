@@ -7,6 +7,7 @@ import game.ui.obstacle.BetweenCellsWidget;
 import game.ui.cell.*;
 
 import javax.swing.*;
+import java.util.EventObject;
 
 public class FieldWidget extends JPanel {
 
@@ -86,6 +87,16 @@ public class FieldWidget extends JPanel {
     private void subscribeOnRobots() {
         Robot robot = field.getRobot();
         robot.addRobotActionListener(new RobotController());
+        robot.addMobileObjectActionListener(new MobileObjectObserver());
+    }
+
+    private class MobileObjectObserver implements MobileObjectListener {
+
+        @Override
+        public void objectIsMoved(EventObject event) {
+            Robot robot = (Robot) event.getSource();
+            Point point = robot.getApproximatingRectangle().getCenter(); // TODO this is the center of the robot widget according to field
+        }
     }
 
     private class RobotController implements RobotActionListener {
