@@ -2,57 +2,76 @@ package game.ui;
 
 import game.model.events.*;
 import game.model.field.core.*;
+import game.model.field.core.Point;
+import game.model.field.core.Robot;
 import org.jetbrains.annotations.NotNull;
 import game.ui.obstacle.BetweenCellsWidget;
 import game.ui.cell.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.EventObject;
 
-public class FieldWidget extends JPanel {
-
-    // region КОНСТРУКТОРЫ
+/**
+ * Виджет поля, поддерживающий покадровое движение робота через JLayeredPane.
+ */
+public class FieldWidget extends JLayeredPane {
 
     private final Field field;
     private final WidgetFactory widgetFactory;
+    private final JPanel gridPanel;
 
-    public FieldWidget(@NotNull Field field, @NotNull  WidgetFactory widgetFactory) {
+    // Размеры клетки
+    private static final int CELL_WIDTH = 120;
+    private static final int CELL_HEIGHT = 120;
+
+    public FieldWidget(@NotNull Field field, @NotNull WidgetFactory widgetFactory) {
         this.field = field;
         this.widgetFactory = widgetFactory;
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        // --- Сетка ---
+        gridPanel = new JPanel();
+        gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.Y_AXIS));
+        gridPanel.setOpaque(false);
         fillField();
+
+        int w = field.getWidth() * CELL_WIDTH;
+        int h = field.getHeight() * CELL_HEIGHT;
+        setPreferredSize(new Dimension(w, h));
+        setLayout(null);
+
+        gridPanel.setBounds(0, 0, w, h);
+        add(gridPanel, JLayeredPane.DEFAULT_LAYER);
+
         subscribeOnRobots();
         field.addFieldActionListener(new FieldController());
     }
 
-    //endregion
-
-    // region СОЗДАНИЕ ПОЛЯ
-
+    // --- СОЗДАНИЕ ПОЛЯ ---
     private void fillField() {
-        if(field.getHeight() > 0) {
+        if (field.getHeight() > 0) {
             JPanel startRowWalls = createRowWalls(0, Direction.NORTH);
-            add(startRowWalls);
+            gridPanel.add(startRowWalls);
         }
 
         for (int i = 0; i < field.getHeight(); ++i) {
             JPanel row = createRow(i);
-            add(row);
+            gridPanel.add(row);
             JPanel rowWalls = createRowWalls(i, Direction.SOUTH);
-            add(rowWalls);
+            gridPanel.add(rowWalls);
         }
     }
 
     private JPanel createRow(int rowIndex) {
         JPanel row = new JPanel();
         row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
-
-        for(int i = 0; i < field.getWidth(); ++i) {
+        row.setOpaque(false);
+        for (int i = 0; i < field.getWidth(); ++i) {
             Point point = new Point(i, rowIndex);
             Cell cell = field.getCell(point);
             CellWidget cellWidget = widgetFactory.create(cell);
 
-            if(i == 0)  {
+            if (i == 0) {
                 BetweenCellsWidget westCellWidget = widgetFactory.create(cell.getNeighborArea(Direction.WEST));
                 row.add(westCellWidget);
             }
@@ -66,11 +85,12 @@ public class FieldWidget extends JPanel {
     }
 
     private JPanel createRowWalls(int rowIndex, Direction direction) {
-        if(direction == Direction.EAST || direction == Direction.WEST) throw new IllegalArgumentException();
+        if (direction == Direction.EAST || direction == Direction.WEST) throw new IllegalArgumentException();
         JPanel row = new JPanel();
         row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+        row.setOpaque(false);
 
-        for(int i = 0; i < field.getWidth(); ++i) {
+        for (int i = 0; i < field.getWidth(); ++i) {
             Point point = new Point(i, rowIndex);
             Cell cell = field.getCell(point);
 
@@ -90,26 +110,80 @@ public class FieldWidget extends JPanel {
         robot.addMobileObjectActionListener(new MobileObjectObserver());
     }
 
+    /**
+     * Перемещает виджет робота в пиксельную позицию на JLayeredPane (во время движения).
+     */
+    private void updateRobotWidgetPosition(Robot robot, int pixelX, int pixelY) {
+        RobotWidget robotWidget = (RobotWidget) widgetFactory.getWidget(robot);
+
+        // Удаляем из любого родителя
+        Container parent = robotWidget.getParent();
+        if (parent != null) parent.remove(robotWidget);
+
+        // Добавляем на слой движения, если еще не там
+        if (robotWidget.getParent() != this) {
+            this.add(robotWidget, JLayeredPane.DRAG_LAYER);
+        }
+
+        // Центрируем по координате центра из модели
+        robotWidget.setBounds(pixelX, pixelY, robotWidget.getWidth(), robotWidget.getHeight());
+        robotWidget.repaint();
+        this.repaint();
+    }
+
+    /**
+     * При прибытии в ячейку перемещает виджет робота обратно в CellWidget.
+     */
+    private void snapRobotWidgetToCell(Robot robot, Cell cell) {
+        RobotWidget robotWidget = (RobotWidget) widgetFactory.getWidget(robot);
+
+        // Удаляем с JLayeredPane (если был)
+        if (robotWidget.getParent() == this) {
+            this.remove(robotWidget);
+        }
+
+        // Добавляем обратно в CellWidget
+        CellWidget cellWidget = widgetFactory.getWidget(cell);
+        cellWidget.addItem(robotWidget);
+        cellWidget.revalidate();
+        cellWidget.repaint();
+
+        this.repaint();
+    }
+
+    /**
+     * Перемещение робота покадрово (вызывается когда робот "движется").
+     */
     private class MobileObjectObserver implements MobileObjectListener {
 
         @Override
         public void objectIsMoved(EventObject event) {
             Robot robot = (Robot) event.getSource();
-            Point point = robot.getApproximatingRectangle().getCenter(); // TODO this is the center of the robot widget according to field
+            ApproximatingRectangle approx = robot.getApproximatingRectangle();
+            Point center = approx.getCenter();
+
+            RobotWidget robotWidget = (RobotWidget) widgetFactory.getWidget(robot);
+            int widgetW = robotWidget.getWidth();
+            int widgetH = robotWidget.getHeight();
+
+            // Центрируем по пиксельной координате из модели (минус половина размера виджета)
+            int pixelX = center.getX() - widgetW / 2;
+            int pixelY = center.getY() - widgetH / 2;
+
+            updateRobotWidgetPosition(robot, pixelX, pixelY);
         }
     }
 
+    /**
+     * Когда робот прибыл в ячейку (вызывается только после завершения движения).
+     */
     private class RobotController implements RobotActionListener {
 
         @Override
         public void robotIsMoved(@NotNull RobotActionEvent event) {
+            // Снимаем с JLayeredPane и добавляем в CellWidget
+            snapRobotWidgetToCell(event.getRobot(), event.getToCell());
             CellItemWidget robotWidget = widgetFactory.getWidget(event.getRobot());
-            CellWidget from = widgetFactory.getWidget(event.getFromCell());
-            CellWidget to = widgetFactory.getWidget(event.getToCell());
-            from.removeItem(robotWidget);
-            if (!event.getRobot().isTeleported()) {
-                to.addItem(robotWidget);
-            }
             robotWidget.requestFocus();
         }
 
