@@ -38,6 +38,8 @@ public class Main {
             setJMenuBar(menuBar);
 
             setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+            pack();
         }
 
         private JMenu createGameMenu() {
