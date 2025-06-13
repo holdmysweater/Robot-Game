@@ -47,6 +47,12 @@ public class WidgetFactory {
             item.addItem(holeWidget);
         }
 
+        Turret turret = (Turret) cell.getObject(Turret.class);
+        if (turret != null) {
+            CellItemWidget turretWidget = create(turret);
+            item.addItem(turretWidget);
+        }
+
         cells.put(cell, item);
         return item;
     }
@@ -72,6 +78,8 @@ public class WidgetFactory {
             createdWidget = new ExitWidget();
         } else if (cellObject instanceof Hole) {
             createdWidget = new HoleWidget();
+        } else if (cellObject instanceof Turret) {
+            createdWidget = new TurretWidget();
         } else {
             throw new IllegalArgumentException();
         }
