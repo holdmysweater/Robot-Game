@@ -128,7 +128,11 @@ public class Cell extends VisibleFieldObject {
 
         if (result != null) {
             if (result instanceof MobileCellObject) {
-                ((MobileCellObject) result).unsetPosition(this);
+                boolean success = ((MobileCellObject) result).unsetPosition(this);
+
+                if (!success) {
+                    throw new RuntimeException("Couldn't unset position: " + result);
+                }
             }
             else {
                 result.unsetPosition();
