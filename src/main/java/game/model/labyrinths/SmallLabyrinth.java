@@ -1,8 +1,8 @@
 package game.model.labyrinths;
 
+import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.core.*;
 import org.jetbrains.annotations.NotNull;
-import game.model.field.between_cells_objects.WallSegment;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -83,6 +83,11 @@ public class SmallLabyrinth extends Labyrinth {
         map.put(
                 new Battery(0),
                 new Point(1, 3)
+        );
+
+        map.put(
+                new Turret(Direction.WEST),
+                new Point(2, 1)
         );
 
         return map;
