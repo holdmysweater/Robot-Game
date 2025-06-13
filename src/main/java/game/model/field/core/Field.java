@@ -391,7 +391,7 @@ public class Field {
      */
     private void fireRobotIsTeleported(@NotNull ExitPoint teleport) {
         FieldActionEvent event = new FieldActionEvent(this);
-        event.setCellObject(teleport.getTeleportedRobot());
+        event.setFieldObject(teleport.getTeleportedRobot());
 
         for (FieldActionListener listener : fieldListListener) {
             listener.robotIsTeleported(event);
@@ -405,7 +405,7 @@ public class Field {
      */
     private void fireHoleWasCreated(@NotNull Hole hole) {
         FieldActionEvent event = new FieldActionEvent(this);
-        event.setCellObject(hole);
+        event.setFieldObject(hole);
 
         for (FieldActionListener listener : fieldListListener) {
             listener.holeWasCreated(event);

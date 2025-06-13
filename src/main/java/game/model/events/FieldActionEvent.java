@@ -1,9 +1,8 @@
 package game.model.events;
 
-import game.model.field.core.CellObject;
 import game.model.field.core.Field;
+import game.model.field.core.FieldObject;
 import org.jetbrains.annotations.NotNull;
-import game.model.field.core.Robot;
 
 import java.util.EventObject;
 
@@ -26,29 +25,29 @@ public class FieldActionEvent extends EventObject {
 
     //endregion
 
-    //region ОБЪЕКТ В ЯЧЕЙКЕ
+    //region ОБЪЕКТ ПОЛЯ
 
     /**
      * Объект в ячейке.
      */
-    private CellObject cellObject;
+    private FieldObject fieldObject;
 
     /**
-     * Установить объект {@link FieldActionEvent#cellObject}.
+     * Установить объект {@link FieldActionEvent#fieldObject}.
      *
-     * @param cellObject объект.
+     * @param fieldObject объект.
      */
-    public void setCellObject(@NotNull CellObject cellObject) {
-        this.cellObject = cellObject;
+    public void setFieldObject(@NotNull FieldObject fieldObject) {
+        this.fieldObject = fieldObject;
     }
 
     /**
-     * Получить объект {@link FieldActionEvent#cellObject}.
+     * Получить объект {@link FieldActionEvent#fieldObject}.
      *
      * @return объект.
      */
-    public CellObject getCellObject() {
-        return cellObject;
+    public FieldObject getFieldObject() {
+        return fieldObject;
     }
 
     //endregion

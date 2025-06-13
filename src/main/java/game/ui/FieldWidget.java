@@ -4,10 +4,12 @@ import game.model.events.*;
 import game.model.field.core.*;
 import game.model.field.core.Point;
 import game.model.field.core.Robot;
+import game.ui.cell.CellItemWidget;
+import game.ui.cell.CellWidget;
+import game.ui.cell.RobotWidget;
+import game.ui.obstacle.BetweenCellsWidget;
 import game.ui.utils.ImageUtils;
 import org.jetbrains.annotations.NotNull;
-import game.ui.obstacle.BetweenCellsWidget;
-import game.ui.cell.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,8 +34,8 @@ public class FieldWidget extends JLayeredPane {
         int cellW = Cell.DEFAULT_WIDTH;
         int cellH = Cell.DEFAULT_HEIGHT;
         int spacing = Field.DISTANCE_BETWEEN_CELLS;
-        int w = field.getWidth() * cellW + (field.getWidth()-1) * spacing;
-        int h = field.getHeight() * cellH + (field.getHeight()-1) * spacing;
+        int w = field.getWidth() * cellW + (field.getWidth() - 1) * spacing;
+        int h = field.getHeight() * cellH + (field.getHeight() - 1) * spacing;
 
         setPreferredSize(new Dimension(w, h));
 
@@ -169,7 +171,7 @@ public class FieldWidget extends JLayeredPane {
 
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
-            Robot robot = (Robot) event.getCellObject();
+            Robot robot = (Robot) event.getFieldObject();
             Cell teleport = robot.getIdleCellPosition();
             CellWidget teleportWidget = widgetFactory.getWidget(teleport);
             CellItemWidget robotWidget = widgetFactory.getWidget(robot);
@@ -178,7 +180,7 @@ public class FieldWidget extends JLayeredPane {
 
         @Override
         public void holeWasCreated(@NotNull FieldActionEvent event) {
-            Hole hole = (Hole) event.getCellObject();
+            Hole hole = (Hole) event.getFieldObject();
             CellItemWidget holeWidget = widgetFactory.create(hole);
             Cell cell = hole.getPosition();
             CellWidget cellWidget = widgetFactory.getWidget(cell);
