@@ -155,7 +155,7 @@ public abstract class VisibleFieldObject extends FieldObject {
         if (this.approximatingRectangle == null || other.approximatingRectangle == null) {
             return false;
         }
-        return this.approximatingRectangle.getCenter() == other.approximatingRectangle.getCenter();
+        return this.approximatingRectangle.getCenter().equals(other.approximatingRectangle.getCenter());
     }
 
     //endregion
