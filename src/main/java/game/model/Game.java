@@ -83,7 +83,7 @@ public class Game {
     /**
      * Задержка обновления статуса игры.
      */
-    private final int GAME_STATUS_UPDATE_DELAY = 5;
+    private final int GAME_STATUS_UPDATE_DELAY = 1;
 
     /**
      * Получить текущий статус игры {@link Game#gameStatus}
@@ -184,7 +184,7 @@ public class Game {
         @Override
         public void robotFinishedMoving(@NotNull RobotActionEvent event) {
             fireRobotIsMoved(event.getRobot());
-            updateGameStatusWithDelay();
+            updateGameStatus();
         }
 
         @Override
@@ -206,11 +206,12 @@ public class Game {
         @Override
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
             fireRobotIsTeleported();
+            updateGameStatusWithDelay();
         }
 
         @Override
         public void holeWasCreated(@NotNull FieldActionEvent event) {
-            updateGameStatusWithDelay();
+            updateGameStatus();
         }
     }
 
