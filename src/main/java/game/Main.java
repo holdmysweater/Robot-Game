@@ -53,7 +53,7 @@ public class Main {
 
         private void startGame() {
             widgetFactory = new WidgetFactory();
-            game = new Game(new SmallLabyrinth(), 1000);
+            game = new Game(new SmallLabyrinth(), 1);
 
             game.addGameActionListener(new GameController());
 
