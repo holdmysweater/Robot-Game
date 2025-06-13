@@ -1,5 +1,6 @@
 package game.model.field.population;
 
+import game.Debug;
 import game.model.events.MobileObjectListener;
 import game.model.field.cell_objects.IMobileFieldObject;
 import game.model.field.core.Mole;
@@ -37,7 +38,7 @@ public class PopulationMobileObject extends Population<IMobileFieldObject, Mobil
      * @param event яма.
      */
     private void fireMobileObjectMoved(@NotNull EventObject event) {
-        System.out.println("Object" + event.getSource() + ": moved");
+        Debug.log(Debug.Options.MobileObjectMoved, "Object " + event.getSource() + ": moved");
 
         for (MobileObjectListener listener : populationListListener) {
             listener.objectIsMoved(event);

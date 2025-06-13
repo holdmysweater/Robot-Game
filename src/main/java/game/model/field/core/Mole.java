@@ -1,5 +1,6 @@
 package game.model.field.core;
 
+import game.Debug;
 import game.model.events.MoleActionEvent;
 import game.model.events.MoleActionListener;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,8 @@ public class Mole extends FieldObject {
      * @return Яма, если была вырыта. В противном случае null.
      */
     public Hole update() {
-        System.out.println("Mole" + this + ": updated");
+        Debug.log(Debug.Options.MoleUpdated, "Mole " + this + ": updated");
+
         Random rand = new Random();
         if (rand.nextInt(1, 101) <= PROBABILITY) {
             return this.digHole();
@@ -37,7 +39,8 @@ public class Mole extends FieldObject {
      * @return Яма, если удалось её вырыть. В противном случае null.
      */
     private Hole digHole() {
-        System.out.println("Mole" + this + ": dig hole start");
+        Debug.log(Debug.Options.MoleDigStart, "Mole" + this + ": dig hole start");
+
         Cell cell = this.findCellForHole();
         if (cell == null) {
             return null;
@@ -49,7 +52,9 @@ public class Mole extends FieldObject {
             return null;
         }
         this.fireMoleDigNewHole(hole);
-        System.out.println("Mole" + this + ": dig hole success");
+
+        Debug.log(Debug.Options.MoleDigSuccess, "Mole" + this + ": dig hole success");
+
         return hole;
     }
 

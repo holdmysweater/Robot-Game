@@ -1,5 +1,6 @@
 package game.ui.cell;
 
+import game.Debug;
 import game.model.field.core.Direction;
 import game.model.field.core.Robot;
 import game.ui.cell.CellWidget.Layer;
@@ -167,16 +168,16 @@ public class RobotWidget extends CellItemWidget {
         private void changeBatteryAction(int keyCode) {
             if (keyCode == KeyEvent.VK_G) {
                 boolean success = robot.changeBattery();
-                if (!success) System.out.println("Can't take battery");
+                if (!success) Debug.log(Debug.Options.RobotChangeBatteryFailed, "Couldn't change battery");
             }
         }
 
         private void moveAction(int keyCode) {
             Direction direction = directionByKeyCode(keyCode);
             if (direction != null) {
-                System.out.println("Go to " + direction);
+                Debug.log(Debug.Options.RobotKeyPressed, "Pressed key to go " + direction);
                 boolean success = robot.move(direction);
-                if (!success) System.out.println("Can't move " + direction);
+                if (!success) Debug.log(Debug.Options.RobotMoveFailed, "Can't move " + direction);
             }
         }
 

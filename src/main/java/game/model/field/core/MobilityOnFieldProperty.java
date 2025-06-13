@@ -1,5 +1,6 @@
 package game.model.field.core;
 
+import game.Debug;
 import game.model.events.MobileObjectListener;
 import game.model.field.cell_objects.IMobileFieldObject;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +25,7 @@ public class MobilityOnFieldProperty implements IMobileFieldObject {
     @Override
     public boolean move() {
         if (getMovementDirection() == null) {
-            System.out.println(_owner + " didn't move because direction is null");
+            Debug.log(Debug.Options.MobileObjectMoveFailed, _owner + " didn't move because direction is null");
             return false;
         }
 

@@ -1,5 +1,6 @@
 package game.model.field.core;
 
+import game.Debug;
 import game.model.field.cell_objects.ICollidingObject;
 import game.model.field.cell_objects.LowProfileCellObject;
 import game.model.field.cell_objects.SelfActivatingCellObject;
@@ -75,7 +76,6 @@ public class Robot extends SmallCellObject implements ICollidingObject {
     @Override
     public boolean move() {
         if (!isUnfrozen() || !isCapable()) {
-            System.out.println("Couldn't move because froze or incapable");
             return false;
         }
 
@@ -99,6 +99,8 @@ public class Robot extends SmallCellObject implements ICollidingObject {
                 SelfActivatingCellObject object = (SelfActivatingCellObject) getIdleCellPosition().getObject(SelfActivatingCellObject.class);
                 object.execute(this);
             }
+
+            Debug.log(Debug.Options.RobotMoveFinished, "Robot arrived in cell and stopped moving");
 
             return true;
         }
@@ -153,7 +155,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             throw new RuntimeException("Could not start moving to " + newPosition);
         }
 
-        System.out.println("Robot started moving to " + direction);
+        Debug.log(Debug.Options.RobotMoveStarted, "Robot started moving to " + direction);
 
         return true;
     }
