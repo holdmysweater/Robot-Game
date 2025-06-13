@@ -179,8 +179,14 @@ public class FieldWidget extends JLayeredPane {
         }
 
         @Override
-        public void holeWasCreated(@NotNull FieldActionEvent event) {
-            Hole hole = (Hole) event.getFieldObject();
+        public void objectWasCreated(@NotNull FieldActionEvent event) {
+            FieldObject fieldObject = event.getFieldObject();
+            if (fieldObject instanceof Hole) {
+                holeWasCreated((Hole) fieldObject);
+            }
+        }
+
+        private void holeWasCreated(@NotNull Hole hole) {
             CellItemWidget holeWidget = widgetFactory.create(hole);
             Cell cell = hole.getPosition();
             CellWidget cellWidget = widgetFactory.getWidget(cell);

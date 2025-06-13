@@ -251,6 +251,9 @@ public class Field {
     public void addObject(@NotNull FieldObject object) {
         object.setField(this);
         populationManager.addObject(object);
+
+        // Испустить событие о новом объекте
+        fireObjectWasCreated(object);
     }
 
     /**
@@ -275,6 +278,9 @@ public class Field {
 
         // Добавить объект в популяции
         populationManager.addObject(object);
+
+        // Испустить событие о новом объекте
+        fireObjectWasCreated(object);
 
         // Вернуть Правду
         return true;
@@ -368,7 +374,6 @@ public class Field {
     private class MoleObserver implements MoleActionListener {
         @Override
         public void holeWasCreated(@NotNull MoleActionEvent event) {
-            fireHoleWasCreated(event.getHole());
         }
     }
 
@@ -415,16 +420,16 @@ public class Field {
     }
 
     /**
-     * Оповестить слушателей {@link Field#fieldListListener}, что вырыта яма.
+     * Оповестить слушателей {@link Field#fieldListListener}, что добавлен новый объект.
      *
-     * @param hole яма.
+     * @param object новый объект поля.
      */
-    private void fireHoleWasCreated(@NotNull Hole hole) {
+    private void fireObjectWasCreated(@NotNull FieldObject object) {
         FieldActionEvent event = new FieldActionEvent(this);
-        event.setFieldObject(hole);
+        event.setFieldObject(object);
 
         for (FieldActionListener listener : fieldListListener) {
-            listener.holeWasCreated(event);
+            listener.objectWasCreated(event);
         }
     }
 

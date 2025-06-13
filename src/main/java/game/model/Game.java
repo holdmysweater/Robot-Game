@@ -1,13 +1,15 @@
 package game.model;
 
-import org.jetbrains.annotations.NotNull;
 import game.model.events.*;
 import game.model.field.core.Field;
+import game.model.field.core.FieldObject;
+import game.model.field.core.Hole;
 import game.model.field.core.Robot;
 import game.model.labyrinths.Labyrinth;
+import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.ArrayList;
-import javax.swing.Timer;
 
 /**
  * Игра.
@@ -210,8 +212,11 @@ public class Game {
         }
 
         @Override
-        public void holeWasCreated(@NotNull FieldActionEvent event) {
-            updateGameStatus();
+        public void objectWasCreated(@NotNull FieldActionEvent event) {
+            FieldObject fieldObject = event.getFieldObject();
+            if (fieldObject instanceof Hole) {
+                updateGameStatus();
+            }
         }
     }
 

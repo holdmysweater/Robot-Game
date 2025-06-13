@@ -1,11 +1,11 @@
 package game.model.field.core;
 
+import game.model.events.FieldActionEvent;
+import game.model.events.FieldActionListener;
 import game.model.field.cell_objects.SelfActivatingCellObject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.events.FieldActionEvent;
-import game.model.events.FieldActionListener;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +21,7 @@ public class FieldTest {
         }
 
         @Override
-        public void holeWasCreated(@NotNull FieldActionEvent event) {
+        public void objectWasCreated(@NotNull FieldActionEvent event) {
             // Not implemented
         }
     }
