@@ -3,7 +3,6 @@ package game.model.field.core;
 import game.Debug;
 import game.model.events.MoleActionEvent;
 import game.model.events.MoleActionListener;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,6 +10,13 @@ import java.util.Random;
 public class Mole extends FieldObject {
 
     //region РЫТЬ ЯМУ
+
+    /**
+     * Задержка перед тем, как вырыть яму
+     */
+    private static final int DELAY = 300;
+
+    private int currentDelay = 0;
 
     /**
      * Вероятность события "крот выроет яму когда проснётся"
@@ -23,10 +29,17 @@ public class Mole extends FieldObject {
      * @return Яма, если была вырыта. В противном случае null.
      */
     public Hole update() {
+        currentDelay++;
+
+        if (currentDelay < DELAY) {
+            return null;
+        }
+
         Debug.log(Debug.Options.MoleUpdated, "Mole " + this + ": updated");
 
         Random rand = new Random();
         if (rand.nextInt(1, 101) <= PROBABILITY) {
+            currentDelay = 0;
             return this.digHole();
         } else {
             return null;
