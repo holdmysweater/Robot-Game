@@ -85,6 +85,8 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             if (object != this) {
                 throw new RuntimeException("Couldn't take object from departing cell");
             }
+
+            Debug.log(Debug.Options.RobotLeftDepartingCell, "Robot left departing cell");
         }
 
         if (getArrivalCellPosition() != null && getArrivalCellPosition().hasSameCenter(this)) {

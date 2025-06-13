@@ -26,6 +26,7 @@ public class Debug {
         //region Опции робота
         RobotKeyPressed(ConsoleColor.BRIGHT_GREEN),
         RobotMoveStarted(ConsoleColor.GREEN),
+        RobotLeftDepartingCell(ConsoleColor.GREEN),
         RobotMoveFinished(ConsoleColor.BRIGHT_GREEN),
         RobotMoveFailed(ConsoleColor.BRIGHT_RED),
         RobotChangeBatteryFailed(ConsoleColor.YELLOW),
@@ -138,6 +139,7 @@ public class Debug {
     public static void enableRobotOptions() {
         enabledOptions.add(Options.RobotKeyPressed);
         enabledOptions.add(Options.RobotMoveStarted);
+        enabledOptions.add(Options.RobotLeftDepartingCell);
         enabledOptions.add(Options.RobotMoveFinished);
         enabledOptions.add(Options.RobotMoveFailed);
         enabledOptions.add(Options.RobotChangeBatteryFailed);
