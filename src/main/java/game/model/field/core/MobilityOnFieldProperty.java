@@ -22,14 +22,15 @@ public class MobilityOnFieldProperty implements IMobileFieldObject {
     protected Direction _direction;
 
     @Override
-    public void move() {
+    public boolean move() {
         if (getMovementDirection() == null) {
             System.out.println(_owner + " didn't move because direction is null");
-            return;
+            return false;
         }
 
         _owner.getApproximatingRectangle().move(_direction, _speed);
         fireObjectIsMoved();
+        return true;
     }
 
     @Override

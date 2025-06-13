@@ -69,8 +69,9 @@ public class Robot extends SmallCellObject implements ICollidingObject {
     //region ПЕРЕМЕЩЕНИЕ
 
     @Override
-    public void move() {
+    public boolean move() {
         // TODO move in Robot
+        return false;
     }
 
     @Override

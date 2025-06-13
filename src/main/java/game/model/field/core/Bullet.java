@@ -9,8 +9,9 @@ public class Bullet extends Projectile {
     //region ПЕРЕМЕЩЕНИЕ
 
     @Override
-    public void move() {
+    public boolean move() {
         // TODO move in Bullet
+        return false;
     }
 
     @Override
