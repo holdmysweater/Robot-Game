@@ -159,6 +159,22 @@ public class Field {
     }
 
     /**
+     * Получить координату ячейки.
+     * Вернёт null, если ячейка не принадлежит полю.
+     *
+     * @param cell ячейка.
+     * @return координата.
+     */
+    public Point getPoint(@NotNull Cell cell) {
+        for (Map.Entry<Point, Cell> entry : cells.entrySet()) {
+            if (cell.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    /**
      * Получить случайную свободную клетку.
      *
      * @return Свободная клетка, если удалось её найти. В противном случае null.
