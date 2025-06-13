@@ -6,6 +6,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class Bullet extends Projectile {
 
+    //region КОНСТРУКТОР
+
+    Bullet(Direction direction, int speed) {
+        startMoving(direction, speed);
+    }
+
+    //endregion
+
     //region ПЕРЕМЕЩЕНИЕ
 
     @Override
