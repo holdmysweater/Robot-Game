@@ -1,5 +1,6 @@
 package game.model.field.population;
 
+import game.model.field.cell_objects.IMobileFieldObject;
 import game.model.field.core.FieldObject;
 import game.model.field.core.Mole;
 import org.jetbrains.annotations.NotNull;
@@ -37,14 +38,16 @@ public class PopulationManager {
      * Таблица соответствий типа объекта с его популяцией {@link Population}.
      */
     private static final Map<@NotNull Class<?>, @NotNull Class<? extends Population>> pairsOfPopulationsAndTheirObjects = Map.ofEntries(
-            Map.entry(Mole.class, PopulationMole.class)
+            Map.entry(Mole.class, PopulationMole.class),
+            Map.entry(IMobileFieldObject.class, PopulationMobileObject.class)
     );
 
     /**
      * Список классов популяций {@link Population}, расположенных в порядке их обновления в игре.
      */
     private static final List<Class<? extends Population>> populationClasses = List.of(
-            PopulationMole.class
+            PopulationMole.class,
+            PopulationMobileObject.class
     );
 
     /**
