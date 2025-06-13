@@ -1,5 +1,6 @@
 package game.model.field.core;
 
+import game.model.events.MobileObjectListener;
 import game.model.field.cell_objects.IMobileFieldObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +31,17 @@ public abstract class MobileCellObject extends CellObject<Map<Cell, CellObjectSt
     public Direction getMovementDirection() {
         return _mobility.getMovementDirection();
     }
+
+    @Override
+    public void addMobileObjectActionListener(MobileObjectListener listener) {
+        _mobility.addMobileObjectActionListener(listener);
+    }
+
+    @Override
+    public void removeMobileObjectActionListener(MobileObjectListener listener) {
+        _mobility.removeMobileObjectActionListener(listener);
+    }
+
 
     //endregion
 

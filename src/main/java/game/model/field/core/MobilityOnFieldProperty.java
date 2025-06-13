@@ -1,7 +1,11 @@
 package game.model.field.core;
 
+import game.model.events.MobileObjectListener;
 import game.model.field.cell_objects.IMobileFieldObject;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.EventObject;
 
 public class MobilityOnFieldProperty implements IMobileFieldObject {
 
@@ -25,6 +29,7 @@ public class MobilityOnFieldProperty implements IMobileFieldObject {
         }
 
         _owner.getApproximatingRectangle().move(_direction, _speed);
+        fireObjectIsMoved();
     }
 
     @Override
@@ -58,4 +63,44 @@ public class MobilityOnFieldProperty implements IMobileFieldObject {
     public Direction getMovementDirection() {
         return _direction;
     }
+
+    //region СИГНАЛЫ
+
+    /**
+     * Список слушателей, подписанных на события перемещения объекта.
+     */
+    private final ArrayList<MobileObjectListener> mobileObjectListListener = new ArrayList<>();
+
+    /**
+     * Добавить нового слушателя за событиями перемещения объекта.
+     *
+     * @param listener слушатель.
+     */
+    @Override
+    public void addMobileObjectActionListener(MobileObjectListener listener) {
+        mobileObjectListListener.add(listener);
+    }
+
+    /**
+     * Удалить слушателя за событиями перемещения объекта.
+     *
+     * @param listener слушатель.
+     */
+    @Override
+    public void removeMobileObjectActionListener(MobileObjectListener listener) {
+        mobileObjectListListener.remove(listener);
+    }
+
+    /**
+     * Оповестить слушателей {@link MobilityOnFieldProperty#mobileObjectListListener}, что робот переместился.
+     */
+    private void fireObjectIsMoved() {
+        EventObject event = new EventObject(_owner);
+
+        for (MobileObjectListener listener : mobileObjectListListener) {
+            listener.objectIsMoved(event);
+        }
+    }
+
+    //endregion
 }
