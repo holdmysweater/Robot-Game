@@ -127,6 +127,10 @@ public class Robot extends SmallCellObject implements ICollidingObject {
             return false;
         }
 
+        if (getIdleCellPosition().getNeighborObstacle(direction) != null) {
+            return false;
+        }
+
         newPosition = getIdleCellPosition().getNeighborCell(direction);
 
         if (newPosition == null || !newPosition.canSetObject(this.getClass())) {
