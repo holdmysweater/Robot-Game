@@ -113,6 +113,21 @@ public class Field {
     }
 
     /**
+     * Проверяет, находится ли видимый объект на поле.
+     *
+     * @param fieldObject Видимый объект поля.
+     * @return Находится ли объект на поле.
+     */
+    public boolean visibleObjectOnField(VisibleFieldObject fieldObject) {
+        if (fieldObject.getField() != this) {
+            return false;
+        }
+
+        ApproximatingRectangle objectApproximatingRectangle = fieldObject.getApproximatingRectangle();
+        return objectApproximatingRectangle.intersects(getApproximatingRectangle());
+    }
+
+    /**
      * Создать аппроксимирующий прямоугольник.
      */
     private void createApproximatingRectangle() {
