@@ -20,7 +20,7 @@ import java.io.IOException;
  *
  * @see Robot
  */
-public class RobotWidget extends CellItemWidget {
+public class RobotWidget extends FieldItemWidget {
 
     /**
      * Робот.

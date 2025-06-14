@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @see ExitPoint
  */
-public class ExitWidget extends CellItemWidget {
+public class ExitWidget extends FieldItemWidget {
 
     @Override
     protected BufferedImage getImage() {

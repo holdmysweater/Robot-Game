@@ -30,7 +30,7 @@ public class CellWidget extends JPanel {
         BOTTOM
     }
 
-    private final Map<Layer, CellItemWidget> items = new HashMap<>();
+    private final Map<Layer, FieldItemWidget> items = new HashMap<>();
 
     /**
      * Размер виджета ячейки.
@@ -51,19 +51,19 @@ public class CellWidget extends JPanel {
      * @param item виджет объекта для ячейки.
      * @throws IllegalArgumentException если объектов добавляется больше 2.
      */
-    public void addItem(CellItemWidget item) {
+    public void addItem(FieldItemWidget item) {
         if (items.size() > 2) throw new IllegalArgumentException();
         int index = -1;
 
         if (items.containsKey(Layer.BOTTOM)) {
-            item.setState(CellItemWidget.State.SMALL);
+            item.setState(FieldItemWidget.State.SMALL);
         } else {
-            item.setState(CellItemWidget.State.DEFAULT);
+            item.setState(FieldItemWidget.State.DEFAULT);
         }
 
         if (items.containsKey(Layer.TOP)) {
-            item.setState(CellItemWidget.State.DEFAULT);
-            items.get(Layer.TOP).setState(CellItemWidget.State.SMALL);
+            item.setState(FieldItemWidget.State.DEFAULT);
+            items.get(Layer.TOP).setState(FieldItemWidget.State.SMALL);
             index = 0;
         }
 
@@ -76,20 +76,20 @@ public class CellWidget extends JPanel {
      *
      * @param item удаляемый виджет.
      */
-    public void removeItem(CellItemWidget item) {
+    public void removeItem(FieldItemWidget item) {
         if (items.containsValue(item)) {
             int index = 0;
 
             if (item.getLayer() == Layer.BOTTOM) {
                 if (items.containsKey(Layer.TOP)) {
-                    items.get(Layer.TOP).setState(CellItemWidget.State.DEFAULT);
+                    items.get(Layer.TOP).setState(FieldItemWidget.State.DEFAULT);
                 }
             }
 
             if (item.getLayer() == Layer.TOP) {
                 if (items.containsKey(Layer.BOTTOM)) {
                     index = 1;
-                    items.get(Layer.BOTTOM).setState(CellItemWidget.State.DEFAULT);
+                    items.get(Layer.BOTTOM).setState(FieldItemWidget.State.DEFAULT);
                 }
             }
 

@@ -4,8 +4,8 @@ import game.model.events.*;
 import game.model.field.core.*;
 import game.model.field.core.Point;
 import game.model.field.core.Robot;
-import game.ui.cell.CellItemWidget;
 import game.ui.cell.CellWidget;
+import game.ui.cell.FieldItemWidget;
 import game.ui.cell.RobotWidget;
 import game.ui.obstacle.BetweenCellsWidget;
 import game.ui.utils.ImageUtils;
@@ -133,7 +133,7 @@ public class FieldWidget extends JLayeredPane {
 
         @Override
         public void robotStartedMoving(@NotNull RobotActionEvent event) {
-            CellItemWidget robotWidget = widgetFactory.getWidget(event.getRobot());
+            FieldItemWidget robotWidget = widgetFactory.getWidget(event.getRobot());
             CellWidget from = widgetFactory.getWidget(event.getFromCell());
             from.removeItem(robotWidget);
             robotWidget.requestFocus();
@@ -142,7 +142,7 @@ public class FieldWidget extends JLayeredPane {
         @Override
         public void robotFinishedMoving(@NotNull RobotActionEvent event) {
             snapRobotWidgetToCell(event.getRobot(), event.getToCell());
-            CellItemWidget robotWidget = widgetFactory.getWidget(event.getRobot());
+            FieldItemWidget robotWidget = widgetFactory.getWidget(event.getRobot());
             robotWidget.requestFocus();
         }
 
@@ -157,7 +157,7 @@ public class FieldWidget extends JLayeredPane {
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
             Robot robot = event.getRobot();
             CellWidget cellWidget = widgetFactory.getWidget(robot.getIdleCellPosition());
-            CellItemWidget batteryWidget = widgetFactory.getWidget(event.getBattery());
+            FieldItemWidget batteryWidget = widgetFactory.getWidget(event.getBattery());
             cellWidget.removeItem(batteryWidget);
             widgetFactory.remove(event.getBattery());
         }
@@ -174,7 +174,7 @@ public class FieldWidget extends JLayeredPane {
             Robot robot = (Robot) event.getFieldObject();
             Cell teleport = robot.getIdleCellPosition();
             CellWidget teleportWidget = widgetFactory.getWidget(teleport);
-            CellItemWidget robotWidget = widgetFactory.getWidget(robot);
+            FieldItemWidget robotWidget = widgetFactory.getWidget(robot);
             teleportWidget.removeItem(robotWidget);
         }
 
@@ -187,7 +187,7 @@ public class FieldWidget extends JLayeredPane {
         }
 
         private void holeWasCreated(@NotNull Hole hole) {
-            CellItemWidget holeWidget = widgetFactory.create(hole);
+            FieldItemWidget holeWidget = widgetFactory.create(hole);
             Cell cell = hole.getPosition();
             CellWidget cellWidget = widgetFactory.getWidget(cell);
             cellWidget.addItem(holeWidget);

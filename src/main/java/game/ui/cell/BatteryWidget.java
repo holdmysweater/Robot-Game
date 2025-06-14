@@ -15,7 +15,7 @@ import java.io.IOException;
  *
  * @see Battery
  */
-public class BatteryWidget extends CellItemWidget {
+public class BatteryWidget extends FieldItemWidget {
 
     /**
      * Источник питания.

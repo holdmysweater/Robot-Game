@@ -9,12 +9,12 @@ import java.awt.image.BufferedImage;
 /**
  * Виджет объекта для виджета ячейки.
  */
-public abstract class CellItemWidget extends JPanel {
+public abstract class FieldItemWidget extends JPanel {
 
     /**
      * Конструктор.
      */
-    public CellItemWidget() {
+    public FieldItemWidget() {
         setState(State.DEFAULT);
         setOpaque(false);
     }
@@ -40,7 +40,7 @@ public abstract class CellItemWidget extends JPanel {
     protected State cellItemState = State.DEFAULT;
 
     /**
-     * Установить состояние виджета {@link CellItemWidget#cellItemState}
+     * Установить состояние виджета {@link FieldItemWidget#cellItemState}
      *
      * @param state состояние виджета.
      */
@@ -52,7 +52,7 @@ public abstract class CellItemWidget extends JPanel {
     }
 
     /**
-     * Получить состояние виджета {@link CellItemWidget#cellItemState}.
+     * Получить состояние виджета {@link FieldItemWidget#cellItemState}.
      *
      * @return состояние виджета.
      */

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HoleWidget extends CellItemWidget {
+public class HoleWidget extends FieldItemWidget {
 
     private BufferedImage staticImage;
     private List<BufferedImage> gifFrames;

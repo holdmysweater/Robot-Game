@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class BulletWidget extends CellItemWidget {
+public class BulletWidget extends FieldItemWidget {
 
     private final Direction direction;
 

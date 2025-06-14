@@ -1,11 +1,10 @@
 package game.ui;
 
-import game.model.field.core.ExitPoint;
 import game.model.field.core.*;
 import game.model.field.core.Robot;
+import game.ui.cell.*;
 import game.ui.obstacle.BetweenCellsWidget;
 import org.jetbrains.annotations.NotNull;
-import game.ui.cell.*;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Map;
 public class WidgetFactory {
 
     private final Map<Cell, CellWidget> cells = new HashMap<>();
-    private final Map<CellObject, CellItemWidget> cellObjects = new HashMap<>();
+    private final Map<CellObject, FieldItemWidget> cellObjects = new HashMap<>();
     private final Map<BetweenCellsArea, BetweenCellsWidget> betweenCellsAreas = new HashMap<>();
 
     /*---------- Cell ----------*/
@@ -25,31 +24,31 @@ public class WidgetFactory {
 
         Robot robot = (Robot) cell.getObject(Robot.class);
         if (robot != null) {
-            CellItemWidget robotWidget = create(robot);
+            FieldItemWidget robotWidget = create(robot);
             item.addItem(robotWidget);
         }
 
         Battery battery = (Battery) cell.getObject(Battery.class);
         if (battery != null) {
-            CellItemWidget batteryWidget = create(battery);
+            FieldItemWidget batteryWidget = create(battery);
             item.addItem(batteryWidget);
         }
 
         ExitPoint exitPoint = (ExitPoint) cell.getObject(ExitPoint.class);
         if (exitPoint != null) {
-            CellItemWidget exitWidget = create(exitPoint);
+            FieldItemWidget exitWidget = create(exitPoint);
             item.addItem(exitWidget);
         }
 
         Hole hole = (Hole) cell.getObject(Hole.class);
         if (hole != null) {
-            CellItemWidget holeWidget = create(hole);
+            FieldItemWidget holeWidget = create(hole);
             item.addItem(holeWidget);
         }
 
         Turret turret = (Turret) cell.getObject(Turret.class);
         if (turret != null) {
-            CellItemWidget turretWidget = create(turret);
+            FieldItemWidget turretWidget = create(turret);
             item.addItem(turretWidget);
         }
 
@@ -66,10 +65,10 @@ public class WidgetFactory {
     }
 
     /*---------- CellObject ----------*/
-    public CellItemWidget create(@NotNull CellObject cellObject) {
+    public FieldItemWidget create(@NotNull CellObject cellObject) {
         if (cellObjects.containsKey(cellObject)) return cellObjects.get(cellObject);
 
-        CellItemWidget createdWidget = switch (cellObject) {
+        FieldItemWidget createdWidget = switch (cellObject) {
             case Robot robot -> new RobotWidget(robot, Color.BLUE);
             case Battery battery -> new BatteryWidget(battery);
             case ExitPoint exitPoint -> new ExitWidget();
@@ -82,7 +81,7 @@ public class WidgetFactory {
         return createdWidget;
     }
 
-    public CellItemWidget getWidget(@NotNull CellObject cellObject) {
+    public FieldItemWidget getWidget(@NotNull CellObject cellObject) {
         return cellObjects.get(cellObject);
     }
 
