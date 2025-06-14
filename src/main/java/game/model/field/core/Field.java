@@ -341,6 +341,7 @@ public class Field {
             removeCellObjectFromCells((CellObject) object);
         }
         populationManager.removeObject(object);
+        fireObjectWasDestroyed(object);
     }
 
     private void removeCellObjectFromCells(@NotNull CellObject object) {
@@ -505,6 +506,15 @@ public class Field {
 
         for (FieldActionListener listener : fieldListListener) {
             listener.objectWasCreated(event);
+        }
+    }
+
+    private void fireObjectWasDestroyed(@NotNull FieldObject object) {
+        FieldActionEvent event = new FieldActionEvent(this);
+        event.setFieldObject(object);
+
+        for (FieldActionListener listener : fieldListListener) {
+            listener.objectWasDestroyed(event);
         }
     }
 
