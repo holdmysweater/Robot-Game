@@ -16,9 +16,18 @@ public class Bullet extends Projectile {
 
     @Override
     public boolean move() {
-        // TODO move in Bullet
-        _mobility.move();
-        return true;
+        if (getMovementDirection() == null) {
+            return false;
+        }
+
+        if (getField().visibleObjectOnField(this)) {
+            _mobility.move();
+            return true;
+        } else {
+            _mobility.stopMoving();
+            removeItselfFromField();
+            return false;
+        }
     }
 
     @Override
