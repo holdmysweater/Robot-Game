@@ -17,6 +17,7 @@ public abstract class StationaryCellObject extends CellObject<Cell> {
         }
 
         this.position = position;
+        createApproximatingRectangle(position);
         return true;
     }
 
