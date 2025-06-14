@@ -13,7 +13,7 @@ import java.util.Map;
 public class WidgetFactory {
 
     private final Map<Cell, CellWidget> cells = new HashMap<>();
-    private final Map<CellObject, FieldItemWidget> cellObjects = new HashMap<>();
+    private final Map<VisibleFieldObject, FieldItemWidget> fieldObjects = new HashMap<>();
     private final Map<BetweenCellsArea, BetweenCellsWidget> betweenCellsAreas = new HashMap<>();
 
     /*---------- Cell ----------*/
@@ -65,8 +65,8 @@ public class WidgetFactory {
     }
 
     /*---------- CellObject ----------*/
-    public FieldItemWidget create(@NotNull CellObject cellObject) {
-        if (cellObjects.containsKey(cellObject)) return cellObjects.get(cellObject);
+    public FieldItemWidget create(@NotNull VisibleFieldObject cellObject) {
+        if (fieldObjects.containsKey(cellObject)) return fieldObjects.get(cellObject);
 
         FieldItemWidget createdWidget = switch (cellObject) {
             case Robot robot -> new RobotWidget(robot, Color.BLUE);
@@ -77,16 +77,16 @@ public class WidgetFactory {
             default -> throw new IllegalArgumentException();
         };
 
-        cellObjects.put(cellObject, createdWidget);
+        fieldObjects.put(cellObject, createdWidget);
         return createdWidget;
     }
 
-    public FieldItemWidget getWidget(@NotNull CellObject cellObject) {
-        return cellObjects.get(cellObject);
+    public FieldItemWidget getWidget(@NotNull VisibleFieldObject fieldObject) {
+        return fieldObjects.get(fieldObject);
     }
 
-    public void remove(@NotNull CellObject cellObject) {
-        cellObjects.remove(cellObject);
+    public void remove(@NotNull VisibleFieldObject fieldObject) {
+        fieldObjects.remove(fieldObject);
     }
 
     /*---------- BetweenCellArea ----------*/
