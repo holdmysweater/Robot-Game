@@ -17,6 +17,16 @@ public class Turret extends BigCellObject {
 
     //endregion
 
+    @Override
+    public int getDefaultHeight() {
+        return Cell.DEFAULT_HEIGHT;
+    }
+
+    @Override
+    public int getDefaultWidth() {
+        return Cell.DEFAULT_WIDTH;
+    }
+
     //region НАПРАВЛЕНИЕ
 
     /**
@@ -51,6 +61,20 @@ public class Turret extends BigCellObject {
      * Количество тиков для одного выстрела.
      */
     private static int FREQUENCY = 25;
+
+    /**
+     * Скорость пули.
+     */
+    private static int PROJECTILE_SPEED = 10;
+
+    /**
+     * Получить скорость пули.
+     *
+     * @return скорость пуля.
+     */
+    private int getProjectileSpeed() {
+        return PROJECTILE_SPEED;
+    }
 
     /**
      * Количество без создания снарядов.
