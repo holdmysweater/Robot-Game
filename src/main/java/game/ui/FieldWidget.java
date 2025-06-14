@@ -31,44 +31,59 @@ public class FieldWidget extends JLayeredPane {
         setBackground(ImageUtils.BETWEEN_CELLS_COLOR);
         setOpaque(true);
 
-        int cellW = Cell.DEFAULT_WIDTH;
-        int cellH = Cell.DEFAULT_HEIGHT;
-        int spacing = Field.DISTANCE_BETWEEN_CELLS;
-        int w = field.getWidth() * cellW + (field.getWidth() - 1) * spacing;
-        int h = field.getHeight() * cellH + (field.getHeight() - 1) * spacing;
+        paintField();
+        subscribeOnRobots();
+        field.addFieldActionListener(new FieldController());
+    }
 
-        setPreferredSize(new Dimension(w, h));
+    private void paintField() {
+        ApproximatingRectangle fieldApproximatingRectangle = field.getApproximatingRectangle();
+        setPreferredSize(new Dimension(fieldApproximatingRectangle.getWidth(), fieldApproximatingRectangle.getHeight()));
 
         // Add all cells
         for (int y = 0; y < field.getHeight(); ++y) {
             for (int x = 0; x < field.getWidth(); ++x) {
-                int px = x * (cellW + spacing);
-                int py = y * (cellH + spacing);
                 Cell cell = field.getCell(new game.model.field.core.Point(x, y));
-                CellWidget cw = widgetFactory.create(cell);
-                cw.setBounds(px, py, cellW, cellH);
-                add(cw, JLayeredPane.DEFAULT_LAYER);
+                ApproximatingRectangle cellApproximatingRectangle = cell.getApproximatingRectangle();
+                Point northWestPoint = cellApproximatingRectangle.getPointNorthWest();
+                Point centralPoint = cellApproximatingRectangle.getCenter();
+                int px = centralPoint.getX() - (cellApproximatingRectangle.getWidth() / 2);
+                int py = centralPoint.getY() - (cellApproximatingRectangle.getHeight() / 2);
+
+                paintCell(cell);
 
                 // Add vertical walls (between cells)
-                if (x < field.getWidth() - 1) {
-                    BetweenCellsWidget wallE = widgetFactory.create(cell.getNeighborArea(Direction.EAST));
-                    int wallW = spacing;
-                    wallE.setBounds(px + cellW, py, wallW, cellH);
-                    add(wallE, JLayeredPane.DEFAULT_LAYER);
+                if (x > 0) {
+                    BetweenCellsArea betweenCellsArea = cell.getNeighborArea(Direction.WEST);
+                    paintBetweenCellsArea(betweenCellsArea);
                 }
                 // Add horizontal walls (between cells)
-                if (y < field.getHeight() - 1) {
-                    BetweenCellsWidget wallS = widgetFactory.create(cell.getNeighborArea(Direction.SOUTH));
-                    int wallH = spacing;
-                    wallS.setBounds(px, py + cellH, cellW, wallH);
-                    add(wallS, JLayeredPane.DEFAULT_LAYER);
+                if (y > 0) {
+                    BetweenCellsArea betweenCellsArea = cell.getNeighborArea(Direction.NORTH);
+                    paintBetweenCellsArea(betweenCellsArea);
                 }
             }
         }
-
-        subscribeOnRobots();
-        field.addFieldActionListener(new FieldController());
     }
+
+    private void paintCell(Cell cell) {
+        ApproximatingRectangle cellApproximatingRectangle = cell.getApproximatingRectangle();
+        Point northWestPoint = cellApproximatingRectangle.getPointNorthWest();
+
+        CellWidget cellWidget = widgetFactory.create(cell);
+        cellWidget.setBounds(northWestPoint.getX(), northWestPoint.getY(), cellApproximatingRectangle.getWidth(), cellApproximatingRectangle.getHeight());
+        add(cellWidget, JLayeredPane.DEFAULT_LAYER);
+    }
+
+    private void paintBetweenCellsArea(BetweenCellsArea betweenCellsArea) {
+        ApproximatingRectangle betweenCellsAreaApproximatingRectangle = betweenCellsArea.getApproximatingRectangle();
+        Point northWestPoint = betweenCellsAreaApproximatingRectangle.getPointNorthWest();
+
+        BetweenCellsWidget betweenCellsWidget = widgetFactory.create(betweenCellsArea);
+        betweenCellsWidget.setBounds(northWestPoint.getX(), northWestPoint.getY(), betweenCellsAreaApproximatingRectangle.getWidth(), betweenCellsAreaApproximatingRectangle.getHeight());
+        add(betweenCellsWidget, JLayeredPane.DEFAULT_LAYER);
+    }
+
 
     // --- ROBOT MOVEMENT ---
     private void subscribeOnRobots() {
