@@ -186,6 +186,8 @@ public class FieldWidget extends JLayeredPane {
             FieldObject fieldObject = event.getFieldObject();
             if (fieldObject instanceof Hole) {
                 holeWasCreated((Hole) fieldObject);
+            } else if (fieldObject instanceof Projectile) {
+                projectileWasCreated((Projectile) fieldObject);
             }
         }
 
@@ -195,6 +197,12 @@ public class FieldWidget extends JLayeredPane {
             CellWidget cellWidget = widgetFactory.getWidget(cell);
             cellWidget.addItem(holeWidget);
             cellWidget.revalidate();
+        }
+
+        private void projectileWasCreated(@NotNull Projectile projectile) {
+            FieldItemWidget projectileWidget = widgetFactory.create(projectile);
+            projectile.addMobileObjectActionListener(new MobileObjectObserver());
+            FieldWidget.this.add(projectileWidget, JLayeredPane.DRAG_LAYER);
         }
     }
 
