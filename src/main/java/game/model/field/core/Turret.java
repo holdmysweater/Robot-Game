@@ -97,7 +97,18 @@ public class Turret extends BigCellObject {
     }
 
     private Projectile createProjectile() {
-        return null;
+        Bullet bullet = new Bullet(getDirection(), getProjectileSpeed());
+        bullet.setApproximatingRectangle(getProjectileStartPosition(getDirection()));
+        getField().addObject(bullet);
+        return bullet;
+    }
+
+    private Point getProjectileStartPosition(Direction direction) {
+        Point turretCentralPoint = getApproximatingRectangle().getCenter();
+        return switch (direction) {
+            case NORTH, SOUTH -> turretCentralPoint.to(direction, getDefaultHeight() / 2);
+            case EAST, WEST -> turretCentralPoint.to(direction, getDefaultWidth() / 2);
+        };
     }
 
     //endregion
