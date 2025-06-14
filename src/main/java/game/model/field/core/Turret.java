@@ -1,5 +1,6 @@
 package game.model.field.core;
 
+import game.Debug;
 import game.model.field.cell_objects.BigCellObject;
 
 public class Turret extends BigCellObject {
@@ -87,6 +88,8 @@ public class Turret extends BigCellObject {
      * @return Яма, если была вырыта. В противном случае null.
      */
     public Projectile update() {
+        Debug.log(Debug.Options.TurretUpdated, "Turret " + this + ": updated");
+
         tick_count_without_projectile++;
         tick_count_without_projectile = tick_count_without_projectile % FREQUENCY;
         if (tick_count_without_projectile == 0) {
@@ -100,6 +103,7 @@ public class Turret extends BigCellObject {
         Bullet bullet = new Bullet(getDirection(), getProjectileSpeed());
         bullet.setApproximatingRectangle(getProjectileStartPosition(getDirection()));
         getField().addObject(bullet);
+        Debug.log(Debug.Options.TurretCreateProjectileSuccess, "Turret" + this + ": create projectile success " + bullet);
         return bullet;
     }
 

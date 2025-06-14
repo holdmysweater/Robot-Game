@@ -40,8 +40,11 @@ public class Debug {
         //region Опции крота
         MoleUpdated(ConsoleColor.WHITE),
         MoleDigStart(ConsoleColor.WHITE),
-        MoleDigSuccess(ConsoleColor.BRIGHT_YELLOW);
+        MoleDigSuccess(ConsoleColor.BRIGHT_YELLOW),
         //endregion
+
+        TurretUpdated(ConsoleColor.WHITE),
+        TurretCreateProjectileSuccess(ConsoleColor.BRIGHT_YELLOW);
 
         private final String color;
 
@@ -190,6 +193,22 @@ public class Debug {
         enabledOptions.remove(Options.MoleDigSuccess);
     }
 
+    /**
+     * Включить все опции отладки, связанные с турелью.
+     */
+    public static void enableTurretOptions() {
+        enabledOptions.add(Options.TurretUpdated);
+        enabledOptions.add(Options.TurretCreateProjectileSuccess);
+    }
+
+    /**
+     * Выключить все опции отладки, связанные с турелью.
+     */
+    public static void disableTurretOptions() {
+        enabledOptions.remove(Options.TurretUpdated);
+        enabledOptions.remove(Options.TurretCreateProjectileSuccess);
+    }
+
     //endregion
 
     //region Логирование
@@ -229,19 +248,60 @@ public class Debug {
         public static final String BRIGHT_CYAN = "\u001B[96m";
         public static final String BRIGHT_WHITE = "\u001B[97m";
 
-        public static String red(String text)    { return RED + text + RESET; }
-        public static String green(String text)  { return GREEN + text + RESET; }
-        public static String yellow(String text) { return YELLOW + text + RESET; }
-        public static String blue(String text)   { return BLUE + text + RESET; }
-        public static String purple(String text) { return PURPLE + text + RESET; }
-        public static String cyan(String text)   { return CYAN + text + RESET; }
-        public static String white(String text)  { return WHITE + text + RESET; }
-        public static String brightRed(String text)    { return BRIGHT_RED + text + RESET; }
-        public static String brightGreen(String text)  { return BRIGHT_GREEN + text + RESET; }
-        public static String brightYellow(String text) { return BRIGHT_YELLOW + text + RESET; }
-        public static String brightBlue(String text)   { return BRIGHT_BLUE + text + RESET; }
-        public static String brightPurple(String text) { return BRIGHT_PURPLE + text + RESET; }
-        public static String brightCyan(String text)   { return BRIGHT_CYAN + text + RESET; }
-        public static String brightWhite(String text)  { return BRIGHT_WHITE + text + RESET; }
+        public static String red(String text) {
+            return RED + text + RESET;
+        }
+
+        public static String green(String text) {
+            return GREEN + text + RESET;
+        }
+
+        public static String yellow(String text) {
+            return YELLOW + text + RESET;
+        }
+
+        public static String blue(String text) {
+            return BLUE + text + RESET;
+        }
+
+        public static String purple(String text) {
+            return PURPLE + text + RESET;
+        }
+
+        public static String cyan(String text) {
+            return CYAN + text + RESET;
+        }
+
+        public static String white(String text) {
+            return WHITE + text + RESET;
+        }
+
+        public static String brightRed(String text) {
+            return BRIGHT_RED + text + RESET;
+        }
+
+        public static String brightGreen(String text) {
+            return BRIGHT_GREEN + text + RESET;
+        }
+
+        public static String brightYellow(String text) {
+            return BRIGHT_YELLOW + text + RESET;
+        }
+
+        public static String brightBlue(String text) {
+            return BRIGHT_BLUE + text + RESET;
+        }
+
+        public static String brightPurple(String text) {
+            return BRIGHT_PURPLE + text + RESET;
+        }
+
+        public static String brightCyan(String text) {
+            return BRIGHT_CYAN + text + RESET;
+        }
+
+        public static String brightWhite(String text) {
+            return BRIGHT_WHITE + text + RESET;
+        }
     }
 }
