@@ -40,6 +40,7 @@ public class Field {
         this.height = height;
 
         buildField();
+        createApproximatingRectangle();
         initiatePopulations();
     }
 
@@ -91,6 +92,34 @@ public class Field {
         int centerX = (defaultCellWidth + DISTANCE_BETWEEN_CELLS) * x + (defaultCellWidth / 2);
         int centerY = (defaultCellHeight + DISTANCE_BETWEEN_CELLS) * y + (defaultCellHeight / 2);
         return new Point(centerX, centerY);
+    }
+
+    //endregion
+
+    //region АППРОКСИМИРУЮЩИЙ ПРЯМОУГОЛЬНК
+
+    /**
+     * Аппроксимирующий прямоугольник поля.
+     */
+    ApproximatingRectangle approximatingRectangle;
+
+    /**
+     * Получить аппроксимирующий прямоугольник поля.
+     *
+     * @return аппроксимирующий прямоугольник.
+     */
+    public ApproximatingRectangle getApproximatingRectangle() {
+        return approximatingRectangle;
+    }
+
+    /**
+     * Создать аппроксимирующий прямоугольник.
+     */
+    private void createApproximatingRectangle() {
+        int width = Cell.DEFAULT_WIDTH * getWidth() + DISTANCE_BETWEEN_CELLS * (getWidth() - 1);
+        int height = Cell.DEFAULT_HEIGHT * getHeight() + DISTANCE_BETWEEN_CELLS * (getHeight() - 1);
+        Point centerPoint = new Point(width / 2, height / 2);
+        approximatingRectangle = new ApproximatingRectangle(centerPoint, width, height);
     }
 
     //endregion
