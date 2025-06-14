@@ -1,7 +1,6 @@
 package game.model.field.core;
 
 import game.model.field.cell_objects.BigCellObject;
-import game.model.field.cell_objects.Projectile;
 
 public class Turret extends BigCellObject {
 

@@ -1,7 +1,5 @@
 package game.model.field.core;
 
-import game.model.events.MobileObjectListener;
-import game.model.field.cell_objects.Projectile;
 import org.jetbrains.annotations.NotNull;
 
 public class Bullet extends Projectile {

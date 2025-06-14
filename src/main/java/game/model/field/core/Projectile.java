@@ -1,9 +1,8 @@
-package game.model.field.cell_objects;
+package game.model.field.core;
 
 import game.model.events.MobileObjectListener;
-import game.model.field.core.Direction;
-import game.model.field.core.MobilityOnFieldProperty;
-import game.model.field.core.VisibleFieldObject;
+import game.model.field.cell_objects.ICollidingObject;
+import game.model.field.cell_objects.IMobileFieldObject;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Projectile extends VisibleFieldObject implements IMobileFieldObject, ICollidingObject {
