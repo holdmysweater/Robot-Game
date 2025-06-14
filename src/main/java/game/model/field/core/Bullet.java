@@ -18,7 +18,7 @@ public class Bullet extends Projectile {
     public boolean move() {
         // TODO move in Bullet
         _mobility.move();
-        return false;
+        return true;
     }
 
     @Override
