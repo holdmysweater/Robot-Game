@@ -331,6 +331,45 @@ public class Field {
         return true;
     }
 
+    /**
+     * Удалить объект с поля
+     *
+     * @param object
+     */
+    public void removeObject(FieldObject object) {
+        if (object instanceof CellObject) {
+            removeCellObjectFromCells((CellObject) object);
+        }
+        populationManager.removeObject(object);
+    }
+
+    private void removeCellObjectFromCells(@NotNull CellObject object) {
+        Collection<Cell> objectCells;
+
+        // Получить ячейки из объекта
+        if (object instanceof MobileCellObject) {
+            Map<Point, Cell> objectPositionResult = (Map<Point, Cell>) object.getPosition();
+            objectCells = objectPositionResult.values();
+        } else if (object instanceof StationaryCellObject) {
+            Cell objectPositionResult = (Cell) object.getPosition();
+            objectCells = Set.of(objectPositionResult);
+        } else {
+            return;
+        }
+
+        // Изъять этот объект из всех ячеек
+        for (Cell cell : objectCells) {
+            // Проверить, что в ячейке лежит тот объект, который будем изымать
+            boolean thisObjectInCell = cell.getObject(object.getClass()) == object;
+            assert thisObjectInCell : "Another object in Cell. Expected: " + object + ", Actual: " + cell;
+
+            // Изъять объект, если это он лежит в ячейке
+            if (thisObjectInCell) {
+                CellObject cellObject = cell.takeObject(object.getClass());
+            }
+        }
+    }
+
     //endregion
 
     //region РОБОТ
