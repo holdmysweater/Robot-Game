@@ -80,13 +80,13 @@ public class FieldWidget extends JLayeredPane {
     /**
      * Перемещает виджет робота в пиксельную позицию на JLayeredPane (во время движения).
      */
-    private void updateRobotWidgetPosition(Robot robot, int pixelX, int pixelY) {
-        RobotWidget robotWidget = (RobotWidget) widgetFactory.getWidget(robot);
-        if (robotWidget.getParent() != this) {
-            this.add(robotWidget, JLayeredPane.DRAG_LAYER);
+    private void updateMobileObjectWidgetPosition(VisibleFieldObject widget, int pixelX, int pixelY) {
+        FieldItemWidget fieldItemWidget = widgetFactory.getWidget(widget);
+        if (fieldItemWidget.getParent() != this) {
+            this.add(fieldItemWidget, JLayeredPane.DRAG_LAYER);
         }
-        robotWidget.setBounds(pixelX, pixelY, robotWidget.getWidth(), robotWidget.getHeight());
-        robotWidget.repaint();
+        fieldItemWidget.setBounds(pixelX, pixelY, fieldItemWidget.getWidth(), fieldItemWidget.getHeight());
+        fieldItemWidget.repaint();
         this.repaint();
     }
 
@@ -113,11 +113,14 @@ public class FieldWidget extends JLayeredPane {
 
         @Override
         public void objectIsMoved(EventObject event) {
-            Robot robot = (Robot) event.getSource();
-            ApproximatingRectangle approx = robot.getApproximatingRectangle();
+            if (!(event.getSource() instanceof VisibleFieldObject)) {
+                return;
+            }
+            VisibleFieldObject visibleFieldObject = (VisibleFieldObject) event.getSource();
+            ApproximatingRectangle approx = visibleFieldObject.getApproximatingRectangle();
             Point center = approx.getCenter();
 
-            RobotWidget robotWidget = (RobotWidget) widgetFactory.getWidget(robot);
+            FieldItemWidget robotWidget = widgetFactory.getWidget(visibleFieldObject);
             int widgetW = robotWidget.getWidth();
             int widgetH = robotWidget.getHeight();
 
@@ -125,7 +128,7 @@ public class FieldWidget extends JLayeredPane {
             int pixelX = center.getX() - widgetW / 2;
             int pixelY = center.getY() - widgetH / 2 + 5;
 
-            updateRobotWidgetPosition(robot, pixelX, pixelY);
+            updateMobileObjectWidgetPosition(visibleFieldObject, pixelX, pixelY);
         }
     }
 
