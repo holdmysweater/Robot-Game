@@ -24,7 +24,9 @@ public abstract class Population<T> {
     protected Set<T> objects = new HashSet<T>();
 
     /**
-     * Добавление объекта в популяцию
+     * Добавление объекта в популяцию.
+     *
+     * @param object объект популяции.
      */
     void addObject(T object) {
         objects.add(object);
