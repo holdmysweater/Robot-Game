@@ -23,6 +23,14 @@ public abstract class FieldObject {
     }
 
     /**
+     * Убрать объект с поля.
+     */
+    void removeItselfFromField() {
+        field.removeObject(this);
+        this.field = null;
+    }
+
+    /**
      * Получить поле.
      * @return поле.
      */
