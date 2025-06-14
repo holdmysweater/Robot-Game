@@ -3,6 +3,7 @@ package game.model.field.population;
 import game.model.field.cell_objects.IMobileFieldObject;
 import game.model.field.core.FieldObject;
 import game.model.field.core.Mole;
+import game.model.field.core.Turret;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
@@ -39,7 +40,8 @@ public class PopulationManager {
      */
     private static final Map<@NotNull Class<?>, @NotNull Class<? extends Population>> pairsOfPopulationsAndTheirObjects = Map.ofEntries(
             Map.entry(Mole.class, PopulationMole.class),
-            Map.entry(IMobileFieldObject.class, PopulationMobileObject.class)
+            Map.entry(IMobileFieldObject.class, PopulationMobileObject.class),
+            Map.entry(Turret.class, PopulationTurret.class)
     );
 
     /**
@@ -47,7 +49,8 @@ public class PopulationManager {
      */
     private static final List<Class<? extends Population>> populationClasses = List.of(
             PopulationMole.class,
-            PopulationMobileObject.class
+            PopulationMobileObject.class,
+            PopulationTurret.class
     );
 
     /**
