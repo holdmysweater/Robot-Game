@@ -8,5 +8,6 @@ public class PopulationMole extends Population<Mole> {
         for (Mole mole : this.objects) {
             mole.update();
         }
+        super.update();
     }
 }

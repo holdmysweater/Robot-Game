@@ -8,5 +8,6 @@ public class PopulationTurret extends Population<Turret> {
         for (Turret turret : objects) {
             turret.update();
         }
+        super.update();
     }
 }

@@ -14,6 +14,7 @@ public class PopulationMobileObject extends PopulationWithListeners<IMobileField
         for (IMobileFieldObject object : this.objects) {
             object.move();
         }
+        super.update();
     }
 
     @Override
