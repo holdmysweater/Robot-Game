@@ -218,6 +218,11 @@ public class Game {
                 updateGameStatus();
             }
         }
+
+        @Override
+        public void objectWasDestroyed(@NotNull FieldActionEvent event) {
+
+        }
     }
 
     //endregion

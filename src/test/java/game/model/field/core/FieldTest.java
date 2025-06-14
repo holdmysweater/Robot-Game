@@ -24,6 +24,11 @@ public class FieldTest {
         public void objectWasCreated(@NotNull FieldActionEvent event) {
             // Not implemented
         }
+
+        @Override
+        public void objectWasDestroyed(@NotNull FieldActionEvent event) {
+            // Not implemented
+        }
     }
 
     private Field field;

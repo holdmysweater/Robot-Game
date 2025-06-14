@@ -219,6 +219,14 @@ public class FieldWidget extends JLayeredPane {
             projectile.addMobileObjectActionListener(new MobileObjectObserver());
             FieldWidget.this.add(projectileWidget, JLayeredPane.DRAG_LAYER);
         }
+
+        @Override
+        public void objectWasDestroyed(@NotNull FieldActionEvent event) {
+            FieldObject fieldObject = event.getFieldObject();
+            if (fieldObject instanceof VisibleFieldObject) {
+                widgetFactory.remove((VisibleFieldObject) fieldObject);
+            }
+        }
     }
 
     //endregion

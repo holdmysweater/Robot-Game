@@ -23,4 +23,11 @@ public interface FieldActionListener extends EventListener {
      * @param event объект события класса поля.
      */
     void objectWasCreated(@NotNull FieldActionEvent event);
+
+    /**
+     * Удалён объект.
+     *
+     * @param event объект события класса поля.
+     */
+    void objectWasDestroyed(@NotNull FieldActionEvent event);
 }
