@@ -28,4 +28,14 @@ public class Bullet extends Projectile {
     }
 
     //endregion
+
+
+    @Override
+    public int getDefaultHeight() {
+        return 40;
+    }
+
+    public int getDefaultWidth() {
+        return 40;
+    }
 }
