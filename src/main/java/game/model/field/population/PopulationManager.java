@@ -124,4 +124,25 @@ public class PopulationManager {
             }
         }
     }
+
+    public void removeObject(@NotNull FieldObject object) {
+        // Для всех известных популяций
+        for (Map.Entry<Class<?>, Class<? extends Population>> entry : pairsOfPopulationsAndTheirObjects.entrySet()) {
+            Class<?> populationObject = entry.getKey(); // Класс объекта популяции
+            Class<? extends Population> populationClass = entry.getValue(); // Класс популяции
+
+            // Добавить объект в популяцию, если он к ней относится
+            if (populationObject.isInstance(object)) {
+                // Получить экземпляр популяции этого типа объектов
+                Population population = this.getPopulation(populationClass);
+
+                // Проверка корректности данных
+                assert population == null : "Population for class " + populationClass.getSimpleName() + " must not be null. Ensure that the population is properly initialized.";
+                if (population == null) continue;
+
+                // Удалить объект из популяции
+                population.removeObject(object);
+            }
+        }
+    }
 }
