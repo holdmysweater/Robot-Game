@@ -40,4 +40,18 @@ public abstract class CellObject<T> extends VisibleFieldObject {
 
     //endregion
 
+
+    //region АППРОКСИМИРУЮЩИЙ ПРЯМОУГОЛЬНИК
+
+    /**
+     * Создать аппроксимирующий прямоугольник по центру указанной ячейки.
+     *
+     * @param cell ячейка, в которой находится объект.
+     */
+    protected void createApproximatingRectangle(Cell cell) {
+        ApproximatingRectangle cellApproximationRectangle = cell.getApproximatingRectangle();
+        this.setApproximatingRectangle(cellApproximationRectangle.getCenter());
+    }
+
+    //endregion
 }

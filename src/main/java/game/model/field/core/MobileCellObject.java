@@ -223,17 +223,4 @@ public abstract class MobileCellObject extends CellObject<Map<Cell, CellObjectSt
 
     //endregion
 
-    //region АППРОКСИМИРУЮЩИЙ ПРЯМОУГОЛЬНИК
-
-    /**
-     * Создать аппроксимирующий прямоугольник по центру указанной ячейки.
-     *
-     * @param cell ячейка, в которой находится объект.
-     */
-    private void createApproximatingRectangle(Cell cell) {
-        ApproximatingRectangle cellApproximationRectangle = cell.getApproximatingRectangle();
-        this.setApproximatingRectangle(cellApproximationRectangle.getCenter());
-    }
-
-    //endregion
 }
