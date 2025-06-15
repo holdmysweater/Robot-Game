@@ -1,7 +1,7 @@
 package game.model.events;
 
-import org.jetbrains.annotations.NotNull;
 import game.model.field.core.Robot;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.EventListener;
 
@@ -37,4 +37,11 @@ public interface RobotActionListener extends EventListener {
      * @param event объект события класса робот.
      */
     void robotChangedBattery(@NotNull RobotActionEvent event);
+
+    /**
+     * Робот уничтожен.
+     *
+     * @param event объект события класса робот.
+     */
+    void robotWasDestroyed(@NotNull RobotActionEvent event);
 }

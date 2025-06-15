@@ -198,6 +198,11 @@ public class Game {
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
             updateGameStatusWithDelay();
         }
+
+        @Override
+        public void robotWasDestroyed(@NotNull RobotActionEvent event) {
+            updateGameStatusWithDelay();
+        }
     }
 
     /**

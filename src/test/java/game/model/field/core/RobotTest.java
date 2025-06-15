@@ -1,12 +1,12 @@
 package game.model.field.core;
 
+import game.model.events.RobotActionEvent;
+import game.model.events.RobotActionListener;
+import game.model.field.between_cells_objects.WallSegment;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import game.model.events.RobotActionEvent;
-import game.model.events.RobotActionListener;
-import game.model.field.between_cells_objects.WallSegment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +37,11 @@ class RobotTest {
         @Override
         public void robotChangedBattery(@NotNull RobotActionEvent event) {
             // Not implemented yet
+        }
+
+        @Override
+        public void robotWasDestroyed(@NotNull RobotActionEvent event) {
+
         }
     }
 

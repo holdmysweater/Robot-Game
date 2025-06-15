@@ -179,6 +179,11 @@ public class FieldWidget extends JLayeredPane {
             cellWidget.removeItem(batteryWidget);
             widgetFactory.remove(event.getBattery());
         }
+
+        @Override
+        public void robotWasDestroyed(@NotNull RobotActionEvent event) {
+
+        }
     }
 
     //endregion
