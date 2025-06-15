@@ -44,7 +44,10 @@ public class Bullet extends Projectile {
 
     @Override
     public void processCollisionWith(@NotNull ICollidingObject object) {
-        // TODO processCollisionWith Robot
+        if (object instanceof Robot) {
+            Robot robot = (Robot) object;
+            robot.kill();
+        }
     }
 
     //endregion
