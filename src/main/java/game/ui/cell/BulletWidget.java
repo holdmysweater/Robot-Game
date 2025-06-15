@@ -15,7 +15,6 @@ public class BulletWidget extends FieldItemWidget {
 
     public BulletWidget(Direction direction) {
         this.direction = direction;
-        this.setSize(getDimension());
     }
 
     @Override

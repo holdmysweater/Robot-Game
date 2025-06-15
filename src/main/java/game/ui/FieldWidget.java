@@ -210,6 +210,7 @@ public class FieldWidget extends JLayeredPane {
             FieldItemWidget projectileWidget = widgetFactory.create(projectile);
             projectile.addMobileObjectActionListener(new MobileObjectObserver());
             FieldWidget.this.add(projectileWidget, JLayeredPane.DRAG_LAYER);
+            paintVisibleFieldObject(projectile, JLayeredPane.DRAG_LAYER);
         }
 
         @Override
