@@ -1,13 +1,13 @@
 package game.model.field.core;
 
 import game.Debug;
+import game.model.events.RobotActionEvent;
+import game.model.events.RobotActionListener;
 import game.model.field.cell_objects.ICollidingObject;
 import game.model.field.cell_objects.LowProfileCellObject;
 import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
-import game.model.events.RobotActionEvent;
-import game.model.events.RobotActionListener;
 
 import java.util.ArrayList;
 
@@ -43,6 +43,17 @@ public class Robot extends SmallCellObject implements ICollidingObject {
     @Override
     public int getDefaultHeight() {
         return DEFAULT_HEIGHT;
+    }
+
+    //endregion
+
+    //region ЗДОРОВЬЕ
+
+    boolean alive = true;
+
+    void kill() {
+        alive = false;
+        fireRobotWasDestroyed();
     }
 
     //endregion
@@ -188,7 +199,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
      * @return дееспособен ли робот
      */
     public boolean isCapable() {
-        return (getIdleCellPosition() != null || getArrivalCellPosition() != null) && !isTeleported() && getCharge() > 0;
+        return (getIdleCellPosition() != null || getArrivalCellPosition() != null) && !isTeleported() && getCharge() > 0 && alive;
     }
 
     //endregion
@@ -241,7 +252,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
         boolean success = battery.disconnect();
 
-        assert success: "Disconnect failed";
+        assert success : "Disconnect failed";
         if (!success) {
             this.battery = battery;
             return false;
@@ -262,8 +273,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
         try {
             battery = (Battery) getIdleCellPosition().takeObject(LowProfileCellObject.class);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             return false;
         }
@@ -426,6 +436,15 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
         for (RobotActionListener listener : robotListListener) {
             listener.robotChangedBattery(event);
+        }
+    }
+
+    private void fireRobotWasDestroyed() {
+        RobotActionEvent event = new RobotActionEvent(this);
+        event.setRobot(this);
+
+        for (RobotActionListener listener : robotListListener) {
+            listener.robotWasDestroyed(event);
         }
     }
 
