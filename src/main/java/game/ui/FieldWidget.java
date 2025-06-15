@@ -84,25 +84,20 @@ public class FieldWidget extends JLayeredPane {
         add(betweenCellsWidget, JLayeredPane.DEFAULT_LAYER);
     }
 
+    private void paintVisibleFieldObject(VisibleFieldObject fieldObject, int layer) {
+        ApproximatingRectangle approximatingRectangle = fieldObject.getApproximatingRectangle();
+        Point northWestPoint = approximatingRectangle.getPointNorthWest();
+
+        FieldItemWidget widget = widgetFactory.create(fieldObject);
+        widget.setBounds(northWestPoint.getX(), northWestPoint.getY(), approximatingRectangle.getWidth(), approximatingRectangle.getHeight());
+        add(widget, layer);
+    }
 
     // --- ROBOT MOVEMENT ---
     private void subscribeOnRobots() {
         Robot robot = field.getRobot();
         robot.addRobotActionListener(new RobotController());
         robot.addMobileObjectActionListener(new MobileObjectObserver());
-    }
-
-    /**
-     * Перемещает виджет робота в пиксельную позицию на JLayeredPane (во время движения).
-     */
-    private void updateMobileObjectWidgetPosition(VisibleFieldObject widget, int pixelX, int pixelY) {
-        FieldItemWidget fieldItemWidget = widgetFactory.getWidget(widget);
-        if (fieldItemWidget.getParent() != this) {
-            this.add(fieldItemWidget, JLayeredPane.DRAG_LAYER);
-        }
-        fieldItemWidget.setBounds(pixelX, pixelY, fieldItemWidget.getWidth(), fieldItemWidget.getHeight());
-        fieldItemWidget.repaint();
-        this.repaint();
     }
 
     /**
@@ -132,18 +127,8 @@ public class FieldWidget extends JLayeredPane {
                 return;
             }
             VisibleFieldObject visibleFieldObject = (VisibleFieldObject) event.getSource();
+            paintVisibleFieldObject(visibleFieldObject, JLayeredPane.DRAG_LAYER);
             ApproximatingRectangle approx = visibleFieldObject.getApproximatingRectangle();
-            Point center = approx.getCenter();
-
-            FieldItemWidget robotWidget = widgetFactory.getWidget(visibleFieldObject);
-            int widgetW = robotWidget.getWidth();
-            int widgetH = robotWidget.getHeight();
-
-            // Центрируем по пиксельной координате из модели (минус половина размера виджета)
-            int pixelX = center.getX() - widgetW / 2;
-            int pixelY = center.getY() - widgetH / 2 + 5;
-
-            updateMobileObjectWidgetPosition(visibleFieldObject, pixelX, pixelY);
         }
     }
 
@@ -154,6 +139,8 @@ public class FieldWidget extends JLayeredPane {
             FieldItemWidget robotWidget = widgetFactory.getWidget(event.getRobot());
             CellWidget from = widgetFactory.getWidget(event.getFromCell());
             from.removeItem(robotWidget);
+            FieldWidget.this.add(robotWidget, JLayeredPane.DRAG_LAYER);
+            paintVisibleFieldObject(event.getRobot(), JLayeredPane.DRAG_LAYER);
             robotWidget.requestFocus();
         }
 
