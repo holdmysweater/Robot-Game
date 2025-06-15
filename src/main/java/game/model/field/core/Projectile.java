@@ -3,7 +3,6 @@ package game.model.field.core;
 import game.model.events.MobileObjectListener;
 import game.model.field.cell_objects.ICollidingObject;
 import game.model.field.cell_objects.IMobileFieldObject;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class Projectile extends VisibleFieldObject implements IMobileFieldObject, ICollidingObject {
 
@@ -41,12 +40,4 @@ public abstract class Projectile extends VisibleFieldObject implements IMobileFi
 
     //endregion
 
-    //region ОБЪЕКТ С КОЛЛИЗИЕЙ
-
-    @Override
-    public void processCollisionWith(@NotNull ICollidingObject object) {
-        // TODO processCollisionWith Robot
-    }
-
-    //endregion
 }

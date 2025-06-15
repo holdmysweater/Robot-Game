@@ -1,5 +1,6 @@
 package game.model.field.core;
 
+import game.model.field.cell_objects.ICollidingObject;
 import org.jetbrains.annotations.NotNull;
 
 public class Bullet extends Projectile {
@@ -38,6 +39,15 @@ public class Bullet extends Projectile {
 
     //endregion
 
+
+    //region ОБЪЕКТ С КОЛЛИЗИЕЙ
+
+    @Override
+    public void processCollisionWith(@NotNull ICollidingObject object) {
+        // TODO processCollisionWith Robot
+    }
+
+    //endregion
 
     @Override
     public int getDefaultHeight() {
