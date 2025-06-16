@@ -126,8 +126,10 @@ public class Game {
         if (!getRobot().isCapable()) {
             if (getRobot().isTeleported()) {
                 status = GameStatus.WIN;
-            } else {
+            } else if (getRobot().getCharge() == 0) {
                 status = GameStatus.LOSS_NO_CHARGE;
+            } else {
+                status = GameStatus.LOSS_ROBOT_DESTROYED;
             }
             stop();
         } else if (!getGameField().canRobotGoToExitCell()) {

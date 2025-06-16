@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 
 public class Main {
     public static void main(String[] args) {
-        
+
         Debug.enableAll();
 
         SwingUtilities.invokeLater(GamePanel::new);
@@ -119,6 +119,9 @@ public class Main {
                             break;
                         case LOSS_NO_CHARGE:
                             message = "Робот имеет нулевой заряд";
+                            break;
+                        case LOSS_ROBOT_DESTROYED:
+                            message = "Робот разрушен";
                             break;
                         case LOSS_NO_WIN_PATH:
                             message = "Робот больше не может добраться в точку выхода.";
