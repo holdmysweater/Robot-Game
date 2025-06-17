@@ -109,8 +109,10 @@ public class FieldWidget extends JLayeredPane {
             this.remove(robotWidget);
         }
         CellWidget cellWidget = widgetFactory.getWidget(cell);
-        cellWidget.addItem(robotWidget);
-        cellWidget.revalidate();
+        if (!robot.isTeleported()) {
+            cellWidget.addItem(robotWidget);
+            cellWidget.revalidate();
+        }
         cellWidget.repaint();
 
         this.repaint();
