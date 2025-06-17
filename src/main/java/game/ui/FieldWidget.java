@@ -183,9 +183,9 @@ public class FieldWidget extends JLayeredPane {
         public void robotIsTeleported(@NotNull FieldActionEvent event) {
             Robot robot = (Robot) event.getFieldObject();
             Cell teleport = robot.getIdleCellPosition();
-            CellWidget teleportWidget = widgetFactory.getWidget(teleport);
+            CellWidget cellWidget = widgetFactory.getWidget(teleport);
             FieldItemWidget robotWidget = widgetFactory.getWidget(robot);
-            teleportWidget.removeItem(robotWidget);
+            cellWidget.removeItem(robotWidget);
         }
 
         @Override
