@@ -88,7 +88,7 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
     //region ПЕРЕМЕЩЕНИЕ
 
-    private static final int SPEED = 2;
+    private static final int SPEED = 10;
 
     @Override
     public boolean move() {

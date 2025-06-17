@@ -61,12 +61,12 @@ public class Turret extends BigCellObject {
     /**
      * Количество тиков для одного выстрела.
      */
-    private static int FREQUENCY = 25;
+    private static int FREQUENCY = 50;
 
     /**
      * Скорость пули.
      */
-    private static int PROJECTILE_SPEED = 10;
+    private static int PROJECTILE_SPEED = 15;
 
     /**
      * Получить скорость пули.

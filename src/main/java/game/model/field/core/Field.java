@@ -48,7 +48,7 @@ public class Field {
 
     //region ПОСТРОЕНИЕ ПОЛЯ
 
-    public static final int DISTANCE_BETWEEN_CELLS = 6;
+    public static final int DISTANCE_BETWEEN_CELLS = 10;
 
     /**
      * Построить игровое поле.
