@@ -5,7 +5,6 @@ import game.model.events.RobotActionEvent;
 import game.model.events.RobotActionListener;
 import game.model.field.cell_objects.ICollidingObject;
 import game.model.field.cell_objects.LowProfileCellObject;
-import game.model.field.cell_objects.SelfActivatingCellObject;
 import game.model.field.cell_objects.SmallCellObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -121,12 +120,6 @@ public class Robot extends SmallCellObject implements ICollidingObject {
 
             setUnfrozen(true);
             fireRobotFinishedMoving(getIdleCellPosition());
-
-            // TODO move this logic into a manager
-            if (getIdleCellPosition().getObject(SelfActivatingCellObject.class) != null) {
-                SelfActivatingCellObject object = (SelfActivatingCellObject) getIdleCellPosition().getObject(SelfActivatingCellObject.class);
-                object.execute(this);
-            }
 
             Debug.log(Debug.Options.RobotMoveFinished, "Robot arrived in cell and stopped moving");
 

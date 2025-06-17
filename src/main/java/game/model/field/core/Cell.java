@@ -93,6 +93,10 @@ public class Cell extends VisibleFieldObject {
 
         objects.put(type, object);
 
+        if (object instanceof SmallCellObject || object instanceof SelfActivatingCellObject) {
+            tryExecuteSelfActivatingCellObject();
+        }
+
         return true;
     }
 
@@ -210,6 +214,10 @@ public class Cell extends VisibleFieldObject {
         objects.put(type, object);
         mobileCellObjectStatus.put(object, status);
 
+        if (CellObjectStatus.IDLE.equals(status)) {
+            tryExecuteSelfActivatingCellObject();
+        }
+
         return true;
     }
 
@@ -234,6 +242,10 @@ public class Cell extends VisibleFieldObject {
 
         mobileCellObjectStatus.put(object, status);
 
+        if (CellObjectStatus.IDLE.equals(status)) {
+            tryExecuteSelfActivatingCellObject();
+        }
+
         return true;
     }
 
@@ -248,6 +260,22 @@ public class Cell extends VisibleFieldObject {
     }
 
     //endregion
+
+    //region Самоактивирующиеся объекты
+
+    /**
+     * Вызывает взаимодействие для самоактивирующегося объекта, если есть маленький и самоактивирующийся объект.
+     */
+    private void tryExecuteSelfActivatingCellObject() {
+        SelfActivatingCellObject selfActivatingCellObject = (SelfActivatingCellObject) getObject(SelfActivatingCellObject.class);
+        SmallCellObject smallCellObject = (SmallCellObject) getObject(SmallCellObject.class);
+        if (selfActivatingCellObject != null && smallCellObject != null) {
+            selfActivatingCellObject.execute(smallCellObject);
+        }
+    }
+
+    //endregion
+
 
     //region СОСЕДНИЕ ЯЧЕЙКИ
 
