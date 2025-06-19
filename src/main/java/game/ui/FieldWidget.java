@@ -219,6 +219,11 @@ public class FieldWidget extends JLayeredPane {
         public void objectWasDestroyed(@NotNull FieldActionEvent event) {
             FieldObject fieldObject = event.getFieldObject();
             if (fieldObject instanceof VisibleFieldObject) {
+                FieldItemWidget widget = widgetFactory.getWidget((VisibleFieldObject) fieldObject);
+                Container parent = widget.getParent();
+                if (parent != null) {
+                    parent.remove(widget);
+                }
                 widgetFactory.remove((VisibleFieldObject) fieldObject);
             }
         }
